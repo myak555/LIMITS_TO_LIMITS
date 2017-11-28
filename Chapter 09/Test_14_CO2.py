@@ -3,10 +3,10 @@ from Population import *
 T_CO2, CO2_Total = Load_Calibration( "CO2_Calibration.csv", "Year", "Total")
 T = np.linspace( 1800, 2100, 301)
 l_real = len( T_CO2)
-Scenario1 = Hubbert( 2014,0.1,0.1,47768).GetVector(T)
-Scenario2 = Sigmoid( 2009,0.8,40000,47768).GetVector(T)
-Scenario3 = Hubbert( 2025,0.065,0.065,55000).GetVector(T)
-for i in range(len( T_CO2)-1):
+Scenario1 = Hubbert( 2014,0.1,0.1,36400).GetVector(T)
+Scenario2 = Sigmoid( 2009,0.8,40000,36400).GetVector(T)
+Scenario3 = Hubbert( 2025,0.065,0.065,40000).GetVector(T)
+for i in range(len( T_CO2)):
     Scenario1[i] = CO2_Total[i]
     Scenario2[i] = CO2_Total[i]
     Scenario3[i] = CO2_Total[i]
@@ -16,7 +16,7 @@ T_LD, LD_PPM = Load_Calibration( "Ice_Core_Law_Dome.csv", "Year", "Total")
 CO2_1800 = 285
 M_atmosphere = 5.1480e9 # миллионов тонн
 conversion = 0.658e6    # из массовых ppm в объёмные
-sigma = np.log(2) / 21
+sigma = np.log(2) / 35
 T0 = np.linspace( 0,200,201)
 Exp = np.exp( -sigma * T0)
 C02_Level1 = np.convolve( Scenario1, Exp) * conversion / M_atmosphere + CO2_1800  
@@ -34,9 +34,9 @@ plt.errorbar( T_ML, ML_PPM, yerr=ML_PPM*0.005, fmt='.', color="b", label="Дан
 plt.errorbar( T_LD, LD_PPM, yerr=LD_PPM*0.020, fmt='.', color="g", label="Данные льда станции Купол Ло (Антарктика)")
 plt.xlabel("Годы")
 plt.xlim( 1800, 2100)
-plt.ylabel("Концентрация CO2 в атмосфере[ppmv]")
+plt.ylabel("Концентрация CO₂ в атмосфере[ppmv]")
 #plt.ylim( 300, 410)
-plt.title( "Накопление антропогенного CO2 в атмосфере")
+plt.title( "Накопление антропогенного CO₂ в атмосфере")
 plt.grid(True)
 plt.legend(loc=0)
 plt.savefig( ".\\Graphs\\figure_09_14.png")

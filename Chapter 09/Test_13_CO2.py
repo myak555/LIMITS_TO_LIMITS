@@ -6,10 +6,10 @@ CO2_Gas, CO2_Total = Load_Calibration( "CO2_Calibration.csv", "Gas", "Total")
 
 T = np.linspace( 1800, 2100, 301)
 l_real = len( T_CO2)
-Scenario1 = Hubbert( 2014,0.1,0.1,47768).GetVector(T)
-Scenario2 = Sigmoid( 2009,0.8,40000,47768).GetVector(T)
-Scenario3 = Hubbert( 2025,0.065,0.065,55000).GetVector(T)
-for i in range(len( T_CO2)-1):
+Scenario1 = Hubbert( 2014,0.1,0.1,36400).GetVector(T)
+Scenario2 = Sigmoid( 2009,0.8,40000,36400).GetVector(T)
+Scenario3 = Hubbert( 2025,0.065,0.065,40000).GetVector(T)
+for i in range(len( T_CO2)):
     Scenario1[i] = CO2_Total[i]
     Scenario2[i] = CO2_Total[i]
     Scenario3[i] = CO2_Total[i]
@@ -29,9 +29,9 @@ plt.errorbar( T_CO2, CO2_Gas, yerr=CO2_Gas*0.1, fmt='.', color="r", label="Пр�
 plt.errorbar( T_CO2, CO2_Total, yerr=CO2_Total*0.1, fmt='o', color="m", label="ВСЕГО")
 plt.xlabel("Годы")
 plt.xlim( 1800, 2100)
-plt.ylabel("Выбросы CO2 [млн тонн]")
-plt.ylim( 0, 60000)
-plt.title( "Проверка отчётов BP по выбросам CO2")
+plt.ylabel("Выбросы CO₂ [млн тонн]")
+plt.ylim( 0, 45000)
+plt.title( "Проверка отчётов BP по выбросам CO₂")
 plt.grid(True)
 plt.legend(loc=0)
 plt.savefig( ".\\Graphs\\figure_09_13.png")
