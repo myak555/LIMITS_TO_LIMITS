@@ -61,5 +61,5 @@ ax2.grid(True)
 ax2.set_title( "Количество скважин в эксплуатации")
 ax2.legend(loc=0)
 
-plt.savefig( ".\\Graphs\\figure_11_019.png")
+plt.savefig( ".\\Graphs\\figure_11_19.png")
 fig.show()
