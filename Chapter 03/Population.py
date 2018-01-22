@@ -12,6 +12,7 @@ class Population:
         self.O_right = o_right
         self.Midpoint = o_year
         self.Calibration_Year, self.Calibration_Total = Load_Calibration( "Population_calibration.csv", "Year", "Population")
+        self.Calibration_Year, self.Calibration_Yerr = Load_Calibration( "Population_calibration.csv", "Year", "Delta")
         self.UN_Low = Bathtub( 1997, 0.0380, 2100, 0.0250, 1390, 12000, 1800)
         self.UN_Low.Name = "UN Low Case"
         self.UN_Medium = Sigmoid( 2003, 0.0350, 1390, 11400)

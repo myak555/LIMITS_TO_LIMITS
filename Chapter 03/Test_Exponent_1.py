@@ -1,6 +1,7 @@
 from Utilities import *
 
 Ta,Pa = Load_Calibration( "Population_calibration.csv", "Year", "Population")
+Ta,Da = Load_Calibration( "Population_calibration.csv", "Year", "Delta")
 
 T  = np.linspace(1890, 2200, 311)
 P = []
@@ -17,7 +18,7 @@ for t in T:
 Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,10))
 plt.plot( T, P, "-", lw=1, label="Население (экспонента)")
-plt.errorbar( Ta, Pa, yerr=Pa*0.02, fmt='o', label="Население (реальное)")
+plt.errorbar( Ta, Pa, yerr=Da, fmt='o', label="Население (реальное)")
 plt.xlabel("Годы")
 plt.xlim( 1900, 2100)
 plt.ylabel("миллионов человек")

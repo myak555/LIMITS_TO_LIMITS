@@ -12,6 +12,7 @@ class Population_Velhurst:
         self.O_right = o_right
         self.Midpoint = o_year
         self.Calibration_Year, self.Calibration_Total = Load_Calibration( "Population_calibration.csv", "Year", "Population")
+        self.Calibration_Year, self.Calibration_Yerr = Load_Calibration( "Population_calibration.csv", "Year", "Delta")
         return
     def dP_dt( self, t):
         tmp = self.Total
@@ -60,8 +61,8 @@ fig = plt.figure( figsize=(15,10))
 plt.plot( P1.Solution_Year, P1.Solution_Total, "-", lw=1, label="Уравнение Ферхюльста (численное)")
 plt.plot( T, P2.GetVector(T), ".", lw=2, label="Sig (средний сценарий ООН)")
 plt.plot( T, P3.GetVector(T), "-", lw=2, label="Sig (20 млрд / высокий ООН)")
-plt.plot( T, P4.GetVector(T), "-", lw=2, label="Sig (1.9 млрд) / низкий ООН")
-plt.errorbar( P1.Calibration_Year, P1.Calibration_Total, yerr=P1.Calibration_Total*0.02, fmt='o', label="Население (реальное)")
+plt.plot( T, P4.GetVector(T), "-", lw=2, label="Sig (1.9 млрд / низкий ООН)")
+plt.errorbar( P1.Calibration_Year, P1.Calibration_Total, yerr=P1.Calibration_Yerr, fmt='o', label="Население (реальное)")
 plt.xlabel("Годы")
 plt.xlim( 1900, 2200)
 plt.ylabel("миллионов человек")
