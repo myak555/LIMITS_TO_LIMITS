@@ -12,7 +12,7 @@ class Population_Velhurst:
         self.O_right = o_right
         self.Midpoint = o_year
         self.Calibration_Year, self.Calibration_Total = Load_Calibration( "Population_calibration.csv", "Year", "Population")
-        self.Calibration_Year, self.Calibration_Yerr = Load_Calibration( "Population_calibration.csv", "Year", "Delta")
+        self.Calibration_Year, self.Calibration_Yerr = Load_Calibration( "Population_calibration.csv", "Year", "Yerror")
         return
     def dP_dt( self, t):
         tmp = self.Total
@@ -50,19 +50,18 @@ T  = np.linspace(1890, 2200, 311)
 #
 # Solve numerically
 #
-P1 = Population_Velhurst( 1530.88, 35/1000, 1345, 10400, 1997)
+P1 = Population_Velhurst( 1534.1, 35/1000, 1345, 10500, 1997)
 P1.Solve( T)
-P2 = Sigmoid( 2003, 0.0350, 1390, 11400)
+P2 = Sigmoid( 2003, 0.0350, 1390, 11500)
 P3 = Sigmoid( 2043, 0.0240, 1000, 20000)
 P4 = Sigmoid( 2100, 0.0190,  800, 40000)
 
-Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,10))
-plt.plot( P1.Solution_Year, P1.Solution_Total, "-", lw=1, label="Уравнение Ферхюльста (численное)")
-plt.plot( T, P2.GetVector(T), ".", lw=2, label="Sig (средний сценарий ООН)")
-plt.plot( T, P3.GetVector(T), "-", lw=2, label="Sig (20 млрд / высокий ООН)")
-plt.plot( T, P4.GetVector(T), "-", lw=2, label="Sig (40 млрд)")
-plt.errorbar( P1.Calibration_Year, P1.Calibration_Total, yerr=P1.Calibration_Yerr, fmt='o', label="Население (реальное)")
+plt.plot( P1.Solution_Year, P1.Solution_Total, "--", lw=1, color="b", label="Уравнение Ферхюльста (численное)")
+plt.plot( T, P2.GetVector(T), "-", lw=2, color="b", label="Sig (средний сценарий ООН)")
+plt.plot( T, P3.GetVector(T), "-", lw=2, color="r", label="Sig (20 млрд / высокий ООН)")
+plt.plot( T, P4.GetVector(T), "--", lw=2,  color="r", label="Sig (40 млрд)")
+plt.errorbar( P1.Calibration_Year, P1.Calibration_Total, yerr=P1.Calibration_Yerr, fmt='.', color="b", label="Население (реальное)")
 plt.xlabel("Годы")
 plt.xlim( 1900, 2200)
 plt.ylabel("миллионов человек")
