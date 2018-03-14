@@ -32,7 +32,7 @@ class Population:
     #
     # Loads historical data
     #
-    def LoadHistorical():
+    def LoadHistorical(self):
         self.Historical_Year, self.Historical_Total = Load_Calibration( "Earth_Historical.csv", "Year", "Population")
         self.Historical_Year, self.Historical_Yerr = Load_Calibration( "Earth_Historical.csv", "Year", "Yerror")
     #
