@@ -2,7 +2,7 @@ from Population import *
 
 #
 # Описывает популяцию в открытой системе
-# Согласно системе уравнений Мальтуса
+# согласно системе уравнений Мальтуса
 # P0 - начальная популяция
 # Q0 - начальные запасы
 # O0 - начальное производство
@@ -87,18 +87,17 @@ Exponent1 = 500 * np.exp( b1*(T-0))
 for i in range( len(T)):
     print( "{:4g} {:6.1f} {:6.1f} {:6.1f} {:8.1f}".format( T[i], P1.Solution_P[i], P1.Solution_Q[i], P1.Solution_O[i], P1.Solution_F[i]))
 
-Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,10))
 plt.plot( P1.Solution_Time, P1.Solution_P, "-", lw=2, label="Население")
 plt.plot( P1.Solution_Time, P1.Solution_Q, "-", lw=2, label="Запасы")
 plt.plot( P1.Solution_Time, P1.Solution_O, "-", lw=1, label="Производство {:5.2f}% от F".format( productivity*100))
 plt.plot( P1.Solution_Time, P1.Solution_F/100, "-", lw=1, label="Природные ресурсы (х100)")
-plt.plot( T, Exponent1, "--", lw=1, label="Экспоненциальный рост Т2=25 лет")
+plt.plot( T, Exponent1, "--", lw=1, label="Экспоненциальный рост Т₂=25 лет")
 plt.xlabel("Годы")
 plt.xlim( 0, 500)
 plt.ylabel("единиц")
 plt.ylim( 0, 10000)
-plt.title( "Остров Мальтуса #2 - Первое технологическое достижение.")
+plt.title( "Остров Мальтуса #2 - Первое технологическое достижение")
 plt.grid(True)
 plt.legend(loc=0)
 plt.savefig( ".\\Graphs\\figure_05_06.png")
