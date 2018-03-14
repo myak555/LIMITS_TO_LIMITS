@@ -2,6 +2,9 @@ from Utilities import *
 
 #
 # Describes population as a differential equation
+# P0 – initial population [mln]
+# a – attrition [unitless]
+# b – birth rate [unitless]
 #
 class Population_1:
     def __init__( self, P0, a, b):
@@ -41,7 +44,7 @@ class Population_2:
         self.Calibration_Year, self.Calibration_Yerr = Load_Calibration( "Population_calibration.csv", "Year", "Yerror")
         return
     def dP_dt( self, t):
-        if t>1990: return 81.7
+        if t>1990: return 82.0
         tmp = self.Total
         tmp *= self.B - self.A
         return tmp
@@ -71,7 +74,6 @@ P2.Solve( T)
 for i in range( len(T)):
     print( "{0:4.0f} {1:7.1f} {2:7.1f}".format( T[i], P1.Solution_Total[i], P2.Solution_Total[i]))
 
-Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,10))
 plt.plot( P1.Solution_Year, P1.Solution_Total, "-", lw=1, color="r", label="Экспоненциальный рост")
 plt.plot( P2.Solution_Year, P2.Solution_Total, "-", lw=1, color="g", label="Экспоненциально-линейный")

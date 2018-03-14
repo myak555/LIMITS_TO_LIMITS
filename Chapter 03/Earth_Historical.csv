@@ -5,7 +5,7 @@
 # data obtained from:
 #    WIKIPEDIA: https://en.wikipedia.org/wiki/World_population_estimates
 #
-Year,Population,Delta
+Year,Population,Yerror
 -3000,29.5,15.5
 -2000,49.5,22.5
 -1000,82.5,32.5

@@ -2,6 +2,9 @@ from Utilities import *
 
 #
 # Describes population as an exponent
+# P0 – initial population [mln]
+# a – attrition [unitless]
+# b – birth rate [unitless]
 #
 class Population_Exponent:
     def __init__( self, P0, a, b):
@@ -30,6 +33,10 @@ class Population_Exponent:
 
 #
 # Describes population as a Velhurst equation
+# P0 – initial population [mln]
+# b – birth rate [unitless]
+# o – optimal population [mln]
+# o_year – inflection point [year]
 #
 class Population_Velhurst:
     def __init__( self, P0, b, o_left, o_right, o_year=0):

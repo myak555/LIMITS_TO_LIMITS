@@ -2,6 +2,9 @@ from Utilities import *
 
 #
 # Describes population as a differential equation
+# P0 – initial population [mln]
+# a – attrition [unitless]
+# b – birth rate [unitless]
 #
 class Population:
     def __init__( self, P0, a, b):

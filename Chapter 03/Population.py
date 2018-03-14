@@ -19,20 +19,22 @@ class Population:
         self._Model6 = Hubbert( 1930, 0.2, 0.2, -50)
         self.Name = "PyWorld 2017"
         self.Calibration_Year, self.Calibration_Total = Load_Calibration( "Population_Calibration.csv", "Year", "Population")
-        self.Calibration_Year, self.Calibration_Delta = Load_Calibration( "Population_Calibration.csv", "Year", "Yerror")
-        self.UN_Low = Bathtub( 1997, 0.0380, 2100, 0.0250, 1390, 12050, 1800)
+        self.Calibration_Year, self.Calibration_Yerr = Load_Calibration( "Population_Calibration.csv", "Year", "Yerror")
+        self.UN_Low = Bathtub( 1997, 0.0370, 2100, 0.030, 1390, 11500, 1900)
         self.UN_Low.Name = "UN Low Case"
-        self.UN_Medium = Sigmoid( 2003, 0.0350, 1390, 11250)
+        self.UN_Medium = Sigmoid( 2003, 0.0350, 1390, 11500)
         self.UN_Medium.Name = "UN Medium Case"
-        self.UN_High = Sigmoid( 2043, 0.0240, 1000, 19650)
+        self.UN_High = Sigmoid( 2043, 0.0240, 1000, 20000)
         self.UN_High.Name = "UN High Case"
+        self.Velhurst_Analytical = Sigmoid( 1997, 0.0370, 1390, 10500)
+        self.Velhurst_Analytical.Name = "Velhurst Analytical"
         return
     #
     # Loads historical data
     #
     def LoadHistorical():
         self.Historical_Year, self.Historical_Total = Load_Calibration( "Earth_Historical.csv", "Year", "Population")
-        self.Historical_Year, self.Historical_Delta = Load_Calibration( "Earth_Historical.csv", "Year", "Delta")
+        self.Historical_Year, self.Historical_Yerr = Load_Calibration( "Earth_Historical.csv", "Year", "Yerror")
     #
     # Creates the solution vector
     #

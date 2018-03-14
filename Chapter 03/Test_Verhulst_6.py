@@ -2,6 +2,10 @@ from Utilities import *
 
 #
 # Describes population as a Velhurst equation
+# P0 – initial population [mln]
+# b – birth rate [unitless]
+# o – optimal population [mln]
+# o_year – inflection point [year]
 #
 class Population_Velhurst:
     def __init__( self, P0, b, o_left, o_right, o_year=0):
@@ -65,7 +69,7 @@ plt.errorbar( P1.Calibration_Year, P1.Calibration_Total, yerr=P1.Calibration_Yer
 plt.xlabel("Годы")
 plt.xlim( 1900, 2200)
 plt.ylabel("миллионов человек")
-#plt.ylim( 0, 12000)
+plt.ylim( 0, 20000)
 plt.title( "Население Земли (Уравнение Ферхюльста)")
 plt.grid(True)
 plt.legend(loc=0)
