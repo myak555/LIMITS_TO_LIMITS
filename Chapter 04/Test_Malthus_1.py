@@ -62,7 +62,6 @@ P1.Solve( T)
 for i in range( len(T)):
     print( "{:4g} {:6.1f} {:6.1f} {:6.1f}".format( T[i], P1.Solution_P[i], P1.Solution_Q[i], P1.Solution_O[i]))
 
-Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,10))
 plt.plot( P1.Solution_Time, P1.Solution_P, "-", lw=1, label="Популяция")
 plt.plot( P1.Solution_Time, P1.Solution_Q/10, "-", lw=1, label="Ресурс (x10)")

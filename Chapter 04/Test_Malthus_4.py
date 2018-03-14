@@ -67,7 +67,6 @@ P4 = np.ones( len(T)) * 1000
 for i in range( len(T)):
     print( "{:4g} {:6.1f} {:6.1f} {:6.1f}".format( T[i], P1.Solution_P[i], P2.Solution_P[i], P3.Solution_P[i]))
 
-Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,10))
 plt.plot( P1.Solution_Time, P1.Solution_P, "-", lw=1, label="Воспроизводство 10%")
 plt.plot( P2.Solution_Time, P2.Solution_P, "-", lw=1, label="Воспроизводство 5%")
@@ -77,7 +76,7 @@ plt.xlabel("Годы")
 plt.xlim( 1600, 2000)
 plt.ylabel("единиц")
 plt.ylim( 0, 2000)
-plt.title( "Пруд Мальтуса #2 - Эффект воспроизводства (потери 10%).")
+plt.title( "Пруд Мальтуса #2 - Эффект воспроизводства (потери 10%)")
 plt.grid(True)
 plt.legend(loc=0)
 plt.savefig( ".\\Graphs\\figure_04_04.png")
