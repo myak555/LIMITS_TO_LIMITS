@@ -7,10 +7,7 @@ T_litter =       [1, 104, 300, 600, 736,1444,1471,1588]
 P_litter =       [0,  12, 800,   8,   0,   0,   0,   0]
 P_litter_error = [0,   2, 200,   8,   0,   0,   0,   0]
 
-Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,10))
-#ax = plt.subplot()
-#ax.set_yscale("log", nonposx='clip')
 plt.errorbar( T_adult, P_adult, fmt='o', yerr=P_adult_error, color="r", label="Популяция взрослых")
 plt.errorbar( T_litter, P_litter, fmt='o', yerr=P_litter_error, color="g", label="Популяция мышат")
 plt.plot( T_adult, P_adult, "--", lw=1, color="r", label="Взрослые мыши (линейная интерполяция)")
