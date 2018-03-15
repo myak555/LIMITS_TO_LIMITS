@@ -1,4 +1,5 @@
 from Population import *
+from Resources import *
 
 #
 # Феноменологическая интерполяция кривых модели BAU 1972
@@ -6,40 +7,106 @@ from Population import *
 #
 class Interpolation_BAU_1972:
     def __init__( self):
-        self.Population_Function_1 = Sigmoid( 1970, 0.055, 1600, 5400) #5100
-        self.Population_Function_2 = Hubbert( 2050, 0.065, 0.078, 5200)
-        self.Resources_Function_1 = Sigmoid( 2013, 0.052, 1200e3, 180e3)
-        self.Resources_Function_2 = Hubbert( 2025, 0.150, 0.060, -180e3)
-        self.Food_Function_1 = Bathtub( 1975, 0.08, 2027, 0.12, 540, 1230, 270)
-        self.Food_Function_2 = Hubbert( 1932, 0.1, 0.1, 50)
-        self.Food_Function_3 = Hubbert( 2012, 0.2, 0.2, 150)
-        self.Food_Function_4 = Hubbert( 2065, 0.1, 0.1, -65)
-        self.Industrial_Function_1 = Bathtub( 1970, 0.04, 2027, 0.09, 50, 1150, 30)
-        self.Industrial_Function_2 = Hubbert( 2015, 0.12, 0.25, 430)
-        self.Services_Function_1 = Bathtub( 1995, 0.035, 2035, 0.07, 120, 2600, 120)
-        self.Services_Function_2 = Hubbert( 2016, 0.16, 0.2, 500)
-        self.Services_Function_3 = Hubbert( 2080, 0.3, 0.3, 100)
-        self.Pollution_Function_1 = Bathtub( 2012, 0.06, 2050, 0.15, 5e3, 310e3, 20e3)
-        self.Pollution_Function_2 = Hubbert( 2033, 0.2, 0.2, 170e3)
+        self._Population_Functions = [Sigmoid( x0=1986.000, s0=0.03059, left=0.091, right=0.360, shift=0.000)]
+        self._Population_Functions += [Hubbert( x0=2050.000, s0=0.05345, s1=0.09477, peak=0.360, shift=0.000)]
+        self._Population_Functions += [Hubbert( x0=1995.000, s0=0.13373, s1=0.11916, peak=0.012, shift=0.000)]
+        self._Population_Functions += [Hubbert( x0=2030.000, s0=0.17573, s1=0.17659, peak=-0.023, shift=0.000)]
+        self._Population_Functions += [Hubbert( x0=2075.000, s0=0.18075, s1=0.12037, peak=0.031, shift=0.000)]
+        self._Resources_Functions = [Sigmoid( x0=2006.0, s0=0.08077, left=0.999, right=0.145, shift=0.000)]
+        self._Resources_Functions += [Hubbert( x0=1973.0, s0=0.05764, s1=0.16380, peak=-0.044, shift=0.000)]
+        self._Resources_Functions += [Hubbert( x0=2005.5, s0=0.20335, s1=0.24725, peak=0.042, shift=0.000)]
+        self._Resources_Functions += [Hubbert( x0=2025.273, s0=0.32508, s1=0.30757, peak=-0.025, shift=0.000)]
+        self._Industrial_Functions = [Sigmoid( x0=2007.000, s0=0.07940, left=0.040, right=0.015, shift=0.000)]
+        self._Industrial_Functions += [Hubbert( x0=2013.000, s0=0.04441, s1=0.12795, peak=0.416, shift=0.000)]
+        self._Industrial_Functions += [Hubbert( x0=1947.000, s0=0.13342, s1=0.17434, peak=0.017, shift=0.000)]
+        self._Industrial_Functions += [Hubbert( x0=1990.000, s0=0.20126, s1=0.16167, peak=-0.035, shift=0.000)]
+        self._Industrial_Functions += [Hubbert( x0=2046.000, s0=0.21696, s1=0.21436, peak=0.016, shift=0.000)]
+        self._Industrial_Functions += [Hubbert( x0=2025.500, s0=0.28751, s1=0.58459, peak=-0.038, shift=0.000)]
+        self._Food_Functions = [Sigmoid( x0=2010.000, s0=0.10795, left=0.200, right=0.100, shift=0.000)]
+        self._Food_Functions += [Hubbert( x0=2012.000, s0=0.05698, s1=0.10617, peak=0.315, shift=0.000)]
+        self._Food_Functions += [Hubbert( x0=1931.000, s0=0.11859, s1=0.16268, peak=0.022, shift=0.000)]
+        self._Food_Functions += [Hubbert( x0=1975.000, s0=0.10673, s1=0.22040, peak=0.016, shift=0.000)]
+        self._Food_Functions += [Hubbert( x0=2000.000, s0=0.25105, s1=0.31381, peak=-0.016, shift=0.000)]
+        self._Food_Functions += [Hubbert( x0=2062.000, s0=0.13509, s1=0.12683, peak=-0.028, shift=0.000)]
+        self._Services_Functions = [Sigmoid( x0=2015.000, s0=0.05504, left=0.083, right=0.032, shift=0.000)]
+        self._Services_Functions += [Hubbert( x0=2016.000, s0=0.07358, s1=0.09509, peak=0.600, shift=0.000)]
+        self._Services_Functions += [Hubbert( x0=1971.000, s0=0.05663, s1=0.10172, peak=0.144, shift=0.000)]
+        self._Services_Functions += [Hubbert( x0=1989.000, s0=0.14234, s1=0.18082, peak=0.034, shift=0.000)]
+        self._Services_Functions += [Hubbert( x0=2045.000, s0=0.22315, s1=0.17365, peak=0.035, shift=0.000)]
+        self._Services_Functions += [Hubbert( x0=2076.000, s0=0.14173, s1=0.16877, peak=0.028, shift=0.000)]
+        self._Pollution_Functions = [Hubbert( x0=2034.000, s0=0.11938, s1=0.13576, peak=0.339, shift=0.000)]
+        self._Pollution_Functions += [Hubbert( x0=2005.000, s0=0.07362, s1=0.12681, peak=0.058, shift=0.000)]
+        self._Pollution_Functions += [Hubbert( x0=2035.000, s0=0.26795, s1=0.34906, peak=-0.017, shift=0.000)]
+        self._Pollution_Functions += [Hubbert( x0=2061.000, s0=0.28971, s1=0.03610, peak=0.012, shift=0.000)]
+        self._Pollution_Functions += [Hubbert( x0=1950.000, s0=0.11596, s1=0.08770, peak=0.009, shift=0.000)]
+        self._Birth_Rate_Functions = [Sigmoid( x0=2030.0, s0=0.03000, left=0.850, right=1.200, shift=0.000)]
+        self._Birth_Rate_Functions += [Hubbert( x0=2040.0, s0=0.03600, s1=0.05400, peak=-0.440, shift=0.000)]
+        self._Birth_Rate_Functions += [Hubbert( x0=1950.0, s0=0.07700, s1=0.06300, peak=-0.055, shift=0.000)]
+        self._Birth_Rate_Functions += [Hubbert( x0=2065.0, s0=0.15860, s1=0.16799, peak=-0.083, shift=0.000)]
+        self._Birth_Rate_Functions += [Hubbert( x0=2000.0, s0=0.17622, s1=0.24547, peak=0.017, shift=0.000)]
+        self._Death_Rate_Functions = [Sigmoid( x0=2061.0, s0=0.15144, left=0.656, right=1.300, shift=0.000)]
+        self._Death_Rate_Functions += [Hubbert( x0=2038.0, s0=0.03736, s1=0.18551, peak=-0.318, shift=0.000)]
+        self._Death_Rate_Functions += [Hubbert( x0=1990.0, s0=0.06712, s1=0.09413, peak=-0.154, shift=0.000)]
+        self._Death_Rate_Functions += [Hubbert( x0=1960.5, s0=0.18477, s1=0.15664, peak=-0.038, shift=0.000)]
+        self._Death_Rate_Functions += [Hubbert( x0=2015.0, s0=0.24664, s1=0.26527, peak=-0.032, shift=0.000)]
         return
     def Solve( self, t):
         self.Time = t
-        self.Population = self.Population_Function_1.GetVector( t)
-        self.Population += self.Population_Function_2.GetVector( t)
-        self.Resources = self.Resources_Function_1.GetVector( t)
-        self.Resources += self.Resources_Function_2.GetVector( t)
-        self.Food_PP = self.Food_Function_1.GetVector( t)
-        self.Food_PP += self.Food_Function_2.GetVector( t)
-        self.Food_PP += self.Food_Function_3.GetVector( t)
-        self.Food_PP += self.Food_Function_4.GetVector( t)
-        self.Industrial_PP = self.Industrial_Function_1.GetVector( t)
-        self.Industrial_PP += self.Industrial_Function_2.GetVector( t)
-        self.Services_PP = self.Services_Function_1.GetVector( t)
-        self.Services_PP += self.Services_Function_2.GetVector( t)
-        self.Services_PP += self.Services_Function_3.GetVector( t)
-        self.Pollution = self.Pollution_Function_1.GetVector( t)
-        self.Pollution += self.Pollution_Function_2.GetVector( t)
+        self.Population_U = self._Interpolate_Function( self._Population_Functions)
+        self.Resources_U = self._Interpolate_Function( self._Resources_Functions)
+        self.Industrial_PC_U = self._Interpolate_Function( self._Industrial_Functions)
+        self.Food_PC_U = self._Interpolate_Function( self._Food_Functions)
+        self.Services_PC_U = self._Interpolate_Function( self._Services_Functions)
+        self.Pollution_U = self._Interpolate_Function( self._Pollution_Functions)
+        self.Birth_Rate_U = self._Interpolate_Function( self._Birth_Rate_Functions)
+        self.Death_Rate_U = self._Interpolate_Function( self._Death_Rate_Functions)
+        self.Population = self._Calibrate_Function(self.Population_U, "Population_Calibration.csv", "Year", "Population", 1930, 1970)
+        self.Resources = self.Resources_U * 1186e3
+        self.Industrial_PC = self._Calibrate_To_First_Value( self.Industrial_PC_U, "Industrial PC")
+        self.Food_PC = self._Calibrate_To_First_Value( self.Food_PC_U, "Food PC")
+        self.Services_PC = self._Calibrate_To_First_Value( self.Services_PC_U, "Services PC")
+        tmp_Pop = self._Calibrate_To_First_Value( self.Population_U, "Population")
+        self.Industrial = self.Industrial_PC * tmp_Pop
+        self.Food = self.Food_PC * tmp_Pop
+        self.Services = self.Services_PC * tmp_Pop
+        self.CO2 = self.Pollution_U*600 + 305
         return
+    def _Interpolate_Function(self, wavelets):
+        tmp = wavelets[0].GetVector(self.Time)
+        for i in range( 1, len(wavelets)):
+            tmp += wavelets[i].GetVector(self.Time)
+        return tmp
+    def _Calibrate_Function(self, func, filename, timename, varname, start_t, stop_t, baseline=0.0):
+        calibrationT, calibrationV = Load_Calibration( filename, timename, varname);
+        calibrationV -= baseline
+        norm = 0.0
+        count = 0.0
+        for i in range( len(self.Time)):
+            t = self.Time[i]
+            if t < start_t: continue
+            if t > stop_t: continue
+            v = func[i]
+            for j in range(len(calibrationT)):
+                if calibrationT[j] != t: continue
+                norm += calibrationV[j] / v
+                count += 1.0
+                break
+        if count < 1.0:
+            print( "Calibration {:s} is out of range: {:g} to {:g}".format( varname, start_t, stop_t))
+            return func
+        norm /= count
+        print( "Normalized {:s} from {:g} to {:g} = {:.5f}".format( varname, start_t, stop_t, norm))
+        tmp = np.array( func)
+        for i in range( len(self.Time)):
+            tmp[i] *= norm
+        return tmp + baseline
+    def _Calibrate_To_First_Value(self, func, varname):
+        norm = 1.0 / func[0]
+        print( "Normalized {:s} to first value {:g} in {:g}".format( varname, func[0], self.Time[0]))
+        tmp = np.array( func)
+        for i in range( len(self.Time)):
+            tmp[i] *= norm
+        return tmp
 
 #
 # Феноменологическая интерполяция кривых модели BAU 2012
