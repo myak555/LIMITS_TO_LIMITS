@@ -28,6 +28,8 @@ class Population:
         self.UN_High.Name = "UN High Case"
         self.Velhurst_Analytical = Sigmoid( 1997, 0.0370, 1390, 10500)
         self.Velhurst_Analytical.Name = "Velhurst Analytical"
+        self.Kapitsa_Analytical = KapitsaIntegral( 2003, 176e3, 44)
+        self.Kapitsa_Analytical.Name = "Kapitsa Analytical"
         return
     #
     # Loads historical data

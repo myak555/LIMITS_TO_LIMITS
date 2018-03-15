@@ -87,8 +87,6 @@ P3.Solve( np.linspace(-3000, 3000, 6001))
 
 P4 = Population_Kapitsa()
 P4.Solve( T_sf)
-P5 = Population_Kapitsa( T0=2003, K=176e3, tau=44)
-P5.Solve( T_sf)
 
 Magic_Year = np.pi/2 - 10e3/176e3*44
 Magic_Year = 2003 - 44 * np.tan( Magic_Year)
@@ -99,7 +97,7 @@ fig = plt.figure( figsize=(15,10))
 plt.plot( T0, P0.UN_Medium.GetVector(T0), "-", lw=2, color="g", label="Средняя оценка ООН, 2010 г")
 plt.plot( T_sf, P_sf, "--", lw=1, color="g", label="Модель Акулий Плавник")
 plt.plot( P4.Solution_Time, P4.Solution_P, "--", lw=1, color="r", label="Статья С.П.Капицы, 1996 г")
-plt.plot( P5.Solution_Time, P5.Solution_P, "-", lw=2, color="r", label="T₀=2003, K=176·10⁹, τ=44")
+plt.plot( T0, P0.Kapitsa_Analytical.GetVector(T0), "-", lw=2, color="r", label="T₀=2003, K=176·10⁹, τ=44")
 plt.plot( [Magic_Year, Magic_Year], [1,100000], "-.", lw=3, color="r", label="Магическая дата: пятница, 25 ноября 2061 г")
 plt.plot( [1900, 2200], [10000,10000], "-.", lw=3, color="r", label="Великий демографический переход Капицы 10 млрд.")
 plt.errorbar( P0.Calibration_Year, P0.Calibration_Total, yerr=P0.Calibration_Yerr, fmt='.', color="b", label="Население (статистика ООН)")
