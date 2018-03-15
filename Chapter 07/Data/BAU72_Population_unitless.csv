@@ -1,0 +1,62 @@
+#
+# Population calibration file
+# Delta indicates possible statistical error from Nico Keilman (1998)
+# All data in million as of 1-Jul each year
+#
+# data composed from:
+# prior 1950: Wikipedia and other sources, interpolated
+# 1950-2015: UNESCO/UN Population division: POP/DB/WPP/Rev.2017/POP/F01-1
+# 2016-2017: extrapolation of the UN data using World Bank dataset
+# http://databank.worldbank.org/data/home.aspx
+#
+# Horizontal conversion = 46,831,1900,2100,pixels
+# Vertical conversion = 819,105,0,1,pixels
+#
+# Sigmoid( x0=1986.000, s0=0.03059, left=0.091, right=0.360, shift=0.000)
+# Hubbert( x0=2050.000, s0=0.05345, s1=0.09477, peak=0.360, shift=0.000)
+# Hubbert( x0=1995.000, s0=0.13373, s1=0.11916, peak=0.012, shift=0.000)
+# Hubbert( x0=2030.000, s0=0.17573, s1=0.17659, peak=-0.023, shift=0.000)
+# Hubbert( x0=2075.000, s0=0.18075, s1=0.12037, peak=0.031, shift=0.000)
+#
+Year,Population
+1900.000,0.106
+1905.000,0.111
+1910.000,0.116
+1915.000,0.119
+1920.000,0.122
+1925.000,0.129
+1930.000,0.134
+1935.000,0.139
+1940.000,0.147
+1945.000,0.158
+1950.000,0.171
+1955.000,0.181
+1960.000,0.190
+1965.000,0.202
+1970.000,0.216
+1975.000,0.234
+1980.000,0.255
+1985.000,0.275
+1990.000,0.301
+1995.000,0.328
+2000.000,0.353
+2005.000,0.387
+2010.000,0.416
+2015.000,0.444
+2020.000,0.487
+2025.000,0.518
+2030.000,0.562
+2035.000,0.606
+2040.000,0.633
+2045.000,0.674
+2050.000,0.686
+2055.000,0.668
+2060.000,0.627
+2065.000,0.576
+2070.000,0.527
+2075.000,0.486
+2080.000,0.448
+2085.000,0.419
+2090.000,0.399
+2095.000,0.378
+2100.000,0.368
