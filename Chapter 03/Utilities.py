@@ -244,6 +244,35 @@ class Kapitsa( Control_Curve):
         sy += " Shift={0:.4f}".format( self.Shift)
         Control_Curve.Plot( self, x1, x2, sy, "y", file_Name, coplot_x, coplot_y, no_screen)
         return
+#
+# Defines a Karpitsa integral curve
+# "Успехи физических наук" 139(1) 57-71, РАН, 1996
+# y(x) = K / tau * (0.5*pi - arctan((x0-x)/tau))
+#
+class KapitsaIntegral( Control_Curve):
+    # constructor
+    def __init__( self, x0=2007, K=186e3, tau=42):
+        self.Name = "Kapitsa Integral"
+        self.X0 = x0
+        self.Tau = tau
+        self.Peak = K
+        Control_Curve.__compute = self
+        return
+    
+    # computation
+    def Compute( self, x):
+        x -= self.X0
+        y = np.pi*0.5 - np.arctan(-x/self.Tau)
+        y *= self.Peak / self.Tau
+        return y
+
+    # plots data, together with optional external data
+    def Plot( self, x1, x2, file_Name = "", coplot_x = -1, coplot_y = -1, no_screen = False):
+        sy = "X0={0:.4f}".format( self.X0)
+        sy += " K={0:.4f}".format( self.Peak)
+        sy += " tau={0:.4f}".format( self.Tau)
+        Control_Curve.Plot( self, x1, x2, sy, "y", file_Name, coplot_x, coplot_y, no_screen)
+        return
 
 #
 # Defines a Weibull curve
