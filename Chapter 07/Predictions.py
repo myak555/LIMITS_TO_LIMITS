@@ -1,11 +1,61 @@
 from Population import *
 from Resources import *
 
+class _Interpolation:
+    def __init__( self):
+        return
+    def Solve( self, t):
+        self.Time = t
+        return
+    def _Interpolate_Function(self, wavelets):
+        tmp = wavelets[0].GetVector(self.Time)
+        for i in range( 1, len(wavelets)):
+            tmp += wavelets[i].GetVector(self.Time)
+        return tmp
+    def _Calibrate_Function(self, func, filename, timename, varname, start_t, stop_t, baseline=0.0):
+        calibrationT, calibrationV = Load_Calibration( filename, timename, varname);
+        calibrationV -= baseline
+        norm = 0.0
+        count = 0.0
+        for i in range( len(self.Time)):
+            t = self.Time[i]
+            if t < start_t: continue
+            if t > stop_t: continue
+            v = func[i]
+            for j in range(len(calibrationT)):
+                if calibrationT[j] != t: continue
+                norm += calibrationV[j] / v
+                count += 1.0
+                break
+        if count < 1.0:
+            print( "Calibration {:s} is out of range: {:g} to {:g}".format( varname, start_t, stop_t))
+            return func
+        norm /= count
+        print( "Normalized {:s} from {:g} to {:g} = {:.5f}".format( varname, start_t, stop_t, norm))
+        tmp = np.array( func)
+        for i in range( len(self.Time)):
+            tmp[i] *= norm
+        return tmp + baseline
+    def _Calibrate_To_First_Value(self, func, varname):
+        norm = 1.0 / func[0]
+        print( "Normalized {:s} to first value {:g} in {:g}".format( varname, func[0], self.Time[0]))
+        tmp = np.array( func)
+        for i in range( len(self.Time)):
+            tmp[i] *= norm
+        return tmp
+    def _Correct_To_Actual(self, func, varname):
+        norm = 1.0 / func[0]
+        print( "Normalized {:s} to first value {:g} in {:g}".format( varname, func[0], self.Time[0]))
+        tmp = np.array( func)
+        for i in range( len(self.Time)):
+            tmp[i] *= norm
+        return tmp
+
 #
 # Феноменологическая интерполяция кривых модели BAU 1972
 # "Limits to Growth", 1972, график 35 на странице 124
 #
-class Interpolation_BAU_1972:
+class Interpolation_BAU_1972( _Interpolation):
     def __init__( self):
         self._Population_Functions = [Sigmoid( x0=1986.000, s0=0.03059, left=0.091, right=0.360, shift=0.000)]
         self._Population_Functions += [Hubbert( x0=2050.000, s0=0.05345, s1=0.09477, peak=0.360, shift=0.000)]
@@ -71,53 +121,17 @@ class Interpolation_BAU_1972:
         self.Services = self.Services_PC * tmp_Pop
         self.CO2 = self.Pollution_U*600 + 305
         return
-    def _Interpolate_Function(self, wavelets):
-        tmp = wavelets[0].GetVector(self.Time)
-        for i in range( 1, len(wavelets)):
-            tmp += wavelets[i].GetVector(self.Time)
-        return tmp
-    def _Calibrate_Function(self, func, filename, timename, varname, start_t, stop_t, baseline=0.0):
-        calibrationT, calibrationV = Load_Calibration( filename, timename, varname);
-        calibrationV -= baseline
-        norm = 0.0
-        count = 0.0
-        for i in range( len(self.Time)):
-            t = self.Time[i]
-            if t < start_t: continue
-            if t > stop_t: continue
-            v = func[i]
-            for j in range(len(calibrationT)):
-                if calibrationT[j] != t: continue
-                norm += calibrationV[j] / v
-                count += 1.0
-                break
-        if count < 1.0:
-            print( "Calibration {:s} is out of range: {:g} to {:g}".format( varname, start_t, stop_t))
-            return func
-        norm /= count
-        print( "Normalized {:s} from {:g} to {:g} = {:.5f}".format( varname, start_t, stop_t, norm))
-        tmp = np.array( func)
-        for i in range( len(self.Time)):
-            tmp[i] *= norm
-        return tmp + baseline
-    def _Calibrate_To_First_Value(self, func, varname):
-        norm = 1.0 / func[0]
-        print( "Normalized {:s} to first value {:g} in {:g}".format( varname, func[0], self.Time[0]))
-        tmp = np.array( func)
-        for i in range( len(self.Time)):
-            tmp[i] *= norm
-        return tmp
 
 #
 # Феноменологическая интерполяция кривых модели BAU 2012
 # Веб-страница http://www.2052.info/
 # Версия 7 ноября 2014 г
 #
-class Interpolation_BAU_2012:
+class Interpolation_BAU_2012( _Interpolation):
     def __init__( self):
-        self.Population_Function_1 = Sigmoid( 1950, 0.030, 1150, 3600)
-        self.Population_Function_2 = Hubbert( 2038, 0.036, 0.028, 4620)
-        self.Population_Function_3 = Hubbert( 1955, 0.065, 0.080, -520)
+        self._Population_Functions = [Sigmoid( 1950, 0.030, 1150, 3600)]
+        self._Population_Functions += [Hubbert( 2038, 0.036, 0.028, 4620)]
+        self._Population_Functions += [Hubbert( 1955, 0.065, 0.080, -520)]
         
         self.Coal_Function_1 = Hubbert( 2032, 0.058, 0.054, 5000)
         self.Coal_Function_2 = Hubbert( 1925, 0.06, 0.05, 850)
@@ -145,9 +159,7 @@ class Interpolation_BAU_2012:
         return
     def Solve( self, t):
         self.Time = t
-        self.Population = self.Population_Function_1.GetVector( t)
-        self.Population += self.Population_Function_2.GetVector( t)
-        self.Population += self.Population_Function_3.GetVector( t)
+        self.Population = self._Interpolate_Function( self._Population_Functions)
 
         self.Coal = self.Coal_Function_1.GetVector( t)
         self.Coal += self.Coal_Function_2.GetVector( t)

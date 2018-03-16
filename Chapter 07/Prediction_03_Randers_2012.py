@@ -1,9 +1,7 @@
-from Population import *
-from Predictions import Interpolation_BAU_1972 
-from Predictions import Interpolation_BAU_2012 
+from Predictions import * 
 
 T = np.linspace( 1890, 2100, 211)
-Time_Ran, Population_Ran = Load_Calibration( "Randers_2052.csv", "Year", "Population")
+Time_Ran, Population_Ran = Load_Calibration( ".\Data\Randers_2052.csv", "Year", "Population")
 
 P0 = Population()
 UN_Med = P0.UN_Medium.GetVector( T)
@@ -15,18 +13,15 @@ BAU_2012.Solve(T)
 Difference = UN_Med - BAU_2012.Population 
 
 for i in range( len( BAU_2012.Time)):
-    print( BAU_2012.Time[i], BAU_2012.Population[i])
+    print( "{:g}\t{:.1f}".format( BAU_2012.Time[i], BAU_2012.Population[i]))
 
-Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,10))
-
-plt.plot( BAU_1972.Time, BAU_1972.Population, "--", lw=1, color="b", label="Население (BAU-1972) [млн]")
-plt.plot( BAU_2012.Time, BAU_2012.Population, "-", lw=3, color="b", label="Население (Рандерс-2012) [млн]")
-plt.plot( T[125:], UN_Med[125:], "-", lw=2, color="g", label="Население (ООН-2010) [млн]")
-plt.plot( T[100:], Difference[100:], "--", lw=3, color="r", label="Разница ООН-Рандерс [млн]")
-
-#plt.errorbar( Time_Ran, Population_Ran, yerr=Population_Ran*0.03, fmt='.', color="r", label="Население (Рандерс-2012) [млн]")
-plt.errorbar( P0.Calibration_Year, P0.Calibration_Total, yerr=P0.Calibration_Delta, fmt='.', color="k", label="Население (статистика ООН)")
+plt.plot( BAU_1972.Time, BAU_1972.Population, "--", lw=1, color="b", label="Население (World3-1972)")
+plt.plot( BAU_2012.Time, BAU_2012.Population, "-", lw=3, color="b", label="Население (Рандерс-2012)")
+plt.plot( T[125:], UN_Med[125:], "-", lw=2, color="g", label="Население (ООН-2014)")
+plt.plot( T[100:], Difference[100:], "--", lw=2, color="r", label="Разница ООН-Рандерс")
+plt.errorbar( Time_Ran, Population_Ran, fmt='o', color="b")
+plt.errorbar( P0.Calibration_Year, P0.Calibration_Total, yerr=P0.Calibration_Yerr, fmt='.', color="k", label="Население (статистика ООН)")
 
 plt.xlabel("Годы")
 plt.xlim( 1900, 2100)
