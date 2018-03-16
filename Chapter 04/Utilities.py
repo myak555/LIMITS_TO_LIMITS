@@ -86,7 +86,11 @@ class Sigmoid( Control_Curve):
     
     # computation
     def Compute( self, x):
-        e = np.exp( -self.S0*(x-self.X0))
+        x -= self.X0
+        x *= -self.S0
+        if x < -500.0: return self.Right + self.Shift
+        if x > 500.0: return self.Left + self.Shift
+        e = np.exp( x)
         y = self.Left + (self.Right-self.Left)/(1.0+e) + self.Shift
         return y
 
@@ -158,9 +162,11 @@ class Hubbert( Control_Curve):
     # computation
     def Compute( self, x):
         x -= self.X0
-        if x < 0.0: x *= self.S0
-        else: x *= self.S1
-        e = np.exp( -x)
+        if x < 0.0: x *= -self.S0
+        else: x *= -self.S1
+        if x < -500.0: return self.Shift
+        if x > 500.0: return self.Shift
+        e = np.exp( x)
         y = 4.0 * self.Peak * e / (1+e) / (1+e) + self.Shift
         return y
 
@@ -196,7 +202,10 @@ class Gauss( Control_Curve):
         if x < 0.0: s = self.S0
         else: s = self.S1
         x *= x
-        e = np.exp( -s*x)
+        x *= -s
+        if x < -500.0: return self.Shift
+        if x > 500.0: return self.Shift
+        e = np.exp(x)
         y = self.Peak * e + self.Shift
         return y
 
@@ -387,6 +396,29 @@ def Load_Calibration( file_Name, var1_Name, var2_Name):
     #print( var1)
     #print( var2)
     return np.array( var1), np.array( var2)
+
+#
+# Provides interpolation as a linear combination
+# of several Control_Curve functions
+#
+class Linear_Combo (Control_Curve):
+    def __init__( self):
+        self.Name = "Linear Combination"
+        self.Wavelets = []
+        return
+
+    # computation
+    def Compute( self, x):
+        tmp = 0.0
+        for w in self.Wavelets:
+            tmp += w.Compute( x)
+        return tmp
+
+    # plots data, together with optional external data
+    def Plot( self, x1, x2, file_Name = "", coplot_x = -1, coplot_y = -1, no_screen = False):
+        sy = "{0:g} function(s)".format( len(self.Wavelets))
+        Control_Curve.Plot( self, x1, x2, sy, "y", file_Name, coplot_x, coplot_y, no_screen)
+        return
 
 #
 # Makes sure matplotlib can write in Russian
