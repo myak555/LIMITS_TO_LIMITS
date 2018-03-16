@@ -6,26 +6,58 @@ from Utilities import *
 # Peak_Value - peak population value
 # L_Slope - left slope
 # R_Slope - right slope
-# Additionaly creates three approximate UN solutions using Bathtub and Sigmoid functions 
+# Additionaly creates three approximate UN solutions using linear combinations of Sigmoid and Hubbert functions 
 #
 class Population:
     def __init__( self, Peak_Year=2057, Peak_Value=8000, L_Slope=0.028, R_Slope=0.080):
-        self._Model0 = Bathtub( -650,0.0025,2200,0.004,30,260,4250)
-        self._Model1 = Hubbert( Peak_Year, L_Slope, R_Slope, Peak_Value)
-        self._Model2 = Hubbert( 1950, 0.2, 0.2, -250)
-        self._Model3 = Hubbert( 2000, 0.1, 0.2, 150)
-        self._Model4 = Hubbert( 1970, 0.3, 0.3, -50)
-        self._Model5 = Hubbert( 1870, 0.1, 0.05, 120)
-        self._Model6 = Hubbert( 1930, 0.2, 0.2, -50)
+        self._Model0 = Linear_Combo()
+        self._Model0.Wavelets += [Bathtub( -650,0.0025,2200,0.004,30,260,4250)]
+        self._Model0.Wavelets += [Hubbert( Peak_Year, L_Slope, R_Slope, Peak_Value)]
+        self._Model0.Wavelets += [Hubbert( 1950, 0.2, 0.2, -250)]
+        self._Model0.Wavelets += [Hubbert( 2000, 0.1, 0.2, 150)]
+        self._Model0.Wavelets += [Hubbert( 1970, 0.3, 0.3, -50)]
+        self._Model0.Wavelets += [Hubbert( 1870, 0.1, 0.05, 120)]
+        self._Model0.Wavelets += [Hubbert( 1930, 0.2, 0.2, -50)]
         self.Name = "PyWorld 2017"
         self.Calibration_Year, self.Calibration_Total = Load_Calibration( "Population_Calibration.csv", "Year", "Population")
         self.Calibration_Year, self.Calibration_Yerr = Load_Calibration( "Population_Calibration.csv", "Year", "Yerror")
-        self.UN_Low = Bathtub( 1997, 0.0370, 2100, 0.030, 1390, 11500, 1900)
+        self.UN_Low = Linear_Combo()
         self.UN_Low.Name = "UN Low Case"
-        self.UN_Medium = Sigmoid( 2003, 0.0350, 1390, 11500)
+        self.UN_Low.Wavelets += [ Sigmoid( x0=2002.0, s0=0.03300, left=980.000, right=11600.000, shift=0.000)]
+        self.UN_Low.Wavelets += [ Hubbert( x0=1855.5, s0=0.07523, s1=0.10878, peak=182.819, shift=0.000)]
+        self.UN_Low.Wavelets += [ Hubbert( x0=1903.0, s0=0.06400, s1=0.06400, peak=353.000, shift=0.000)]
+        self.UN_Low.Wavelets += [ Hubbert( x0=1951.0, s0=0.17975, s1=0.21109, peak=-118.000, shift=0.000)]
+        self.UN_Low.Wavelets += [ Hubbert( x0=1964.0, s0=0.30994, s1=0.34868, peak=-69.500, shift=0.000)]
+        self.UN_Low.Wavelets += [ Hubbert( x0=1992.0, s0=0.30994, s1=0.31987, peak=79.000, shift=0.000)]
+        self.UN_Low.Wavelets += [ Hubbert( x0=2010.0, s0=0.36475, s1=0.13208, peak=-32.500, shift=0.000)]
+        self.UN_Low.Wavelets += [ Hubbert( x0=2037.8, s0=0.16307, s1=0.10332, peak=-31.025, shift=0.000)]
+        self.UN_Low.Wavelets += [ Sigmoid( x0=2085.0, s0=0.04452, left=0.000, right=-6116.317, shift=0.000)]
+        self.UN_Low.Wavelets += [ Hubbert( x0=2017.0, s0=0.16677, s1=0.20335, peak=155.000, shift=0.000)]
+        self.UN_Low.Wavelets += [ Hubbert( x0=2062.0, s0=0.11881, s1=0.12884, peak=-128.000, shift=0.000)]
+        self.UN_Medium = Linear_Combo()
         self.UN_Medium.Name = "UN Medium Case"
-        self.UN_High = Sigmoid( 2043, 0.0240, 1000, 20000)
+        self.UN_Medium.Wavelets += [ Sigmoid( x0=2002.0, s0=0.03300, left=980.000, right=11600.000, shift=0.000)]
+        self.UN_Medium.Wavelets += [ Hubbert( x0=1855.5, s0=0.07523, s1=0.10878, peak=182.819, shift=0.000)]
+        self.UN_Medium.Wavelets += [ Hubbert( x0=1903.0, s0=0.06400, s1=0.06400, peak=353.000, shift=0.000)]
+        self.UN_Medium.Wavelets += [ Hubbert( x0=1951.0, s0=0.17975, s1=0.21109, peak=-118.000, shift=0.000)]
+        self.UN_Medium.Wavelets += [ Hubbert( x0=1964.0, s0=0.30994, s1=0.34868, peak=-69.500, shift=0.000)]
+        self.UN_Medium.Wavelets += [ Hubbert( x0=1992.0, s0=0.30994, s1=0.31987, peak=79.000, shift=0.000)]
+        self.UN_Medium.Wavelets += [ Hubbert( x0=2010.0, s0=0.36475, s1=0.13208, peak=-32.500, shift=0.000)]
+        self.UN_Medium.Wavelets += [ Hubbert( x0=2037.8, s0=0.16307, s1=0.10332, peak=-31.025, shift=0.000)]
+        self.UN_High = Linear_Combo()
         self.UN_High.Name = "UN High Case"
+        self.UN_High.Wavelets += [ Sigmoid( x0=2002.000, s0=0.03300, left=980.000, right=11600.000, shift=0.000)]
+        self.UN_High.Wavelets += [ Hubbert( x0=1855.500, s0=0.07523, s1=0.10878, peak=182.819, shift=0.000)]
+        self.UN_High.Wavelets += [ Hubbert( x0=1903.000, s0=0.06400, s1=0.06400, peak=353.000, shift=0.000)]
+        self.UN_High.Wavelets += [ Hubbert( x0=1951.000, s0=0.17975, s1=0.21109, peak=-118.000, shift=0.000)]
+        self.UN_High.Wavelets += [ Hubbert( x0=1964.000, s0=0.30994, s1=0.34868, peak=-69.500, shift=0.000)]
+        self.UN_High.Wavelets += [ Hubbert( x0=1992.000, s0=0.30994, s1=0.31987, peak=79.000, shift=0.000)]
+        self.UN_High.Wavelets += [ Hubbert( x0=2010.000, s0=0.36475, s1=0.13208, peak=-32.500, shift=0.000)]
+        self.UN_High.Wavelets += [ Hubbert( x0=2037.800, s0=0.16307, s1=0.10332, peak=-31.025, shift=0.000)]
+        self.UN_High.Wavelets += [ Sigmoid( x0=2085.000, s0=0.05121, left=0.000, right=8218.938, shift=0.000)]
+        self.UN_High.Wavelets += [ Hubbert( x0=2017.000, s0=0.22877, s1=0.27615, peak=-116.000, shift=0.000)]
+        self.UN_High.Wavelets += [ Hubbert( x0=2056.000, s0=0.13014, s1=0.20680, peak=80.975, shift=0.000)]
+        self.UN_High.Wavelets += [ Hubbert( x0=2088.000, s0=0.14967, s1=0.20132, peak=-171.671, shift=0.000)]
         self.Velhurst_Analytical = Sigmoid( 1997, 0.0370, 1390, 10500)
         self.Velhurst_Analytical.Name = "Velhurst Analytical"
         self.Kapitsa_Analytical = KapitsaIntegral( 2003, 176e3, 44)
@@ -43,19 +75,12 @@ class Population:
     def Solve( self, t0):
         self.Solution_Year = t0
         self.Solution_Total = self._Model0.GetVector( t0)
-        self.Solution_Total += self._Model1.GetVector( t0)
         return self.Solution_Total
     #
     # Computes the approximation
     #
     def Compute( self, t):
         tmp = self._Model0.Compute( t)
-        tmp += self._Model1.Compute( t)
-        tmp += self._Model2.Compute( t)
-        tmp += self._Model3.Compute( t)
-        tmp += self._Model4.Compute( t)
-        tmp += self._Model5.Compute( t)
-        tmp += self._Model6.Compute( t)
         return tmp
 
 #
