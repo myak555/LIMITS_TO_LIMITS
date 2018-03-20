@@ -1,6 +1,6 @@
-#,,,,,,,,,,,
-# Agriculture calibration,,,,,,,,,,,
-#,,,,,,,,,,,
+#
+# Agriculture calibration
+#
 Year,Gross_Food,Net_Food,Land,Dry_Land,Agri_Land,Crops_Land,Cereal_Land,Gross_Index,Gross_PC,Net_Index,Net_PC
 1961,2230.8,2320.5,13407.7,13055.7,4443.5,1365.1,1276.7,35.71,75.71,34.35,72.83
 1962,2297.1,2390.1,13407.7,13055.7,4454.9,1370.1,1280.8,36.77,76.51,35.37,73.6
