@@ -9,7 +9,7 @@ BAU_1972 = Interpolation_BAU_1972()
 BAU_1972.Solve(T)
 
 fig = plt.figure( figsize=(15,10))
-img = imread( cbook.get_sample_data( os.getcwd() + '\\BAO_World3_1972_cropped_light.png'))
+img = imread( cbook.get_sample_data( os.getcwd() + '\\BAU_World3_1972_light_cropped.png'))
 plt.imshow(img, zorder=0, extent=[1900, 2100, 0, 1.000],  interpolation='nearest', aspect='auto')
 
 plt.plot( BAU_1972.Time, BAU_1972.Population_U, "-", lw=3, color="b", label="Население")
@@ -20,6 +20,7 @@ plt.plot( BAU_1972.Time, BAU_1972.Industrial_PC_U, "--", lw=2, color="r", label=
 plt.plot( BAU_1972.Time, BAU_1972.Services_PC_U, "--", lw=2, color="m", label="Услуги (на душу)")
 plt.plot( BAU_1972.Time, BAU_1972.Birth_Rate_U, "--", lw=1, color="g", label="Рождаемость")
 plt.plot( BAU_1972.Time, BAU_1972.Death_Rate_U, "--", lw=1, color="r", label="Смертность")
+plt.plot( [2000,2000], [0,1], "--", lw=2, color="k", label="2000 год")
 
 plt.xlabel("Годы")
 plt.xlim( 1900, 2100)

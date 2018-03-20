@@ -1,50 +1,61 @@
-from Population import *
-from Predictions import Interpolation_BAU_1972 
-from Predictions import Interpolation_BAU_2012 
+from Predictions import * 
 
 T = np.linspace( 1800, 2200, 401)
 P0 = Population()
 UN_Med = P0.UN_Medium.GetVector( T)
 
-Time_Ran, Land_Ran = Load_Calibration( "Randers_2052.csv", "Year", "Land")
-Food_Ran, Yield_Ran = Load_Calibration( "Randers_2052.csv", "Food", "Yield")
+Resources_Time, Resources_Coal = Load_Calibration( "Energy_Calibration.csv", "Year", "Coal")
+Resources_Oil, Resources_Gas = Load_Calibration( "Energy_Calibration.csv", "Oil", "Gas")
+Resources_Nuclear, Resources_Renewable = Load_Calibration( "Energy_Calibration.csv", "Nuclear", "Renewable")
 
-Time_Cal, Land_Cal = Load_Calibration( "Agriculture_Calibration.csv", "Year", "Cereal_Land")
-Gross_Cal, Net_Cal = Load_Calibration( "Agriculture_Calibration.csv", "Gross_Food", "Net_Food")
+Time_Ran, Coal_Ran = Load_Calibration( ".\Data\Randers_2052_World.csv", "Year", "Coal")
+Oil_Ran, Gas_Ran = Load_Calibration( ".\Data\Randers_2052_World.csv", "Oil", "Gas")
+Nuclear_Ran, Renewable_Ran = Load_Calibration( ".\Data\Randers_2052_World.csv", "Nuclear", "Renewable")
 
 BAU_1972 = Interpolation_BAU_1972()
 BAU_1972.Solve(T)
-Food_PP_1972 = BAU_1972.Food_PP * 0.93 * 3
-
 BAU_2012 = Interpolation_BAU_2012()
 BAU_2012.Solve(T)
 BAU_2012.Correct_To_Actual( 1900, 2010)
-Food_PP_Randers = BAU_2012.Food / BAU_2012.Population * 1000 * 3
-Food_PP_UN = BAU_2012.Food / UN_Med * 1000 * 3
+URR_Coal = np.sum( BAU_2012.Coal)
+URR_Oil = np.sum( BAU_2012.Oil)
+URR_Gas = np.sum( BAU_2012.Gas)
+URR_Nuclear = np.sum( BAU_2012.Nuclear)
+URR_Renewable = np.sum( BAU_2012.Renewable)
+Energy_Per_Capita_UN = BAU_2012.Energy * 1000 / UN_Med
 
-Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,15))
+fig.suptitle( 'Энергетика NewWorld 2012 г', fontsize=22)
+gs = plt.GridSpec(2, 1, height_ratios=[2, 1]) 
+ax1 = plt.subplot(gs[0])
+ax2 = plt.subplot(gs[1])
 
-plt.plot( T, Food_PP_1972, "--", lw=2, color="y", label="Прод. на душу (BAU-1972) [кг/год x 3]")
-plt.plot( BAU_2012.Time, Food_PP_Randers, ".", lw=3, color="y", label="Прод. на душу (Randers-2012) [кг/год  x 3]")
-plt.plot( BAU_2012.Time, Food_PP_UN, "-", lw=2, color="y", label="Прод. на душу (ООН) [кг/год  x 3]")
-plt.plot( BAU_2012.Time, BAU_2012.Land, "-", lw=1, color="k", label="Пашня [га]")
-plt.plot( BAU_2012.Time, BAU_2012.Yield*1000, "--", lw=1, color="m", label="Урожайность [кг/га]")
-plt.plot( BAU_2012.Time, BAU_2012.Food, "-", lw=3, color="g", label="Продовольствие [tge]")
+ax1.plot( BAU_2012.Time, BAU_2012.Coal, "-", lw=1, color="k")
+ax1.plot( BAU_2012.Time, BAU_2012.Oil, "-", lw=1, color="g")
+ax1.plot( BAU_2012.Time, BAU_2012.Gas, "-", lw=1, color="r")
+ax1.plot( BAU_2012.Time, BAU_2012.Nuclear, "-", lw=1, color="m")
+ax1.plot( BAU_2012.Time, BAU_2012.Renewable, "-", lw=1, color="b")
+ax1.errorbar( Resources_Time, Resources_Coal, yerr=Resources_Coal*0.03, fmt='.', color="k", label="Каменный уголь(и торф): {:.0f} млрд toe".format(URR_Coal/1e3))
+ax1.errorbar( Resources_Time, Resources_Oil, yerr=Resources_Oil*0.03, fmt='.', color="g", label="Нефть (битум и жидкости): {:.0f} млрд toe".format(URR_Oil/1e3))
+ax1.errorbar( Resources_Time, Resources_Gas, yerr=Resources_Gas*0.03, fmt='.', color="r", label="Природный газ: {:.0f} млрд toe".format(URR_Gas/1e3))
+ax1.errorbar( Resources_Time, Resources_Nuclear, yerr=Resources_Nuclear*0.03, fmt='.', color="m", label="Ядерная энергия: {:.0f} млрд toe".format(URR_Nuclear/1e3))
+ax1.errorbar( Resources_Time, Resources_Renewable, yerr=Resources_Renewable*0.03, fmt='.', color="b", label="Возобновляемые и биотопливо: {:.0f} млрд toe".format(URR_Renewable/1e3))
+ax1.grid(True)
+ax1.set_ylabel("миллионов toe")
+ax1.set_xlim( 1900, 2100)
+ax1.set_ylim( 0, 7000)
+ax1.legend(loc=0)
 
-plt.errorbar( Time_Cal, Land_Cal, yerr=Land_Cal*0.03, fmt='.', color="k", label="Пашня (ООН-2014) [га]")
-plt.errorbar( Time_Cal, Net_Cal, yerr=Net_Cal*0.03, fmt='.', color="g", label="Продовольствие-нетто (ООН-2014) [tge]")
-#plt.errorbar( Time_Ran, Land_Ran, yerr=Land_Ran*0.05, fmt='o', color="k")
-#plt.errorbar( Time_Ran, Food_Ran, yerr=Food_Ran*0.05, fmt='o', color="g")
-#plt.errorbar( Time_Ran, Yield_Ran*1000, yerr=Yield_Ran*0.05*1000, fmt='o', color="m")
+ax2.set_title( "Душевое потребление")
+ax2.plot( BAU_2012.Time, BAU_2012.Energy_PC*1000, ".", lw=3, color="y", label="Энергия на душу населения (Рандерс)")
+ax2.plot( BAU_2012.Time, Energy_Per_Capita_UN, "-", lw=1, color="y", label="Энергия на душу населения (ООН)")
+ax2.set_ylabel("кг/год")
+ax2.set_xlabel("Годы")
+ax2.set_xlim( 1900, 2100)
+ax2.set_ylim( 0, 2500)
+ax2.grid(True)
+ax2.legend(loc=0)
 
-plt.xlabel("Годы")
-plt.xlim( 1900, 2100)
-plt.ylabel("миллионов")
-plt.ylim( 0, 15000)
-plt.title( 'Сельское хозяйство NewWorld 2012 г')
-plt.grid(True)
-plt.legend(loc=0)
 plt.savefig( ".\\Graphs\\figure_07_05.png")
 fig.show()
 

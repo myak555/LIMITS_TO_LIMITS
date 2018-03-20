@@ -289,11 +289,12 @@ class KapitsaIntegral( Control_Curve):
 #
 class Weibull( Control_Curve):
     # constructor
-    def __init__( self, x0=0.0, b=1.0, k=2.0, shift=0.0):
+    def __init__( self, x0=0.0, b=1.0, k=2.0, peak=1.0, shift=0.0):
         self.Name = "Weibull"
         self.X0 = x0
         self.B = b
         self.K = k
+        self.Peak = peak
         self.Shift = shift
         Control_Curve.__compute = self
         return
@@ -301,12 +302,12 @@ class Weibull( Control_Curve):
     # computation
     def Compute( self, x):
         x -= self.X0
-        if x <= 0.0: return 0.0
+        if x <= 0.0: return self.Shift
         x *= self.B
         p1 = x ** self.K
         p2 = p1 / x
         p1 = np.exp( -p1)
-        y = self.B * self.K * p1 * p2 + self.Shift
+        y = self.Peak * self.B * self.K * p1 * p2 + self.Shift
         return y
 
     # plots data, together with optional external data
@@ -446,5 +447,5 @@ Prepare_Russian_Font()
 ##F.Plot( -10.0, 10.0)
 ##F = Kapitsa()
 ##F.Plot( -10.0, 10.0)
-##F = Weibull()
-##F.Plot( -10.0, 10.0)
+##F = Weibull( x0=1968, b=0.015, k=2.2, peak=100)
+##F.Plot( 1900, 2100)
