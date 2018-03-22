@@ -50,6 +50,27 @@ class _Interpolation:
         for i in range( len(self.Time)):
             tmp[i] *= norm
         return tmp
+    def _Shift_To_Actual( self, func, filename, timename, varname, start_t, stop_t, norm = 1.0):
+        calibrationT, calibrationV = Load_Calibration( filename, timename, varname);
+        diff = int( calibrationT[0] - self.Time[0])
+        for i in range( len( self.Time)):
+            t = self.Time[i]
+            if t < start_t: continue
+            if t > stop_t: break
+            j = i-diff
+            if j < 0: continue
+            if j >= len(calibrationV): continue
+            func[i] = calibrationV[j] * norm
+        return func
+    def _Differentiate(self, func, varname):
+        print( "Differentiated {:s}".format( varname))
+        tmp = np.zeros( len( func))
+        tmp[0] = func[1] - func[0]
+        l = len(self.Time)-1
+        for i in range( 1, l):
+            tmp[i] = (func[i+1] - func[i-1]) * 0.5
+        tmp[l] = func[l] - func[l-1]
+        return tmp
 
 #
 # Феноменологическая интерполяция кривых модели BAU 1972
@@ -112,6 +133,9 @@ class Interpolation_BAU_1972( _Interpolation):
         self.Death_Rate_U = self._Interpolate_Function( self._Death_Rate_Functions)
         self.Population = self._Calibrate_Function(self.Population_U, "Population_Calibration.csv", "Year", "Population", 1930, 1970)
         self.Resources = self.Resources_U * 1186e3
+        self.Energy = -self._Differentiate(self.Resources, "Resources")
+        self.Energy = Filter( self.Energy, matrix = [1,2,2,2,3,3,3,2,2,2,1])
+        self.Energy_PC = self.Energy / self.Population 
         self.Industrial_PC = self._Calibrate_To_First_Value( self.Industrial_PC_U, "Industrial PC")
         self.Food_PC = self._Calibrate_To_First_Value( self.Food_PC_U, "Food PC")
         self.Services_PC = self._Calibrate_To_First_Value( self.Services_PC_U, "Services PC")
@@ -119,6 +143,7 @@ class Interpolation_BAU_1972( _Interpolation):
         self.Industrial = self.Industrial_PC * tmp_Pop
         self.Food = self.Food_PC * tmp_Pop
         self.Services = self.Services_PC * tmp_Pop
+        self.GDP_PC = (2.0*self.Industrial_PC+self.Services_PC+self.Food_PC)*.8
         self.CO2 = self.Pollution_U*600 + 305
         return
 
@@ -132,186 +157,155 @@ class Interpolation_BAU_2012( _Interpolation):
         self._Population_Functions = [Sigmoid( 1950, 0.030, 1150, 3600)]
         self._Population_Functions += [Hubbert( 2038, 0.036, 0.028, 4620)]
         self._Population_Functions += [Hubbert( 1955, 0.065, 0.080, -520)]
-        
-        self.Coal_Function_1 = Hubbert( 2032, 0.058, 0.054, 5000)
-        self.Coal_Function_2 = Hubbert( 1925, 0.06, 0.05, 850)
-        self.Oil_Function_1 = Hubbert( 2024, 0.050, 0.053, 4060)
-        self.Oil_Function_2 = Hubbert( 1975, 0.2, 0.20, 1700)
-        self.Oil_Function_3 = Hubbert( 2007, 0.070, 0.35, 500)
-        self.Gas_Function_1 = Hubbert( 2036, 0.061, 0.065, 4700)
-        self.Gas_Function_2 = Hubbert( 1995, 0.1, 0.2, 600)
-        self.Gas_Function_3 = Hubbert( 1975, 0.15, 0.2, 400)
-        self.Nuclear_Function_1 = Weibull( 1968, 0.015, 2.2, 50e3)
-        self.Renewable_Function_1 = Sigmoid( 2043, 0.072, 35, 10200)
-        self.Renewable_Function_2 = Hubbert( 1965, 0.05, 0.01, 110)
 
-        self.Land_Function_1 = Sigmoid( 1920, 0.06, 800, 1300)
-        self.Land_Function_2 = Hubbert( 2037.5, 0.08, 0.085, 400)
-        self.Yield_Function_1 = Sigmoid( 2000, 0.042, 0.8, 6.8)
-        self.Yield_Function_2 = Hubbert( 2010, 0.2, 0.06, 0.5)
-        self.Yield_Function_3 = Hubbert( 2013, 1, 1, 0.2)
+        self._Coal_Functions = [Hubbert( 2032, 0.058, 0.054, 5000)]
+        self._Coal_Functions += [Hubbert( 1925, 0.06, 0.05, 850)]
+        self._Oil_Functions = [Hubbert( 2024, 0.050, 0.053, 4060)]
+        self._Oil_Functions += [Hubbert( 1975, 0.2, 0.20, 1700)]
+        self._Oil_Functions += [Hubbert( 2007, 0.070, 0.35, 500)]
+        self._Gas_Functions = [Hubbert( 2036, 0.061, 0.065, 4700)]
+        self._Gas_Functions += [Hubbert( 1995, 0.1, 0.2, 600)]
+        self._Gas_Functions += [Hubbert( 1975, 0.15, 0.2, 400)]
+        self._Nuclear_Functions = [Weibull( 1968, .015, 2.2, 50000)]
+        self._Renewable_Functions = [Sigmoid( 2043, 0.072, 35, 10200)]
+        self._Renewable_Functions += [Hubbert( 1965, 0.05, 0.01, 110)]
 
-        self.GDP_Function_1 = Sigmoid( 2010, 0.06, 0, 130)
-        self.GDP_Function_2 = Hubbert( 2050, 0.08, 0.2, 26)
-        self.GDP_Function_3 = Hubbert( 1970, 0.05, 0.1, 6)
-        self.Prod_Function_1 = Sigmoid( 2025, 0.042, 5000, 35000)
-        self.CO2_Function_1 = Hubbert( 2062, 0.031, 0.02, 200, 280)
+        self._Land_Functions = [Sigmoid( 1920, 0.06, 800, 1300)]
+        self._Land_Functions += [Hubbert( 2037.5, 0.08, 0.085, 400)]
+        self._Yield_Functions = [Sigmoid( 2000, 0.042, 0.8, 6.8)]
+        self._Yield_Functions += [Hubbert( 2010, 0.2, 0.06, 0.5)]
+        self._Yield_Functions += [Hubbert( 2013, 1, 1, 0.2)]
+
+        self._GDP_Functions = [Sigmoid( 2010, 0.06, 0, 130)]
+        self._GDP_Functions += [Hubbert( 2050, 0.08, 0.2, 26)]
+        self._GDP_Functions += [Hubbert( 1970, 0.12, 0.1, 6)]
+
+        self._Prod_Functions = [Sigmoid( 2025, 0.042, 5000, 35000)]
+        self._CO2_Functions = [Hubbert( 2062, 0.031, 0.02, 200, 280)]
         return
     def Solve( self, t):
         self.Time = t
         self.Population = self._Interpolate_Function( self._Population_Functions)
 
-        self.Coal = self.Coal_Function_1.GetVector( t)
-        self.Coal += self.Coal_Function_2.GetVector( t)
-        self.Oil = self.Oil_Function_1.GetVector( t)
-        self.Oil += self.Oil_Function_2.GetVector( t)
-        self.Oil += self.Oil_Function_3.GetVector( t)
-        self.Gas = self.Gas_Function_1.GetVector( t)
-        self.Gas += self.Gas_Function_2.GetVector( t)
-        self.Gas += self.Gas_Function_3.GetVector( t)
-        self.Nuclear = self.Nuclear_Function_1.GetVector( t)
-        self.Renewable = self.Renewable_Function_1.GetVector( t)
-        self.Renewable += self.Renewable_Function_2.GetVector( t)
-        self.Total_Energy = self.Coal + self.Oil + self.Gas + self.Nuclear + self.Renewable
-        
-        self.Land = self.Land_Function_1.GetVector( t)
-        self.Land += self.Land_Function_2.GetVector( t)
-        self.Yield = self.Yield_Function_1.GetVector( t)
-        self.Yield += self.Yield_Function_2.GetVector( t)
-        self.Yield += self.Yield_Function_3.GetVector( t)
+        self.Coal = self._Interpolate_Function( self._Coal_Functions)
+        self.Oil = self._Interpolate_Function( self._Oil_Functions)
+        self.Gas = self._Interpolate_Function( self._Gas_Functions)
+        self.Nuclear = self._Interpolate_Function( self._Nuclear_Functions)
+        self.Renewable = self._Interpolate_Function( self._Renewable_Functions)
+        self.Energy = self.Coal + self.Oil + self.Gas + self.Nuclear + self.Renewable
+        self.Energy_PC = self.Energy / self.Population
+        self.Land = self._Interpolate_Function( self._Land_Functions)
+        self.Yield = self._Interpolate_Function( self._Yield_Functions)
         self.Food = self.Yield * self.Land
-
-        self.GDP = self.GDP_Function_1.GetVector( t)
-        self.GDP += self.GDP_Function_2.GetVector( t)
-        self.GDP += self.GDP_Function_3.GetVector( t)
-        self.Productivity = self.Prod_Function_1.GetVector( t)
-        self.CO2 = self.CO2_Function_1.GetVector( t)
+        self.Food_PC = self.Food / self.Population
+        self.GDP = self._Interpolate_Function( self._GDP_Functions)
+        self.GDP_PC = self.GDP / self.Population * 1000000 / 365
+        self.Productivity = self._Interpolate_Function( self._Prod_Functions) / 365
+        self.CO2 = self._Interpolate_Function( self._CO2_Functions)
         return
     def Correct_To_Actual( self, t0, t1):
-        R_Time, R_Coal = Load_Calibration( "Resources_Calibration.csv", "Year", "Coal")
-        R_Oil, R_Gas = Load_Calibration( "Resources_Calibration.csv", "Oil", "Gas")
-        R_Nuclear, R_Renewable = Load_Calibration( "Resources_Calibration.csv", "Nuclear", "Renewable")
-        diff = int( R_Time[0] - self.Time[0])
-        for i in range( len( self.Time)):
-            t = self.Time[i]
-            if t < t0: continue
-            if t > t1: break
-            j = i-diff
-            if j < 0: continue
-            self.Coal[i] = R_Coal[j]
-            self.Oil[i] = R_Oil[j]
-            self.Gas[i] = R_Gas[j]
-            self.Nuclear[i] = R_Nuclear[j]
-            self.Renewable[i] = R_Renewable[j]
-        A_Time, A_Land = Load_Calibration( "Agriculture_Calibration.csv", "Year", "Cereal_Land")
-        A_Gross, A_Net = Load_Calibration( "Agriculture_Calibration.csv", "Gross_Food", "Net_Food")
-        diff = int( A_Time[0] - self.Time[0])
-        for i in range( len( self.Time)):
-            t = self.Time[i]
-            if t < t0: continue
-            if t > t1: break
-            j = i-diff
-            if j < 0: continue
-            self.Land[i] = A_Land[j]
-            self.Food[i] = A_Net[j]
-            self.Yield[i] = A_Net[j] / A_Land[j]
+        self.Coal = self._Shift_To_Actual( self.Coal, "Energy_Calibration.csv", "Year", "Coal", t0, t1)
+        self.Oil = self._Shift_To_Actual( self.Oil, "Energy_Calibration.csv", "Year", "Oil", t0, t1)
+        self.Gas = self._Shift_To_Actual( self.Gas, "Energy_Calibration.csv", "Year", "Gas", t0, t1)
+        self.Nuclear = self._Shift_To_Actual( self.Nuclear, "Energy_Calibration.csv", "Year", "Nuclear", t0, t1)
+        self.Renewable = self._Shift_To_Actual( self.Renewable, "Energy_Calibration.csv", "Year", "Renewable", t0, t1)
+        self.Energy = self._Shift_To_Actual( self.Energy, "Energy_Calibration.csv", "Year", "Total", t0, t1)
+        self.Energy_PC = self.Energy / self.Population
+
+        self.Land = self._Shift_To_Actual( self.Land, "Agriculture_Calibration.csv", "Year", "Cereal_Land", t0, t1)
+        self.Food = self._Shift_To_Actual( self.Food, "Agriculture_Calibration.csv", "Year", "Net_Food", t0, t1)
+        self.Yield = self.Food / self.Land
+        self.Food_PC = self.Food / self.Population
+
+        self.GDP = self._Shift_To_Actual( self.GDP, "./Data/GDP_World_Bank.csv", "Year", "GDP_IA", t0, t1)
+        self.GDP_PC = self.GDP / self.Population * 1000000 / 365
         return
 
 #
 # Феноменологическая интерполяция кривых модели BAU 2012
 # с ограничением возобновляемых ресурсов технологическим максимумом 4.6 ГВт = 3530 mln toe
-# Веб-страница http://www.2052.info/
-# Версия 7 ноября 2014 г
 #
-class Interpolation_Realistic_2012:
+class Interpolation_Realistic_2012( _Interpolation):
     def __init__( self):
-        self.Population_Function_1 = Sigmoid( 1950, 0.030, 1150, 3600)
-        self.Population_Function_2 = Hubbert( 2038, 0.036, 0.054, 4620)
-        self.Population_Function_3 = Hubbert( 1955, 0.065, 0.080, -520)
-        self.Population_Function_4 = Hubbert( 2060, 0.07, 0.1, 700)
-        
-        self.Coal_Function_1 = Hubbert( 2032, 0.058, 0.054, 5000)
-        self.Coal_Function_2 = Hubbert( 1925, 0.06, 0.05, 850)
-        self.Oil_Function_1 = Hubbert( 2024, 0.050, 0.053, 4060)
-        self.Oil_Function_2 = Hubbert( 1975, 0.2, 0.20, 1700)
-        self.Oil_Function_3 = Hubbert( 2007, 0.070, 0.35, 500)
-        self.Gas_Function_1 = Hubbert( 2036, 0.061, 0.065, 4700)
-        self.Gas_Function_2 = Hubbert( 1995, 0.1, 0.2, 600)
-        self.Gas_Function_3 = Hubbert( 1975, 0.15, 0.2, 400)
-        self.Nuclear_Function_1 = Weibull( 1968, 0.015, 2.2, 50e3)
-        self.Renewable_Function_1 = Sigmoid( 2023.5, 0.072, 35, 3530)
+        self._Population_Functions = [Sigmoid( x0=2002.000, s0=0.03300, left=958.000, right=11600.000, shift=0.000)]
+        self._Population_Functions += [Hubbert( x0=1855.500, s0=0.07523, s1=0.10878, peak=182.819, shift=0.000)]
+        self._Population_Functions += [Hubbert( x0=1903.000, s0=0.06400, s1=0.06400, peak=353.000, shift=0.000)]
+        self._Population_Functions += [Hubbert( x0=1951.000, s0=0.17975, s1=0.21109, peak=-118.000, shift=0.000)]
+        self._Population_Functions += [Hubbert( x0=1964.000, s0=0.30994, s1=0.34868, peak=-69.500, shift=0.000)]
+        self._Population_Functions += [Hubbert( x0=1992.000, s0=0.30994, s1=0.31987, peak=79.000, shift=0.000)]
+        self._Population_Functions += [Hubbert( x0=2010.000, s0=0.36475, s1=0.13208, peak=-32.500, shift=0.000)]
+        self._Population_Functions += [Hubbert( x0=2037.800, s0=0.16307, s1=0.10332, peak=-31.025, shift=0.000)]
+        self._Population_Functions += [Sigmoid( x0=2079.000, s0=0.10212, left=0.000, right=-6912.095, shift=0.000)]
+        self._Population_Functions += [Hubbert( x0=1942.000, s0=0.13107, s1=0.06064, peak=67.606, shift=0.000)]
 
-        self.Land_Function_1 = Sigmoid( 1920, 0.03, 800, 1400)
-        self.Land_Function_2 = Hubbert( 1975, 0.3, 0.3, 100)
-        self.Yield_Function_1 = Hubbert( 2018, 0.075, 0.04, 4.1, 1.2)
-        self.Yield_Function_2 = Hubbert( 1975, 0.1, 0.001, 0.5)
+        self._Coal_Functions = [Hubbert( 2032, 0.058, 0.054, 5000)]
+        self._Coal_Functions += [Hubbert( 1925, 0.06, 0.05, 850)]
+        self._Oil_Functions = [Hubbert( 2024, 0.050, 0.053, 4060)]
+        self._Oil_Functions += [Hubbert( 1975, 0.2, 0.20, 1700)]
+        self._Oil_Functions += [Hubbert( 2007, 0.070, 0.35, 500)]
+        self._Gas_Functions = [Hubbert( 2036, 0.061, 0.065, 4700)]
+        self._Gas_Functions += [Hubbert( 1995, 0.1, 0.2, 600)]
+        self._Gas_Functions += [Hubbert( 1975, 0.15, 0.2, 400)]
+        self._Nuclear_Functions = [Weibull( 1968, .015, 2.2, 45000)]
+        self._Renewable_Functions = [Sigmoid( x0=2022.500, s0=0.07600, left=49.000, right=3550.000, shift=0.000)]
+        self._Renewable_Functions += [Hubbert( x0=1985.000, s0=0.08724, s1=0.19580, peak=215.000, shift=0.000)]
+        self._Renewable_Functions += [Hubbert( x0=1948.000, s0=0.07937, s1=0.14622, peak=55.132, shift=0.000)]
+        self._Renewable_Functions += [Hubbert( x0=1996.000, s0=0.54621, s1=0.62879, peak=69.368, shift=0.000)]
+        self._Renewable_Functions += [Hubbert( x0=2010.000, s0=0.27615, s1=0.37971, peak=-84.426, shift=0.000)]
 
-        self.GDP_Function_1 = Sigmoid( 2010, 0.06, 0, 130)
-        self.GDP_Function_2 = Hubbert( 2050, 0.08, 0.2, 26)
-        self.GDP_Function_3 = Hubbert( 1970, 0.05, 0.1, 6)
-        self.Prod_Function_1 = Hubbert( 2031, 0.055, 0.1, 16000, 5000)
-        self.CO2_Function_1 = Hubbert( 2062, 0.031, 0.02, 200, 280)
+        self._Land_Functions = [Sigmoid( 1920, 0.03, 800, 1400)]
+        self._Land_Functions += [Hubbert( 1975, 0.3, 0.3, 100)]
+        self._Yield_Functions = [Hubbert( x0=2025.000, s0=0.05802, s1=0.04271, peak=5.200, shift=1.000)]
+        self._Yield_Functions += [Hubbert( x0=1974.000, s0=0.09749, s1=0.12311, peak=0.483, shift=0.000)]
+        self._Yield_Functions += [Hubbert( x0=1983.000, s0=0.97990, s1=0.97010, peak=0.093, shift=0.000)]
+        self._Yield_Functions += [Hubbert( x0=2003.000, s0=0.43013, s1=0.59049, peak=-0.172, shift=0.000)]
+        self._Yield_Functions += [Hubbert( x0=2015.000, s0=0.55593, s1=0.47351, peak=0.200, shift=0.000)]
+
+        self._GDP_Functions = [Hubbert( x0=2012.000, s0=0.16000, s1=0.03800, peak=72.000, shift=0.800)]
+        self._GDP_Functions += [Hubbert( x0=1979.000, s0=0.13438, s1=0.24664, peak=28.244, shift=0.000)]
+        self._GDP_Functions += [Hubbert( x0=1993.000, s0=0.42148, s1=0.40122, peak=29.443, shift=0.000)]
+        self._GDP_Functions += [Hubbert( x0=1954.000, s0=0.16268, s1=0.31071, peak=2.300, shift=0.000)]
+        self._GDP_Functions += [Hubbert( x0=1970.000, s0=0.53144, s1=0.34093, peak=-4.744, shift=0.000)]
+        self._GDP_Functions += [Hubbert( x0=2032.000, s0=0.16345, s1=0.16673, peak=-5.645, shift=0.000)]
+        self._GDP_Functions += [Hubbert( x0=2100, s0=0.203, s1=0.203, peak=4.571, shift=0.000)]
+        self._GDP_Functions += [Hubbert( x0=2020, s0=0.60541, s1=0.60515, peak=-3.391, shift=0.000)]
+
+        self._Prod_Functions = [Sigmoid( 2025, 0.042, 5000, 35000)]
+        self._CO2_Functions = [Hubbert( 2062, 0.031, 0.02, 200, 280)]
         return
     def Solve( self, t):
         self.Time = t
-        self.Population = self.Population_Function_1.GetVector( t)
-        self.Population += self.Population_Function_2.GetVector( t)
-        self.Population += self.Population_Function_3.GetVector( t)
-        self.Population += self.Population_Function_4.GetVector( t)
-
-        self.Coal = self.Coal_Function_1.GetVector( t)
-        self.Coal += self.Coal_Function_2.GetVector( t)
-        self.Oil = self.Oil_Function_1.GetVector( t)
-        self.Oil += self.Oil_Function_2.GetVector( t)
-        self.Oil += self.Oil_Function_3.GetVector( t)
-        self.Gas = self.Gas_Function_1.GetVector( t)
-        self.Gas += self.Gas_Function_2.GetVector( t)
-        self.Gas += self.Gas_Function_3.GetVector( t)
-        self.Nuclear = self.Nuclear_Function_1.GetVector( t)
-        self.Renewable = self.Renewable_Function_1.GetVector( t)
-        self.Total_Energy = self.Coal + self.Oil + self.Gas + self.Nuclear + self.Renewable
-        
-        self.Land = self.Land_Function_1.GetVector( t)
-        self.Land += self.Land_Function_2.GetVector( t)
-        self.Yield = self.Yield_Function_1.GetVector( t)
-        self.Yield += self.Yield_Function_2.GetVector( t)
+        self.Population = self._Interpolate_Function( self._Population_Functions)
+        self.Coal = self._Interpolate_Function( self._Coal_Functions)
+        self.Oil = self._Interpolate_Function( self._Oil_Functions)
+        self.Gas = self._Interpolate_Function( self._Gas_Functions)
+        self.Nuclear = self._Interpolate_Function( self._Nuclear_Functions)
+        self.Renewable = self._Interpolate_Function( self._Renewable_Functions)
+        self.Energy = self.Coal + self.Oil + self.Gas + self.Nuclear + self.Renewable
+        self.Energy_PC = self.Energy / self.Population
+        self.Land = self._Interpolate_Function( self._Land_Functions)
+        self.Yield = self._Interpolate_Function( self._Yield_Functions)
         self.Food = self.Yield * self.Land
-
-##        self.GDP = self.GDP_Function_1.GetVector( t)
-##        self.GDP += self.GDP_Function_2.GetVector( t)
-##        self.GDP += self.GDP_Function_3.GetVector( t)
-        self.Productivity = self.Prod_Function_1.GetVector( t)
-        self.GDP = self.Productivity * self.Population * 0.6e-6
-        self.CO2 = self.CO2_Function_1.GetVector( t)
+        self.Food_PC = self.Food / self.Population
+        self.GDP = self._Interpolate_Function( self._GDP_Functions)
+        self.GDP_PC = self.GDP / self.Population * 1000000 / 365
+        self.Productivity = self._Interpolate_Function( self._Prod_Functions) / 365
+        self.CO2 = self._Interpolate_Function( self._CO2_Functions)
         return
     def Correct_To_Actual( self, t0, t1):
-        R_Time, R_Coal = Load_Calibration( "Resources_Calibration.csv", "Year", "Coal")
-        R_Oil, R_Gas = Load_Calibration( "Resources_Calibration.csv", "Oil", "Gas")
-        R_Nuclear, R_Renewable = Load_Calibration( "Resources_Calibration.csv", "Nuclear", "Renewable")
-        diff = int( R_Time[0] - self.Time[0])
-        for i in range( len( self.Time)):
-            t = self.Time[i]
-            if t < t0: continue
-            if t > t1: break
-            j = i-diff
-            if j < 0: continue
-            if j >= len( R_Time): break
-            self.Coal[i] = R_Coal[j]
-            self.Oil[i] = R_Oil[j]
-            self.Gas[i] = R_Gas[j]
-            self.Nuclear[i] = R_Nuclear[j]
-            self.Renewable[i] = R_Renewable[j]
-        A_Time, A_Land = Load_Calibration( "Agriculture_Calibration.csv", "Year", "Cereal_Land")
-        A_Gross, A_Net = Load_Calibration( "Agriculture_Calibration.csv", "Gross_Food", "Net_Food")
-        diff = int( A_Time[0] - self.Time[0])
-        for i in range( len( self.Time)):
-            t = self.Time[i]
-            if t < t0: continue
-            if t > t1: break
-            j = i-diff
-            if j < 0: continue
-            if j >= len( A_Time): break
-            self.Land[i] = A_Land[j]
-            self.Food[i] = A_Net[j]
-            self.Yield[i] = A_Net[j] / A_Land[j]
+        self.Coal = self._Shift_To_Actual( self.Coal, "Energy_Calibration.csv", "Year", "Coal", t0, t1)
+        self.Oil = self._Shift_To_Actual( self.Oil, "Energy_Calibration.csv", "Year", "Oil", t0, t1)
+        self.Gas = self._Shift_To_Actual( self.Gas, "Energy_Calibration.csv", "Year", "Gas", t0, t1)
+        self.Nuclear = self._Shift_To_Actual( self.Nuclear, "Energy_Calibration.csv", "Year", "Nuclear", t0, t1)
+        self.Renewable = self._Shift_To_Actual( self.Renewable, "Energy_Calibration.csv", "Year", "Renewable", t0, t1)
+        self.Energy = self._Shift_To_Actual( self.Energy, "Energy_Calibration.csv", "Year", "Total", t0, t1)
+        self.Energy_PC = self.Energy / self.Population
+
+        self.Land = self._Shift_To_Actual( self.Land, "Agriculture_Calibration.csv", "Year", "Cereal_Land", t0, t1)
+        self.Food = self._Shift_To_Actual( self.Food, "Agriculture_Calibration.csv", "Year", "Net_Food", t0, t1)
+        self.Yield = self.Food / self.Land
+        self.Food_PC = self.Food / self.Population
+
+        self.GDP = self._Shift_To_Actual( self.GDP, "./Data/GDP_World_Bank.csv", "Year", "GDP_IA", t0, t1)
+        self.GDP_PC = self.GDP / self.Population * 1000000 / 365
         return
