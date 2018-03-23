@@ -1,10 +1,11 @@
 from Population import *
 
-BP_Year, BP_2008P = Load_Calibration( "03_BP_Oil_Density.csv", "Year", "2008")
-BP_2009P, BP_2010P = Load_Calibration( "03_BP_Oil_Density.csv", "2009", "2010")
-BP_2011P, BP_2012P = Load_Calibration( "03_BP_Oil_Density.csv", "2011", "2012")
-BP_2014P, BP_2015P = Load_Calibration( "03_BP_Oil_Density.csv", "2014", "2015")
-BP_2016P, BP_2017P = Load_Calibration( "03_BP_Oil_Density.csv", "2016", "2017")
+datafile1 = "./Data/03_BP_Oil_Density.csv"
+BP_Year, BP_2008P = Load_Calibration( datafile1, "Year", "2008")
+BP_2009P, BP_2010P = Load_Calibration( datafile1, "2009", "2010")
+BP_2011P, BP_2012P = Load_Calibration( datafile1, "2011", "2012")
+BP_2014P, BP_2015P = Load_Calibration( datafile1, "2014", "2015")
+BP_2016P, BP_2017P = Load_Calibration( datafile1, "2016", "2017")
 
 P2 = Hubbert( 2022, .15, .1, 3.0).GetVector( BP_Year)
 P2 += Hubbert( 1980, 1.2, 1.2, 0.1).GetVector( BP_Year)
@@ -15,7 +16,6 @@ P2 += Hubbert( 2004, 1, 1, 0.25).GetVector( BP_Year)
 P2 += Hubbert( 2007, 1, 1, 0.10).GetVector( BP_Year)
 P2 *= 365 * 0.159
 
-Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,10))
 fig.suptitle( 'Средняя плотность нефти и жидкостей по отчётам "ВР" 2008-2017 гг', fontsize=22)
 gs = plt.GridSpec(2, 1, height_ratios=[3, 1]) 
@@ -31,10 +31,9 @@ ax1.plot( BP_Year[:-3], BP_2014P[:-3], "-", lw=2, color='r')
 ax1.plot( BP_Year[:-2], BP_2015P[:-2], "-", lw=2, color='g')
 ax1.plot( BP_Year[:-1], BP_2016P[:-1], "-", lw=2, color='b')
 ax1.plot( BP_Year, BP_2017P, "-", lw=3, color='k', label="Отчёт 2017 г")
-ax1.plot( [1965, 2020], [0.827,0.827], "--", lw=1, color='k', label="WTI 0.827 г/см3")
-ax1.plot( [1965, 2020], [0.835,0.835], "--", lw=1, color='m', label="Brent 0.835 г/см3")
-ax1.plot( [1965, 2020], [0.780,0.780], "--", lw=1, color='r', label="Конденсат API 0.780 г/см3")
-
+ax1.plot( [1965, 2020], [0.827,0.827], "--", lw=1, color='k', label="WTI 0.827 г/см³")
+ax1.plot( [1965, 2020], [0.835,0.835], "--", lw=1, color='m', label="Brent 0.835 г/см³")
+ax1.plot( [1965, 2020], [0.780,0.780], "--", lw=1, color='r', label="Конденсат API 0.780 г/см³")
 ax1.set_xlim( 1965, 2020)
 ax1.set_ylabel("Средняя плотность добытой нефти")
 ax1.set_ylim( 0.77, 0.87)
@@ -44,9 +43,9 @@ ax1.legend(loc=4)
 
 ax2.plot( BP_Year, P2, "-", lw=2, color='k')
 ax2.set_xlim( 1965, 2020)
-#ax2.set_ylim( 0, 102)
+ax2.set_ylim( 0, 150)
 ax2.set_xlabel("Годы")
-ax2.set_ylabel("млн м3")
+ax2.set_ylabel("млн м³")
 ax2.grid(True)
 ax2.set_title( "Добыча битума в Канаде")
 

@@ -1,10 +1,11 @@
 from Population import *
 
-BP_Year, BP_2008P = Load_Calibration( "01_BP_Oil_Liquids.csv", "Year", "2008")
-BP_2009P, BP_2010P = Load_Calibration( "01_BP_Oil_Liquids.csv", "2009", "2010")
-BP_2011P, BP_2012P = Load_Calibration( "01_BP_Oil_Liquids.csv", "2011", "2012")
-BP_2014P, BP_2015P = Load_Calibration( "01_BP_Oil_Liquids.csv", "2014", "2015")
-BP_2016P, BP_2017P = Load_Calibration( "01_BP_Oil_Liquids.csv", "2016", "2017")
+datafile1 = "./Data/01_BP_Oil_Liquids.csv"
+BP_Year, BP_2008P = Load_Calibration( datafile1, "Year", "2008")
+BP_2009P, BP_2010P = Load_Calibration( datafile1, "2009", "2010")
+BP_2011P, BP_2012P = Load_Calibration( datafile1, "2011", "2012")
+BP_2014P, BP_2015P = Load_Calibration( datafile1, "2014", "2015")
+BP_2016P, BP_2017P = Load_Calibration( datafile1, "2016", "2017")
 
 diff_2008 = BP_2008P[:-9] * 100 / BP_2017P[:-9] 
 diff_2009 = BP_2009P[:-8] * 100 / BP_2017P[:-8] 
@@ -15,7 +16,6 @@ diff_2014 = BP_2014P[:-3] * 100 / BP_2017P[:-3]
 diff_2015 = BP_2015P[:-2] * 100 / BP_2017P[:-2] 
 diff_2016 = BP_2016P[:-1] * 100 / BP_2017P[:-1] 
 
-Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,10))
 fig.suptitle( 'Мировая добыча нефти и жидкостей по отчётам "ВР" 2008-2017 гг', fontsize=22)
 gs = plt.GridSpec(2, 1, height_ratios=[3, 1]) 
