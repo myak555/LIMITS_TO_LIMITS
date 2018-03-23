@@ -58,7 +58,7 @@ for i in range( len( wt)):
     if i > 70: wt[i] += 5
 f = Field( wt, T, 865, 0.10, 800, 0.08, t)
 
-WB = Weibull( x0=1970, total=1200/12, s=0.022, k=1.5)
+WB = Weibull( x0=1970, peak=1200/12, b=0.022, k=1.5)
 WB_Data = WB.GetVector( T)
 WB_URR = np.sum( WB_Data)
 WB_Cumulative = np.array( WB_Data)
@@ -74,10 +74,9 @@ Remaining = Creaming - f.Cumulative/12e6*365.25
 NWells1 = np.linspace( 1,300,301)
 Creaming_Approx = 5 + 280*np.log(NWells1)
 
-Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,10))
 plt.plot( NWells1, Creaming_Approx, "--", color="b", lw=2, label="Аппроксимация -- запасы растут бесконечно")
-plt.errorbar( NWells, URR_Proven, fmt='o', color="b", label="SEC начальные подтверждённые [млн баррелей]")
+plt.errorbar( NWells, URR_Proven, fmt='o', color="b", label="SEC начальные извлекаемые [млн баррелей]")
 plt.xlabel("Количество пробуренных скважин (включая разведочные)")
 plt.xlim( 0, 300)
 plt.ylabel("миллионов баррелей")
@@ -85,5 +84,6 @@ plt.ylim( 0, 2000)
 plt.title( "Месторождение Весёлое - кривая снятия сливок")
 plt.grid(True)
 plt.legend(loc=0)
+plt.annotate("Здесь две точки - из отчётов 2030 и 2040 годов!", xy=(85,1250), xytext=(115,885), arrowprops=dict(facecolor='black', shrink=0.05))
 plt.savefig( ".\\Graphs\\figure_08_08.png")
 fig.show()

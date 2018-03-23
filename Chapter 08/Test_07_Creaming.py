@@ -58,7 +58,7 @@ for i in range( len( wt)):
     if i > 70: wt[i] += 5
 f = Field( wt, T, 865, 0.10, 800, 0.08, t)
 
-WB = Weibull( x0=1970, total=1200/12, s=0.022, k=1.5)
+WB = Weibull( x0=1970, peak=1200/12, b=0.022, k=1.5)
 WB_Data = WB.GetVector( T)
 WB_URR = np.sum( WB_Data)
 WB_Cumulative = np.array( WB_Data)
@@ -72,13 +72,12 @@ NWells =     [   1,    6,   51,   53,   60,   70,   80,   85,   85]
 Creaming = Sigmoid( 1965, 0.1, -1250, 1250).GetVector( T)
 Remaining = Creaming - f.Cumulative/12e6*365.25
 
-Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,10))
 plt.plot( T, f.Cumulative/12e6*365.25, "-", color="g", lw=3, label="Накопленная добыча (реальная), URR={:7.1f} млн баррелей".format( f.URR))
 plt.plot( T, WB_Cumulative, "--", color="g", lw=2, label="Накопленная добыча (Вейбулл), URR={:7.1f} млн баррелей".format( WB_URR))
 plt.plot( T, Creaming, "--", color="b", lw=1, label="Аппроксимация подтверждённых запасов")
 plt.plot( T, Remaining, "-", color="r", lw=2, label="Остаточные запасы")
-plt.errorbar( T_Report, URR_Proven, fmt='o', color="b", label="SEC начальные подтверждённые [млн баррелей]")
+plt.errorbar( T_Report, URR_Proven, fmt='o', color="b", label="SEC начальные извлекаемые [млн баррелей]")
 plt.xlabel("Годы")
 plt.xlim( 1960, 2100)
 plt.ylabel("миллионов баррелей")

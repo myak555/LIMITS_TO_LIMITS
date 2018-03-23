@@ -66,8 +66,8 @@ class Resource_Weibull:
         self.Solution_Q *= norm
         return self.Solution_Q
 
-T_Cal, Coal_Cal = Load_Calibration( "Resources_Calibration.csv", "Year", "Coal")
-Oil_Cal, Gas_Cal = Load_Calibration( "Resources_Calibration.csv", "Oil", "Gas")
+T_Cal, Coal_Cal = Load_Calibration( "Energy_Calibration.csv", "Year", "Coal")
+Oil_Cal, Gas_Cal = Load_Calibration( "Energy_Calibration.csv", "Oil", "Gas")
 Oil_Cal += Coal_Cal
 Gas_Cal += Oil_Cal
 
@@ -82,10 +82,7 @@ Q2_Data = Q2.Solve( T)
 Q3 = Resource_Weibull()
 Q3_Data = Q3.Solve( T)
 
-Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,10))
-#ax = plt.subplot()
-#ax.set_yscale("log", nonposx='clip')
 plt.plot( T, Q0_Data, "-", lw=1, color="r", label="Симметричная кривая Хабберта URR=1.20")
 plt.plot( T, Q3_Data, "-", lw=1, color="g", label="Kривая Вейбулла URR=1.20")
 plt.plot( T, Q1_Data, "-", lw=1, color="b", label="Kривая Гаусса URR=1.20")
@@ -93,11 +90,10 @@ plt.plot( T, Q2_Data, "--", lw=1, color="b", label="Kривая Капицы URR
 plt.errorbar( T_Cal, Coal_Cal, yerr=Coal_Cal*0.01, fmt='.', color="black", label="Кам. уголь (включая торф)")
 plt.errorbar( T_Cal, Oil_Cal, yerr=Oil_Cal*0.01, fmt='.', color="g", label="+ Нефть (включая битум и жидкости)")
 plt.errorbar( T_Cal, Gas_Cal, yerr=Gas_Cal*0.01, fmt='.', color="r", label="+ Природный газ")
-#plt.errorbar( P0.Calibration_Year, P0.Calibration_Total, yerr=P0.Calibration_Delta, fmt='o', color="b", label="Население (статистика ООН)")
 plt.xlabel("Годы")
 plt.xlim( 1800, 2100)
-plt.ylabel("Добыча [миллионов ТУТ в год]")
-#plt.ylim( 0, 20000)
+plt.ylabel("Добыча [миллионов toe в год]")
+plt.ylim( 0, 13000)
 plt.title( 'Аппроксимация мировой добычи углеводородного топлива')
 plt.grid(True)
 plt.legend(loc=0)

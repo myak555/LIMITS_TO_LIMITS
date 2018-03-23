@@ -40,7 +40,6 @@ for w in wells:
     Total_URR += w.URR
 print( Total_Production[719-120])
 
-Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,10))
 for i in range( len(wells)):
     w = wells[i]

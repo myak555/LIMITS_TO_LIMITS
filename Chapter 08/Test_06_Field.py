@@ -49,12 +49,11 @@ wt = np.ones( 50) * 1970
 for i in range( len( wt)): wt[i] += i * 0.1
 f = Field( wt, T, 800, 0.10, 800, 0.08, t)
 
-WB = Weibull( x0=1970, s=0.033, k=1.7, total=680/12)
+WB = Weibull( x0=1970, b=0.033, k=1.7, peak=680/12)
 WB_Data = WB.GetVector( T)
 WB_URR = np.sum( WB_Data)
 WB_Data *= 12e6/365.25
 
-Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,10))
 plt.plot( T, f.Production, "-", color="g", lw=3, label="Всего с месторождения, URR={:7.1f} млн баррелей".format( f.URR))
 plt.plot( T, WB_Data, "--", color="g", lw=2, label="Аппроксимация Вейбулла, URR={:7.1f} млн баррелей".format( WB_URR))

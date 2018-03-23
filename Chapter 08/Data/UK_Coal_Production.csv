@@ -3,7 +3,7 @@
 #
 # https://www.gov.uk/government/statistical-data-sets/historical-coal-data-coal-production-availability-and-consumption-1853-to-2011
 #
-Year,Total,Delta
+Year,Total,Yerr
 1830,30.0,3.0
 1831,30.0,3.0
 1832,30.0,3.0
@@ -190,3 +190,5 @@ Year,Total,Delta
 2013,12.8,0.1
 2014,11.6,0.1
 2015,8.6,0.1
+2016,2.0,0.1
+2017,0.0,0.0

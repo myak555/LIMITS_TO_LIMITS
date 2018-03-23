@@ -48,7 +48,6 @@ t = np.array( [0,10,18,36,80])
 wt = np.array( [1970.0, 1970.2, 1970.4, 1970.6, 1970.8])
 f = Field( wt, T, 800, 0.10, 600, 0.06, t)
 
-Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,10))
 for i in range( len(f.Wells)):
     w = f.Wells[i]

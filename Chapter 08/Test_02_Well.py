@@ -35,7 +35,6 @@ Total_Production = w1.Production + w2.Production + w3.Production
 Total_URR = w1.URR + w2.URR + w3.URR
 print( Total_Production[719-120])
 
-Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,10))
 plt.plot( T, w1.Production, "-", color="b", lw=1, label="Скважина 01, URR={:5.1f} тыс баррелей".format( w1.URR))
 plt.plot( T, w2.Production, "--", color="b", lw=1, label="Скважина 02, URR={:5.1f} тыс баррелей".format( w2.URR))
