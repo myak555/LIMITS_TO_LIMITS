@@ -33,7 +33,6 @@ w2 = Well( T, 22, 0.24, 17, 0.10, [1961,1963,1966,1975,2010])
 w3 = Well( T, 20, 0.24, 16, 0.10, [1962,1963,1967,1976,2010])
 Total_Production = w1.Production + w2.Production + w3.Production 
 Total_URR = w1.URR + w2.URR + w3.URR
-print( Total_Production[719-120])
 
 fig = plt.figure( figsize=(15,10))
 plt.plot( T, w1.Production, "-", color="b", lw=1, label="Скважина 01, URR={:5.1f} тыс баррелей".format( w1.URR))

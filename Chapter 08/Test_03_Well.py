@@ -38,7 +38,6 @@ Total_URR = 0
 for w in wells:
     Total_Production += w.Production 
     Total_URR += w.URR
-print( Total_Production[719-120])
 
 fig = plt.figure( figsize=(15,10))
 for i in range( len(wells)):
