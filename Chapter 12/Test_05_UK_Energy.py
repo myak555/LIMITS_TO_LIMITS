@@ -214,15 +214,15 @@ class Renewable_UK_Cons:
         self.URR = np.sum( self.Total) 
         return self.Total
 
-T0, Pop = Load_Calibration( "UK_Population_and_Energy.csv", "Year", "population")
+T0, Pop = Load_Calibration( "./Data/UK_Population_and_Energy.csv", "Year", "population")
 P1 = Population_UK()
 P1.Solve( np.linspace( 1800, 2100, 301))
 
-C_Coal, C_Oil = Load_Calibration( "UK_Population_and_Energy.csv", "coal_cons", "oil_cons")
-C_Gas, P_Coal = Load_Calibration( "UK_Population_and_Energy.csv", "gas_cons", "coal_prod")
-P_Oil, P_Gas = Load_Calibration( "UK_Population_and_Energy.csv", "oil_prod", "gas_prod")
-C_Nuc, C_Hyd = Load_Calibration( "UK_Population_and_Energy.csv", "nuclear", "hydro")
-C_Ren, C_Tot = Load_Calibration( "UK_Population_and_Energy.csv", "other_renew", "other_renew")
+C_Coal, C_Oil = Load_Calibration( "./Data/UK_Population_and_Energy.csv", "coal_cons", "oil_cons")
+C_Gas, P_Coal = Load_Calibration( "./Data/UK_Population_and_Energy.csv", "gas_cons", "coal_prod")
+P_Oil, P_Gas = Load_Calibration( "./Data/UK_Population_and_Energy.csv", "oil_prod", "gas_prod")
+C_Nuc, C_Hyd = Load_Calibration( "./Data/UK_Population_and_Energy.csv", "nuclear", "hydro")
+C_Ren, C_Tot = Load_Calibration( "./Data/UK_Population_and_Energy.csv", "other_renew", "other_renew")
 
 C0 = Coal_UK_Cons()
 C0.Solve( np.linspace( 1800, 2100, 301))
@@ -247,7 +247,6 @@ Consumption_Carbon = C0.Total + C1.Total + C2.Total
 Consumption_Renewable = Consumption_Carbon + C3.Total + C4.Total + C5.Total
 Export_Carbon = C6.Total + C7.Total + C8.Total - Consumption_Carbon 
 
-Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,10))
 plt.plot( C0.Time, Consumption_Carbon, "-", lw=2, color="k", label="Потребление ископаемых углеводородов")
 plt.plot( C0.Time, Consumption_Renewable, "-", lw=3, color="b", label="Потребление ВСЕГО (возобновляемые и ядерная энергия)")

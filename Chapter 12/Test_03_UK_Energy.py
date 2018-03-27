@@ -158,13 +158,13 @@ class Gas_UK_Cons:
         return self.Total
 
 
-T0, Pop = Load_Calibration( "UK_Population_and_Energy.csv", "Year", "population")
+T0, Pop = Load_Calibration( "./Data/UK_Population_and_Energy.csv", "Year", "population")
 P1 = Population_UK()
 P1.Solve( np.linspace( 1800, 2100, 301))
 
-C_Coal, C_Oil = Load_Calibration( "UK_Population_and_Energy.csv", "coal_cons", "oil_cons")
-C_Gas, P_Coal = Load_Calibration( "UK_Population_and_Energy.csv", "gas_cons", "coal_prod")
-P_Oil, P_Gas = Load_Calibration( "UK_Population_and_Energy.csv", "oil_prod", "gas_prod")
+C_Coal, C_Oil = Load_Calibration( "./Data/UK_Population_and_Energy.csv", "coal_cons", "oil_cons")
+C_Gas, P_Coal = Load_Calibration( "./Data/UK_Population_and_Energy.csv", "gas_cons", "coal_prod")
+P_Oil, P_Gas = Load_Calibration( "./Data/UK_Population_and_Energy.csv", "oil_prod", "gas_prod")
 
 C0 = Coal_UK_Cons()
 C0.Solve( np.linspace( 1800, 2100, 301))
@@ -176,7 +176,6 @@ C2 = Gas_UK_Cons()
 C2.Solve( np.linspace( 1800, 2100, 301))
 #C2.Solve( np.linspace( 2015, 2100, 86))
 
-Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,10))
 #plt.plot( P1.Time, P1.Total, "-", lw=2, color="g", label="Феноменологическая модель")
 plt.plot( C0.Time, C0.Total, "-", lw=2, color="k", label="Потребление угля (модель)")

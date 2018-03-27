@@ -87,13 +87,13 @@ class Gas_UK:
         self.URR = np.sum( self.Total) 
         return self.Total
 
-T0, Pop = Load_Calibration( "UK_Population_and_Energy.csv", "Year", "population")
+T0, Pop = Load_Calibration( "./Data/UK_Population_and_Energy.csv", "Year", "population")
 P1 = Population_UK()
 P1.Solve( np.linspace( 1800, 2100, 301))
 
-C_Coal, C_Oil = Load_Calibration( "UK_Population_and_Energy.csv", "coal_cons", "oil_cons")
-C_Gas, P_Coal = Load_Calibration( "UK_Population_and_Energy.csv", "gas_cons", "coal_prod")
-P_Oil, P_Gas = Load_Calibration( "UK_Population_and_Energy.csv", "oil_prod", "gas_prod")
+C_Coal, C_Oil = Load_Calibration( "./Data/UK_Population_and_Energy.csv", "coal_cons", "oil_cons")
+C_Gas, P_Coal = Load_Calibration( "./Data/UK_Population_and_Energy.csv", "gas_cons", "coal_prod")
+P_Oil, P_Gas = Load_Calibration( "./Data/UK_Population_and_Energy.csv", "oil_prod", "gas_prod")
 
 C0 = Coal_UK()
 C0.Solve( np.linspace( 1800, 2100, 301))
@@ -109,7 +109,6 @@ print( "Coal: {:.1f} {:.1f}".format(C0.URR/1000, np.sum(C0.Total[:-83])/1000) )
 print( "Oil: {:.1f} {:.1f}".format(C1.URR/1000, np.sum(C1.Total[:-83])/1000) )
 print( "Gas: {:.1f} {:.1f}".format(C2.URR/1000, np.sum(C2.Total[:-83])/1000) )
 
-Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,10))
 #plt.plot( P1.Time, P1.Total, "-", lw=2, color="g", label="Феноменологическая модель")
 plt.plot( C0.Time, C0.Total, "-", lw=2, color="k", label="Добыча угля URR={:4.2f} млрд toe".format( C0.URR/1000))

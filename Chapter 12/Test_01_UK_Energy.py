@@ -22,11 +22,10 @@ class Population_UK:
             self.Total += self.Functions[i].GetVector( t)
         return self.Total
 
-T0, Pop = Load_Calibration( "UK_Population_and_Energy.csv", "Year", "population")
+T0, Pop = Load_Calibration( "./Data/UK_Population_and_Energy.csv", "Year", "population")
 P1 = Population_UK()
 P1.Solve( np.linspace( 1800, 2100, 301))
 
-Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,10))
 plt.plot( P1.Time, P1.Total, "-", lw=2, color="g", label="Феноменологическая модель")
 plt.errorbar( T0, Pop, yerr=0.5, fmt='.', color="b", label="Население (статистика)")
