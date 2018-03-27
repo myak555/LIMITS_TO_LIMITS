@@ -32,8 +32,6 @@ btm += BP_Renewable
 
 d0 = int( BP_Year[0] - Pop_Year[0])
 d1 = int( BP_Year[len(BP_Year)-1] - Pop_Year[len(Pop_Year)-1])
-print( d0, d1)
-
 pop = np.array( Population[d0:d1])
 tonn_per_year = btm / pop
 tonn_per_second = tonn_per_year / 365 / 24 /3600
