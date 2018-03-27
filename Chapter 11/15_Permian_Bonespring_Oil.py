@@ -1,14 +1,14 @@
 from Utilities import *
 
 name = "Пермское / Боун-Спринг"
-data_name = "15_Permian_BoneSpring_Oil.csv"
+data_name = "./Data/US15_Permian_BoneSpring_Oil.csv"
 metric = True
 
 Year,AEO2014 = Load_Calibration( data_name, "Year", "AEO2014") 
 AEO2015,AEO2016 = Load_Calibration( data_name, "AEO2015", "AEO2016") 
 Hughes2014,Actual = Load_Calibration( data_name, "Hughes2014", "Actual") 
 WP, WA = Load_Calibration( data_name, "Wells_Plan", "Wells_Actual")
-YC,PC = Load_Calibration( "22_US_Tight_Oil_EIA.csv", "Year", "Bonespring")
+YC,PC = Load_Calibration( "./Data/US22_US_Tight_Oil_EIA.csv", "Year", "Bonespring")
 
 if metric:
     b2t = 0.159 * 0.827 
@@ -22,7 +22,6 @@ if metric:
 else:
     PC /= 365
 
-Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,10))
 fig.suptitle( "Добыча нефти и конденсата на месторождении " + name, fontsize=22)
 gs = plt.GridSpec(2, 1, height_ratios=[2, 1]) 

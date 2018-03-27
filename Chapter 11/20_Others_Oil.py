@@ -1,17 +1,17 @@
 from Utilities import *
 
 name = "Остальные"
-data_name = "20_Others_Oil.csv"
+data_name = "./Data/US20_Others_Oil.csv"
 metric = True
 
 Year,AEO2014 = Load_Calibration( data_name, "Year", "AEO2014") 
 AEO2015,AEO2016 = Load_Calibration( data_name, "AEO2015", "AEO2016") 
 Hughes2014,Actual = Load_Calibration( data_name, "Hughes2014", "Actual") 
 WP, WA = Load_Calibration( data_name, "Wells_Plan", "Wells_Actual")
-YC,PC1 = Load_Calibration( "22_US_Tight_Oil_EIA.csv", "Year", "Monterey")
-PC2,PC3 = Load_Calibration( "22_US_Tight_Oil_EIA.csv", "Granite_Wash", "Marcellus")
-PC4,PC5 = Load_Calibration( "22_US_Tight_Oil_EIA.csv", "Haynesville", "Yeso_Glorieta")
-PC6,PC7 = Load_Calibration( "22_US_Tight_Oil_EIA.csv", "Delaware", "Utica")
+YC,PC1 = Load_Calibration( "./Data/US22_US_Tight_Oil_EIA.csv", "Year", "Monterey")
+PC2,PC3 = Load_Calibration( "./Data/US22_US_Tight_Oil_EIA.csv", "Granite_Wash", "Marcellus")
+PC4,PC5 = Load_Calibration( "./Data/US22_US_Tight_Oil_EIA.csv", "Haynesville", "Yeso_Glorieta")
+PC6,PC7 = Load_Calibration( "./Data/US22_US_Tight_Oil_EIA.csv", "Delaware", "Utica")
 
 PC = PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7
 
@@ -27,7 +27,6 @@ if metric:
 else:
     PC /= 365
 
-Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,10))
 fig.suptitle( "Добыча нефти и конденсата на остальных и ещё не открытых месторождениях", fontsize=22)
 gs = plt.GridSpec(2, 1, height_ratios=[2, 1]) 

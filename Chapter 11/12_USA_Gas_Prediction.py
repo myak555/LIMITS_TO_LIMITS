@@ -25,15 +25,15 @@ sum_HP = np.zeros( len( Year))
 sum_HA = np.zeros( len( Year))
 sum_WP = np.ones( len( Year)) * 20000
 sum_WA = np.ones( len( Year)) * 20000
-f1_Barnett = GetFile( "01_Barnett_Gas.csv", sum_EIA, sum_HP, sum_HA, sum_WP, sum_WA)
-f2_Marcellus = GetFile( "02_Marcellus_Gas.csv", sum_EIA, sum_HP, sum_HA, sum_WP, sum_WA)
-f3_Haynesville = GetFile( "03_Haynesville_Gas.csv", sum_EIA, sum_HP, sum_HA, sum_WP, sum_WA)
-f4_EagleFord = GetFile( "04_EagleFord_Gas.csv", sum_EIA, sum_HP, sum_HA, sum_WP, sum_WA)
-f5_Fayetteville = GetFile( "05_Fayetteville_Gas.csv", sum_EIA, sum_HP, sum_HA, sum_WP, sum_WA)
-f6_Woodford = GetFile( "06_Woodford_Gas.csv", sum_EIA, sum_HP, sum_HA, sum_WP, sum_WA)
-f7_Bakken = GetFile( "07_Bakken_Gas.csv", sum_EIA, sum_HP, sum_HA, sum_WP, sum_WA)
-f8_Haynesville = GetFile( "08_Utica_Gas.csv", sum_EIA, sum_HP, sum_HA, sum_WP, sum_WA, proj_name="Yakimov2017")
-f9_Others = GetFile( "09_Others_Gas.csv", sum_EIA, sum_HP, sum_HA, sum_WP, sum_WA)
+f1_Barnett = GetFile( "./Data/US01_Barnett_Gas.csv", sum_EIA, sum_HP, sum_HA, sum_WP, sum_WA)
+f2_Marcellus = GetFile( "./Data/US02_Marcellus_Gas.csv", sum_EIA, sum_HP, sum_HA, sum_WP, sum_WA)
+f3_Haynesville = GetFile( "./Data/US03_Haynesville_Gas.csv", sum_EIA, sum_HP, sum_HA, sum_WP, sum_WA)
+f4_EagleFord = GetFile( "./Data/US04_EagleFord_Gas.csv", sum_EIA, sum_HP, sum_HA, sum_WP, sum_WA)
+f5_Fayetteville = GetFile( "./Data/US05_Fayetteville_Gas.csv", sum_EIA, sum_HP, sum_HA, sum_WP, sum_WA)
+f6_Woodford = GetFile( "./Data/US06_Woodford_Gas.csv", sum_EIA, sum_HP, sum_HA, sum_WP, sum_WA)
+f7_Bakken = GetFile( "./Data/US07_Bakken_Gas.csv", sum_EIA, sum_HP, sum_HA, sum_WP, sum_WA)
+f8_Haynesville = GetFile( "./Data/US08_Utica_Gas.csv", sum_EIA, sum_HP, sum_HA, sum_WP, sum_WA, proj_name="Yakimov2017")
+f9_Others = GetFile( "./Data/US09_Others_Gas.csv", sum_EIA, sum_HP, sum_HA, sum_WP, sum_WA)
 for i in range( 6):
     sum_HP[i] += 19.6
     sum_HA[i] += 19.6
@@ -45,12 +45,12 @@ Prediction_TG_EIA = Hubbert( 2042, .07, .107, 820).GetVector( Prediction_T)
 Prediction_Total_Huges = Prediction_Conventional/1.1 + Prediction_TG_Huges 
 Prediction_Total_EIA = Prediction_Conventional/1.1 + Prediction_TG_EIA
 
-EIA_Year, EIA_Withdrawals = Load_Calibration( "11_US_Gas_EIA.csv", "year", "gross")
-EIA_Repress, EIA_VnF = Load_Calibration( "11_US_Gas_EIA.csv", "repress", "vnf")
-EIA_GW, EIA_OW = Load_Calibration( "11_US_Gas_EIA.csv", "gas_wells", "oil_wells")
-EIA_TG, EIA_CBM = Load_Calibration( "11_US_Gas_EIA.csv", "TG_wells", "CBM_wells")
-EIA_Repress, EIA_VnF = Load_Calibration( "11_US_Gas_EIA.csv", "repress", "vnf")
-EIA_dry, EIA_Marketed = Load_Calibration( "11_US_Gas_EIA.csv", "dry", "marketed")
+EIA_Year, EIA_Withdrawals = Load_Calibration( "./Data/US11_US_Gas_EIA.csv", "year", "gross")
+EIA_Repress, EIA_VnF = Load_Calibration( "./Data/US11_US_Gas_EIA.csv", "repress", "vnf")
+EIA_GW, EIA_OW = Load_Calibration( "./Data/US11_US_Gas_EIA.csv", "gas_wells", "oil_wells")
+EIA_TG, EIA_CBM = Load_Calibration( "./Data/US11_US_Gas_EIA.csv", "TG_wells", "CBM_wells")
+EIA_Repress, EIA_VnF = Load_Calibration( "./Data/US11_US_Gas_EIA.csv", "repress", "vnf")
+EIA_dry, EIA_Marketed = Load_Calibration( "./Data/US11_US_Gas_EIA.csv", "dry", "marketed")
 mfty2bmy = 0.3048**3/1000
 EIA_Withdrawals *= mfty2bmy
 EIA_Repress *= mfty2bmy
@@ -75,7 +75,6 @@ for i in range( 36):
     EIA_Extracted[i] = EIA_Marketed[i] * 1.1
     EIA_Withdrawals[i] = EIA_Marketed[i] * 1.1 
     
-Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,10))
 fig.suptitle( 'Добыча природного газа в США', fontsize=22)
 gs = plt.GridSpec(2, 1, height_ratios=[2, 1]) 

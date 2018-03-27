@@ -1,14 +1,14 @@
 from Utilities import *
 
 name = "Баккен"
-data_name = "07_Bakken_Gas.csv"
+data_name = "./Data/US07_Bakken_Gas.csv"
 metric = True
 
 Year,AEO2014 = Load_Calibration( data_name, "Year", "AEO2014") 
 AEO2015,AEO2016 = Load_Calibration( data_name, "AEO2015", "AEO2016") 
 Hughes2014,Actual = Load_Calibration( data_name, "Hughes2014", "Actual") 
 WP, WA = Load_Calibration( data_name, "Wells_Plan", "Wells_Actual")
-YC,PC = Load_Calibration( "12_US_Tight_Gas_EIA.csv", "Year", "Bakken")
+YC,PC = Load_Calibration( "./Data/US12_US_Tight_Gas_EIA.csv", "Year", "Bakken")
 
 if metric:
     ft2m = 0.3048**3
@@ -23,7 +23,6 @@ if metric:
     Hughes2014 *= 365   
     Actual *= 365   
 
-Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,10))
 fig.suptitle( "Добыча газа на месторождении " + name, fontsize=22)
 gs = plt.GridSpec(2, 1, height_ratios=[2, 1]) 

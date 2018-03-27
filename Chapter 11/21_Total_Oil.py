@@ -1,11 +1,11 @@
 from Utilities import *
 
 def GetOthers( ):
-    Year,AEO2016 = Load_Calibration( "20_Others_Oil.csv", "Year", "AEO2016") 
-    YC,PC1 = Load_Calibration( "22_US_Tight_Oil_EIA.csv", "Year", "Monterey")
-    PC2,PC3 = Load_Calibration( "22_US_Tight_Oil_EIA.csv", "Granite_Wash", "Marcellus")
-    PC4,PC5 = Load_Calibration( "22_US_Tight_Oil_EIA.csv", "Haynesville", "Yeso_Glorieta")
-    PC6,PC7 = Load_Calibration( "22_US_Tight_Oil_EIA.csv", "Delaware", "Utica")
+    Year,AEO2016 = Load_Calibration( "./Data/US20_Others_Oil.csv", "Year", "AEO2016") 
+    YC,PC1 = Load_Calibration( "./Data/US22_US_Tight_Oil_EIA.csv", "Year", "Monterey")
+    PC2,PC3 = Load_Calibration( "./Data/US22_US_Tight_Oil_EIA.csv", "Granite_Wash", "Marcellus")
+    PC4,PC5 = Load_Calibration( "./Data/US22_US_Tight_Oil_EIA.csv", "Haynesville", "Yeso_Glorieta")
+    PC6,PC7 = Load_Calibration( "./Data/US22_US_Tight_Oil_EIA.csv", "Delaware", "Utica")
     PC = PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7
     b2t = 0.159 * 0.827 
     bd2ty = b2t * 365
@@ -16,7 +16,7 @@ def GetOthers( ):
 def GetFile( data_name, field_name, sum_data_EIA, sum_well, sum_actual):
     Y,AEO2016 = Load_Calibration( data_name, "Year", "AEO2016") 
     Actual, Wells = Load_Calibration( data_name, "Actual", "Wells_Actual")
-    YC,PC = Load_Calibration( "22_US_Tight_Oil_EIA.csv", "Year", field_name)
+    YC,PC = Load_Calibration( "./Data/US22_US_Tight_Oil_EIA.csv", "Year", field_name)
     b2t = 0.159 * 0.827 
     bd2ty = b2t * 365
     AEO2016 *= bd2ty 
@@ -27,27 +27,26 @@ Year, sum_EIA, Wells, YC, PC = GetOthers()
 sum_EIA1 = np.array(sum_EIA)
 Wells1 = np.array(Wells)
 PC1 = np.array(PC)
-sum_EIA, Wells, PC = GetFile( "13_Bakken_Oil.csv", "Bakken", sum_EIA, Wells, PC)
-sum_EIA, Wells, PC = GetFile( "14_EagleFord_Oil.csv", "EagleFord", sum_EIA, Wells, PC)
+sum_EIA, Wells, PC = GetFile( "./Data/US13_Bakken_Oil.csv", "Bakken", sum_EIA, Wells, PC)
+sum_EIA, Wells, PC = GetFile( "./Data/US14_EagleFord_Oil.csv", "EagleFord", sum_EIA, Wells, PC)
 sum_EIA2 = np.array(sum_EIA)
 Wells2 = np.array(Wells)
 PC2 = np.array(PC)
-sum_EIA, Wells, PC = GetFile( "15_Permian_BoneSpring_Oil.csv", "Bonespring", sum_EIA, Wells, PC)
-sum_EIA, Wells, PC = GetFile( "16_Permian_Spraberry_Oil.csv", "Spraberry", sum_EIA, Wells, PC)
-sum_EIA, Wells, PC = GetFile( "17_Permian_Wolfcamp_Oil.csv", "Wolfcamp", sum_EIA, Wells, PC)
-sum_EIA, Wells, PC = GetFile( "18_Niobrara_Oil.csv", "Niobrara_Codell", sum_EIA, Wells, PC)
-sum_EIA, Wells, PC = GetFile( "19_Austin_Chalk_Oil.csv", "Austin_Chalk", sum_EIA, Wells, PC)
+sum_EIA, Wells, PC = GetFile( "./Data/US15_Permian_BoneSpring_Oil.csv", "Bonespring", sum_EIA, Wells, PC)
+sum_EIA, Wells, PC = GetFile( "./Data/US16_Permian_Spraberry_Oil.csv", "Spraberry", sum_EIA, Wells, PC)
+sum_EIA, Wells, PC = GetFile( "./Data/US17_Permian_Wolfcamp_Oil.csv", "Wolfcamp", sum_EIA, Wells, PC)
+sum_EIA, Wells, PC = GetFile( "./Data/US18_Niobrara_Oil.csv", "Niobrara_Codell", sum_EIA, Wells, PC)
+sum_EIA, Wells, PC = GetFile( "./Data/US19_Austin_Chalk_Oil.csv", "Austin_Chalk", sum_EIA, Wells, PC)
 sum_EIA3 = np.array(sum_EIA)
 Wells3 = np.array(Wells)
 PC3 = np.array(PC)
 
-YH, PH1 = Load_Calibration( "13_Bakken_Oil.csv", "Year", "Hughes2014")
-YH, PH2 = Load_Calibration( "14_EagleFord_Oil.csv", "Year", "Hughes2014")
+YH, PH1 = Load_Calibration( "./Data/US13_Bakken_Oil.csv", "Year", "Hughes2014")
+YH, PH2 = Load_Calibration( "./Data/US14_EagleFord_Oil.csv", "Year", "Hughes2014")
 PH = (PH1 + PH2) * 0.159 * 0.827 * 365
 
 PC_Estimate = Hubbert( 2016, 0.56, 0.1, 230, 15).GetVector( Year)
 
-Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,10))
 fig.suptitle( 'Прогноз "сланцевой" нефти в США AEO2016', fontsize=22)
 gs = plt.GridSpec(2, 1, height_ratios=[2, 1]) 

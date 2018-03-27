@@ -1,14 +1,14 @@
 from Utilities import *
 
 name = "Остальные и Антрим"
-data_name = "09_Others_Gas.csv"
+data_name = "./Data/US09_Others_Gas.csv"
 metric = True
 
 Year,AEO2014 = Load_Calibration( data_name, "Year", "AEO2014") 
 AEO2015,AEO2016 = Load_Calibration( data_name, "AEO2015", "AEO2016") 
 Hughes2014,Actual = Load_Calibration( data_name, "Hughes2014", "Actual") 
-YC,PC = Load_Calibration( "12_US_Tight_Gas_EIA.csv", "Year", "RestUS")
-PA,PP = Load_Calibration( "12_US_Tight_Gas_EIA.csv", "Antrim", "Permian")
+YC,PC = Load_Calibration( "./Data/US12_US_Tight_Gas_EIA.csv", "Year", "RestUS")
+PA,PP = Load_Calibration( "./Data/US12_US_Tight_Gas_EIA.csv", "Antrim", "Permian")
 PC += PA
 PC += PP
 
@@ -30,7 +30,6 @@ if metric:
     Hughes2014 *= 365   
     Actual *= 365   
 
-Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,10))
 fig.suptitle( 'Добыча газа на месторождении Антрим и "прочих"', fontsize=22)
 gs = plt.GridSpec(2, 1, height_ratios=[2, 1]) 
