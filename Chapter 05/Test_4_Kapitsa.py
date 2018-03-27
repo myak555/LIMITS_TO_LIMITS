@@ -92,7 +92,6 @@ Magic_Year = np.pi/2 - 10e3/176e3*44
 Magic_Year = 2003 - 44 * np.tan( Magic_Year)
 print( Magic_Year)
 
-Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,10))
 plt.plot( T0, P0.UN_Medium.GetVector(T0), "-", lw=2, color="g", label="Средняя оценка ООН, 2010 г")
 plt.plot( T_sf, P_sf, "--", lw=1, color="g", label="Модель Акулий Плавник")
