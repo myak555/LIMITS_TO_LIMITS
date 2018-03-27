@@ -1,12 +1,12 @@
 from Utilities import *
 
-Year,Nwells_P = Load_Calibration( "01_Barnett_Production_Data.csv", "Year", "Nwells_Plan") 
-Nwells_A, UTUR2011 = Load_Calibration( "01_Barnett_Production_Data.csv", "Nwells_Actual", "UTUR2011") 
-AEO2014, AEO2015 = Load_Calibration( "01_Barnett_Production_Data.csv", "AEO2014", "AEO2015")
-AEO2016, Hughes_2014 = Load_Calibration( "01_Barnett_Production_Data.csv", "AEO2016", "Hughes_2014")
-Year,Actual = Load_Calibration( "01_Barnett_Production_Data.csv", "Year", "Actual") 
+datafile = "./Data/US01_Barnett_Production_Data.csv"
+Year,Nwells_P = Load_Calibration( datafile, "Year", "Nwells_Plan") 
+Nwells_A, UTUR2011 = Load_Calibration( datafile, "Nwells_Actual", "UTUR2011") 
+AEO2014, AEO2015 = Load_Calibration( datafile, "AEO2014", "AEO2015")
+AEO2016, Hughes_2014 = Load_Calibration( datafile, "AEO2016", "Hughes_2014")
+Year,Actual = Load_Calibration( datafile, "Year", "Actual") 
 
-Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,10))
 fig.suptitle( 'Предсказания добычи месторождения Барнетт', fontsize=22)
 gs = plt.GridSpec(2, 1, height_ratios=[2, 1]) 

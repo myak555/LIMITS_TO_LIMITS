@@ -20,7 +20,6 @@ for i in range( len(dQ0)): dQ1[i] = dQ0[i]
 
 Production = np.convolve( dWb, dQ1)
 
-Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,10))
 img = imread( cbook.get_sample_data( os.getcwd() + '\\Barnett_Forecast.jpg'))
 plt.imshow(img, zorder=0, extent=[1986.5, 2037.2, -950, 6750],  interpolation='nearest', aspect='auto')

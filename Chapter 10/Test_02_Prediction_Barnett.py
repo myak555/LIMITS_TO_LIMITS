@@ -36,7 +36,6 @@ for i in range( len(dQ0)): dQ1[i] = dQ0[i]
 
 Production = np.convolve( dWb, dQ1)
 
-Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,10))
 img = imread( cbook.get_sample_data( os.getcwd() + '\\Barnett_Forecast.jpg'))
 plt.imshow(img, zorder=0, extent=[1986.5, 2037.2, -950, 6750],  interpolation='nearest', aspect='auto')
@@ -45,19 +44,9 @@ plt.errorbar( T, dQ, yerr=dQ*0.03, fmt='o', color="r", label="Реальная �
 plt.plot( Tp, Price*100, "-", lw=3, color="b", label="Центов за млн BTU")
 plt.plot( [1995,2030], [3890,3890], "--", lw=2, color="r", label="Уровень добычи 2022 г")
 plt.plot( [1995,2030], [400,400], "--", lw=2, color="b", label="400 центов за млн BTU")
-#plt.plot( Ta, dWb*2, "-", lw=2, color="r")
-#plt.plot( T0, dQ0*10000, "-", lw=2, color="g")
-#plt.plot( Ta[1:], Production[0:48], "-", lw=3, color="b")
-
-##plt.plot( T, dQ, "-", lw=2, color="k", label="Данные Железнодорожной Комиссии Техаса")
-##plt.plot( Ta, dWb*2, "-", lw=2, color="r", label="Ввод новых скважин N={:5.0f}".format( np.sum(dWb)))
-##plt.plot( T0, dQ0*10000, "-", lw=2, color="g", label="Спад добычи из одной скважины, {:2.0f}% добычи за 5 лет".format( 100*np.sum(dQ0[0:5])/np.sum(dQ0)))
-##plt.plot( Ta[1:], Production[0:48], "-", lw=3, color="b", label="Предсказание (UT+Rice)")
-#plt.plot( [2013.1, 2013.1], [0,6000], "-", lw=4, color="r")
 
 plt.xlabel("Годы")
 plt.xlim( 1987, 2038)
-#plt.ylabel("миллионов единиц")
 plt.ylim( -1000, 6800)
 plt.title( 'Реальная добыча по данным Железнодорожной комиссии Техаса, 2016 г')
 plt.grid(True)
