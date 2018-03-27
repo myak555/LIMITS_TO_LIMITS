@@ -1,11 +1,10 @@
 from Population import *
 
-BP_Year, BP_2008P = Load_Calibration( "10_BP_Renewable.csv", "Year", "2008")
-BP_2011P, BP_2012P = Load_Calibration( "10_BP_Renewable.csv", "2011", "2012")
-BP_2014P, BP_2015P = Load_Calibration( "10_BP_Renewable.csv", "2014", "2015")
-BP_2016P, BP_2017P = Load_Calibration( "10_BP_Renewable.csv", "2016", "2017")
-
-print(BP_Year, BP_2008P)
+datafile1 = "./Data/10_BP_Renewable.csv"
+BP_Year, BP_2008P = Load_Calibration( datafile1, "Year", "2008")
+BP_2011P, BP_2012P = Load_Calibration( datafile1, "2011", "2012")
+BP_2014P, BP_2015P = Load_Calibration( datafile1, "2014", "2015")
+BP_2016P, BP_2017P = Load_Calibration( datafile1, "2016", "2017")
 
 diff_2011 = BP_2011P * 100 / BP_2017P 
 diff_2012 = BP_2012P * 100 / BP_2017P 
@@ -13,7 +12,6 @@ diff_2014 = BP_2014P * 100 / BP_2017P
 diff_2015 = BP_2015P * 100 / BP_2017P 
 diff_2016 = BP_2016P * 100 / BP_2017P 
 
-Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,10))
 fig.suptitle( 'Мировое производство возобновляемой энергии по отчётам "ВР" 2008-2017 гг', fontsize=22)
 gs = plt.GridSpec(2, 1, height_ratios=[3, 1]) 

@@ -3,7 +3,7 @@ from scipy.misc import imread
 import matplotlib.cbook as cbook
 import os
 
-Year,Production = Load_Calibration( "Samotlor_Production.csv", "Year", "Production")
+Year,Production = Load_Calibration( "./Data/Samotlor_Production.csv", "Year", "Production")
 Intense = Hubbert( 2020, 0.6, 0.4, 60).GetVector( Year)
 for i in range( 48, len(Production)): Production[i] = Intense[i]
 Cumulative = np.array( Production)
@@ -12,7 +12,6 @@ for i in range( 1, len(Cumulative)): Cumulative[i] += Cumulative[i-1]
 for i in range( len(Production)): print( "{:g}\t{:.1f}\t{:.1f}".format(Year[i], Production[i], Cumulative[i]))
 print( np.sum( Production))
 
-Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,15))
 
 gs = plt.GridSpec(2, 1, height_ratios=[2, 1]) 

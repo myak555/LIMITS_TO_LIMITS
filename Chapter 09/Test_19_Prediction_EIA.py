@@ -27,7 +27,6 @@ EIA_OnC = np.array( [62430.3,63818.3,65802.4,67032.8,65967.0,
                      74573.5,74647.2,76060.1,76190.0,78070.0,
                      80454.7,80578.1])
 
-Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,10))
 img = imread( cbook.get_sample_data( os.getcwd() + '\\EIA_Prognosis.png'))
 plt.imshow(img, zorder=0, extent=[1991.2, 2036, 51.9, 125],  interpolation='nearest', aspect='auto')

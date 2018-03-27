@@ -3,7 +3,7 @@ from scipy.misc import imread
 import matplotlib.cbook as cbook
 import os
 
-Year,Production = Load_Calibration( "Samotlor_Production.csv", "Year", "Production")
+Year,Production = Load_Calibration( "./Data/Samotlor_Production.csv", "Year", "Production")
 Intense = Hubbert( 2017, 0.6, 2, 20).GetVector( Year)
 for i in range( 48, len(Production)): Production[i] = Intense[i]
 Cumulative = np.array( Production)
@@ -12,7 +12,6 @@ for i in range( 1, len(Cumulative)): Cumulative[i] += Cumulative[i-1]
 for i in range( len(Production)): print( "{:g}\t{:.1f}\t{:.1f}".format(Year[i], Production[i], Cumulative[i]))
 print( np.sum( Production))
 
-Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,15))
 
 gs = plt.GridSpec(2, 1, height_ratios=[2, 1]) 
@@ -30,7 +29,7 @@ ax1.set_xlabel( "Годы")
 ax1.set_ylabel( "Добыча, млн т")
 ax1.grid(True)
 ax1.legend(loc=2)
-ax1.set_title( 'Прогноз запасов Самотлора, гипотетическое уплотнение сетки')
+ax1.set_title( 'Прогноз запасов Самотлора, гипотетическое прекращение добычи')
 
 ax2.errorbar( Cumulative, 100*Production/Cumulative, fmt='o')
 ax2.plot( [0,3200], [5.5,0], "--", lw=2, color="g", label="Общие запасы, включая ТрИЗ")

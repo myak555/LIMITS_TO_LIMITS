@@ -1,6 +1,8 @@
 import numpy as np
-import matplotlib.pyplot as plt
 from scipy.integrate import odeint
+import matplotlib as mpl
+mpl.use('Qt5Agg')
+import matplotlib.pyplot as plt
 from matplotlib import rc
 
 #
@@ -84,7 +86,11 @@ class Sigmoid( Control_Curve):
     
     # computation
     def Compute( self, x):
-        e = np.exp( -self.S0*(x-self.X0))
+        x -= self.X0
+        x *= -self.S0
+        if x < -500.0: return self.Right + self.Shift
+        if x > 500.0: return self.Left + self.Shift
+        e = np.exp( x)
         y = self.Left + (self.Right-self.Left)/(1.0+e) + self.Shift
         return y
 
@@ -104,7 +110,7 @@ class Sigmoid( Control_Curve):
 #
 class Bathtub( Control_Curve):
     # constructor
-    def __init__( self, x0=-1.0, s0=1.0, x1 = 1.0, s1=1.0, left=0.0, middle=1.0, right=0.0, shift=0.0):
+    def __init__( self, x0=-1.0, s0=1.0, x1 = 1.0, s1=0.5, left=0.0, middle=1.0, right=0.0, shift=0.0):
         self.Name = "Bathtub"
         self.X0 = x0
         self.X1 = x1
@@ -143,7 +149,7 @@ class Bathtub( Control_Curve):
 #
 class Hubbert( Control_Curve):
     # constructor
-    def __init__( self, x0=0.0, s0=1.0, s1=1.0, peak= 1.0, shift=0.0):
+    def __init__( self, x0=0.0, s0=1.0, s1=0.5, peak= 1.0, shift=0.0):
         self.Name = "Hubbert"
         self.X0 = x0
         self.S0 = s0
@@ -156,9 +162,11 @@ class Hubbert( Control_Curve):
     # computation
     def Compute( self, x):
         x -= self.X0
-        if x < 0.0: x *= self.S0
-        else: x *= self.S1
-        e = np.exp( -x)
+        if x < 0.0: x *= -self.S0
+        else: x *= -self.S1
+        if x < -500.0: return self.Shift
+        if x > 500.0: return self.Shift
+        e = np.exp( x)
         y = 4.0 * self.Peak * e / (1+e) / (1+e) + self.Shift
         return y
 
@@ -173,17 +181,17 @@ class Hubbert( Control_Curve):
         return
 
 #
-# Defines a Weibull curve
-# y(x) = s * k * (s * (x-x0))**(k-1) * exp( - s * (x-x0)**k
+# Defines a Gauss curve
+# y(x) = peak * exp( - slope * (x-x0)^2)
 #
-class Weibull( Control_Curve):
+class Gauss( Control_Curve):
     # constructor
-    def __init__( self, x0=0.0, s=1.0, k=2.0, total= 1.0, shift=0.0):
-        self.Name = "Weibull"
+    def __init__( self, x0=0.0, s0=1.0, s1=0.5, peak= 1.0, shift=0.0):
+        self.Name = "Gauss"
         self.X0 = x0
-        self.S = s
-        self.K = k
-        self.Total = total
+        self.S0 = s0
+        self.S1 = s1
+        self.Peak = peak
         self.Shift = shift
         Control_Curve.__compute = self
         return
@@ -191,19 +199,122 @@ class Weibull( Control_Curve):
     # computation
     def Compute( self, x):
         x -= self.X0
-        if x < 0.0: return 0.0
-        x *= self.S
-        xk1 = x ** (self.K-1)
-        e = np.exp( -xk1*x)
-        y = self.Total * self.S * self.K * xk1 * e
-        return y + self.Shift
+        if x < 0.0: s = self.S0
+        else: s = self.S1
+        x *= x
+        x *= -s
+        if x < -500.0: return self.Shift
+        if x > 500.0: return self.Shift
+        e = np.exp(x)
+        y = self.Peak * e + self.Shift
+        return y
 
     # plots data, together with optional external data
     def Plot( self, x1, x2, file_Name = "", coplot_x = -1, coplot_y = -1, no_screen = False):
         sy = "X0={0:.4f}".format( self.X0)
-        sy += " S={0:.4f}".format( self.S)
+        sy += " S0={0:.4f}".format( self.S0)
+        sy += " S1={0:.4f}".format( self.S1)
+        sy += " Peak={0:.4f}".format( self.Peak)
+        sy += " Shift={0:.4f}".format( self.Shift)
+        Control_Curve.Plot( self, x1, x2, sy, "y", file_Name, coplot_x, coplot_y, no_screen)
+        return
+
+#
+# Defines a Karpitsa curve
+# y(x) = peak / (1 + (slope*(x0-x))^2)
+#
+class Kapitsa( Control_Curve):
+    # constructor
+    def __init__( self, x0=0.0, s0=1.0, s1=0.5, peak= 1.0, shift=0.0):
+        self.Name = "Kapitsa"
+        self.X0 = x0
+        self.S0 = s0
+        self.S1 = s1
+        self.Peak = peak
+        self.Shift = shift
+        Control_Curve.__compute = self
+        return
+    
+    # computation
+    def Compute( self, x):
+        x -= self.X0
+        if x < 0.0: s = self.S0
+        else: s = self.S1
+        x *= x * s * s
+        y = self.Peak / (x + 1.0) + self.Shift
+        return y
+
+    # plots data, together with optional external data
+    def Plot( self, x1, x2, file_Name = "", coplot_x = -1, coplot_y = -1, no_screen = False):
+        sy = "X0={0:.4f}".format( self.X0)
+        sy += " S0={0:.4f}".format( self.S0)
+        sy += " S1={0:.4f}".format( self.S1)
+        sy += " Peak={0:.4f}".format( self.Peak)
+        sy += " Shift={0:.4f}".format( self.Shift)
+        Control_Curve.Plot( self, x1, x2, sy, "y", file_Name, coplot_x, coplot_y, no_screen)
+        return
+#
+# Defines a Karpitsa integral curve
+# "Успехи физических наук" 139(1) 57-71, РАН, 1996
+# y(x) = K / tau * (0.5*pi - arctan((x0-x)/tau))
+#
+class KapitsaIntegral( Control_Curve):
+    # constructor
+    def __init__( self, x0=2007, K=186e3, tau=42):
+        self.Name = "Kapitsa Integral"
+        self.X0 = x0
+        self.Tau = tau
+        self.Peak = K
+        Control_Curve.__compute = self
+        return
+    
+    # computation
+    def Compute( self, x):
+        x -= self.X0
+        y = np.pi*0.5 - np.arctan(-x/self.Tau)
+        y *= self.Peak / self.Tau
+        return y
+
+    # plots data, together with optional external data
+    def Plot( self, x1, x2, file_Name = "", coplot_x = -1, coplot_y = -1, no_screen = False):
+        sy = "X0={0:.4f}".format( self.X0)
+        sy += " K={0:.4f}".format( self.Peak)
+        sy += " tau={0:.4f}".format( self.Tau)
+        Control_Curve.Plot( self, x1, x2, sy, "y", file_Name, coplot_x, coplot_y, no_screen)
+        return
+
+#
+# Defines a Weibull curve
+# y(x) = B * k * ( B * (x-x0))^(k-1)) * exp(-( B * (x-x0))^(k)))
+#
+class Weibull( Control_Curve):
+    # constructor
+    def __init__( self, x0=0.0, b=1.0, k=2.0, peak=1.0, shift=0.0):
+        self.Name = "Weibull"
+        self.X0 = x0
+        self.B = b
+        self.K = k
+        self.Peak = peak
+        self.Shift = shift
+        Control_Curve.__compute = self
+        return
+    
+    # computation
+    def Compute( self, x):
+        x -= self.X0
+        if x <= 0.0: return self.Shift
+        x *= self.B
+        p1 = x ** self.K
+        p2 = p1 / x
+        p1 = np.exp( -p1)
+        y = self.Peak * self.B * self.K * p1 * p2 + self.Shift
+        return y
+
+    # plots data, together with optional external data
+    def Plot( self, x1, x2, file_Name = "", coplot_x = -1, coplot_y = -1, no_screen = False):
+        sy = "X0={0:.4f}".format( self.X0)
+        sy += " B={0:.4f}".format( self.B)
         sy += " K={0:.4f}".format( self.K)
-        sy += " Total={0:.4f}".format( self.Total)
         sy += " Shift={0:.4f}".format( self.Shift)
         Control_Curve.Plot( self, x1, x2, sy, "y", file_Name, coplot_x, coplot_y, no_screen)
         return
@@ -227,6 +338,30 @@ def Delay():
     def Get_Value( self):
         L = len(self.Chain)-1
         return self.Chain[L]
+
+#
+# Defines a moving average filter
+#
+def Filter( x, start=-1, end=-1, matrix = [1,2,1]):
+    if start < 0: start = 0
+    if end < 0: end = len( x)
+    if end < start: end = start
+    tmp = np.zeros(len(x))
+    half_size = int(len( matrix)/2)
+    for i in range( start):
+        tmp[i] = x[i]
+    for i in range( start, end):
+        norm = 0.0
+        for j in range( len( matrix)):
+            k = i-half_size+j
+            if k < 0: continue
+            if k >= len( x): continue
+            norm += matrix[j]
+            tmp[i] += matrix[j] * x[k]
+        tmp[i] /= norm
+    for i in range( end, len(x)):
+        tmp[i] = x[i]
+    return tmp
 
 #
 # Loads data from a CSV file
@@ -264,6 +399,29 @@ def Load_Calibration( file_Name, var1_Name, var2_Name):
     return np.array( var1), np.array( var2)
 
 #
+# Provides interpolation as a linear combination
+# of several Control_Curve functions
+#
+class Linear_Combo (Control_Curve):
+    def __init__( self):
+        self.Name = "Linear Combination"
+        self.Wavelets = []
+        return
+
+    # computation
+    def Compute( self, x):
+        tmp = 0.0
+        for w in self.Wavelets:
+            tmp += w.Compute( x)
+        return tmp
+
+    # plots data, together with optional external data
+    def Plot( self, x1, x2, file_Name = "", coplot_x = -1, coplot_y = -1, no_screen = False):
+        sy = "{0:g} function(s)".format( len(self.Wavelets))
+        Control_Curve.Plot( self, x1, x2, sy, "y", file_Name, coplot_x, coplot_y, no_screen)
+        return
+
+#
 # Makes sure matplotlib can write in Russian
 #
 def Prepare_Russian_Font():
@@ -271,4 +429,23 @@ def Prepare_Russian_Font():
         'weight': 'normal',
         'size': '16'}
     rc('font', **font)
+    mpl.rcParams['figure.dpi'] = 80
+    #print( mpl.get_backend())
     return
+
+#
+# Test code
+#
+Prepare_Russian_Font()
+##F = Sigmoid()
+##F.Plot( -10.0, 10.0)
+##F = Bathtub()
+##F.Plot( -10.0, 10.0)
+##F = Hubbert()
+##F.Plot( -10.0, 10.0)
+##F = Gauss()
+##F.Plot( -10.0, 10.0)
+##F = Kapitsa()
+##F.Plot( -10.0, 10.0)
+##F = Weibull( x0=1968, b=0.015, k=2.2, peak=100)
+##F.Plot( 1900, 2100)
