@@ -20,7 +20,6 @@ Food /= Pop / 1000 * 365
 Land /= Pop / 100
 Yield *= 10
 
-Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,15))
 fig.suptitle( 'BRISE (предсказание NewWorld 2012 г)', fontsize=22)
 gs = plt.GridSpec(2, 2, height_ratios=[1, 1]) 
