@@ -10,8 +10,8 @@ rho_crude = 0.852
 rho_gc = 0.720
 rho_tar = 0.950
 
-BP_Year, M = Load_Calibration( "./Data/01_BP_Oil_Liquids.csv", "Year", "2017")
-BP_Year, rho = Load_Calibration( "./Data/03_BP_Oil_Density.csv", "Year", "2017")
+BP_Year, M = Load_Calibration( "./Data/01_BP_Oil_Liquids.csv", "Year", "2018")
+BP_Year, rho = Load_Calibration( "./Data/03_BP_Oil_Density.csv", "Year", "2018")
 
 P2 = Hubbert( 2022, .15, .1, 3.0).GetVector( BP_Year)
 P2 += Hubbert( 1980, 1.2, 1.2, 0.1).GetVector( BP_Year)
@@ -34,13 +34,13 @@ for i in range( len(BP_Year)):
     print( "{:g}\t{:.1f}\t{:.1f}\t{:.1f}".format( BP_Year[i], M_tar[i],M_crude[i],M_gc[i]))
 
 fig = plt.figure( figsize=(15,10))
-fig.suptitle( 'Оценка добычи сырой нефти по отчётам "ВР" 2008-2017 гг', fontsize=22)
+fig.suptitle( 'Оценка добычи сырой нефти по отчётам "ВР" 2008-2018 гг', fontsize=22)
 gs = plt.GridSpec(2, 1, height_ratios=[3, 1]) 
 ax1 = plt.subplot(gs[0])
 ax2 = plt.subplot(gs[1])
 
-ax1.bar( BP_Year, M_crude, width=0.35, color='#B1FFBE', yerr=M_crude*0.05, label='Классическая сырая нефть (вычислено по данным "BP", 2017 г)')
-ax1.bar( BP_Year, M_tar, bottom=M_crude, width=0.35, color='#6D6D6D', label="Битум (по данным Министерства Природных Ресурсов Канады, 2016 г)")
+ax1.bar( BP_Year, M_crude, width=0.35, color='#B1FFBE', yerr=M_crude*0.05, label='Классическая сырая нефть (вычислено по данным "BP", 2018 г)')
+ax1.bar( BP_Year, M_tar, bottom=M_crude, width=0.35, color='#6D6D6D', label="Битум (по данным Министерства Природных Ресурсов Канады, 2017 г)")
 ax1.bar( BP_Year, M_gc, width=0.35, bottom=M_crude+M_tar, yerr=M*0.05, color='#FFD1D2', label="Конденсат и NGPL")
 ax1.plot( T, H1, "--", lw=2, color='k', label="Классическая сырая нефть (Хабберт, 1956, URR=1250 млрд баррелей)")
 ax1.plot( T, H2, "-", lw=2, color='k', label="Нефть и жидкости (Лагеррер, 2013, URR=2200 млрд баррелей)")

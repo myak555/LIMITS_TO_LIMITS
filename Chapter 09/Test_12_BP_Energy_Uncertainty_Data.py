@@ -1,16 +1,17 @@
 from Population import *
 
-BP_Year, BP_Coal = Load_Calibration( "./Data/07_BP_Coal.csv", "Year", "2017")
-BP_Year, BP_Oil = Load_Calibration( "./Data/01_BP_Oil_Liquids.csv", "Year", "2017")
-BP_Year, BP_Gas = Load_Calibration( "./Data/05_BP_Gas.csv", "Year", "2017")
-BP_Year, BP_Nuclear = Load_Calibration( "./Data/08_BP_Nuclear.csv", "Year", "2017")
-BP_Year, BP_Hydro = Load_Calibration( "./Data/09_BP_Hydro.csv", "Year", "2017")
-BP_Year, BP_Renewable = Load_Calibration( "./Data/10_BP_Renewable.csv", "Year", "2017")
+yr = "2018"
+BP_Year, BP_Coal = Load_Calibration( "./Data/07_BP_Coal.csv", "Year", yr)
+BP_Year, BP_Oil = Load_Calibration( "./Data/01_BP_Oil_Liquids.csv", "Year", yr)
+BP_Year, BP_Gas = Load_Calibration( "./Data/05_BP_Gas.csv", "Year", yr)
+BP_Year, BP_Nuclear = Load_Calibration( "./Data/08_BP_Nuclear.csv", "Year", yr)
+BP_Year, BP_Hydro = Load_Calibration( "./Data/09_BP_Hydro.csv", "Year", yr)
+BP_Year, BP_Renewable = Load_Calibration( "./Data/10_BP_Renewable.csv", "Year", yr)
 
 Pop_Year, Population = Load_Calibration( "Population_Calibration.csv", "Year", "Population")
 
 fig = plt.figure( figsize=(15,10))
-fig.suptitle( 'Мировое производство энергии по отчёту "ВР" 2017 г', fontsize=22)
+fig.suptitle( 'Мировое производство энергии по отчёту "ВР" ' + yr + ' г', fontsize=22)
 gs = plt.GridSpec(2, 1, height_ratios=[3, 1])
 ax1 = plt.subplot(gs[0])
 ax2 = plt.subplot(gs[1])
@@ -32,7 +33,8 @@ btm += BP_Renewable
 
 d0 = int( BP_Year[0] - Pop_Year[0])
 d1 = int( BP_Year[len(BP_Year)-1] - Pop_Year[len(Pop_Year)-1])
-pop = np.array( Population[d0:d1])
+if d1 > 0: pop = np.array( Population[d0:d1])
+else: pop = np.array( Population[d0:])
 tonn_per_year = btm / pop
 tonn_per_second = tonn_per_year / 365 / 24 /3600
 watt = tonn_per_second * 41e9
@@ -43,11 +45,14 @@ tonn_per_year_hc_nuc = btm_hc_nuc / pop
 tonn_per_second_hc_nuc = tonn_per_year_hc_nuc / 365 / 24 /3600
 watt_hc_nuc = tonn_per_second_hc_nuc * 41e9
 
+for i in range( 30, len(pop)):
+    print( "{:g},{:.1f},{:.1f}".format(BP_Year[i], watt[i], watt_hc_nuc[i]))
+
 print( "Пик энергии из угля, нефти и газа: {:.1f} Вт/дущу в {:g} году".format(np.max( watt_hc), 1965+np.argmax( watt_hc)))
 print( "Пик энергии из угля, нефти, газа и урана: {:.1f} Вт/дущу в {:g} году".format(np.max( watt_hc_nuc), 1965+np.argmax( watt_hc_nuc)))
 print( "Глобальный пик энергии, включая ВИЭ: {:.1f} Вт/дущу в {:g} году".format(np.max( watt), 1965+np.argmax( watt)))
-print( "Энергии угля, нефти, газа и урана в 2016 году: {:.1f} Вт/душу".format( watt_hc_nuc[len(watt)-1]))
-print( "Энергии в 2016 году: {:.1f} Вт/душу".format( watt[len(watt)-1]))
+print( "Энергии угля, нефти, газа и урана в 2017 году: {:.1f} Вт/душу".format( watt_hc_nuc[len(watt)-1]))
+print( "Энергии в 2017 году: {:.1f} Вт/душу".format( watt[len(watt)-1]))
 
 ax1.set_xlim( 1965, 2020)
 ax1.set_ylim( 0, 15000)
