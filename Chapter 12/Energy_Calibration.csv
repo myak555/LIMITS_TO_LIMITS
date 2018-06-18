@@ -2,12 +2,12 @@
 # Carbon fuel and other energy production calibration file
 #
 # data obtained from:
-#    BP World Energy Report – 2017
+#    BP World Energy Report – 2018
 #    Energy Information Administration: www.eia.gov
 #
 # gas and coal production are converted to metric ton of oil equivalent (toe)
 # conversion factors as per BP World Energy Report
-# estimated accuracy as a difference between 2007 and 2016 report is 3-4%
+# estimated accuracy, by difference between the 2007 and 2016 reports, is 5%
 #
 Year,Coal,Oil,Gas,Nuclear,Renewable,Total_C,Total
 1890,347.0,8.0,3.0,0.0,46.2,358.0,404.2
@@ -137,3 +137,4 @@ Year,Coal,Oil,Gas,Nuclear,Renewable,Total_C,Total
 2014,3988.9,4228.7,3130.2,575.5,1200.9,11347.8,13124.2
 2015,3830.1,4361.9,3199.5,583.1,1257.8,11391.5,13232.4
 2016,3602.1,4382.4,3212.9,592.1,1329.9,11789.5,13119.4
+2017,3768.6,4387.1,3164.6,596.4,1405.4,11320.3,13322.1
