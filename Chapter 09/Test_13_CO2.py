@@ -80,7 +80,7 @@ for i in range( l_real):
     if 1990<t and t<=2000: S1 += CO2_Total[i] / 1000
     if 2000<t and t<=2010: S2  += CO2_Total[i] / 1000
     
-print( "Всего CO₂: {:.1f} ± {:.1f} млрд т".format( S, S*0.15))
+print( "Всего CO2: {:.1f} ± {:.1f} млрд т".format( S, S*0.15))
 print( "С 1991 по 2000 гг: {:.1f} ± {:.1f} млрд т".format( S1, S1*0.15))
 print( "С 2001 по 2010 гг: {:.1f} ± {:.1f} млрд т".format( S2, S2*0.15))
 
