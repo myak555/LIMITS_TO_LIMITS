@@ -7,7 +7,9 @@ from Utilities import *
 class Resources:
     def __init__( self, Q0=1200e3):
         self.Name = "PyWorld 2017"
-        self.Calibration_Year, self.Calibration_Total = Load_Calibration( "Resources_Calibration.csv", "Year", "Total")
+        self.Calibration_Year, self.Calibration_Carbon = Load_Calibration( "Energy_Calibration.csv", "Year", "Total_C")
+        self.Calibration_Nuclear, self.Calibration_Renewable = Load_Calibration( "Energy_Calibration.csv", "Nuclear", "Renewable")
+        self.Calibration_Total = self.Calibration_Carbon + self.Calibration_Nuclear + self.Calibration_Renewable
         self.Calibration_Yerr = np.ones( len(self.Calibration_Year)) * 0.035 
         self.Calibration_Reserves = np.zeros( len(self.Calibration_Year))
         self.Calibration_Reserves[0] = Q0
