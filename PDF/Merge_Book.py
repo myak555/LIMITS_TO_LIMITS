@@ -14,6 +14,7 @@ filenames +=["Ch_09"]
 filenames +=["Ch_10"]
 filenames +=["Ch_11"]
 filenames +=["Ch_12"]
+filenames +=["Ch_13"]
 filenames +=["Ch_99"]
 
 merger = PdfFileMerger()
