@@ -32,7 +32,6 @@ for i in range( len(Year_3)):
     k = int(Year_3[i] - Year[0])
     R2014_Reported[i] = R2014R[j] + Cumulative[k]
 
-Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,10))
 fig.suptitle( 'Оценка начальных извлекаемых запасов сырой нефти', fontsize=22)
 gs = plt.GridSpec(1, 1) 
@@ -53,17 +52,6 @@ ax1.annotate("ОПЕК, 30 млрд т", xy=(1987, 193), xytext=(1960, 260), arr
 ax1.annotate("Открытие Гавара", xy=(1947, 58), xytext=(1925, 125), arrowprops=dict(facecolor='r', shrink=0.05))
 ax1.grid(True)
 ax1.legend(loc=2)
-
-##ax2.errorbar( Year, Oil_Cum/1000, yerr=Oil_Cum/1000*0.05, fmt=".", color='g', label="Реальная по 2017 г: {:.0f} млрд т".format(np.sum(Oil)/1000))
-##ax2.plot( Year_Model, Hubbert_Cum/1000, "-", lw=1, color='r')
-##ax2.plot( Year_Model, Campbell_Cum/1000, "-", lw=1, color='b')
-##ax2.annotate("К 1997 году, {:.0f} млрд т".format(Oil_Cum[1998-1830]/1000), xy=(1997, 107), xytext=(1870, 110), arrowprops=dict(facecolor='r', shrink=0.05))
-##ax2.set_xlim( 1850, 2100)
-##ax2.set_ylim( 1, 250)
-##ax2.set_ylabel("Млрд тонн")
-##ax2.grid(True)
-##ax2.set_title( "Накопленная добыча")
-##ax2.legend(loc=0)
 
 plt.savefig( ".\\Graphs\\figure_14_02.png")
 fig.show()

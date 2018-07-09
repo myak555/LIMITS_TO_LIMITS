@@ -26,7 +26,6 @@ for i in range( 1, len(Hubbert_Cum)):
     Hubbert_Cum[i] += Hubbert_Cum[i-1]
     Campbell_Cum[i] += Campbell_Cum[i-1]
 
-Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,10))
 fig.suptitle( 'Оценка добытых запасов сырой нефти 1860-2017 гг', fontsize=22)
 gs = plt.GridSpec(2, 1, height_ratios=[2, 1.2]) 
