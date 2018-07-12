@@ -114,3 +114,15 @@
 .\Chapter 13\Graph_07_Probability.py
 .\Chapter 13\Graph_08_Patzek_Croft_Coal.py
 .\Chapter 13\Graph_09_Paris_Accord_Coal.py
+.\Chapter 14\Graph_01_Oil_Comparison.py
+.\Chapter 14\Graph_02_Oil_Reserves.py
+.\Chapter 14\Graph_03_Kuwait_Oil.py
+.\Chapter 14\Graph_04_Saudi_Oil.py
+.\Chapter 14\Graph_05_Norvegian_Oil.py
+.\Chapter 14\Graph_06_British_Oil.py
+.\Chapter 14\Graph_07_Syrian_Oil.py
+.\Chapter 14\Graph_08_Australian_Oil.py
+.\Chapter 14\Graph_09_Russian_Oil.py
+.\Chapter 14\Graph_10_Laherrer_US_Gas.py
+.\Chapter 14\Graph_11_Probability_LG.py
+.\Chapter 14\Graph_12_Probability_SLG.py
