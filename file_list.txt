@@ -126,3 +126,12 @@
 .\Chapter 14\Graph_10_Laherrer_US_Gas.py
 .\Chapter 14\Graph_11_Probability_LG.py
 .\Chapter 14\Graph_12_Probability_SLG.py
+.\Chapter 15\Model_01_Production_X_over_time_Y.py
+.\Chapter 15\Model_02_Maintaining_Per_Head_Production.py
+.\Chapter 15\Model_03_Plateau_Per_Head_Production.py
+.\Chapter 15\Model_04_ERoEI_estimates.py
+.\Chapter 15\Model_05_Plateau_Per_Head_Production_ERoEI.py
+.\Chapter 15\Model_06_Plateau_Nuclear_and_Renewable.py
+.\Chapter 15\Model_07_Production_Decline.py
+.\Chapter 15\Model_08_Energy_X.py
+.\Chapter 15\Model_09_Population_Z.py
