@@ -85,62 +85,81 @@ M1_Cons_3P = All_3P * M1.GetVectorInverse(Cum_3P/1000)
 M2_Cons_3P = All_3P * M2.GetVectorInverse(Cum_3P/1000)
 M3_Cons_3P = All_3P * M3.GetVectorInverse(Cum_3P/1000)
 
+ERoEI_renewable = 15
+ERoEI_nuclear = 10
+Prd = Interpolation_Realistic_2012()
+Prd.Solve( Year)
+Prd.Correct_To_Actual( 1890, 2017)
+Renewable = Prd.Renewable * (1-1/ERoEI_renewable)
+Nuclear = Prd.Nuclear * (1-1/ERoEI_nuclear)
+
+M1_Cons_1P_r = M1_Cons_1P + Renewable 
+M2_Cons_1P_r = M2_Cons_1P + Renewable 
+M3_Cons_1P_r = M3_Cons_1P + Renewable 
+M1_Cons_2P_r = M1_Cons_2P + Renewable 
+M2_Cons_2P_r = M2_Cons_2P + Renewable 
+M3_Cons_2P_r = M3_Cons_2P + Renewable 
+M1_Cons_3P_r = M1_Cons_3P + Renewable 
+M2_Cons_3P_r = M2_Cons_3P + Renewable 
+M3_Cons_3P_r = M3_Cons_3P + Renewable 
+
+M1_Cons_1P_rn = M1_Cons_1P + Renewable + Nuclear 
+M2_Cons_1P_rn = M2_Cons_1P + Renewable + Nuclear 
+M3_Cons_1P_rn = M3_Cons_1P + Renewable + Nuclear
+M1_Cons_2P_rn = M1_Cons_2P + Renewable + Nuclear
+M2_Cons_2P_rn = M2_Cons_2P + Renewable + Nuclear
+M3_Cons_2P_rn = M3_Cons_2P + Renewable + Nuclear
+M1_Cons_3P_rn = M1_Cons_3P + Renewable + Nuclear
+M2_Cons_3P_rn = M2_Cons_3P + Renewable + Nuclear
+M3_Cons_3P_rn = M3_Cons_3P + Renewable + Nuclear
+
 PP_1P = 1000.0 * All_1P / population_low  
-M1_CPP_1P = 1000.0 * M1_Cons_1P / population_low  
-M2_CPP_1P = 1000.0 * M2_Cons_1P / population_low  
-M3_CPP_1P = 1000.0 * M3_Cons_1P / population_low  
+M1_CPP_1P = 1000.0 * M1_Cons_1P_rn / population_low  
 PP_2P = 1000.0 * All_2P / population_medium  
-M1_CPP_2P = 1000.0 * M1_Cons_2P / population_medium  
-M2_CPP_2P = 1000.0 * M2_Cons_2P / population_medium  
-M3_CPP_2P = 1000.0 * M3_Cons_2P / population_medium
+M2_CPP_2P = 1000.0 * M2_Cons_2P_rn / population_medium  
 PP_3P = 1000.0 * All_3P / population_high
-M1_CPP_3P = 1000.0 * M1_Cons_3P / population_high  
-M2_CPP_3P = 1000.0 * M2_Cons_3P / population_high  
-M3_CPP_3P = 1000.0 * M3_Cons_3P / population_high
+M3_CPP_3P = 1000.0 * M3_Cons_3P_rn / population_high
 
 fig = plt.figure( figsize=(15,15))
-fig.suptitle( 'Модель "Полочка добычи после пика, с учётом ERoEI"', fontsize=22)
+fig.suptitle( 'Модель с учётом ERoEI, ВИЭ и ядерной энергии', fontsize=22)
 gs = plt.GridSpec(2, 1, height_ratios=[1, 1]) 
 ax1 = plt.subplot(gs[0])
 ax2 = plt.subplot(gs[1])
 
-ax1.set_title("Нетто годовая добыча")
-ax1.plot( Year, All_1P, "--", lw=1, color='#A0A0A0')
-ax1.plot( Year, M1_Cons_1P, "--", lw=2, color='r', label="M1_1P ERoEI={:.0f}".format(np.sum(All_1P)/(np.sum(All_1P)-np.sum(M1_Cons_1P))))
-ax1.plot( Year, M2_Cons_1P, "--", lw=2, color='g', label="M2_1P ERoEI={:.0f}".format(np.sum(All_1P)/(np.sum(All_1P)-np.sum(M2_Cons_1P))))
-ax1.plot( Year, M3_Cons_1P, "--", lw=2, color='b', label="M3_1P ERoEI={:.0f}".format(np.sum(All_1P)/(np.sum(All_1P)-np.sum(M3_Cons_1P))))
-ax1.plot( Year, All_2P, "-", lw=1, color='#A0A0A0')
-ax1.plot( Year, M1_Cons_2P, "-", lw=2, color='r', label="M1_2P ERoEI={:.0f}".format(np.sum(All_2P)/(np.sum(All_2P)-np.sum(M1_Cons_2P))))
-ax1.plot( Year, M2_Cons_2P, "-", lw=2, color='g', label="M2_2P ERoEI={:.0f}".format(np.sum(All_2P)/(np.sum(All_2P)-np.sum(M2_Cons_2P))))
-ax1.plot( Year, M3_Cons_2P, "-", lw=2, color='b', label="M3_2P ERoEI={:.0f}".format(np.sum(All_2P)/(np.sum(All_2P)-np.sum(M3_Cons_2P))))
-ax1.plot( Year, All_3P, "-.", lw=1, color='#A0A0A0')
-ax1.plot( Year, M1_Cons_3P, "-.", lw=2, color='r', label="M1_3P ERoEI={:.0f}".format(np.sum(All_3P)/(np.sum(All_3P)-np.sum(M1_Cons_3P))))
-ax1.plot( Year, M2_Cons_3P, "-.", lw=2, color='g', label="M2_3P ERoEI={:.0f}".format(np.sum(All_3P)/(np.sum(All_3P)-np.sum(M2_Cons_3P))))
-ax1.plot( Year, M3_Cons_3P, "-.", lw=2, color='b', label="M3_3P ERoEI={:.0f}".format(np.sum(All_3P)/(np.sum(All_3P)-np.sum(M3_Cons_3P))))
-ax1.plot( [2049, 2049], [0, 17500], "--", lw=3, color='#505050')
+ax1.set_title("Нетто годовое извлечение энергии")
+#ax1.plot( Year, All_1P, "--", lw=1, color='#A0A0A0')
+ax1.plot( Year, M1_Cons_1P, "--", lw=1, color='r', label="Ископаемое топливо")
+ax1.plot( Year, M1_Cons_1P_r, "-.", lw=1, color='r', label="+ВИЭ при ERoEI={:.0f}".format(ERoEI_renewable))
+ax1.plot( Year, M1_Cons_1P_rn, "-", lw=2, color='r', label="+Ядерная при ERoEI={:.0f}".format(ERoEI_nuclear))
+#ax1.plot( Year, All_2P, "-", lw=1, color='#A0A0A0')
+ax1.plot( Year, M2_Cons_2P, "--", lw=1, color='g')
+ax1.plot( Year, M2_Cons_2P_r, "-.", lw=1, color='g')
+ax1.plot( Year, M2_Cons_2P_rn, "-", lw=2, color='g')
+#ax1.plot( Year, All_3P, "-.", lw=1, color='#A0A0A0')
+ax1.plot( Year, M3_Cons_3P, "--", lw=1, color='b')
+ax1.plot( Year, M3_Cons_3P_r, "-.", lw=1, color='b')
+ax1.plot( Year, M3_Cons_3P_rn, "-", lw=2, color='b')
+ax1.plot( [2050, 2050], [0, 20000], "--", lw=3, color='#505050')
 ax1.set_xlim( 1850, 2150)
-ax1.set_ylim( 0, 20000)
+ax1.set_ylim( 0, 22000)
 ax1.set_ylabel("Млн toe")
-ax1.text(1930, 18000, "Максимум полезной добычи - 2049 год")
+ax1.text(1960, 20500, "Максимум полезной энергии - 2050 год")
 ax1.grid(True)
 ax1.legend(loc=2)
 
 ax2.set_title("Нетто энергия на душу населения")
-ax2.plot( Year, PP_1P, "--", lw=1, color='#A0A0A0')
-ax2.plot( Year, M1_CPP_1P, "--", lw=2, color='r', label="M1_1P (пик={:.0f} кг)".format(np.max(M1_CPP_1P)))
-ax2.plot( Year, M2_CPP_1P, "--", lw=2, color='g', label="M2_1P (пик={:.0f} кг)".format(np.max(M2_CPP_1P)))
-ax2.plot( Year, M3_CPP_1P, "--", lw=2, color='b', label="M3_1P (пик={:.0f} кг)".format(np.max(M3_CPP_1P)))
-ax2.plot( Year, PP_2P, "-", lw=1, color='#A0A0A0')
-ax2.plot( Year, M1_CPP_2P, "-", lw=2, color='r', label="M1_2P (пик={:.0f} кг)".format(np.max(M1_CPP_2P)))
+#ax2.plot( Year, PP_1P, "--", lw=1, color='#A0A0A0')
+ax2.plot( Year, M1_CPP_1P, "-", lw=2, color='r', label="M1_1P (пик={:.0f} кг)".format(np.max(M1_CPP_1P)))
+#ax2.plot( Year, PP_2P, "--", lw=1, color='#A0A0A0')
 ax2.plot( Year, M2_CPP_2P, "-", lw=2, color='g', label="M2_2P (пик={:.0f} кг)".format(np.max(M2_CPP_2P)))
-ax2.plot( Year, M3_CPP_2P, "-", lw=2, color='b', label="M3_2P (пик={:.0f} кг)".format(np.max(M3_CPP_2P)))
-ax2.plot( Year, PP_3P, "-.", lw=1, color='#A0A0A0')
-ax2.plot( Year, M1_CPP_3P, "-.", lw=2, color='r', label="M1_3P (пик={:.0f} кг)".format(np.max(M1_CPP_3P)))
-ax2.plot( Year, M2_CPP_3P, "-.", lw=2, color='g', label="M2_3P (пик={:.0f} кг)".format(np.max(M2_CPP_3P)))
-ax2.plot( Year, M3_CPP_3P, "-.", lw=2, color='b', label="M3_3P (пик={:.0f} кг)".format(np.max(M3_CPP_3P)))
-ax2.plot( [2012,2012], [0,1770], "--", lw=3, color='#505050')
-ax2.plot( [1960,2150], [920,920], "-.", lw=1, color='#505050')
-ax2.text( 2015, 1770, "Максимум потребления в 2012 году")
+#ax2.plot( Year, PP_3P, "--", lw=1, color='#A0A0A0')
+ax2.plot( Year, M3_CPP_3P, "-", lw=2, color='b', label="M3_3P (пик={:.0f} кг)".format(np.max(M3_CPP_3P)))
+ax2.plot( [1960,2150], [1031,1031], "-.", lw=2, color='#505050')
+ax2.plot( [1913,2150], [522,522], "--", lw=2, color='#505050')
+ax2.plot( [1890,2150], [282,282], "-.", lw=2, color='#505050')
+ax2.text( 1970, 1106, "Уровень 1960 года")
+ax2.text( 1970, 595, "Уровень 1913 года")
+ax2.text( 1970, 355, "Уровень 1890 года")
 ax2.set_xlim( 1850, 2150)
 ax2.set_ylim( 0, 2000)
 ax2.set_xlabel("Годы")
@@ -148,5 +167,5 @@ ax2.set_ylabel("кг нефтяного эквив. в год")
 ax2.grid(True)
 ax2.legend(loc=2)
 
-plt.savefig( ".\\Graphs\\figure_15_05.png")
+plt.savefig( ".\\Graphs\\figure_15_06.png")
 fig.show()

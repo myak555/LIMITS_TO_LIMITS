@@ -104,6 +104,10 @@ class Entity_UN:
         self.YError = np.zeros(len(time))
         self.Name = estimate_S[1]
         self.Time = time
+        self.Land_Area = -999.25
+        self.Total_Area = -999.25
+        self.Short_Name = self.Name 
+        self.Code = "NONAME" 
         acc = self.GetAccuracy()
         for i in range( 2,len(estimate_S)):
             self.Population[148+i] = float(estimate_S[i])/1000.0
@@ -581,6 +585,11 @@ class Entity_UN:
         f_out.write( "#\n")
         f_out.write( "Year,Population\n")
         return f_out
+    def GetLandUsage(self):
+        lu1 = self.Land_Area / (self.Population + 1e-6) / 100
+        lu2 = self.Land_Area / (self.Population_Low + 1e-6) / 100
+        lu3 = self.Land_Area / (self.Population_High + 1e-6) / 100
+        return lu1, lu2, lu3
 
 #
 # Reads UN data bases, extracts entries
@@ -621,8 +630,20 @@ class Population_UN:
             if e.isEUR(): continue
             if e.isAggregate(): continue
             print( e.Name)
+        self.Country_Codes, self.Short_Names = Load_Calibration_Text(".\\Data\\Country_Area.txt", "Code", "Short_Name", "\t")
+        self.Country_Codes, self.Long_Names = Load_Calibration_Text(".\\Data\\Country_Area.txt", "Code", "Country_Name", "\t")
+        Area_Land_Sea, Area_Land = Load_Calibration(".\\Data\\Country_Area.txt", "Land_and_Sea","Land", "\t")
+        for i in range( len( self.Long_Names)):
+            ent = self.GetEntity(self.Long_Names[i])
+            if " not found" in ent.Name: continue
+            ent.Land_Area = Area_Land[i]
+            ent.Total_Area = Area_Land_Sea[i]
+            ent.Short_Name = self.Short_Names[i]
+            ent.Code = self.Country_Codes[i] 
         return
     def GetEntity( self, name):
         for e in self.Entities:
             if e.Name == name: return e
+            if e.Short_Name == name: return e
+            if e.Code != "NONAME" and e.Code == name: return e
         return Entity_UN(self.Time, "0\t" + name + " not found","0\tnull","0\tnull","0\tnull")

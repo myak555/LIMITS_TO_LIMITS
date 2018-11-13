@@ -366,7 +366,7 @@ def Filter( x, start=-1, end=-1, matrix = [1,2,1]):
 #
 # Loads data from a CSV file
 #
-def Load_Calibration( file_Name, var1_Name, var2_Name):
+def Load_Calibration( file_Name, var1_Name, var2_Name, separator=','):
     fin = open( file_Name)
     var1_Index = -1
     var2_Index = -1
@@ -378,7 +378,7 @@ def Load_Calibration( file_Name, var1_Name, var2_Name):
             if len(s) <= 0: break
             if s.startswith( "#"): continue
             s = s.strip()
-            ss = s.split( ",")
+            ss = s.split( separator)
             if var1_Index < 0 or var2_Index < 0: 
                 for j in range(len(ss)):
                     if ss[j] == var1_Name: var1_Index = j
@@ -397,6 +397,39 @@ def Load_Calibration( file_Name, var1_Name, var2_Name):
     #print( var1)
     #print( var2)
     return np.array( var1), np.array( var2)
+
+#
+# Loads data from a CSV file
+#
+def Load_Calibration_Text( file_Name, var1_Name, var2_Name, separator=','):
+    fin = open( file_Name)
+    var1_Index = -1
+    var2_Index = -1
+    var1 = []
+    var2 = []
+    try:
+        for i in range( 1000000):
+            s = fin.readline()
+            if len(s) <= 0: break
+            if s.startswith( "#"): continue
+            s = s.strip()
+            ss = s.split( separator)
+            if var1_Index < 0 or var2_Index < 0: 
+                for j in range(len(ss)):
+                    if ss[j] == var1_Name: var1_Index = j
+                    if ss[j] == var2_Name: var2_Index = j
+                #print( "Found: {0:s} - {1:g}, {2:s} - {3:g}".format( var1_Name, var1_Index, var2_Name, var2_Index)) 
+                continue
+            if var1_Index < 0 or var1_Index >= len(ss): continue
+            if var2_Index < 0 or var2_Index >= len(ss): continue
+            var1 += [ss[var1_Index]]
+            var2 += [ss[var2_Index]]
+    except:
+        print ( "Error parsing file " + file_Name)
+    fin.close()
+    #print( var1)
+    #print( var2)
+    return var1, var2
 
 #
 # Provides interpolation as a linear combination
