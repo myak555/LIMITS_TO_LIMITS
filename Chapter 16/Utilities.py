@@ -74,10 +74,11 @@ class Control_Curve:
 #
 class Sigmoid( Control_Curve):
     # constructor
-    def __init__( self, x0=0.0, s0=1.0, left=0.0, right=1.0, shift=0.0):
+    def __init__( self, x0=0.0, s0=1.0, left=0.0, right=1.0, shift=0.0, s1=-999.0):
         self.Name = "Sigmoid"
         self.X0 = x0
         self.S0 = s0
+        self.S1 = s1
         self.Left = left
         self.Right = right
         self.Shift = shift
@@ -87,7 +88,8 @@ class Sigmoid( Control_Curve):
     # computation
     def Compute( self, x):
         x -= self.X0
-        x *= -self.S0
+        if self.S1 != -999.0 and x>0: x *= -self.S1
+        else: x *= -self.S0
         if x < -500.0: return self.Right + self.Shift
         if x > 500.0: return self.Left + self.Shift
         e = np.exp( x)
