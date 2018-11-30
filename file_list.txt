@@ -123,7 +123,7 @@
 .\Chapter 14\Graph_07_Syrian_Oil.py
 .\Chapter 14\Graph_08_Australian_Oil.py
 .\Chapter 14\Graph_09_Russian_Oil.py
-.\Chapter 14\Graph_10_Laherrer_US_Gas.py
+.\Chapter 14\Graph_10_Laherrere_US_Gas.py
 .\Chapter 14\Graph_11_Probability_LG.py
 .\Chapter 14\Graph_12_Probability_SLG.py
 .\Chapter 15\Model_01_Production_X_over_time_Y.py
@@ -135,3 +135,10 @@
 .\Chapter 15\Model_07_Production_Decline.py
 .\Chapter 15\Model_08_Energy_X.py
 .\Chapter 15\Model_09_Population_Z.py
+.\Chapter 16\Model_01_Field.py
+.\Chapter 16\Model_02_Lognormal_Distribution.py
+.\Chapter 16\Model_03_Markov_Chain.py
+.\Chapter 16\Model_04_OIL_ConunDRUM_1.py
+.\Chapter 16\Model_05_OIL_ConunDRUM_2.py
+.\Chapter 16\Model_06_OIL_ConunDRUM_3.py
+.\Chapter 16\Model_07_OIL_Black_Swan.py
