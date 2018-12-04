@@ -183,6 +183,43 @@ class Hubbert( Control_Curve):
         return
 
 #
+# Defines a Hubbert curve
+# y(x) = peak * 4 * exp( - slope * gamma * (x-x0) / (1+exp(- slope * gamma * (x-x0))^(1/gamma + 1)
+#
+class GenHubbert( Control_Curve):
+    # constructor
+    def __init__( self, x0=0.0, s0=1.0, gamma=1.0, peak= 1.0, shift=0.0):
+        self.Name = "Generalized Hubbert"
+        self.X0 = x0
+        self.S0 = s0
+        self.Gamma = gamma
+        self.Peak = peak
+        self.Shift = shift
+        Control_Curve.__compute = self
+        return
+    
+    # computation
+    def Compute( self, x):
+        x -= self.X0
+        x *= -self.S0
+        x *= self.Gamma
+        if x < -500.0: return self.Shift
+        if x > 500.0: return self.Shift
+        e = np.exp( x)
+        y = 4.0 * self.Peak * e / ((1+e) ** (1+1/self.Gamma)) + self.Shift
+        return y
+
+    # plots data, together with optional external data
+    def Plot( self, x1, x2, file_Name = "", coplot_x = -1, coplot_y = -1, no_screen = False):
+        sy = "X0={0:.4f}".format( self.X0)
+        sy += " S0={0:.4f}".format( self.S0)
+        sy += " Gamma={0:.4f}".format( self.Gamma)
+        sy += " Peak={0:.4f}".format( self.Peak)
+        sy += " Shift={0:.4f}".format( self.Shift)
+        Control_Curve.Plot( self, x1, x2, sy, "y", file_Name, coplot_x, coplot_y, no_screen)
+        return
+
+#
 # Defines a Gauss curve
 # y(x) = peak * exp( - slope * (x-x0)^2)
 #
@@ -255,6 +292,7 @@ class Kapitsa( Control_Curve):
         sy += " Shift={0:.4f}".format( self.Shift)
         Control_Curve.Plot( self, x1, x2, sy, "y", file_Name, coplot_x, coplot_y, no_screen)
         return
+
 #
 # Defines a Karpitsa integral curve
 # "Успехи физических наук" 139(1) 57-71, РАН, 1996
@@ -317,6 +355,76 @@ class Weibull( Control_Curve):
         sy = "X0={0:.4f}".format( self.X0)
         sy += " B={0:.4f}".format( self.B)
         sy += " K={0:.4f}".format( self.K)
+        sy += " Shift={0:.4f}".format( self.Shift)
+        Control_Curve.Plot( self, x1, x2, sy, "y", file_Name, coplot_x, coplot_y, no_screen)
+        return
+
+#
+# Defines a Gompertz curve
+# y(x) = sigma * gamma * Q0 * exp(-sigma*exp(-gamma*(x-x0)))) * exp(-gamma*(x-x0))
+#
+class Gompertz( Control_Curve):
+    # constructor
+    def __init__( self, x0=0.0, sigma=1.0, gamma=1.0, peak=1.0, shift=0.0):
+        self.Name = "Gompertz"
+        self.X0 = x0
+        self.Sigma = sigma
+        self.Gamma = gamma
+        self.Peak = peak
+        self.Shift = shift
+        Control_Curve.__compute = self
+        return
+    
+    # computation
+    def Compute( self, x):
+        x -= self.X0
+        x *= -self.Gamma
+        e = np.exp( x)
+        e2 = np.exp( -self.Sigma*e)
+        y = self.Peak * self.Sigma * self.Gamma * e * e2 
+        return y + self.Shift
+
+    # plots data, together with optional external data
+    def Plot( self, x1, x2, file_Name = "", coplot_x = -1, coplot_y = -1, no_screen = False):
+        sy = "X0={0:.4f}".format( self.X0)
+        sy += " Sigma={0:.4f}".format( self.Sigma)
+        sy += " Gamma={0:.4f}".format( self.Gamma)
+        sy += " Peak={0:.4f}".format( self.Peak)
+        sy += " Shift={0:.4f}".format( self.Shift)
+        Control_Curve.Plot( self, x1, x2, sy, "y", file_Name, coplot_x, coplot_y, no_screen)
+        return
+
+#
+# Defines a Gompertz integral curve
+# y(x) = Q0 * exp(-sigma*exp(-gamma*(x-x0))))
+#
+class GompertzIntegral( Control_Curve):
+    # constructor
+    def __init__( self, x0=0.0, sigma=1.0, gamma=1.0, peak=1.0, shift=0.0):
+        self.Name = "Gompertz Integral"
+        self.X0 = x0
+        self.Sigma = sigma
+        self.Gamma = gamma
+        self.Peak = peak
+        self.Shift = shift
+        Control_Curve.__compute = self
+        return
+    
+    # computation
+    def Compute( self, x):
+        x -= self.X0
+        x *= -self.Gamma
+        e = np.exp( x)
+        e2 = np.exp( -self.Sigma*e)
+        y = self.Peak * e2 
+        return y + self.Shift
+
+    # plots data, together with optional external data
+    def Plot( self, x1, x2, file_Name = "", coplot_x = -1, coplot_y = -1, no_screen = False):
+        sy = "X0={0:.4f}".format( self.X0)
+        sy += " Sigma={0:.4f}".format( self.Sigma)
+        sy += " Gamma={0:.4f}".format( self.Gamma)
+        sy += " Peak={0:.4f}".format( self.Peak)
         sy += " Shift={0:.4f}".format( self.Shift)
         Control_Curve.Plot( self, x1, x2, sy, "y", file_Name, coplot_x, coplot_y, no_screen)
         return
@@ -484,3 +592,5 @@ Prepare_Russian_Font()
 ##F.Plot( -10.0, 10.0)
 ##F = Weibull( x0=1968, b=0.015, k=2.2, peak=100)
 ##F.Plot( 1900, 2100)
+##F = GompertzIntegral()
+##F.Plot( -10,10)
