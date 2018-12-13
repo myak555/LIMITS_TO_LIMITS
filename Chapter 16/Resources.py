@@ -5,7 +5,7 @@ from Utilities import *
 # Q0 - total resource estimate in mln tonn of oil equivalent
 #
 class Resources:
-    def __init__( self, Q0=1200e3):
+    def __init__( self, Q0=1400e3):
         self.Name = "PyWorld 2017"
         self.Year, self.Oil = Load_Calibration( "Resources_Calibration.csv", "Year", "Oil")
         self.Coal, self.Bitumen = Load_Calibration( "Resources_Calibration.csv", "Coal", "Bitumen")
@@ -54,4 +54,15 @@ class Resources:
     #
     def Compute( self, t):
         tmp = 0
+        return tmp
+
+    #
+    # Computes an interpolation
+    #
+    def Interpolate( self, a, t):
+        if t <= self.Calibration_Year[0]: return a[0] 
+        if t >= self.Calibration_Year[-1]: return a[-1]
+        i = int(t - self.Calibration_Year[0])
+        dt = t - self.Calibration_Year[i]
+        tmp = dt * a[i+1] + (1-dt)*a[i] 
         return tmp

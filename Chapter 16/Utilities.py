@@ -430,6 +430,31 @@ class GompertzIntegral( Control_Curve):
         return
 
 #
+# Defines Markov chain filter
+# taus - number of characteristic delays
+#
+class Markov_Chain:
+    def __init__( self, taus, Years, Year0, time_shift=0):
+        self.Years = Years
+        self.Year0 = Year0
+        self.Filter = self.GetRho(taus[0])
+        offset = int( self.Year0 - self.Years[0]) 
+        for i in range( 1, len(taus)):
+            self.Filter = np.convolve( self.Filter, self.GetRho(taus[i]))[offset:offset+len(self.Years)]
+        self.Filter = np.roll( self.Filter, time_shift)
+        self.Filter /= np.sum(self.Filter)
+        return        
+    def GetRho(self, tau):
+        Time = self.Years - self.Year0
+        tmp = np.exp( -Time/tau)
+        for i in range( len(self.Years)):
+            if self.Years[i]>=self.Year0: break
+            tmp[i] = 0.0
+        norm = np.sum( tmp)
+        #print( tau, norm, 1/norm)
+        return tmp/norm
+
+#
 # Defines a time delay feature, corresponding to World3 implementation
 #
 def Delay():

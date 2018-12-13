@@ -57,40 +57,51 @@ def PlotDataLandUse( entity, yr, Pyr):
     
 def ProduceData( pop, comm):
     ss = comm.strip().split(",")
-    #try:
-    entity = pop.GetEntity( ss[0].strip())
-    print( entity.Name)
-    if "not found" in entity.Name: return
-    yr = 2018
     try:
-        if len(ss) > 1: yr = int( ss[1].strip())
-    except:
+        entity = pop.GetEntity( ss[0].strip())
+        print( entity.Name)
+        if "not found" in entity.Name: return
         yr = 2018
-    Pyr = -1 
-    for i in range( len(entity.Time)):
-        if entity.Time[i] != yr: continue
+        try:
+            if len(ss) > 1: yr = int( ss[1].strip())
+        except:
+            yr = 2018
+        outfile = "none"
+        if len(ss) > 2: outfile = ss[2]
+        Pyr = -1 
+        for i in range( len(entity.Time)):
+            if entity.Time[i] != yr: continue
+            if entity.Land_Area > 0.0:
+                print( "Area: {:.1f} km² ({:.1f} km² with sea)".format( entity.Land_Area, entity.Total_Area))
+            print( "In year {:g}:".format( entity.Time[i]) )
+            print( "Population {:.1f} mln (from {:.1f} to {:.1f})".format(
+                    entity.Population[i],entity.Population_Low[i],entity.Population_High[i]) )
+            if entity.Land_Area > 0.0:
+                lu1, lu2, lu3 = entity.GetLandUsage()
+                print( "Land: {:.1f} (from {:.1f} to {:.1f}) are/person".format( lu1[i],lu2[i],lu3[i]) )
+            Pyr = entity.Population[i]
+            break
+        if outfile != "none":
+            print( "Output goes to: " + outfile)
+            f = open( outfile, "w")
+            f.write("year,{:s}\n".format(entity.Name))
+            for i in range( len(entity.Time)):
+                f.write("{:g},{:.3f}\n".format(entity.Time[i], entity.Population[i]))
+            f.close()
         if entity.Land_Area > 0.0:
-            print( "Area: {:.1f} km² ({:.1f} km² with sea)".format( entity.Land_Area, entity.Total_Area))
-        print( "In year {:g}:".format( entity.Time[i]) )
-        print( "Population {:.1f} mln (from {:.1f} to {:.1f})".format(
-                entity.Population[i],entity.Population_Low[i],entity.Population_High[i]) )
-        if entity.Land_Area > 0.0:
-            lu1, lu2, lu3 = entity.GetLandUsage()
-            print( "Land: {:.1f} (from {:.1f} to {:.1f}) are/person".format( lu1[i],lu2[i],lu3[i]) )
-        Pyr = entity.Population[i]
-        break
-    if entity.Land_Area > 0.0:
-        PlotDataLandUse( entity, yr, Pyr)
-    else:
-        PlotDataPopulationOnly( entity, yr, Pyr)
-    #except:
-    #    return
+            PlotDataLandUse( entity, yr, Pyr)
+        else:
+            PlotDataPopulationOnly( entity, yr, Pyr)
+    except:
+        print("Error")
+        return
 
 def MakeList( pop, comm):
     ss = Comm.split( ' ')
     lst = []
     for e in pop.Entities: lst += [e.Name]
     if len(ss)>1: lst = fnmatch.filter(lst, ss[1])
+    lst.sort()
     for e in lst: print( e)  
     
 print( "World population utility")    
