@@ -16,6 +16,7 @@
 .\Chapter 05\Test_2_Kapitsa.py
 .\Chapter 05\Test_3_Kapitsa.py
 .\Chapter 05\Test_4_Kapitsa.py
+.\Chapter 05\Test_5_Rabbits_and_Foxes.py
 .\Chapter 05\Test_Island_1.py
 .\Chapter 05\Test_Island_2.py
 .\Chapter 05\Test_Island_3.py
@@ -105,6 +106,9 @@
 .\Chapter 12\Test_05_UK_Energy.py
 .\Chapter 12\Test_06_UK_Energy.py
 .\Chapter 12\Test_07_UK_Energy.py
+.\Chapter 12\Test_08_Uranium.py
+.\Chapter 12\Test_09_Nuclear_Reactors.py
+.\Chapter 12\Test_10_Nuclear_Reactors_Projection.py
 .\Chapter 13\Graph_01_Total_Production.py
 .\Chapter 13\Graph_02_USA_Coal.py
 .\Chapter 13\Graph_03_France_Belgium_Coal.py
