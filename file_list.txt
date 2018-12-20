@@ -109,6 +109,7 @@
 .\Chapter 12\Test_08_Uranium.py
 .\Chapter 12\Test_09_Nuclear_Reactors.py
 .\Chapter 12\Test_10_Nuclear_Reactors_Projection.py
+.\Chapter 12\Test_11_World_Renewable.py
 .\Chapter 13\Graph_01_Total_Production.py
 .\Chapter 13\Graph_02_USA_Coal.py
 .\Chapter 13\Graph_03_France_Belgium_Coal.py
