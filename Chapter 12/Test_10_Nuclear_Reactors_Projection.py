@@ -18,7 +18,7 @@ for i in range(1000):
     MW_connected[n-1800] += w/1000
 f_start.close()
 prd = 10
-growth = 0.98
+growth = 0.95
 for i in range(219,len(years)):
     MW_connected[i] += prd
     prd *= growth
