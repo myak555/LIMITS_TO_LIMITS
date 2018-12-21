@@ -152,6 +152,7 @@ ax2.plot( y, nuc, "-.", color="k", label="Выработка АЭС по дан�
 ax2.plot( y1, nuc1, "--", color="k", label="Выработка АЭС по данным WNA")
 ax2.set_xlim(x_start, x_end)
 #ax2.set_ylim( 0, 1500)
+ax2.set_xlabel("Год")
 ax2.set_ylabel("Гигаватт")
 ax2.grid(True)
 ax2.legend(loc=0)
