@@ -5,6 +5,13 @@ Reactor_Shutdown.Wavelets += [Hubbert( x0=2035.000, s0=0.30586, s1=0.46300, peak
 Reactor_Shutdown.Wavelets += [Sigmoid( x0=2053.000, s0=0.64954, left=0.000, right=10.000)]
 Reactor_Shutdown.Wavelets += [Hubbert( x0=2050.000, s0=0.33832, s1=0.34093, peak=5.469)]
 
+# Needed for phenomenological model later
+_Nuclear_Functions = Linear_Combo()
+_Nuclear_Functions.Wavelets += [Weibull( 1968, .015, 2.2, 45000)]
+_Nuclear_Functions.Wavelets += [Sigmoid( 2060, .05, 0, 1550)]
+_Nuclear_Functions.Wavelets += [Hubbert( 2039, 0.3, 0.1, -370)]
+_Nuclear_Functions.Wavelets += [Hubbert( 2012, 0.5, 0.1, -200)]
+
 years = np.linspace(1800, 2300, 501)
 MW_connected = np.zeros( len(years))
 f_start = open("./Data/Nuclear_Reactor_Commissioning.txt")
@@ -18,7 +25,7 @@ for i in range(1000):
     MW_connected[n-1800] += w/1000
 f_start.close()
 prd = 10
-growth = 0.95
+growth = 1.02
 for i in range(219,len(years)):
     MW_connected[i] += prd
     prd *= growth
@@ -61,7 +68,7 @@ for i in range(len(y)):
     if j<0: continue
     Production[j] = nuc[i]
 
-x_start, x_end = 1950, 2100
+x_start, x_end = 1950, 2150
 
 fig = plt.figure( figsize=(15,10))
 fig.suptitle( 'Гражданские генерирующие мощности ядерной энергетики', fontsize=22)
@@ -77,8 +84,9 @@ ax1.bar( years[:219], -MW_disconnected[:219]*10, 1, alpha=1, color="r")
 ax1.plot( years, MW_operating, "-", color="k", label="Рабочих мощностей")
 ax1.errorbar( y, nuc, yerr=nuc*0.03, fmt=".", color="m", label="Выработка АЭС по данным ВР")
 ax1.plot( years, Production, "--", color="m", label="Выработка АЭС (модель)")
+#ax1.plot( years, _Nuclear_Functions.GetVector(years)*0.39/31.6*42, "--", color="y", label="Phenomenological Model")
 ax1.set_xlim(x_start, x_end)
-ax1.set_ylim( -400, 600)
+ax1.set_ylim( -400, 1000)
 ax1.text( 2030, 50, "Рост/снижение по {:.1f}% в год".format((growth-1)*100))
 ax1.set_ylabel("Гигаватт")
 ax1.grid(True)
