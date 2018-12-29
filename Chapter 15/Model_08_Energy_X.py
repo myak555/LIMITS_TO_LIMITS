@@ -120,7 +120,7 @@ M2_CPP_2P = 1000.0 * M2_Cons_2P_rn / population_medium
 PP_3P = 1000.0 * All_3P / population_high
 M3_CPP_3P = 1000.0 * M3_Cons_3P_rn / population_high
 
-Energy_X = Sigmoid( 2050, 0.2, 0, 8600).GetVector(Year)
+Energy_X = Sigmoid( 2050, 0.2, 0, 7200).GetVector(Year)
 M1_Cons_1P_rnx = M1_Cons_1P_rn + Energy_X 
 M2_Cons_2P_rnx = M2_Cons_2P_rn + Energy_X
 M3_Cons_3P_rnx = M3_Cons_3P_rn + Energy_X
@@ -128,7 +128,7 @@ M1_CPP_1Px = 1000.0 * M1_Cons_1P_rnx / population_low
 M2_CPP_2Px = 1000.0 * M2_Cons_2P_rnx / population_medium
 M3_CPP_3Px = 1000.0 * M3_Cons_3P_rnx / population_high
 
-Energy_Y = Sigmoid( 2056, 0.13, 0, 15000).GetVector(Year)
+Energy_Y = Sigmoid( 2056, 0.13, 0, 12500).GetVector(Year)
 M1_Cons_1P_rny = M1_Cons_1P_rn + Energy_Y 
 M2_Cons_2P_rny = M2_Cons_2P_rn + Energy_Y
 M3_Cons_3P_rny = M3_Cons_3P_rn + Energy_Y
