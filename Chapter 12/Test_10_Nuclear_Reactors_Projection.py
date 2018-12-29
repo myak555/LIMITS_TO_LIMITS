@@ -7,10 +7,19 @@ Reactor_Shutdown.Wavelets += [Hubbert( x0=2050.000, s0=0.33832, s1=0.34093, peak
 
 # Needed for phenomenological model later
 _Nuclear_Functions = Linear_Combo()
-_Nuclear_Functions.Wavelets += [Weibull( 1968, .015, 2.2, 45000)]
-_Nuclear_Functions.Wavelets += [Sigmoid( 2060, .05, 0, 1550)]
-_Nuclear_Functions.Wavelets += [Hubbert( 2039, 0.3, 0.1, -370)]
-_Nuclear_Functions.Wavelets += [Hubbert( 2012, 0.5, 0.1, -200)]
+_Nuclear_Functions.Wavelets += [Weibull( 1968, .018, 2.2, 40000)]
+_Nuclear_Functions.Wavelets += [Hubbert( 2013, 0.3, 0.3, -100)]
+_Nuclear_Functions.Wavelets += [Hubbert( 2028, 0.4, 0.29, 70)]
+_Nuclear_Functions.Wavelets += [Hubbert( 2038, 0.4, 0.4, -70)]
+_Nuclear_Functions.Wavelets += [Hubbert( 2052, 0.4, 0.4, 40)]
+_Nuclear_Functions.Wavelets += [Sigmoid( 2063, .08, 0, 1550)]
+
+_Nuclear_Functions_2 = Linear_Combo()
+_Nuclear_Functions_2.Wavelets += [Weibull( 1968, .018, 2.2, 40000)]
+_Nuclear_Functions_2.Wavelets += [Hubbert( 2013, 0.3, 0.3, -100)]
+_Nuclear_Functions_2.Wavelets += [Hubbert( 2028, 0.4, 0.29, 70)]
+_Nuclear_Functions_2.Wavelets += [Hubbert( 2038, 0.4, 0.4, -70)]
+_Nuclear_Functions_2.Wavelets += [Hubbert( 2052, 0.4, 0.4, 40)]
 
 years = np.linspace(1800, 2300, 501)
 MW_connected = np.zeros( len(years))
@@ -84,7 +93,8 @@ ax1.bar( years[:219], -MW_disconnected[:219]*10, 1, alpha=1, color="r")
 ax1.plot( years, MW_operating, "-", color="k", label="Рабочих мощностей")
 ax1.errorbar( y, nuc, yerr=nuc*0.03, fmt=".", color="m", label="Выработка АЭС по данным ВР")
 ax1.plot( years, Production, "--", color="m", label="Выработка АЭС (модель)")
-#ax1.plot( years, _Nuclear_Functions.GetVector(years)*0.39/31.6*42, "--", color="y", label="Phenomenological Model")
+#ax1.plot( years, _Nuclear_Functions.GetVector(years)*0.39/31.6*42, "--", color="y", label="Phenomenological Model 1")
+#ax1.plot( years, _Nuclear_Functions_2.GetVector(years)*0.39/31.6*42, "-.", color="y", label="Phenomenological Model 2")
 ax1.set_xlim(x_start, x_end)
 ax1.set_ylim( -400, 1000)
 ax1.text( 2030, 50, "Рост/снижение по {:.1f}% в год".format((growth-1)*100))
