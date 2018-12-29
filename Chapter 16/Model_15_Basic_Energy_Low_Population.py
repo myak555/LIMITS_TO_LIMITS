@@ -18,9 +18,9 @@ class Energy_Model_5:
         self.q0 = q0
         self.ERoEI = ERoEI
         self.Staple_Level = staple_level
-        self.Staple_Step = 0.05
-        self.Staple_Crisis_Intensity = 0.01
-        self.Deprivation = 1
+        self.Staple_Step = 0.15
+        self.Staple_Crisis_Intensity = 0.95 # 2-8% production decline in crisis      
+        self.Deprivation = 1.0
         yr = np.linspace(0,99,100)
         mc = Markov_Chain([3, 8, 10], yr, 0)
         mc.Filter[0] = 0
@@ -79,19 +79,20 @@ class Energy_Model_5:
             else:
                 deltaQ = self.ProductionCalibrated[i] - self.Production[i]
             if deltaQ < 0:
-                print( "Degrowth: {:g} {:.1f}".format( t0[i], deltaQ) )
+                #print( "Degrowth: {:g} {:.1f}".format( t0[i], deltaQ) )
                 deltaQ = 0
                 if t0[i] <= 2017: # stick to actual
                     self.Production[i] = self.ProductionCalibrated[i]
                     self.UsefulProduction[i-1] = self.ProductionCalibrated[i-1] * (1-1/self.Solution_ERoEI[i-1])
             sump = np.sum( self.Production)
             if sump + self.Solution_ERoEI[i]*deltaQ >= self.URR:
-                deltaQ = (self.URR - sump) * self.Staple_Crisis_Intensity / self.Solution_ERoEI[i]
-                if deltaQ < 0: deltaQ = 0
+                deltaQ = 0
+            p_crisis = 1
             if t0[i] > 2017:
                 cl = (self.Consumption_PH[i-2] + self.Consumption_PH[i-3] + self.Consumption_PH[i-4]) / 3
                 if cl < self.Staple_Level:
-                    deltaQ *= self.Staple_Crisis_Intensity
+                    deltaQ = 0
+                    p_crisis = self.Staple_Crisis_Intensity
                     self.Staple_Level -= self.Staple_Step
                     if self.Staple_Level < self.Staple_Step: self.Staple_Level = self.Staple_Step
             return_function = self.Return_Function * self.Solution_ERoEI[i]
@@ -100,11 +101,27 @@ class Energy_Model_5:
             for j in range( len( return_function)):
                 self.Production[i+j-1] += return_function[j] * norm_return
                 self.UsefulProduction[i+j-1] += useful_function[j] * norm_return
+            self.Production[i] *= p_crisis
+            self.Production[i+1] *= p_crisis**0.5
             self.Production_PH[i] = self.Production[i] / self.Pop[i]
             self.Consumption_PH[i-1] = self.UsefulProduction[i-1] / self.Pop[i-1]
             self.Solution_Q[i] = self.Solution_Q[i-1] + self.Production[i]
         self.Solution_Q = np.clip( self.Solution_Q, 0, self.URR)
         return
+    def GetConsumptionYear( self, y):
+        returnY = 0
+        consumptionY = 0
+        for i in range( len( self.Solution_Time)):
+            if self.Solution_Time[i] == y :
+                consumptionY = self.Consumption_PH[i]
+                print( "In {:g} per head production  {:.0f} кг and consumption {:.0f} кг".format(
+                    self.Solution_Time[i], self.Production_PH[i]*1000, consumptionY*1000))
+            if returnY == 0 and consumptionY>0 and self.Consumption_PH[i] < consumptionY:
+                returnY = self.Solution_Time[i]
+                print( "In {:g} per head production  {:.0f} кг and consumption {:.0f} кг".format(
+                    returnY, self.Production_PH[i]*1000, self.Consumption_PH[i]*1000))
+                break
+        return returnY, consumptionY
 
 #
 # Solve numerically
@@ -127,28 +144,9 @@ for i in range( endProd, 0, -1):
     endProd = i
     break
 print( "In {:g} cumulative production is {:.1f} mlrd toe".format( Year[endProd], E.Solution_Q[endProd]/1000))
-return1930 = 0
-consumption1930 = 0
-for i in range( len( Year)):
-    if Year[i] == 1930:
-        consumption1930 = E.Consumption_PH[i]
-        print( "In {:g} per head production  {:.0f} кг and consumption {:.0f} кг".format( Year[i], E.Production_PH[i]*1000, consumption1930*1000))
-    if return1930 == 0 and consumption1930>0 and E.Consumption_PH[i] < consumption1930:
-        return1930 = Year[i]
-        print( "In {:g} per head production  {:.0f} кг and consumption {:.0f} кг".format( return1930, E.Production_PH[i]*1000, E.Consumption_PH[i]*1000))
-        break
+return1960,consumption1960 = E.GetConsumptionYear( 1960)
+return1930,consumption1930 = E.GetConsumptionYear( 1930)
         
-#YearS = np.linspace( 0, 99, len(E.Invest_Function))
-#fig = plt.figure( figsize=(15,6))
-#plt.plot( YearS, E.Invest_Function, "-", lw=2, color="r", label="Затраты")
-#plt.plot( YearS, E.Return_Function, "-", lw=2, color="g", label="Доходы")
-#plt.grid(True)
-#plt.xlabel("Год")
-#plt.xlim( -1, 100)
-#plt.legend(loc=0)
-#plt.savefig( ".\\Graphs\\figure_16_16a.png")
-#fig.show()
-
 x_start, x_end = 1850, 2150
 
 fig = plt.figure( figsize=(15,10))
@@ -189,8 +187,10 @@ ax3.plot( Year,  E.Production_PH*1000, "-", lw=2, color="k", label="Добыча
 ax3.plot( Year,  E.Consumption_PH*1000, "--", lw=2, color="k", label="Потребление (за вычетом ERoEI)")
 ax3.plot( [Year[maxProd],Year[maxProd]], [0, E.Production_PH[maxProd]*1500], "--", lw=1, color="k")
 ax3.plot( [1930, return1930], [ consumption1930*1000, consumption1930*1000], "-.", lw=1, color="k")
+ax3.plot( [1960, return1960], [ consumption1960*1000, consumption1960*1000], "-.", lw=1, color="k")
 ax3.text( Year[maxProd] - 25,  E.Production_PH[maxProd]*1030, "Максимум добычи: {:.0f} кг на душу в {:g} году".format(1000* E.Production_PH[maxProd],Year[maxProd]))
 ax3.text( 1945, consumption1930*700, "Потребление 1930 и {:g} гг: {:.0f} кг".format(return1930,consumption1930*1000))
+ax3.text( 1945, consumption1960*800, "Потребление 1960 и {:g} гг: {:.0f} кг".format(return1960,consumption1960*1000))
 ax3.set_xlim( x_start, x_end)
 ax3.set_ylim( 0, 2000)
 ax3.set_xlabel("Год")
@@ -198,6 +198,6 @@ ax3.set_ylabel("кг нефт. экв.")
 ax3.grid(True)
 ax3.legend(loc=2)
 
-plt.savefig( ".\\Graphs\\figure_16_16.png")
+plt.savefig( ".\\Graphs\\figure_16_15.png")
 fig.show()
 
