@@ -105,7 +105,7 @@ plt.grid(True)
 plt.xlabel("Год")
 plt.xlim( -3, E.ERoEI+1)
 plt.legend(loc=0)
-plt.savefig( ".\\Graphs\\figure_16_10a.png")
+plt.savefig( ".\\Graphs\\figure_16_09a.png")
 fig.show()
 
 x_start, x_end = 1850, 2150
@@ -154,6 +154,6 @@ ax3.set_ylabel("кг нефт. экв.")
 ax3.grid(True)
 ax3.legend(loc=2)
 
-plt.savefig( ".\\Graphs\\figure_16_10.png")
+plt.savefig( ".\\Graphs\\figure_16_09.png")
 fig.show()
 

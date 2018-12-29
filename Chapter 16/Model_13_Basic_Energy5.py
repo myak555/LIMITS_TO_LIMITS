@@ -3,20 +3,23 @@ from Predictions import *
 #
 # Energy Model with dynamic ERoEI (after C.Hall and K.Kleatgaard)
 # Using investment and return functions defined as Markov chains
+# Models changes in staple consumption, resulting in "Undulating Plateau"
 # Resource - actual energy production (mln toe)
 # Population - population function (mln)
 # q0>0 - assumed energy production at T0 (mln toe)
 # URR - total recoverable resources (mln toe)
 # Dynamic ERoEI
 #
-class Energy_Model_4:
-    def __init__( self, Resource, Population, ERoEI, q0, URR=1400e3, staple_level = 0.0):
+class Energy_Model_5:
+    def __init__( self, Resource, Population, ERoEI, q0, URR=1400e3, staple_level = 1.4):
         self.Resource = Resource
         self.Population = Population
         self.URR = URR
         self.q0 = q0
         self.ERoEI = ERoEI
         self.Staple_Level = staple_level
+        self.Staple_Step = 0.15
+        self.Staple_Crisis_Intensity = 0.95       
         yr = np.linspace(0,99,100)
         mc = Markov_Chain([3, 8, 10], yr, 0)
         mc.Filter[0] = 0
@@ -70,28 +73,35 @@ class Energy_Model_4:
             self.Solution_ERoEI[i] = 10**self.ERoEI.Compute( self.Solution_Q[i-1]/1000)
             if t0[i] > 2017:
                 #break #Uncomment to kill investments in 2018
-                #deltaQ = self.Deprivation ** (t0[i]-2017)
                 deltaQ = self.Production[i-1] * self.Pop[i] / self.Pop[i-1]
                 deltaQ -= self.Production[i]
             else:
                 deltaQ = self.ProductionCalibrated[i] - self.Production[i]
-            sump = np.sum( self.Production)
-            if sump >= self.URR-self.Solution_ERoEI[i]*deltaQ:
-                deltaQ = 0
-            if t0[i] > 2017 and self.Consumption_PH[i-2] < self.Staple_Level:
-                deltaQ = 0
             if deltaQ < 0:
-                print( "Degrowth: {:g} {:.1f}".format( t0[i], deltaQ) )
+                #print( "Degrowth: {:g} {:.1f}".format( t0[i], deltaQ) )
                 deltaQ = 0
                 if t0[i] <= 2017: # stick to actual
                     self.Production[i] = self.ProductionCalibrated[i]
                     self.UsefulProduction[i-1] = self.ProductionCalibrated[i-1] * (1-1/self.Solution_ERoEI[i-1])
+            sump = np.sum( self.Production)
+            if sump + self.Solution_ERoEI[i]*deltaQ >= self.URR:
+                deltaQ = 0
+            p_crisis = 1
+            if t0[i] > 2017:
+                cl = (self.Consumption_PH[i-2] + self.Consumption_PH[i-3] + self.Consumption_PH[i-4]) / 3
+                if cl < self.Staple_Level:
+                    deltaQ = 0
+                    p_crisis = self.Staple_Crisis_Intensity
+                    self.Staple_Level -= self.Staple_Step
+                    if self.Staple_Level < self.Staple_Step: self.Staple_Level = self.Staple_Step
             return_function = self.Return_Function * self.Solution_ERoEI[i]
             norm_return = deltaQ / return_function[1]
             useful_function = return_function + self.Invest_Function
             for j in range( len( return_function)):
                 self.Production[i+j-1] += return_function[j] * norm_return
                 self.UsefulProduction[i+j-1] += useful_function[j] * norm_return
+            self.Production[i] *= p_crisis
+            self.Production[i+1] *= p_crisis**0.5
             self.Production_PH[i] = self.Production[i] / self.Pop[i]
             self.Consumption_PH[i-1] = self.UsefulProduction[i-1] / self.Pop[i-1]
             self.Solution_Q[i] = self.Solution_Q[i-1] + self.Production[i]
@@ -104,8 +114,8 @@ class Energy_Model_4:
 Year = np.linspace( 1800, 2300, 501)
 P = Population()
 R = Resources()
-eroei = Sigmoid( 501, 0.006, 2, 0)
-E = Energy_Model_4( R, P.UN_Medium, eroei, 40)
+eroei = Sigmoid( 501, 0.005, 2, 0)
+E = Energy_Model_5( R, P.UN_Medium, eroei, 40)
 E.Solve( Year)
 maxYear = np.argmax( E.Production)
 print( "In {:g} production peak at {:.0f} mln toe".format( Year[maxYear], E.Production[maxYear]))
@@ -130,21 +140,21 @@ for i in range( len( Year)):
         print( "In {:g} per head production  {:.0f} кг and consumption {:.0f} кг".format( return1930, E.Production_PH[i]*1000, E.Consumption_PH[i]*1000))
         break
         
-##YearS = np.linspace( 0, 99, len(E.Invest_Function))
-##fig = plt.figure( figsize=(15,6))
-##plt.plot( YearS, E.Invest_Function, "-", lw=2, color="r", label="Затраты")
-##plt.plot( YearS, E.Return_Function, "-", lw=2, color="g", label="Доходы")
-##plt.grid(True)
-##plt.xlabel("Год")
-##plt.xlim( -1, 100)
-##plt.legend(loc=0)
-##plt.savefig( ".\\Graphs\\figure_16_12a.png")
-##fig.show()
+#YearS = np.linspace( 0, 99, len(E.Invest_Function))
+#fig = plt.figure( figsize=(15,6))
+#plt.plot( YearS, E.Invest_Function, "-", lw=2, color="r", label="Затраты")
+#plt.plot( YearS, E.Return_Function, "-", lw=2, color="g", label="Доходы")
+#plt.grid(True)
+#plt.xlabel("Год")
+#plt.xlim( -1, 100)
+#plt.legend(loc=0)
+#plt.savefig( ".\\Graphs\\figure_16_13a.png")
+#fig.show()
 
 x_start, x_end = 1850, 2150
 
 fig = plt.figure( figsize=(15,15))
-fig.suptitle( 'Модель энергетики с переменным ERoEIext', fontsize=22)
+fig.suptitle( 'Модель энергетики "Колеблющееся плато"', fontsize=22)
 gs = plt.GridSpec(3, 1, height_ratios=[1, 1, 1]) 
 ax1 = plt.subplot(gs[0])
 ax2 = plt.subplot(gs[1])
@@ -190,6 +200,6 @@ ax3.set_ylabel("кг нефт. экв.")
 ax3.grid(True)
 ax3.legend(loc=2)
 
-plt.savefig( ".\\Graphs\\figure_16_12.png")
+plt.savefig( ".\\Graphs\\figure_16_13.png")
 fig.show()
 
