@@ -1,0 +1,252 @@
+1	GeoB5844-2	UK’37	Muller et al., 1998 (3)	27.7	34.7	-963	300	Annual  / Summer	Arz et al., 2003 (4)
+H. W. Arz, J. Patzold, P. J. Muller, Influence of Northern Hemisphere climate and global sea level 500 rise on the restricted Red Sea marine environment during termination I. Paleoceanography 18, 501 doi:10.1029/2002PA000864 (2003). 502
+
+
+2	ODP-1019D	UK’37	Muller et al., 1998 (3)	41.7	-124.9	-980	140	Annual	Barron et al., 2003 (5)
+J. A. Barron, L. Heusser, T. Herbert, M. Lyle, High resolution climatic evolution of coastal 503 northern California during the past 16,000 years. Paleoceanography 18, 20 (2003). 504
+
+
+3	SO136-GC11	UK’37	Muller et al., 1998 (3)	-43.5	167.9	-1556	290	Annual*	Barrows et al., (6)
+T. T. Barrows, S. J. Lehman, L. K. Fifield, P. De Deckker, Absence of Cooling in New Zealand and 505 the Adjacent Ocean During the Younger Dryas Chronozone. Science 318, 86 (2007). 506
+
+
+4	JR51GC-35	UK’37	Muller et al., 1998 (3)	67	-18	-420	110	Annual	Bendle and Rosell-Mele 2007 (7)
+J. A. P. Bendle, A. Rosell-Mele, High-resolution alkenone sea surface temperature variability on 507 the North Icelandic Shelf: implications for Nordic Seas palaeoclimatic development during the 508 Holocene. The Holocene 17, 9 (2007). 509
+
+
+5	ME005A-43JC	Mg/Ca (G.ruber)	Anand et al., 2003 (8)	7.9	-83.6	-1368	200	Annual*	Benway et al.,2006 (9)
+H. M. Benway, A. C. Mix, B. A. Haley, G. P. Klinkhammer, Eastern Pacific Warm Pool paleosalinity 513 and climate variability: 0 – 30 kyr. Paleoceanography 21, PA3008 (2006). 514
+
+
+6	MD95-2043	UK’37	Muller et al., 1998 (3)	36.1	-2.6	-1000	110	Annual	Cacho et al., 2001 (10)
+7	M39-008	UK’37	Muller et al., 1998 (3)	39.4	-7.1	-576	140	Annual	Cacho et al., 2001 (10)
+I. Cacho et al., Variability of the western Mediterranean Sea surface temperature during the last 515 25,000 years and its connection with the Northern Hemisphere climatic changes. 516 Paleoceanography 16, 40 (2001). 517
+
+
+8	MD95-2011	UK’37	Muller et al., 1998 (3)	67	7.6	-1048	60	Summer	Calvo et al., 2002 (11)
+E. Calvo, J. Grimalt, E. Jansen, High resolution UK37 sea surface temperature reconstruction in 518 the Norwegian Sea during the Holocene. Quaternary Science Review 21, 1385 (2002). 519
+
+
+9	ODP 984	Mg/Ca (N. pachyderma d.)	Anand et al., 2003 (8)	61.4	-24.1	-1648	110	Winter*	Came et al., 2007 (12)
+R. E. Came, D. W. Oppo, J. F. McManus, Amplitude and timing of temperature and salinity 520 variability in the subpolar North Atlantic over the past 10 k.y. Geology 35, 315 (2007). 521
+
+
+10	GeoB 7702-3	TEX86	Kim et al., 2008 (13)	31.7	34.1	-562	210	Summer	Castaneda et al., 2010 (14)
+I. S. Castaneda et al., Millennial?scale sea surface temperature changes in the eastern 525 Mediterranean (Nile River Delta region) over the last 27,000 years. Paleoceanography 25, 526 PA1208 (2010). 527
+
+
+11	Moose Lake	Chironomid transfer function	Global Avg. RMSEP	61.4	-143.6	437	50	Summer	Clegg et al., 2010 (15)
+B. F. Clegg et al., Six millennia of summer temperature variation based on midge analysis of lake 528 sediments from Alaska. Quaternary Science Review, doi:10.1016/j.quascirev.2010.08.001 (2010). 529
+
+
+12	ODP 658C	Foram transfer function	±1.5 C uncertainty±1.5 C uncertainty	20.8	-18.6	-2263	110	Winter and Summer**Winter and Summer**	deMenocal et al., 2000 (16)
+P. deMenocal, J. Ortiz, T. Guilderson, M. Sarnthein, Coherent High- and Low-Latitude climate 530 variability during the Holocene warm period. Science 288, 2198 (2000). 531 Marcott et al., 2012 37
+
+
+13	Composite: MD95-2011; HM79-4	Radiolaria transfer function	±1.2 C uncertainty±1.2 C uncertainty	67	7.6	-	90	Summer	Dolven et al., 2002 (17)
+J. K. Dolven, G. Cortese, K. R. Bjoklund, A high-resolution radiolarian-derived paleotemperature 532 record for the Late Pleistocene-Holocene in the Norwegian Sea. Paleoceanography 17, 533 doi:10.1029/2002PA000780 (2002). 534
+
+
+14	IOW225517	UK’37	Muller et al., 1998 (3)	57.7	7.1	-293	120	Spring to Winter	Emeis et al., 2003 (18)
+15	IOW225514	UK’37	Muller et al., 1998 (3)	57.8	8.7	-420	70	Spring to Winter	Emeis et al., 2003 (18)
+16	M25/4-KL11	UK’37	Muller et al., 1998 (3)	36.7	17.7	-3376	260	Spring to Winter	Emeis et al., 2003 (18)
+K. C. Emeis, U. Struck, T. Blanz, A. Kohly, M. Wo?, Salinity changes in the central Baltic Sea (NW 535 Europe) over the last 10 000 years. The Holocene 13, 411 (2003). 536
+
+
+17	ODP 1084B	Mg/Ca (G. bulloides)	Mashiotta et al. 1999 (19)	-25.5	13	-1992	90	Winter	Farmer et al., 2005 (20)
+E. C. Farmer, P. B. deMendocal, T. M. Marchitto, Holocene and deglacial ocean temperature 540 variability in the Benguela upwelling region: Implications for low-latitude atmospheric 541 circulation. Paleoceanography 20, doi:10.1029/2004PA001049 (2005). 542
+
+
+18	AD91-17	UK’37	Muller et al., 1998 (3)	40.9	18.6	-844	190	Annual (seasonal bias likely)	Giunta et al., 2001 (21)
+S. Giunta, K. C. Emeis, A. Negri, Sea-surface temperature reconstruction of the last 16,000 years 543 in the Eastern Mediterranean Sea. Rivista Italiana di Paleontologia e Stratigrafia 107, 463 544 (2001). 545
+
+
+19	74KL	UK’37	Muller et al., 1998 (3)	14.3	57.3	-3212	300	Annual (seasonal bias likely)	Huguet et al., 2006 (22)
+20	74KL	TEX86	Schouten et al., 2002 (23)	14.3	57.3	-3212	300	Annual (seasonal bias likely)	Huguet et al., 2006 (22)
+21	NIOP-905	UK’37	Muller et al., 1998 (3)	10.6	51.9	-1567	180	Annual (seasonal bias likely)	Huguet et al., 2006 (22)
+22	NIOP-905	TEX86	Schouten et al., 2002 (23)	10.6	51.9	-1567	180	Annual (seasonal bias likely)	Huguet et al., 2006 (22)
+22. C. Huguet, J.-H. Kim, J. S. S. Damste, S. Schouten, Reconstruction of sea surface temperature 546 variations in the Arabian Sea over the last 23 kyr using organic proxies (TEX86 and UK37). 547 Paleoceanography 21, doi:10.1029/2005PA001215 (2006). 548
+
+
+23	Composite: MD01-2421; KR02-06 St.A GC; KR02-06 St.A MC	UK’37	Muller et al., 1998 (3)	36	141.8	-2224	60	Annual*	Isono et al., 2009 (24)
+G. Isono et al., The 1500-year climate oscillation in the midlatitude North Pacific during the 552 Holocene. Geology 37, 591 (2010). 553
+
+
+24	GeoB 3910	UK’37	Muller et al., 1998 (3)	-4.2	-36.3	-2362	400	Annual*	Jaeschke et al., 2007 (25)
+A. Jaeschke, C. Ruhlemann, H. Arz, G. Heil, G. Lohmann, Coupling of millennial-scale changes in 554 sea surface temperature and precipitation off northeastern Brazil with high-latitude climate 555 shifts during the last glacial period. Paleoceanography 22, doi:10.1029/2006PA001391 (2007). 556
+
+
+25	Dome C, Antarctica	Ice Core dDIce Core dD	±30% uncertainty±30% uncertainty	-75.1	123.4	3240	20	Annual	Jouzel et al., 2007 (26)
+J. Jouzel et al., Orbital and Millennial Antarctic Climate Variability over the Past 800,000 Years. 557 Science 317, 793 (2007). 558
+Note elevation for Dome C well cited in (61) as 3233 m an not "3240"; this source seemingly does not mention the wellhead elevation at all.
+
+
+26	GeoB 7139-2	UK’37	Muller et al., 1998 (3)	-30.2	-72	-3270	500	Annual	Kaiser et al., 2008 (27)
+J. Kaiser, E. Schefu?, F. Lamy, M. Mohtadi, D. Hebbeln, Glacial to Holocene changes in sea 559 surface temperature and coastal vegetation in north central Chile: high versus low latitude 560 forcing. Quaternary Science Review 27, 2064 (2008). 561
+
+
+27	Dome F, Antarctica	Ice Core d18O, dDIce Core d18O, dD	±30% uncertainty±30% uncertainty	-77.3	39.7	3810	500	Annual	Kawamura et al., 2007 (28)
+K. Kawamura et al., Northern Hemisphere forcing of climatic cycles in Antarctica over the past 562 360,000 years. Nature 448, 912 (2007). 563
+
+
+28	18287-3	UK’37	Muller et al., 1998 (3)	5.7	110.7	-598	260	Annual	Kienast et al., 2001 (29)
+M. Kienast, S. Steinke, K. Stattegger, S. E. Calvert, Synchronous Tropical South China Sea SST 564 Change and Greenland Warming During Deglaciation. Science 291, 2132 (2001). 565
+
+
+29	GeoB 1023-5	UK’37	Muller et al., 1998 (3)	-17.2	11	-1978	180	Annual	Kim et al., 2002 (30)
+J.-H. Kim, R. R. Schneider, P. J. Muller, G. Wefer, Interhemispheric comparison of deglacial sea-566 surface temperature patterns in Atlantic eastern boundary currents. Earth and Planetary Science 567 Letters 194, 383 (2002). 568
+
+
+30	GeoB 5901-2	UK’37	Muller et al., 1998 (3)	36.4	-7.1	-574	120	Annual	Kim et al., 2004 (31)
+J.-H. Kim et al., North Pacific and North Atlantic sea-surface temperature variability during the 569 Holocene. Quaternary Science Review 23, 2141 (2004). 570
+
+
+31	KY07?04?01	Mg/Ca (G.ruber)	Anand et al., 2003 (8)	31.6	129	-2114	100	Summer	Kubota et al., 2010 (32)
+Y. Kubota et al., Variations of East Asian summer monsoon since the last deglaciation based on 571 Mg/Ca and oxygen isotope of planktic foraminifera in the northern East China Sea. 572 Paleoceanography 25, doi:10.1029/2009PA001891 (2010). 573
+
+
+32	Hanging Lake	Chironomid transfer function	Global Avg. RMSEP	68.4	-138.4	500	150	Summer	Kurek et al., 2009 (33)
+J. Kurek, L. Cwynar, J. C. Vermaire, A late Quaternary paleotemperature record from Hanging 574 Lake, northern Yukon Territory, eastern Beringia. Quaternary Research 72, 246 (2009). 575
+
+
+33	GeoB 3313-1	UK’37	Muller et al., 1998 (3)	-41	-74.3	825	90	Annual	Lamy et al., 2002 (34)
+F. Lamy, C. Ruhlemann, D. Hebbein, G. Wefer, High- and low-latitude climate control on the 576 position of the southern Peru-Chile Current during the Holocene. Paleoceanography 17, 577 10.1029/2001PA000727 (2002). 578
+Marcott et al., 2012 38
+
+
+34	Lake 850	Chironomid transfer function	Global Avg. RMSEP	68.4	19.2	850	80	Summer	Larocque et al., 2004 (35)
+35	Lake Nujulla	Chironomid transfer function	Global Avg. RMSEP	68.4	18.7	999	190	Summer	Larocque et al., 2004 (35)
+I. Larocque, R. I. Hall, Holocene temperature estimates and chironomid community composition 579 in the Abisko Valley, northern Sweden. Quaternary Science Review 23, 2453 (2004). 580
+
+
+36	PL07-39PC	Mg/Ca (G.ruber w.)	Anand et al., 2003 (8)	10.7	-65	-790	180	Annual	Lea et al., 2003 (36)
+D. W. Lea, D. K. Pak, L. C. Peterson, K. A. Hughen, Sychroneity of Tropical and High-Latitude 581 Atlantic Temperatures over the Last Glacial Termination. Science 301, 1361 (2003). 582
+
+
+37	MD02-2529	UK’37	Muller et al., 1998 (3)	8.2	-84.1	-1619	290	Summer*	Leduc et al., 2007 (37)
+G. Leduc et al., Moisture transport across Central America as a positive feedback on abrupt 583 climatic changes. Nature 445, 908 (2007). 584
+
+
+38	MD98-2165	Mg/Ca (G.ruber w.)	Dekens et al., 2002 (38)	-9.7	118.3	-2100	220	Annual	Levi et al., 2007 (39)
+39	MD79-257	Foram MAT	±1.1 C uncertainty±1.1 C uncertainty	-20.4	36.3	-1262	300	Winter and Summer**Winter and Summer**	Levi et al., 2008 (39)
+C. Levi et al., Low-latitude hydrological cycle and rapid climate changes during the last 588 deglaciation. Geochemistry, Geophysics, and Geosystems 8, Q05N12 (2007). 589
+
+
+40	BJ8 13GGC	Mg/Ca (G.ruber s.s.)	Anand et al., 2003 (8)	-7.4	115.2	-594	40	Annual*	Linsley et al., 2010 (40)
+41	BJ8 70GGC	Mg/Ca (G.ruber s.s.)	Anand et al., 2003 (8)	-3.6	119.4	-482	130	Annual*	Linsley et al., 2011 (40)
+B. K. Linsley, Y. Rosenthal, D. W. Oppo, Holocene evolution of the Indonesian throughflow and 590 the western Pacific warm pool. Nature Geoscience 3, 578 (2010). 591
+
+
+42	MD95-2015	UK’37	Muller et al., 1998 (3)	58.8	-26	-2630	80	Annual	Marchal et al., 2002 (41)
+O. Marchal et al., Apparentlong-termcoolingoftheseasurfaceinthenortheast Atlantic and 592 Mediterranean during the Holocene. Quaternary Science Review 21, 455 (2002). 593
+
+
+43	Homestead Scarp	Pollen MAT	±0.98 C uncertainty	-52.5	169.1	30	70	Summer	McGlone et al., 2010 (42)
+44	Mount Honey	Pollen MAT	±0.98 C uncertainty	-52.5	169.1	120	110	Summer	McGlone et al., 2011 (42)
+M. S. McGlone, C. S. M. Turney, J. M. Wilmshurst, J. Renwick, K. Pahnke, Divergent trends in land 594 and ocean temperature in the Southern Ocean over the past 18,000 years. Nature Geoscience 3, 595 622 (2010). 596
+
+
+45	GeoB 10038-4	Mg/Ca (G.ruber)	Anand et al., 2003 (8)	-5.9	103.3	-1819	530	Annual	Mohtadi et al., 2010 (43)
+M. Mohtadi, S. Steinke, A. Luckge, J. Groeneveld, E. C. Hathorne, Glacial to Holocene surface 597 hydrography of the tropical eastern Indian Ocean. Earth and Planetary Science Letters 292, 89 598 (2010). 599
+
+
+46	TN05-17	Diatom MAT	±0.75 C uncertainty	-50	6	-3700	40	Annual*	Nielsen et al., 2004 (44)
+S. H. H. Nielsen, N. Koc, X. Crosta, Holocene climate in the Atlantic sector of the Southern Ocean: 600 Controlled by insolation or oceanic circulation? Geology 32, 317 (2010). 601
+
+
+47	MD97-2120	UK’37	Muller et al., 1998 (3)	-45.5	174.9	-3290	160	Annual	Pahnke and Sachs, 2005 (45)
+48	MD97-2121	UK’37	Muller et al., 1998 (3)	-40.4	178	-3014	80	Annual	Pahnke and Sachs, 2006 (45)
+K. Pahnke, J. P. Sachs, Sea surface temperatures of southern midlatitudes 0 – 160 kyr B. P. 602 Paleoceanography 21, PA2003 (2006). 603
+
+
+49	17940	UK’37	Muller et al., 1998 (3)	20.1	117.4	-1968	120	Annual	Pelejero et al., 1999 (46)
+C. Pelejero, J. Grimalt, S. Heilig, M. Kienast, L. Wang, High resolution UK37 temperature 604 reconstructions in the South China Sea over the past 220 kyr. Paleoceanography 14, 224 (1999). 605
+
+
+50	Vostok, Antarctica	Ice Core dD	±30% uncertainty	-78.5	108	3500	40	Annual*	Petit et al., 1999 (47)
+J. R. Petit, Climate and Atmospheric history of the past 420,000 years from the Vostok ice core, 606 Antarctic. Nature 399, 429 (1999). 607
+
+
+51	D13822	UK’37	Muller et al., 1998 (3)	38.6	-9.5	-88	70	Summer*	Rodriguez et al., 2009 (48)
+T. Rodrigues, J. O. Grimalt, F. G. Abrantes, J. A. Flores, S. M. Lebreiro, Holocene 608 interdependences of changes in sea surface temperature, productivity, and fluvial inputs in the 609 Iberian continental shelf (Tagus mud patch). Geochemistry, Geophysics, and Geosystems 10, 610 Q07U06 (2009). 611
+
+
+52	M35003-4	UK’37	Muller et al., 1998 (3)	12.1	-61.2	-1299	290	Annual	Ruhlemann et al., 1999 (49)
+C. Ruhlemann, S. Mulitza, P. J. Muller, G. Wefer, R. Zahn, Warming of the tropical Atlantic Ocean 612 and slowdown of thermohaline circulation during the last deglaciation. Nature 402, 511 (1999). 613
+
+
+53	OCE326-GGC26	UK’37	Muller et al., 1998 (3)	43	-55	-3975	110	Annual	Sachs 2007 (50)
+54	OCE326-GGC30	UK’37	Muller et al., 1998 (3)	44	-63	-250	80	Annual	Sachs 2007 (50)
+55	CH07-98-GGC19	UK’37	Muller et al., 1998 (3)	36.9	-74.6	-1049	60	Annual	Sachs 2007 (50)
+J. P. Sachs, Cooling of Northwest Atlantic slope waters during the Holocene. Geophysical 614 Research Letters 34, L03609 (2007). 615
+
+
+56	GIK23258-2	Foram transfer function	±1.5 C uncertainty	75	14	-1768	40	Winter and Summer*	Sarnthein et al., 2003 (51)
+M. Sarnthein et al., Overview of Glacial Atlantic Ocean Mapping (GLAMAP 2000). 616 Paleoceanography 18, 10.1029/2002PA000769 (2003). 617
+
+
+57	GeoB 6518-1	UK’37	Muller et al., 1998 (3)	-5.6	11.2	-962	180	Annual*	Schefu? et al., 2005 (52)
+E. Schefu?, S. Schouten, R. R. Schneider, Climatic controls on central African hydrology during 618 the past 20,000 years. Nature 437, 1003 (2005). 619
+
+
+58	Flarken Lake	Pollen MAT	Seppa et al., 2005 (53)	58.6	13.7	108	100	Annual	Seppa and Birk, 2001; Seppa et al. 2005 (53, 54)
+H. Seppa, D. Hammarlund, K. Antonsson, Low-frequency and high-frequency changes in 620 temperature and effective humidity during the Holocene in south-central Sweden: implications 621 for atmospheric and oceanic forcings of climate. Climate Dynamics 25, 285 (2005). 622
+H. Seppa, H. J. B. Birks, July mean temperature and annual precipitation trends during the 623 Holocene in the Fennoscandian tree-line area: pollen-based climate reconstructions. The 624 Holocene 11, 527 (2001). 625
+
+
+59	Tsuolbmajavri Lake	Pollen MAT	Seppa et al., 2005 (53)	68.7	22.1	526	70	Summer	Seppa and Birk, 2001; Seppa et al 1999 (54, 55)
+H. Seppa, H. J. B. Birks, July mean temperature and annual precipitation trends during the 623 Holocene in the Fennoscandian tree-line area: pollen-based climate reconstructions. The 624 Holocene 11, 527 (2001). 625
+H. Seppa, J. Weckstrom, Holocene vegetational and limnological changes in the Fennoscandian 626 tree-line area as documented by pollen and diatom records from Lake Tsuolbmajavri, Finland. 627 Ecoscience 6, 621 (1999). 628
+
+
+60	MD01-2390	Mg/Ca (G.ruber s.s.)	Dekens et al., 2002 (38)	6.6	113.4	-1545	200	Annual (wt. toward summer)	Steinke et al., 2008 (56)
+S. Steinke et al., Proxy dependence of the temporal pattern of deglacial warming in the tropical 629 South China Sea: toward resolving seasonality. Quaternary Science Review 27, 688 (2008). 630
+
+
+61	EDML	Ice Core d18O	±30% uncertainty	-75	0.1	2892	100	Annual*	Stenni et al., 2010 (57)
+B. Stenni et al., The deuterium excess records of EPICA Dome C and Dronning Maud Land ice 631 cores (East Antarctica). Quaternary Science Review 29, 146 (2010). 632
+Note: elevation for Dome C well is reported as 3233 m and not "3240" as stated in the entry (25)
+
+62	MD98-2176	Mg/Ca (G.ruber)	Anand et al., 2003 (8)	-5	133.4	-2382	60	Annual*	Stott et al., 2007 (58)
+63	MD98-2181	Mg/Ca (G.ruber)	Anand et al., 2003 (8)	6.3	125.8	-2114	50	Annual*	Stott et al., 2007 (58)
+L. Stott, A. Timmerman, R. Thunell, Southern hemisphere and deep-sea warming led deglacial 633 atmospheric CO2 rise and tropical warming. Science 318, 435 (2007). 634
+
+
+64	A7	Mg/Ca (G.ruber)	Anand et al., 2003 (8)	27.8	127	-1262	110	 Late Spring to Summer	Sun et al., 2005 (59)
+Y. Sun, D. W. Oppo, R. Xiang, W. Liu, S. Gao, Last deglaciation in the Okinawa Trough: Subtropical 635 northwest Pacific link to Northern Hemisphere and tropical climate. Paleoceanography 20, 636 PA4005 (2005). 637
+
+
+65	RAPID-12-1K	Mg/Ca (G. bulloides)	Thornalley et al., 2009 (60)	62.1	-17.8	-1938	80	 Late Spring to early Summer	Thornalley et al., 2009 (60)
+D. J. R. Thornalley, H. Elderfield, I. N. McCave, Holocene oscillations in temperature and salinity 638 of the surface subpolar North Atlantic. Nature 457, (2009). 639
+
+
+66	NP04-KH3, -KH4	TEX86	Powers et al., 2005 (61)	-6.7	29.8	773	190	Annual*	Tierney et al., 2008 (62)
+J. E. Tierney et al., Northern Hemisphere Controls on Tropical Southeast African Climate During 643 the Past 60,000 Years. Science 322, 252 (2008). 644
+
+
+67	Agassiz & Renland	Ice Core d18O, borehole temp.	±30% uncertainty	71.3/ 81.0	26.7 / -71	1730 & 2350	20	Annual*	Vinther et al., 2009 (63)
+B. M. Vinther et al., Holocene thinning of the Greenland ice sheet. Nature 461, 385 (2009). 645
+
+
+68	GeoB6518-1	MBT	±0.2 C uncertainty	-5.6	11.2	-962	140	Annual	Weijers et al., 2007 (64)
+J. W. H. Weijer, E. Schefu?, S. Schouten, J. S. D. Damste, Coupled Thermal and Hydrological 646 Evolution of Tropical Africa over the Last Deglaciation. Science 315, 1701 (2007). 647
+
+
+69	MD03-2707	Mg/Ca (G.ruber p.)	Dekens et al., 2002 (38)	2.5	9.4	-1295	40	Annual*	Weldeab et al., 2007 (65)
+S. Weldeab, D. W. Lea, R. R. Schneider, N. Andersen, 155,000 Years of West African Monsoon 648 and Ocean Thermal Evolution. Science 316, 1303 (2007). 649
+
+
+70	GeoB 3129	Mg/Ca (G.ruber w.)	Anand et al., 2003 (8)	-4.6	-36.6	-830	160	Annual*	Weldeab et al., 2006 (66)
+S. Weldeab, R. R. Schneider, M. Kolling, Deglacial sea surface temperature and salinity increase 650 in the western tropical Atlantic in synchrony with high latitude climate instabilities. Earth and 651 Planetary Science Letters 241, 699 (2006). 652
+
+
+71	GeoB 4905	Mg/Ca (G.ruber p.)	Anand et al., 2003 (8)	2.5	9.4	-1328	250	Annual*	Weldeab et al., 2005 (67)
+S. Weldeab, R. R. Schneider, M. Kolling, G. Wefer, Holocene African droughts relate to eastern 653 equatorial Atlantic cooling. Geology 33, 981 (2005). 654
+
+
+72	MD01-2378	Mg/Ca (G.ruber w. s.s)	Anand et al., 2003 (8)	13.1	121.8	-1783	130	Annual*	Xu et al., 2008 (68)
+J. Xu, A. Holbourn, W. Kuhnt, Z. Jian, H. Kawamura, Changes in the thermocline structure of the 655 Indonesian outflow during Terminations I and II. Earth and Planetary Science Letters 273, 152 656 (2008). 657
+
+
+73	MD02-2575	Mg/Ca (G.ruber w.)	Anand et al., 2003 (8)	29	-87.1	-847	250	Summer	Ziegler et al., 2008 (69)
+M. Ziegler, D. Nurnberg, C. Karas, R. Tiedemann, L. J. Lourens, Persistent summer expansion of 658 the Atlantic Warm Pool during glacial abrupt cold events. Nature Geoscience 1, 601 (2008). 659

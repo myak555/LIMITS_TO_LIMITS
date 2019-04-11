@@ -1,0 +1,5 @@
+#
+# EDML
+# 61	EDML	Ice Core d18O	±30% uncertainty	-75	0.1	2892	100	Annual*	Stenni et al., 2010 (57)
+#
+Depth	Proxy	Age_Pub	Temp_Pub	Age_Marine09	Age_error
