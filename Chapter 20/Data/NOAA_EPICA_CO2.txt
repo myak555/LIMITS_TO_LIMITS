@@ -1,0 +1,273 @@
+# EPICA Dome C Ice Core High Resolution Holocene and Transition CO2 Data
+# -----------------------------------------------------------------------
+#                World Data Center for Paleoclimatology, Boulder
+#                                   and
+#                      NOAA Paleoclimatology Program
+# -----------------------------------------------------------------------
+# NOTE: PLEASE CITE CONTRIBUTORS WHEN USING THIS DATA!!!!!
+# 
+# 
+# NAME OF DATA SET: 
+# EPICA Dome C Ice Core High Resolution Holocene and Transition CO2 Data
+# LAST UPDATE: 9/2004 (Original receipt by WDC Paleo)
+# CONTRIBUTOR:  Eric Monnin, University of Bern
+# IGBP PAGES/WDCA CONTRIBUTION SERIES NUMBER: 2004-055
+# 
+# 
+# SUGGESTED DATA CITATION: Monnin, E., et al.. 2004. 
+# EPICA Dome C Ice Core High Resolution Holocene and Transition CO2 Data. 
+# IGBP PAGES/World Data Center for Paleoclimatology 
+# Data Contribution Series # 2004-055.
+# NOAA/NGDC Paleoclimatology Program, Boulder CO, USA.
+# 
+# 
+# ORIGINAL REFERENCE:  
+# Monnin, E., E.J. Steig, U. Siegenthaler, K. Kawamura, J. Schwander, B. Stauffer, 
+# T.F. Stocker, D.L. Morse, J.-M. Barnola, B. Bellier, D. Raynaud, and H. Fischer. 2004.  
+# Evidence for substantial accumulation rate variability in Antarctica during the Holocene, 
+# through synchronization of CO2 in the Taylor Dome, Dome C and DML ice cores. 
+# Earth and Planetary Science Letters, 224, 45-54, doi: 10.1016/j.epsl.2004.05.007. 
+# 
+# 
+# ADDITIONAL REFERENCES FOR DATA:
+# Fluckiger, J.,  E. Monnin, B. Stauffer, J. Schwander, T. F. Stocker, J. Chappellaz, 
+# D. Raynaud and J.-M. Barnola.  2002.
+# High resolution Holocene N2O ice core record and its relationship with CH4 and CO2. 
+# Global Biogeochemical Cycles, 16 (1), 1010, doi:10.1029/2001GB001417.
+# 
+# Monnin, E., A. Indermuhle, A. Dallenbach, J. Fluckiger, B. Stauffer, T. F. Stocker, 
+# D. Raynaud, and J.-M. Barnola.  2001. 
+# Atmospheric CO2 concentrations over the last glacial termination. 
+# Science 291, 112-114.
+# 
+#  
+# ADDITIONAL REFERENCE FOR DATING:
+# Schwander, J., J. Jouzel, C. U. Hammer, J.-R. Petit, R. Udisti, and E. Wolff. 2001.
+# A tentative chronology for the EPICA Dome Concordia ice core. 
+# Geophys. Res. Lett. Vol. 28, No. 22, p. 4243.
+# 
+# 
+# ABSTRACT (Monnin et al. 2004):
+# High resolution records of atmospheric CO2 concentration during the Holocene 
+# are obtained from the Dome Concordia and Dronning Maud Land (Antarctica) ice cores. 
+# These records confirm that the CO2 concentration varied between 260 and 280 ppmv in 
+# the Holocene as measured in the Taylor Dome ice core. However, there are differences 
+# in the CO2 records most likely caused by mismatches in timescales. Matching the 
+# Taylor Dome timescale to the Dome C timescale by synchronization of CO2 indicates that 
+# the accumulation rate at Taylor Dome increased through the Holocene by a factor of two 
+# and bears little resemblance to the stable isotope record used as a proxy for temperature. 
+# This result shows that different locations experienced substantially different 
+# accumulation changes, and casts doubt on the often-used assumption that accumulation 
+# rate scales with the saturation vapor pressure as a function of temperature, at least 
+# for coastal locations. 
+# 
+# 
+# GEOGRAPHIC REGION: Antarctica
+# PERIOD OF RECORD:  22 KYrBP - present
+# 
+# 
+# DESCRIPTION: High Resolution CO2 Data for the EPICA Dome C ice core, 
+# and derived timescale for Taylor Dome Ice Core. 
+# 
+# 
+# Core locations: 
+# EPICA Dome C:  75° 06'S, 123° 21'E 
+# Dronning Maud Land (DML): 75° 00'S, 00° 04'E 
+# Taylor Dome:  77° 47'47" S,  158° 43'26" E
+# 
+# 
+# 
+# 
+# Data:
+# 1. High-resolution EDC CO2 data
+# 
+# Column 1: Depth (m)
+# Column 2: Age (Years before 1950 AD, EDC1 Timescale)
+# Column 3: CO2 mean (ppmv)
+# Column 4: CO2 sigma mean (ppmv) sigma mean is one sigma of the mean value 
+#           (of 6 neighboring samples)
+#
+   Depth      Age    CO2      sigma
+   102.83     173   280.4     1.8
+  106.885     311   274.9     0.7
+  107.195     322   277.9     0.7
+  110.245     427   279.1     1.3
+    110.5     435   281.9     1.1
+  113.265     530   277.7     0.7
+   115.48     604   281.1     1.1
+  118.615     709   282.2     0.5
+    121.5     806   280.1     0.6
+  124.815     917   278.4     1.5
+ 127.015     991   276.6     1.4
+ 129.745    1083   279.1       1
+   132.5    1175   277.7     1.2
+ 134.715    1249   278.7     1.2
+ 138.015    1362   277.4     0.8
+ 141.295    1477   279.2     0.9
+  144.05    1574     280     0.8
+ 146.265    1653   278.9     0.8
+ 149.015    1751   278.7     0.7
+ 151.195    1830     278     1.2
+   154.5    1948   276.9     0.7
+ 157.815    2069   276.7     0.8
+  160.03    2150   276.7     0.8
+ 162.165    2228   277.6     1.3
+ 165.515    2352   277.9     0.5
+  168.28    2453   273.9     1.1
+     171    2550   278.9     0.6
+ 173.135    2625   275.3     1.6
+ 176.515    2743   274.7     1.2
+ 178.715    2820   276.3     0.9
+ 181.445    2918   274.6     0.8
+ 185.845    3078   276.3     1.5
+ 187.515    3138   273.1     1.1
+ 189.715    3219     274     0.3
+     193    3337     275     0.6
+ 196.295    3454   273.4     1.3
+ 198.515    3531     273     0.8
+  201.28    3628   271.5       1
+     204    3724   275.4     0.5
+ 206.195    3802   274.9     1.3
+ 209.515    3921   271.7       1
+ 212.265    4019   271.6     0.7
+     215    4117   272.8     0.8
+ 216.645    4176   271.5     0.9
+  221.05    4335   271.1     0.8
+ 222.715    4395   269.1     0.6
+  225.48    4496   269.8       1
+ 228.195    4596   271.5     0.8
+  232.05    4737   270.7     0.5
+ 233.715    4797   269.3       1
+ 236.465    4895   268.6     1.1
+ 240.265    5033   269.8     1.2
+   242.5    5114   267.6     0.6
+ 244.715    5196   265.3     1.7
+ 248.015    5318   265.2     0.8
+ 250.715    5419   267.6       2
+   253.5    5521   265.9     0.9
+ 256.265    5621   265.5     0.8
+ 259.015    5721   260.7     1.6
+ 260.645    5780   266.7     0.9
+   264.5    5921   265.5     0.8
+ 268.365    6064   263.2     0.6
+ 269.415    6102   262.7     0.9
+ 272.195    6205   261.2     0.7
+ 276.065    6349   261.1     0.4
+ 278.265    6430   259.4     0.6
+  280.53    6514   262.1     0.9
+ 283.715    6631   262.9     0.5
+ 285.965    6713   258.1     1.4
+ 288.165    6792   257.6     0.9
+     292    6930   262.3     0.9
+ 294.745    7031     263     0.7
+ 297.515    7132   260.7     0.6
+ 299.715    7211   258.4     0.8
+     303    7328   260.1     0.6
+ 305.745    7424   260.4     0.4
+ 308.515    7521   259.7     0.9
+  311.26    7617   259.2     0.7
+ 313.995    7714   260.8     1.4
+ 316.745    7813   259.6     0.5
+ 319.515    7915   259.3     0.9
+ 322.265    8017   258.3     1.2
+     325    8118   261.3     0.9
+ 326.545    8174   260.7     0.4
+   330.5    8315   261.8       1
+ 333.265    8412     259     1.1
+ 336.015    8508   260.9     0.7
+ 338.645    8599   260.4     0.6
+   341.5    8697   259.3       1
+ 343.715    8772     262     0.8
+ 347.015    8883   263.7     1.2
+ 349.745    8974   263.8     0.8
+  352.58    9067   265.2     0.9
+ 355.815    9171   260.6     1.7
+ 357.465    9224   260.9     0.6
+ 360.195    9310     263     0.4
+  362.98    9399   263.8     1.2
+ 369.545    9604   264.4     0.4
+  371.23    9657   264.2     0.9
+ 375.045    9776     264     0.3
+ 377.265    9846   263.4     0.1
+ 379.995    9931   265.7     0.5
+ 382.215   10001   264.9     0.4
+ 385.125   10093   267.5     0.4
+ 388.225   10192   266.9     0.6
+ 390.445   10263     266     1.1
+  393.78   10370   265.1     1.6
+ 396.495   10458   267.6     0.7
+  399.28   10550   264.8     0.6
+ 401.995   10640   264.8     0.4
+ 404.185   10712     265     0.8
+  404.78   10732   265.3     0.4
+ 406.385   10785   264.4     1.5
+ 407.495   10822   264.1     0.7
+   409.7   10896   264.2     1.1
+  411.38   10952   264.5     0.4
+  413.03   11008     264     0.5
+  414.75   11066     263     1.3
+  415.73   11099   265.2     0.8
+ 417.065   11144   258.8     0.7
+  418.53   11195   260.8     0.5
+ 420.485   11263   255.4     0.3
+ 421.795   11310   253.9     0.6
+   422.9   11349   253.8     0.8
+   426.1   11468   250.7     1.1
+  427.33   11515   249.7     0.4
+   428.3   11554   251.1     0.3
+ 429.495   11602   250.7     0.9
+  431.73   11695   245.3     1.1
+ 433.785   11784   245.3     0.6
+ 434.995   11838   246.6     0.5
+  437.23   11941   243.2     0.4
+  438.85   12017   240.3     0.3
+ 443.795   12258   237.5     0.5
+  446.03   12372   237.6     0.6
+ 448.745   12511   234.2     0.3
+  450.98   12625   238.3     1.1
+ 454.245   12789   237.3     0.5
+  457.03   12927   237.9     0.2
+ 459.895   13068   237.6     0.6
+  463.63   13252   236.4     0.9
+ 465.245   13332   239.2     0.5
+  467.45   13440   238.6     0.6
+ 470.195   13574   238.6     0.3
+ 473.055   13711   239.1     0.4
+ 479.705   14022   228.5     0.6
+   484.1   14230   228.4     0.7
+ 487.245   14387   226.1     0.6
+  490.03   14532   225.2     0.5
+ 492.195   14647   224.5     0.6
+  496.07   14855     222     0.8
+ 499.345   15037     221     0.8
+  501.58   15166   220.9     0.5
+ 504.195   15323   219.4     0.6
+  506.53   15466     214     0.8
+ 509.245   15637   207.5     0.9
+  512.03   15818   207.7     0.5
+ 514.745   16002   202.9     0.7
+  517.53   16199   200.8       1
+ 520.245   16400   195.2     0.3
+  523.03   16616   193.9     0.5
+ 526.295   16883     191     0.5
+  528.53   17073   188.5     0.7
+ 531.245   17311   188.5     0.7
+  532.93   17463   189.2     0.4
+ 536.745   17815     187     0.2
+  539.53   18074   188.6     0.5
+   542.9   18391   189.4     0.4
+ 543.345   18433   192.3     0.6
+  543.93   18487   188.3     0.6
+ 548.845   18948   188.7     0.2
+  550.51   19104   188.8     0.5
+ 553.245   19360     190     0.8
+  556.03   19621     188     0.9
+  557.89   19795   188.2     0.7
+ 558.195   19824     195     0.7
+  561.53   20137   187.8     0.4
+  564.26   20390   186.9     0.3
+  567.03   20646   186.5     0.3
+ 569.745   20897   184.7     1.2
+  572.53   21156   186.1     0.4
+ 576.325   21511   185.7     1.3
+ 578.105   21676   184.4     0.8
