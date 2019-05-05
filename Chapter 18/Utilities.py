@@ -499,6 +499,34 @@ def Filter( x, start=-1, end=-1, matrix = [1,2,1]):
     return tmp
 
 #
+# Computes a cumulative array
+#
+def Cumulative( x):
+    tmp = np.array(x)
+    for i in range( 1, len(tmp)):
+        tmp[i] += tmp[i-1]
+    return tmp
+
+#
+# Decimates an array using moving filter method
+#
+def Decimate( x, n):
+    tmp1 = Filter(x, matrix=np.ones(n+n+1))
+    tmp2 = []
+    for i in range( 0, len(tmp1), n):
+        tmp2 += [tmp1[i]]
+    return np.array( tmp2)
+
+#
+# Merges two array
+#
+def ArrayMerge( a, b):
+    tmp = []
+    for ia in a: tmp += [ia]
+    for ib in b: tmp += [ib]
+    return np.array( tmp)
+
+#
 # Loads data from a CSV file
 #
 def Load_Calibration( file_Name, var1_Name, var2_Name, separator=','):
