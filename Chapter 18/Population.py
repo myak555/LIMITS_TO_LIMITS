@@ -19,8 +19,8 @@ class Population:
         self._Model0.Wavelets += [Hubbert( 1870, 0.1, 0.05, 120)]
         self._Model0.Wavelets += [Hubbert( 1930, 0.2, 0.2, -50)]
         self.Name = "PyWorld 2017"
-        self.Calibration_Year, self.Calibration_Total = Load_Calibration( "Population_Calibration.csv", "Year", "Population")
-        self.Calibration_Year, self.Calibration_Yerr = Load_Calibration( "Population_Calibration.csv", "Year", "Yerror")
+        self.Calibration_Year, self.Calibration_Total, self.Calibration_Yerr = Load_Calibration(
+            "Population_Calibration.csv", ["Year", "Population", "Yerror"])
         self.UN_Low = Linear_Combo()
         self.UN_Low.Name = "UN Low Case"
         self.UN_Low.Wavelets += [ Sigmoid( x0=2002.0, s0=0.03300, left=980.000, right=11600.000, shift=0.000)]
@@ -67,8 +67,8 @@ class Population:
     # Loads historical data
     #
     def LoadHistorical(self):
-        self.Historical_Year, self.Historical_Total = Load_Calibration( "Earth_Historical.csv", "Year", "Population")
-        self.Historical_Year, self.Historical_Yerr = Load_Calibration( "Earth_Historical.csv", "Year", "Yerror")
+        self.Historical_Year, self.Historical_Total, self.Historical_Yerr = Load_Calibration(
+            "Earth_Historical.csv", ["Year", "Population", "Yerror"])
     #
     # Creates the solution vector
     #
@@ -107,18 +107,20 @@ class Entity_UN:
         self.Land_Area = -999.25
         self.Total_Area = -999.25
         self.Short_Name = self.Name 
-        self.Code = "NONAME" 
+        self.Code = "NONAME"
         acc = self.GetAccuracy()
         for i in range( 2,len(estimate_S)):
-            self.Population[148+i] = float(estimate_S[i])/1000.0
-            self.Population_Low[148+i] = self.Population[148+i] * (1.0-acc)
-            self.Population_High[148+i] = self.Population[148+i] * (1.0+acc)
-            self.YError[148+i] = self.Population[148+i] * acc
+            j = 148 + i
+            self.Population[j] = float(estimate_S[i])/1000.0
+            self.Population_Low[j] = self.Population[j] * (1.0-acc)
+            self.Population_High[j] = self.Population[j] * (1.0+acc)
+            self.YError[j] = self.Population[j] * acc
         for i in range( 3,len(med_S)):
-            self.Population[213+i] = float(med_S[i])/1000.0
-            self.Population_Low[213+i] = float(low_S[i])/1000.0 * (1.0-acc)
-            self.Population_High[213+i] = float(high_S[i])/1000.0 * (1.0+acc)
-            self.YError[213+i] = (self.Population_High[213+i]-self.Population_Low[213+i])/2.0
+            j = 213 + i
+            self.Population[j] = float(med_S[i])/1000.0
+            self.Population_Low[j] = float(low_S[i])/1000.0 * (1.0-acc)
+            self.Population_High[j] = float(high_S[i])/1000.0 * (1.0+acc)
+            self.YError[j] = (self.Population_High[j]-self.Population_Low[j])/2.0
         return
     #
     # Returns the estimated data accuracy
@@ -547,10 +549,11 @@ class Entity_UN:
         f_out1 = self.__openFile__( name1, "Medium estimate")
         f_out2 = self.__openFile__( name2, "Low estimate")
         f_out3 = self.__openFile__( name3, "High estimate")
-        for i in range( len(self.Population)):
-            f_out1.write( "{:4d},{:.3f}\n".format(int(self.Time[i]), self.Population[i]))
-            f_out2.write( "{:4d},{:.3f}\n".format(int(self.Time[i]), self.Population_Low[i]))
-            f_out3.write( "{:4d},{:.3f}\n".format(int(self.Time[i]), self.Population_High[i]))
+        for i, t in enumerate(self.Time):
+            t = "{:4d}".format( int(t))
+            f_out1.write( "{:s},{:.3f}\n".format(t, self.Population[i]))
+            f_out2.write( "{:s},{:.3f}\n".format(t, self.Population_Low[i]))
+            f_out3.write( "{:s},{:.3f}\n".format(t, self.Population_High[i]))
         f_out1.close()
         f_out2.close()
         f_out3.close()
@@ -560,20 +563,14 @@ class Entity_UN:
         return
     def AppendPre1950( self, data, smoothing, cal=1.0):
         print( "In year {:d} UN = {:.1f} OWID = {:.1f}".format( int(self.Time[150]), self.Population[150], data[150]))
-        Calibration = 0.0
-        for i in range( 20):
-            d = self.Population[i+150] / data[i+150]
-            Calibration += d
-        Calibration /= 20
+        Calibration = np.sum( self.Population[150:170] / data[150:170]) / 20.0
         print( self.Name + " calibration: " + str(Calibration))
         acc = 3.0 * self.GetAccuracy()
-        for i in range( 150):
-            self.Population[i] = data[i] * cal
+        self.Population[:150] = data[:150] * cal
         for i in range(smoothing): self.SmoothTail()
-        for i in range( 150):
-            self.Population_Low[i] = self.Population[i] * (1.0-acc)
-            self.Population_High[i] = self.Population[i] * (1.0+acc)
-            self.YError[i] = self.Population[i] * acc
+        self.Population_Low[:150] = self.Population[:150] * (1.0-acc)
+        self.Population_High[:150] = self.Population[:150] * (1.0+acc)
+        self.YError[:150] = self.Population[:150] * acc
         return
     def __openFile__( self, name, description):
         f_out = open( name, "w", encoding="cp1251")
@@ -596,23 +593,23 @@ class Entity_UN:
 #
 class Population_UN:
     def __init__( self):
-        f0 = open(".\\Data\\UN_RAW_1950_2015.txt", encoding="cp1251")
-        f1 = open(".\\Data\\UN_LOW_2015_2100.txt", encoding="cp1251")
-        f2 = open(".\\Data\\UN_MED_2015_2100.txt", encoding="cp1251")
-        f3 = open(".\\Data\\UN_HIG_2015_2100.txt", encoding="cp1251")
+        f0 = open("./Data/UN_RAW_1950_2015.txt", encoding="cp1251")
+        f1 = open("./Data/UN_LOW_2015_2100.txt", encoding="cp1251")
+        f2 = open("./Data/UN_MED_2015_2100.txt", encoding="cp1251")
+        f3 = open("./Data/UN_HIG_2015_2100.txt", encoding="cp1251")
         f0.readline()
         f1.readline()
         f2.readline()
         f3.readline()
         self.Time = np.linspace(1800,2100,301)
         self.Entities = []
-        for i in range( 1000):
+        for i in range(1000):
             s0 = f0.readline()    
             s1 = f1.readline()    
             s2 = f2.readline()    
             s3 = f3.readline()
             if len(s0) <= 0:
-                print( "Read: " + str(i))
+                print( "Read lines: " + str(i))
                 break
             e = Entity_UN( self.Time,s0,s1,s2,s3)
             self.Entities += [e]
@@ -630,11 +627,12 @@ class Population_UN:
             if e.isEUR(): continue
             if e.isAggregate(): continue
             print( e.Name)
-        self.Country_Codes, self.Short_Names = Load_Calibration_Text(".\\Data\\Country_Area.txt", "Code", "Short_Name", "\t")
-        self.Country_Codes, self.Long_Names = Load_Calibration_Text(".\\Data\\Country_Area.txt", "Code", "Country_Name", "\t")
-        Area_Land_Sea, Area_Land = Load_Calibration(".\\Data\\Country_Area.txt", "Land_and_Sea","Land", "\t")
-        for i in range( len( self.Long_Names)):
-            ent = self.GetEntity(self.Long_Names[i])
+        self.Country_Codes, self.Short_Names, self.Long_Names, Area_Land_Sea, Area_Land = Load_Calibration_Text(
+            "./Data/Country_Area.txt", ["Code", "Short_Name", "Country_Name", "Land_and_Sea", "Land"], "\t")
+        Area_Land_Sea = Strings_To_Array(Area_Land_Sea)
+        Area_Land = Strings_To_Array(Area_Land)
+        for i, longName in enumerate( self.Long_Names):
+            ent = self.GetEntity( longName)
             if " not found" in ent.Name: continue
             ent.Land_Area = Area_Land[i]
             ent.Total_Area = Area_Land_Sea[i]
@@ -643,7 +641,8 @@ class Population_UN:
         return
     def GetEntity( self, name):
         for e in self.Entities:
-            if e.Name == name: return e
-            if e.Short_Name == name: return e
-            if e.Code != "NONAME" and e.Code == name: return e
+            n = name.lower()
+            if e.Name.lower() == n: return e
+            if e.Short_Name.lower() == n: return e
+            if e.Code != "NONAME" and e.Code.lower == n: return e
         return Entity_UN(self.Time, "0\t" + name + " not found","0\tnull","0\tnull","0\tnull")

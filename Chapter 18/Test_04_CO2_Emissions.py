@@ -16,13 +16,13 @@ Res_Decimated = Decimate( Res1, 5)
 # CO2 emissions recalculated into fossil fuel production
 # 1 ton of carbon = 3.66 ton of CO2
 # 1 ton of carbon = 1.13 ton of oil equivalent (by fuel mix)
-YearCO2, CO2 = Load_Calibration( "CO2_Calibration.csv", "Year", "Total")
+YearCO2, CO2 = Load_Calibration( "CO2_Calibration.csv", ["Year", "Total"])
 YearCO2 = Year[30:]
 CO2 = CO2[30:] / 3660
-filename = "./Data/IPCC_Emission_Scenarios_RCP.txt"
-YearRCP, RCP_8_5 = Load_Calibration( filename, "Year", "RCP_8_5", separator="\t")
-RCP_6_0, RCP_4_5 = Load_Calibration( filename, "RCP_6", "RCP_4_5", separator="\t")
-RCP_6_0, RCP_2_6 = Load_Calibration( filename, "RCP_6", "RCP_2_6", separator="\t")
+YearRCP, RCP_8_5, RCP_6_0, RCP_4_5, RCP_2_6 = Load_Calibration(
+    "./Data/IPCC_Emission_Scenarios_RCP.txt",
+    ["Year", "RCP_8_5", "RCP_6", "RCP_4_5", "RCP_2_6"],
+    separator="\t")
 RCP_8_5 = ArrayMerge( Res_Decimated, RCP_8_5[4:]*1.13)
 RCP_6_0 = ArrayMerge( Res_Decimated, RCP_6_0[4:]*1.13)
 RCP_4_5 = ArrayMerge( Res_Decimated, RCP_4_5[4:]*1.13)
@@ -134,5 +134,5 @@ ax2.grid( True)
 #ax2.legend( loc=0)
 ax2.set_xlabel("год")
 
-plt.savefig( ".\\Graphs\\figure_18_04.png")
+plt.savefig( "./Graphs/figure_18_04.png")
 fig.show()

@@ -13,20 +13,17 @@ for i in range(155,len(Pop_UN_Medium), 5):
     Pop_UN_Medium5 += [Pop_UN_Medium[i]/1000]
 
 # CO2 emissions
-YCO2, ECO2 = Load_Calibration( "CO2_Calibration.csv", "Year", "Total")
+YCO2, ECO2 = Load_Calibration( "CO2_Calibration.csv", ["Year", "Total"])
 ECO2 /= 3660
 YCO2 = YCO2[30:]
 ECO2 = ECO2[30:]
-filename = "./Data/IPCC_Emission_Scenarios.txt"
-YIPCC, BaU = Load_Calibration( filename, "Year", "FAR_BaU", separator="\t")
-FAR_B,FAR_C = Load_Calibration( filename, "FAR_B", "FAR_C", separator="\t")
-FAR_D,IS92a = Load_Calibration( filename, "FAR_D", "IS92a", separator="\t")
-IS92b,IS92c = Load_Calibration( filename, "IS92b", "IS92c", separator="\t")
-IS92d,IS92e = Load_Calibration( filename, "IS92d", "IS92e", separator="\t")
-IS92f,WRE1000 = Load_Calibration( filename, "IS92f", "WRE1000", separator="\t")
+YIPCC, BaU, FAR_B, FAR_C, FAR_D, IS92a, IS92b, IS92c, IS92d, IS92e, IS92f= Load_Calibration(
+    "./Data/IPCC_Emission_Scenarios.txt",
+    ["Year", "FAR_BaU", "FAR_B", "FAR_C", "FAR_D", "IS92a", "IS92b", "IS92c", "IS92d", "IS92e", "IS92f"],
+    separator="\t")
 
 # Resources extraction
-YRes, Res = Load_Calibration( "Resources_Calibration.csv", "Year", "Total")
+YRes, Res = Load_Calibration( "Resources_Calibration.csv", ["Year", "Total"])
 Res_PC = Res / Pop.Calibration_Total[10:]
 Res /= 1000
 LTG72 = Interpolation_BAU_1972()
@@ -114,5 +111,5 @@ ax2.grid( True)
 #ax2.legend( loc=0)
 ax2.set_xlabel("год")
 
-plt.savefig( ".\\Graphs\\figure_18_02.png")
+plt.savefig( "./Graphs/figure_18_02.png")
 fig.show()

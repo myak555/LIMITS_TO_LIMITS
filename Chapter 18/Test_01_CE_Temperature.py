@@ -3,15 +3,12 @@ from Utilities import *
 #
 # Calibrations
 #
-Y_CET, T_CET = Load_Calibration("./Data/Central_England_Temperature_Dataset.txt", "Year", "YEAR_Average", separator='\t')
-Jan, Feb = Load_Calibration("./Data/Central_England_Temperature_Dataset.txt", "JAN", "FEB", separator='\t')
-Mar, Apr = Load_Calibration("./Data/Central_England_Temperature_Dataset.txt", "MAR", "APR", separator='\t')
-May, Jun = Load_Calibration("./Data/Central_England_Temperature_Dataset.txt", "MAY", "JUN", separator='\t')
-Jul, Aug = Load_Calibration("./Data/Central_England_Temperature_Dataset.txt", "JUL", "AUG", separator='\t')
-Sep, Oct = Load_Calibration("./Data/Central_England_Temperature_Dataset.txt", "SEP", "OCT", separator='\t')
-Nov, Dec = Load_Calibration("./Data/Central_England_Temperature_Dataset.txt", "NOV", "DEC", separator='\t')
-Y_LD, CO2_LD = Load_Calibration("./Data/Ice_Core_Law_Dome.csv", "Year", "Total")
-Y_ML, CO2_ML = Load_Calibration("./Data/CO2_Mauna_Loa.csv", "Year", "Mean")
+Y_CET, T_CET, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec = Load_Calibration(
+    "./Data/Central_England_Temperature_Dataset.txt",
+    ["Year", "YEAR_Average", "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"],
+    separator='\t')
+Y_LD, CO2_LD = Load_Calibration("./Data/Ice_Core_Law_Dome.csv", ["Year", "Total"])
+Y_ML, CO2_ML = Load_Calibration("./Data/CO2_Mauna_Loa.csv", ["Year", "Mean"])
 
 baseline = np.average(T_CET[:1750-1659])
 dT_CET = T_CET - baseline
@@ -62,5 +59,5 @@ ax2.grid( True)
 ax2.legend( loc=2)
 ax2.set_xlabel("год")
 
-plt.savefig( ".\\Graphs\\figure_18_01.png")
+plt.savefig( "./Graphs/figure_18_01.png")
 fig.show()

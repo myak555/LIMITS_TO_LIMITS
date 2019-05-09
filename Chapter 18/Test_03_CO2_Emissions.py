@@ -18,21 +18,21 @@ for i in range(170,len(Pop_UN_Medium), 5):
     #print( Pop.Solution_Year[i], Pop_UN_Medium2000[-1])
 
 # CO2 emissions
-YCO2, ECO2 = Load_Calibration( "CO2_Calibration.csv", "Year", "Total")
+YCO2, ECO2 = Load_Calibration( "CO2_Calibration.csv", ["Year", "Total"])
 ECO2 /= 3660
 YCO2 = YCO2[30:]
 ECO2 = ECO2[30:]
 filename = "./Data/IPCC_Emission_Scenarios.txt"
-YIPCC, SRES_A1F = Load_Calibration( filename, "Year", "SRES_A1F", separator="\t")
-SRES_A1B, SRES_B1 = Load_Calibration( filename, "SRES_A1B", "SRES_B1", separator="\t")
-SRES_A1T, SRES_B2 = Load_Calibration( filename, "SRES_A1T", "SRES_B2", separator="\t")
-filename = "./Data/IPCC_Emission_Scenarios_RCP.txt"
-YIPCC2, RCP_8_5 = Load_Calibration( filename, "Year", "RCP_8_5", separator="\t")
-RCP_6, RCP_4_5 = Load_Calibration( filename, "RCP_6", "RCP_4_5", separator="\t")
-RCP_6, RCP_2_6 = Load_Calibration( filename, "RCP_6", "RCP_2_6", separator="\t")
+YIPCC, SRES_A1F, SRES_A1B, SRES_B1, SRES_A1T, SRES_B2 = Load_Calibration(
+    "./Data/IPCC_Emission_Scenarios.txt",
+    ["Year", "SRES_A1F", "SRES_A1B", "SRES_B1","SRES_A1T", "SRES_B2"], separator="\t")
+YearRCP, RCP_8_5, RCP_6_0, RCP_4_5, RCP_2_6 = Load_Calibration(
+    "./Data/IPCC_Emission_Scenarios_RCP.txt",
+    ["Year", "RCP_8_5", "RCP_6", "RCP_4_5", "RCP_2_6"],
+    separator="\t")
 
 # Resources extraction
-YRes, Res = Load_Calibration( "Resources_Calibration.csv", "Year", "Total")
+YRes, Res = Load_Calibration( "Resources_Calibration.csv", ["Year", "Total"])
 Res_PC = Res / Pop.Calibration_Total[10:]
 Res /= 1000
 Randers2012 = Interpolation_BAU_2012()
@@ -47,7 +47,7 @@ SRES_B1_PC = SRES_B1 * 1.13 / Pop_UN_Medium5
 SRES_A1T_PC = SRES_A1T * 1.13 / Pop_UN_Medium5 
 SRES_B2_PC = SRES_B2 * 1.13 / Pop_UN_Medium5 
 RCP_8_5_PC = RCP_8_5 * 1.13 / Pop_UN_Medium2000
-RCP_6_PC = RCP_6 * 1.13 / Pop_UN_Medium2000
+RCP_6_0_PC = RCP_6_0 * 1.13 / Pop_UN_Medium2000
 RCP_4_5_PC = RCP_4_5 * 1.13 / Pop_UN_Medium2000
 RCP_2_6_PC = RCP_2_6 * 1.13 / Pop_UN_Medium2000
 
@@ -69,13 +69,13 @@ ax1.plot( YIPCC[3:], SRES_B1[3:], "--", lw=3, color="r", alpha=0.5)
 ax1.text( 2101, SRES_B1[-1], "B1", color="r")
 ax1.plot( YIPCC[3:], SRES_A1T[3:], "-", lw=4, color="r", alpha=0.5, label="IPCC SRES 2000-2005")
 ax1.text( 2101, SRES_A1T[-1]-1, "A1T", color="r")
-ax1.plot( YIPCC2, RCP_8_5, "-.", lw=3, color="g", alpha=0.2)
+ax1.plot( YearRCP, RCP_8_5, "-.", lw=3, color="g", alpha=0.2)
 ax1.text( 2201, RCP_8_5[-1], "8.5", color="g")
-ax1.plot( YIPCC2, RCP_6, "--", lw=3, color="g", alpha=0.2)
-ax1.text( 2201, RCP_6[-1], "6", color="g")
-ax1.plot( YIPCC2, RCP_4_5, "-", lw=4, color="g", alpha=0.5, label="IPCC RCP 2013")
+ax1.plot( YearRCP, RCP_6_0, "--", lw=3, color="g", alpha=0.2)
+ax1.text( 2201, RCP_6_0[-1], "6", color="g")
+ax1.plot( YearRCP, RCP_4_5, "-", lw=4, color="g", alpha=0.5, label="IPCC RCP 2013")
 ax1.text( 2201, RCP_4_5[-1]-1, "4.5", color="g")
-ax1.plot( YIPCC2, RCP_2_6, "--", lw=4, color="g", alpha=0.2)
+ax1.plot( YearRCP, RCP_2_6, "--", lw=4, color="g", alpha=0.2)
 ax1.text( 2075, 1, "2.6", color="g")
 ax1.plot( [2013, 2013], [5, 15], "-", lw=2, color="y", alpha=0.5)
 ax1.text( 2007, 16, "IPCC-2013")
@@ -97,13 +97,13 @@ ax2.plot( YIPCC[3:], SRES_B1_PC[3:], "--", lw=3, color="r", alpha=0.5)
 ax2.text( 2101, SRES_B1_PC[-1], "B1", color="r")
 ax2.plot( YIPCC[3:], SRES_A1T_PC[3:], "-", lw=4, color="r", alpha=0.5, label="IPCC SRES 2000-2005")
 ax2.text( 2101, SRES_A1T_PC[-1]-0.1, "A1T", color="r")
-ax2.plot( YIPCC2, RCP_8_5_PC, "-.", lw=3, color="g", alpha=0.2)
+ax2.plot( YearRCP, RCP_8_5_PC, "-.", lw=3, color="g", alpha=0.2)
 ax2.text( 2201, RCP_8_5_PC[-1], "8.5", color="g")
-ax2.plot( YIPCC2, RCP_6_PC, "--", lw=3, color="g", alpha=0.2)
-ax2.text( 2201, RCP_6_PC[-1], "6", color="g")
-ax2.plot( YIPCC2, RCP_4_5_PC, "-", lw=4, color="g", alpha=0.5, label="IPCC RCP 2013")
+ax2.plot( YearRCP, RCP_6_0_PC, "--", lw=3, color="g", alpha=0.2)
+ax2.text( 2201, RCP_6_0_PC[-1], "6", color="g")
+ax2.plot( YearRCP, RCP_4_5_PC, "-", lw=4, color="g", alpha=0.5, label="IPCC RCP 2013")
 ax2.text( 2201, RCP_4_5_PC[-1]-0.1, "4.5", color="g")
-ax2.plot( YIPCC2, RCP_2_6_PC, "--", lw=4, color="g", alpha=0.2)
+ax2.plot( YearRCP, RCP_2_6_PC, "--", lw=4, color="g", alpha=0.2)
 ax2.text( 2075, 0.1, "2.6", color="g")
 ax2.errorbar( YRes, Res_PC, yerr=Res_PC*0.25, fmt="o", color="k", label="Реальное (1830-2018)")
 ax2.set_xlim( limits)
@@ -114,5 +114,5 @@ ax2.grid( True)
 #ax2.legend( loc=0)
 ax2.set_xlabel("год")
 
-plt.savefig( ".\\Graphs\\figure_18_03.png")
+plt.savefig( "./Graphs/figure_18_03.png")
 fig.show()

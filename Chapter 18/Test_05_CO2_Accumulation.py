@@ -36,10 +36,12 @@ class CO2_Sequestration_Analytical:
 #
 # Central England Temperatures
 #
-Y_CET, T_CET = Load_Calibration("./Data/Central_England_Temperature_Dataset.txt", "Year", "YEAR_Average", separator='\t')
+Y_CET, T_CET = Load_Calibration(
+    "./Data/Central_England_Temperature_Dataset.txt",
+    ["Year", "YEAR_Average"], separator='\t')
 baseline = np.average(T_CET[:1750-1659])
 dT_CET = T_CET - baseline
-dT_CET_30 = Filter( dT_CET, matrix=np.ones(31)) 
+dT_CET_30 = FilterN( dT_CET, N=31) 
 
 #
 # Calibrations
@@ -55,11 +57,10 @@ Res_Decimated = Decimate( Res1, 5)
 
 # CO2 emissions and actual concentration
 CO2seq = CO2_Sequestration_Analytical( model_start=Year[0])
-
-filename = "./Data/IPCC_Emission_Scenarios_RCP.txt"
-YearRCP, RCP_8_5 = Load_Calibration( filename, "Year", "RCP_8_5", separator="\t")
-RCP_6_0, RCP_4_5 = Load_Calibration( filename, "RCP_6", "RCP_4_5", separator="\t")
-RCP_2_6, RCP_2_6 = Load_Calibration( filename, "RCP_2_6", "RCP_2_6", separator="\t")
+YearRCP, RCP_8_5, RCP_6_0, RCP_4_5, RCP_2_6 = Load_Calibration(
+    "./Data/IPCC_Emission_Scenarios_RCP.txt",
+    ["Year", "RCP_8_5", "RCP_6", "RCP_4_5", "RCP_2_6"],
+    separator="\t")
 RCP_8_5 = ArrayMerge( Res_Decimated, RCP_8_5[4:]*3660)
 RCP_6_0 = ArrayMerge( Res_Decimated, RCP_6_0[4:]*3660)
 RCP_4_5 = ArrayMerge( Res_Decimated, RCP_4_5[4:]*3660)
@@ -189,5 +190,5 @@ ax2.grid( True)
 ax2.legend( loc=0)
 ax2.set_xlabel("год")
 
-plt.savefig( ".\\Graphs\\figure_18_05.png")
+plt.savefig( "./Graphs/figure_18_05.png")
 fig.show()
