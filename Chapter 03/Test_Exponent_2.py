@@ -63,6 +63,6 @@ plt.ylim( 0, 25000)
 plt.title( "Население Земли (численное решение)")
 plt.grid(True)
 plt.legend(loc=0)
-plt.savefig( ".\\Graphs\\figure_03_02.png")
+plt.savefig( "./Graphs/figure_03_02.png")
 fig.show()
     

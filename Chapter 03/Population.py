@@ -603,13 +603,13 @@ class Population_UN:
         f3.readline()
         self.Time = np.linspace(1800,2100,301)
         self.Entities = []
-        while True:
+        for i in range(1000):
             s0 = f0.readline()    
             s1 = f1.readline()    
             s2 = f2.readline()    
             s3 = f3.readline()
             if len(s0) <= 0:
-                print( "Read: " + str(i))
+                print( "Read lines: " + str(i))
                 break
             e = Entity_UN( self.Time,s0,s1,s2,s3)
             self.Entities += [e]
@@ -641,7 +641,8 @@ class Population_UN:
         return
     def GetEntity( self, name):
         for e in self.Entities:
-            if e.Name == name: return e
-            if e.Short_Name == name: return e
-            if e.Code != "NONAME" and e.Code == name: return e
+            n = name.lower()
+            if e.Name.lower() == n: return e
+            if e.Short_Name.lower() == n: return e
+            if e.Code != "NONAME" and e.Code.lower == n: return e
         return Entity_UN(self.Time, "0\t" + name + " not found","0\tnull","0\tnull","0\tnull")
