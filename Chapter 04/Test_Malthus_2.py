@@ -58,8 +58,8 @@ T  = np.linspace(1600, 2000, 401)
 P1 = Pond_Population_2( 100, 100, 1000, 0.1, 0)
 P1.Solve( T)
 
-for i in range( len(T)):
-    print( "{:4g} {:6.1f} {:6.1f} {:6.1f}".format( T[i], P1.Solution_P[i], P1.Solution_Q[i], P1.Solution_O[i]))
+for i, t in enumerate(T):
+    print( "{:4g} {:6.1f} {:6.1f} {:6.1f}".format( t, P1.Solution_P[i], P1.Solution_Q[i], P1.Solution_O[i]))
 
 fig = plt.figure( figsize=(15,10))
 plt.plot( P1.Solution_Time, P1.Solution_P, "-", lw=1, label="Популяция")
@@ -87,5 +87,5 @@ plt.ylim( 0, 4000)
 plt.title( "Пруд Мальтуса #2 - Популяция стремится к кажущемуся оптимуму")
 plt.grid(True)
 plt.legend(loc=0)
-plt.savefig( ".\\Graphs\\figure_04_02.png")
+plt.savefig( "./Graphs/figure_04_02.png")
 fig.show()

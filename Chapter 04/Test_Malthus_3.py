@@ -64,8 +64,8 @@ P3.Solve( T)
 P4 = Pond_Population_2( 100, 100, 1000*(1+1), 0.1, 1.0)
 P4.Solve( T)
 
-for i in range( len(T)):
-    print( "{:4g} {:6.1f} {:6.1f} {:6.1f}".format( T[i], P1.Solution_P[i], P2.Solution_P[i], P3.Solution_P[i]))
+for i, t in enumerate(T):
+    print( "{:4g} {:6.1f} {:6.1f} {:6.1f}".format( t, P1.Solution_P[i], P2.Solution_P[i], P3.Solution_P[i]))
 
 fig = plt.figure( figsize=(15,10))
 plt.plot( P1.Solution_Time, P1.Solution_P, "-", lw=1, label="Потери 0%")
@@ -80,5 +80,5 @@ plt.ylim( 0, 4000)
 plt.title( "Пруд Мальтуса #2 - Эффект потерь")
 plt.grid(True)
 plt.legend(loc=0)
-plt.savefig( ".\\Graphs\\figure_04_03.png")
+plt.savefig( "./Graphs/figure_04_03.png")
 fig.show()

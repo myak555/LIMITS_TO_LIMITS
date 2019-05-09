@@ -61,8 +61,8 @@ b = np.log(2) / 10
 Exponent = 100 * np.exp( b*T)
 Linear = (T-38.5)*260
 
-for i in range( len(T)):
-    print( "{:4g} {:6.1f} {:6.1f} {:6.1f}".format( T[i], P1.Solution_P[i], P1.Solution_Q[i], P1.Solution_O[i]))
+for i, t in enumerate(T):
+    print( "{:7.2f} {:7.1f} {:7.1f} {:7.1f}".format( t, P1.Solution_P[i], P1.Solution_Q[i], P1.Solution_O[i]))
 
 fig = plt.figure( figsize=(15,10))
 plt.plot( P1.Solution_Time, P1.Solution_P, "-", lw=3, label="Популяция")
@@ -76,5 +76,5 @@ plt.ylim( 0, 10000)
 plt.title( "Пруд Мальтуса #3 - Моделирование чашки Петри")
 plt.grid(True)
 plt.legend(loc=0)
-plt.savefig( ".\\Graphs\\figure_04_06.png")
+plt.savefig( "./Graphs/figure_04_06.png")
 fig.show()

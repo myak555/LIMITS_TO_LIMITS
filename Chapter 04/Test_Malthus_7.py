@@ -61,8 +61,8 @@ b = np.log(2) / 2.35
 Exponent = 29 * np.exp( b*(T-1944))
 Linear = (T-1957)*950
 
-for i in range( len(T)):
-    print( "{:4g} {:6.1f} {:6.1f} {:6.1f}".format( T[i], P1.Solution_P[i], P1.Solution_Q[i], P1.Solution_O[i]))
+for i, t in enumerate(T):
+    print( "{:7.1f} {:7.1f} {:7.1f} {:7.1f}".format( t, P1.Solution_P[i], P1.Solution_Q[i], P1.Solution_O[i]))
 
 fig = plt.figure( figsize=(15,10))
 plt.plot( P1.Solution_Time, P1.Solution_P, "-", lw=2, label="Популяция оленей")
@@ -77,5 +77,5 @@ plt.ylim( 0, 7000)
 plt.title( "Пруд Мальтуса #3 - Моделирование о Св.Мэтью")
 plt.grid(True)
 plt.legend(loc=0)
-plt.savefig( ".\\Graphs\\figure_04_07.png")
+plt.savefig( "./Graphs/figure_04_07.png")
 fig.show()
