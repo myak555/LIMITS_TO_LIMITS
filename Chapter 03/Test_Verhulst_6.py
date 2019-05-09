@@ -15,8 +15,8 @@ class Population_Velhurst:
         self.O_left = o_left
         self.O_right = o_right
         self.Midpoint = o_year
-        self.Calibration_Year, self.Calibration_Total = Load_Calibration( "Population_calibration.csv", "Year", "Population")
-        self.Calibration_Year, self.Calibration_Yerr = Load_Calibration( "Population_calibration.csv", "Year", "Yerror")
+        self.Calibration_Year, self.Calibration_Total, self.Calibration_Yerr = Load_Calibration(
+            "Population_Calibration.csv", ["Year", "Population", "Yerror"])
         return
     def dP_dt( self, t):
         tmp = self.Total

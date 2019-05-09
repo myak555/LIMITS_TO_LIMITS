@@ -19,8 +19,8 @@ class Population:
         self._Model0.Wavelets += [Hubbert( 1870, 0.1, 0.05, 120)]
         self._Model0.Wavelets += [Hubbert( 1930, 0.2, 0.2, -50)]
         self.Name = "PyWorld 2017"
-        self.Calibration_Year, self.Calibration_Total = Load_Calibration( "Population_Calibration.csv", "Year", "Population")
-        self.Calibration_Year, self.Calibration_Yerr = Load_Calibration( "Population_Calibration.csv", "Year", "Yerror")
+        self.Calibration_Year, self.Calibration_Total, self.Calibration_Yerr = Load_Calibration(
+            "Population_Calibration.csv", ["Year", "Population", "Yerror"])
         self.UN_Low = Linear_Combo()
         self.UN_Low.Name = "UN Low Case"
         self.UN_Low.Wavelets += [ Sigmoid( x0=2002.0, s0=0.03300, left=980.000, right=11600.000, shift=0.000)]
@@ -67,8 +67,8 @@ class Population:
     # Loads historical data
     #
     def LoadHistorical(self):
-        self.Historical_Year, self.Historical_Total = Load_Calibration( "Earth_Historical.csv", "Year", "Population")
-        self.Historical_Year, self.Historical_Yerr = Load_Calibration( "Earth_Historical.csv", "Year", "Yerror")
+        self.Historical_Year, self.Historical_Total, self.Historical_Yerr = Load_Calibration(
+            "Earth_Historical.csv", ["Year", "Population", "Yerror"])
     #
     # Creates the solution vector
     #

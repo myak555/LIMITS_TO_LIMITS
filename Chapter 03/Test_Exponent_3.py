@@ -12,8 +12,8 @@ class Population_1:
         self.Total = P0
         self.A = a
         self.B = b
-        self.Calibration_Year, self.Calibration_Total = Load_Calibration( "Population_calibration.csv", "Year", "Population")
-        self.Calibration_Year, self.Calibration_Yerr = Load_Calibration( "Population_calibration.csv", "Year", "Yerror")
+        self.Calibration_Year, self.Calibration_Total, self.Calibration_Yerr = Load_Calibration(
+            "Population_Calibration.csv", ["Year", "Population", "Yerror"])
         return
     def dP_dt( self, t):
         tmp = self.Total
@@ -40,8 +40,8 @@ class Population_2:
         self.Total = P0
         self.A = a
         self.B = b
-        self.Calibration_Year, self.Calibration_Total = Load_Calibration( "Population_calibration.csv", "Year", "Population")
-        self.Calibration_Year, self.Calibration_Yerr = Load_Calibration( "Population_calibration.csv", "Year", "Yerror")
+        self.Calibration_Year, self.Calibration_Total, self.Calibration_Yerr = Load_Calibration(
+            "Population_Calibration.csv", ["Year", "Population", "Yerror"])
         return
     def dP_dt( self, t):
         if t>1990: return 82.0
@@ -60,7 +60,6 @@ class Population_2:
         self.Total = self.Initial
         return
 
-
 T  = np.linspace(1890, 2200, 311)
 
 #
@@ -72,7 +71,7 @@ P2 = Population_2( 1534.1, 9.5/1000, 22/1000)
 P2.Solve( T)
 
 for i in range( len(T)):
-    print( "{0:4.0f} {1:7.1f} {2:7.1f}".format( T[i], P1.Solution_Total[i], P2.Solution_Total[i]))
+    print( "{:4.0f} {:7.1f} {:7.1f}".format( T[i], P1.Solution_Total[i], P2.Solution_Total[i]))
 
 fig = plt.figure( figsize=(15,10))
 plt.plot( P1.Solution_Year, P1.Solution_Total, "-", lw=1, color="r", label="Экспоненциальный рост")

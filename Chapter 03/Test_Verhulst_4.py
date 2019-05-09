@@ -12,8 +12,8 @@ class Population_Exponent:
         self.Total = P0
         self.A = a
         self.B = b
-        self.Calibration_Year, self.Calibration_Total = Load_Calibration( "Population_calibration.csv", "Year", "Population")
-        self.Calibration_Year, self.Calibration_Yerr = Load_Calibration( "Population_calibration.csv", "Year", "Yerror")
+        self.Calibration_Year, self.Calibration_Total, self.Calibration_Yerr = Load_Calibration(
+            "Population_Calibration.csv", ["Year", "Population", "Yerror"])
         return
     def dP_dt( self, t):
         tmp = self.Total
@@ -46,8 +46,8 @@ class Population_Velhurst:
         self.O_left = o_left
         self.O_right = o_right
         self.Midpoint = o_year
-        self.Calibration_Year, self.Calibration_Total = Load_Calibration( "Population_calibration.csv", "Year", "Population")
-        self.Calibration_Year, self.Calibration_Yerr = Load_Calibration( "Population_calibration.csv", "Year", "Yerror")
+        self.Calibration_Year, self.Calibration_Total, self.Calibration_Yerr = Load_Calibration(
+            "Population_Calibration.csv", ["Year", "Population", "Yerror"])
         return
     def dP_dt( self, t):
         tmp = self.Total
@@ -79,7 +79,6 @@ class Population_Velhurst:
         print( self.Solution_Year[0], self.Solution_Total[0])
         self.Total = self.Initial
         return
-
 
 T  = np.linspace(1890, 2200, 311)
 

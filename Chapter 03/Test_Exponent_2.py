@@ -12,8 +12,8 @@ class Population:
         self.Total = P0
         self.A = a
         self.B = b
-        self.Calibration_Year, self.Calibration_Total = Load_Calibration( "Population_calibration.csv", "Year", "Population")
-        self.Calibration_Year, self.Calibration_Yerr = Load_Calibration( "Population_calibration.csv", "Year", "Yerror")
+        self.Calibration_Year, self.Calibration_Total, self.Calibration_Yerr = Load_Calibration(
+            "Population_Calibration.csv", ["Year", "Population", "Yerror"])
         return
     def dP_dt( self, t):
         tmp = self.Total
@@ -51,7 +51,7 @@ for i in range( len(T)):
     t = T[i]
     p = P0 * np.exp( (b-a)*(t-1890))
     P2 += [p]
-    print( "{0:4.0f} {1:7.1f} {2:7.1f}".format( t, P1.Solution_Total[i], p))
+    print( "{:4.0f} {:7.1f} {:7.1f}".format( t, P1.Solution_Total[i], p))
 
 fig = plt.figure( figsize=(15,10))
 plt.plot( P1.Solution_Year, P1.Solution_Total, "-", color='r', lw=1, label="Численное решение")
