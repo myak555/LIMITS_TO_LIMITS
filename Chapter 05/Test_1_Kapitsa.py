@@ -1,11 +1,11 @@
 from Population import *
 
-#
-# Описывает популяцию по формуле фон-Fёрстера
-# von Foerster, Mora, and Amiot 1960
-# Doomsday: Friday, 13 November, A.D. 2026
-#
 class Population_vonFoerster:
+    """
+    Describes von Foerster population
+    von Foerster, Mora, and Amiot 1960
+    Doomsday: Friday, 13 November, A.D. 2026
+    """
     def __init__( self, T0=2026.87, K=1.79e5, k=0.990, P_max=1000000):
         self.T0 = T0
         self.K = K
@@ -17,18 +17,18 @@ class Population_vonFoerster:
     def Solve( self, t):
         self.Solution_Time = t
         self.Solution_P = np.ones( len(t)) * self.P_max
-        for i in range( len(t)):
-            if t[i]>=self.T0: continue
-            self.Solution_P[i] = self.K / (self.T0 - t[i])**self.k
+        for i, tm in enumerate(t):
+            if tm>=self.T0: continue
+            self.Solution_P[i] = self.K / (self.T0 - tm)**self.k
         return
 
-#
-# Описывает популяцию по формуле фон-Хёрнера
-# Sebastien von Hoerner
-# "Population Explosion and Interstellar Expansion".
-# Journal of the British Interplanetary Society (28): 691–712.
-#
 class Population_vonHoerner:
+    """
+    Describes von Hoerner population
+    Sebastien von Hoerner
+    "Population Explosion and Interstellar Expansion".
+    Journal of the British Interplanetary Society (28): 691–712.
+    """
     def __init__( self, T0=2026.87, K=2e5, P_max=1000000):
         self.T0 = T0
         self.K = K
@@ -37,15 +37,15 @@ class Population_vonHoerner:
     def Solve( self, t):
         self.Solution_Time = t
         self.Solution_P = np.ones( len(t)) * self.P_max
-        for i in range( len(t)):
-            if t[i]>=self.T0: continue
-            self.Solution_P[i] = self.K / (self.T0 - t[i])
+        for i, tm in enumerate(t):
+            if tm>=self.T0: continue
+            self.Solution_P[i] = self.K / (self.T0 - tm)
         return
 
-#
-# Описывает популяцию по полному решению уравнения фон-Fёрстера
-#
 class Population_vonFoerster_Full:
+    """
+    Описывает популяцию по полному решению уравнения фон-Fёрстера
+    """
     def __init__( self, T0=2026.87, a=0.0001, K=21, P_max=1000000):
         self.T0 = T0
         self.A = a
@@ -55,9 +55,9 @@ class Population_vonFoerster_Full:
     def Solve( self, t):
         self.Solution_Time = t
         self.Solution_P = np.ones( len(t)) * self.P_max
-        for i in range( len(t)):
-            if t[i]>=self.T0: continue
-            self.Solution_P[i] = self.K / (np.exp(self.A*(self.T0 - t[i]))-1)
+        for i, tm in enumerate(t):
+            if tm>=self.T0: continue
+            self.Solution_P[i] = self.K / (np.exp(self.A*(self.T0 - tm))-1)
         return
 
 P0 = Population()
@@ -91,5 +91,5 @@ plt.ylim( 10, 20000)
 plt.title( 'Шуточные статьи 1960 и 1975 гг')
 plt.grid(True)
 plt.legend(loc=0)
-plt.savefig( ".\\Graphs\\figure_05_01.png")
+plt.savefig( "./Graphs/figure_05_01.png")
 fig.show()
