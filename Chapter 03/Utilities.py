@@ -3,8 +3,8 @@ import numpy as np
 from scipy.integrate import odeint
 import matplotlib as mpl
 if sys.platform.lower().startswith('win'):
-    print("Windows detected!")
     mpl.use('Qt5Agg')
+    #print("Windows detected!")
 import matplotlib.pyplot as plt
 from matplotlib import rc
 
@@ -423,16 +423,16 @@ class Markov_Chain:
         self.Year0 = Year0
         self.Filter = self.GetRho(taus[0])
         offset = int( self.Year0 - self.Years[0]) 
-        for i in range( 1, len(taus)):
-            self.Filter = np.convolve( self.Filter, self.GetRho(taus[i]))[offset:offset+len(self.Years)]
+        for tau in taus[1:]:
+            self.Filter = np.convolve( self.Filter, self.GetRho(tau))[offset:offset+len(self.Years)]
         self.Filter = np.roll( self.Filter, time_shift)
         self.Filter /= np.sum(self.Filter)
         return        
     def GetRho(self, tau):
         Time = self.Years - self.Year0
         tmp = np.exp( -Time/tau)
-        for i in range( len(self.Years)):
-            if self.Years[i]>=self.Year0: break
+        for i, y in enumerate(self.Years):
+            if y >= self.Year0: break
             tmp[i] = 0.0
         norm = np.sum( tmp)
         return tmp/norm
@@ -467,19 +467,17 @@ def Filter( x, start=-1, end=-1, matrix = [1,2,1]):
     if end < start: end = start
     tmp = np.zeros(len(x))
     half_size = int(len( matrix)/2)
-    for i in range( start):
-        tmp[i] = x[i]
+    tmp[:start] = x[:start] 
     for i in range( start, end):
         norm = 0.0
-        for j in range( len( matrix)):
+        for j, m in enumerate( matrix):
             k = i-half_size+j
             if k < 0: continue
             if k >= len( x): continue
-            norm += matrix[j]
-            tmp[i] += matrix[j] * x[k]
+            norm += m
+            tmp[i] += m * x[k]
         tmp[i] /= norm
-    for i in range( end, len(x)):
-        tmp[i] = x[i]
+    tmp[end:] = x[end:]
     return tmp
 
 def FilterN( x, start=-1, end=-1, N=3):
@@ -518,20 +516,29 @@ def ArrayMerge( a, b):
     for ib in b: tmp += [ib]
     return np.array( tmp)
 
+def Strings_To_Array( Strings):
+    """
+    Converts strings into an array
+    """
+    tmp = []
+    for s in Strings:
+        try:
+            d = float(s)
+            tmp += [d]
+        except:
+            tmp += [0.0]
+            print("Warning: float conversion error, value {:s}".format(s))
+            continue
+    return np.array( tmp)
+
 def Load_Calibration( file_Name, var_Names, separator=',', verbose=False):
     """
     Loads data from a CSV file
     """
     dataStrings = Load_Calibration_Text( file_Name, var_Names, separator, verbose)
     tmp = ()
-    for dataString in dataStrings:
-        tmp_d = []
-        try:
-            for s in dataString: tmp_d += [float(s)]
-        except:
-            print("Float conversion error, value {:s}".format(s))
-            continue
-        tmp_d = np.array(tmp_d)
+    for ds in dataStrings:
+        tmp_d = Strings_To_Array( ds)
         tmp += (tmp_d,)
     return tmp
 
@@ -627,6 +634,7 @@ if __name__ == "__main__":
     help( Cumulative)
     help( Decimate)
     help( ArrayMerge)
+    help( Strings_To_Array)
     help( Load_Calibration)
     help( Load_Calibration_Text)
     help( Prepare_Russian_Font)

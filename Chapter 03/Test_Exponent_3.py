@@ -70,8 +70,8 @@ P1.Solve( T)
 P2 = Population_2( 1534.1, 9.5/1000, 22/1000)
 P2.Solve( T)
 
-for i in range( len(T)):
-    print( "{:4.0f} {:7.1f} {:7.1f}".format( T[i], P1.Solution_Total[i], P2.Solution_Total[i]))
+for i, t in enumerate(T):
+    print( "{:4.0f} {:7.1f} {:7.1f}".format( t, P1.Solution_Total[i], P2.Solution_Total[i]))
 
 fig = plt.figure( figsize=(15,10))
 plt.plot( P1.Solution_Year, P1.Solution_Total, "-", lw=1, color="r", label="Экспоненциальный рост")

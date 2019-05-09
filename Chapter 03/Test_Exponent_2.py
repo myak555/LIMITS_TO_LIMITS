@@ -47,8 +47,7 @@ P0 = 1534.1
 b = 22/1000
 a = 9.5/1000
 
-for i in range( len(T)):
-    t = T[i]
+for i, t in enumerate(T):
     p = P0 * np.exp( (b-a)*(t-1890))
     P2 += [p]
     print( "{:4.0f} {:7.1f} {:7.1f}".format( t, P1.Solution_Total[i], p))
