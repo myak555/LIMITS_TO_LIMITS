@@ -4,11 +4,13 @@ T = np.linspace( 1800, 2200, 401)
 P0 = Population()
 UN_Med = P0.UN_Medium.GetVector( T)
 
-Calibration_Time, Calibration_Land = Load_Calibration( "Agriculture_Calibration.csv", "Year", "Cereal_Land")
-Calibration_Gross, Calibration_Net = Load_Calibration( "Agriculture_Calibration.csv", "Gross_Food", "Net_Food")
+Calibration_Time, Calibration_Land, Calibration_Gross, Calibration_Net = Load_Calibration(
+    "Agriculture_Calibration.csv",
+    ["Year", "Cereal_Land", "Gross_Food", "Net_Food"])
 
-Time_Ran, Land_Ran = Load_Calibration( ".\Data\Randers_2052_World.csv", "Year", "Land")
-Food_Ran, Yield_Ran = Load_Calibration( ".\Data\Randers_2052_World.csv", "Food", "Yield")
+Time_Ran, Land_Ran, Food_Ran, Yield_Ran = Load_Calibration(
+    ".\Data\Randers_2052_World.csv",
+    ["Year", "Land", "Food", "Yield"])
 
 BAU_1972 = Interpolation_BAU_1972()
 BAU_1972.Solve(T)
@@ -47,6 +49,6 @@ ax2.set_ylim( 0, 2000)
 ax2.grid(True)
 ax2.legend(loc=0)
 
-plt.savefig( ".\\Graphs\\figure_07_06.png")
+plt.savefig( "./Graphs/figure_07_06.png")
 fig.show()
 

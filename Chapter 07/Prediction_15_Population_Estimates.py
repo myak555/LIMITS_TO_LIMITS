@@ -5,8 +5,10 @@ P0 = Population()
 UN_Medium = P0.UN_Medium.GetVector( T)
 UN_Low = P0.UN_Low.GetVector( T)
 
-Calibration_Time, Calibration_Net = Load_Calibration( "Agriculture_Calibration.csv", "Year", "Net_Food")
-Calibration_Year, Calibration_Pop = Load_Calibration( "Population_Calibration.csv", "Year", "Population")
+Calibration_Time, Calibration_Net = Load_Calibration(
+    "Agriculture_Calibration.csv", ["Year", "Net_Food"])
+Calibration_Year, Calibration_Pop = Load_Calibration(
+    "Population_Calibration.csv", ["Year", "Population"])
 
 BAU_2012 = Interpolation_BAU_2012()
 BAU_2012.Solve(T)
@@ -45,6 +47,6 @@ ax2.set_xlim( 1900, 2100)
 ax2.grid(True)
 ax2.legend(loc=0)
 
-plt.savefig( ".\\Graphs\\figure_07_15.png")
+plt.savefig( "./Graphs/figure_07_15.png")
 fig.show()
 

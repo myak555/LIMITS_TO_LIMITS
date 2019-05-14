@@ -2,14 +2,10 @@ from Population import *
 from Predictions import Interpolation_BAU_1972 
 from Predictions import Interpolation_BAU_2012 
 
-dataname = ".\Data\Randers_2052_OECD.csv"
-Time, Pop  = Load_Calibration( dataname, "Year", "Population")
-Workforce, Labor_Prod = Load_Calibration( dataname, "Workforce", "Labor_Prod")
-GDP, Consumption = Load_Calibration( dataname, "GDP", "Consumption")
-Coal, Oil = Load_Calibration( dataname, "Coal", "Oil")
-Gas, Nuclear = Load_Calibration( dataname, "Gas", "Nuclear")
-Renewable, Food = Load_Calibration( dataname, "Renewable", "Food")
-Land, Yield = Load_Calibration( dataname, "Land", "Yield")
+Time, Pop, Workforce, Labor_Prod, GDP, Consumption, Coal, Oil, Gas, Nuclear, Renewable, Food, Land, Yield = Load_Calibration(
+    ".\Data\Randers_2052_OECD.csv",
+    ["Year", "Population", "Workforce", "Labor_Prod", "GDP", "Consumption", "Coal", "Oil",
+     "Gas", "Nuclear", "Renewable", "Food", "Land", "Yield"])
 
 Labor_Prod /= 365
 GDP /= Pop / 1e6 * 365
@@ -61,5 +57,5 @@ ax4.set_xlim( 1970, 2050)
 ax4.set_ylim( 0, 20)
 ax4.legend(loc=0)
 
-plt.savefig( ".\\Graphs\\figure_07_09.png")
+plt.savefig( "./Graphs/figure_07_09.png")
 fig.show()

@@ -4,11 +4,14 @@ T = np.linspace( 1800, 2200, 401)
 P0 = Population()
 UN_Med = P0.UN_Medium.GetVector( T)
 
-Time_Ran, GDP_Ran = Load_Calibration( ".\Data\Randers_2052_World.csv", "Year", "GDP")
-CO2_Ran, Prod_Ran = Load_Calibration( ".\Data\Randers_2052_World.csv", "CO2", "Labor_Prod")
-Time_GDP, GDP_Cal = Load_Calibration( ".\Data\GDP_World_Bank.csv", "Year", "GDP_IA")
-Pop_GDP, GDPPC_Cal = Load_Calibration( ".\Data\GDP_World_Bank.csv", "Population", "GDP_per_capita")
-Time_CO2, CO2_Cal = Load_Calibration( ".\Data\CO2_Mauna_Loa.csv", "Year", "Mean")
+Time_Ran, GDP_Ran, CO2_Ran, Prod_Ran = Load_Calibration(
+    ".\Data\Randers_2052_World.csv",
+    ["Year", "GDP", "CO2", "Labor_Prod"])
+Time_GDP, GDP_Cal, Pop_GDP, GDPPC_Cal = Load_Calibration(
+    ".\Data\GDP_World_Bank.csv",
+    ["Year", "GDP_IA", "Population", "GDP_per_capita"])
+Time_CO2, CO2_Cal = Load_Calibration(
+    ".\Data\CO2_Mauna_Loa.csv", ["Year", "Mean"])
 
 BAU_1972 = Interpolation_BAU_1972()
 BAU_1972.Solve(T)
@@ -46,6 +49,6 @@ ax2.set_ylim( 0, 100)
 ax2.grid(True)
 ax2.legend(loc=0)
 
-plt.savefig( ".\\Graphs\\figure_07_07.png")
+plt.savefig( "./Graphs/figure_07_07.png")
 fig.show()
 

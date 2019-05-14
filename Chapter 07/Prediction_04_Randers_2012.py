@@ -4,13 +4,13 @@ T = np.linspace( 1800, 2200, 401)
 P0 = Population()
 UN_Med = P0.UN_Medium.GetVector( T)
 
-Resources_Time, Resources_Coal = Load_Calibration( "Energy_Calibration.csv", "Year", "Coal")
-Resources_Oil, Resources_Gas = Load_Calibration( "Energy_Calibration.csv", "Oil", "Gas")
-Resources_Nuclear, Resources_Renewable = Load_Calibration( "Energy_Calibration.csv", "Nuclear", "Renewable")
+Resources_Time, Resources_Coal, Resources_Oil, Resources_Gas, Resources_Nuclear, Resources_Renewable = Load_Calibration(
+    "Energy_Calibration.csv",
+    ["Year", "Coal", "Oil", "Gas", "Nuclear", "Renewable"])
 
-Time_Ran, Coal_Ran = Load_Calibration( ".\Data\Randers_2052_World.csv", "Year", "Coal")
-Oil_Ran, Gas_Ran = Load_Calibration( ".\Data\Randers_2052_World.csv", "Oil", "Gas")
-Nuclear_Ran, Renewable_Ran = Load_Calibration( ".\Data\Randers_2052_World.csv", "Nuclear", "Renewable")
+Time_Ran, Coal_Ran, Oil_Ran, Gas_Ran, Nuclear_Ran, Renewable_Ran = Load_Calibration(
+    ".\Data\Randers_2052_World.csv",
+    ["Year", "Coal", "Oil", "Gas", "Nuclear", "Renewable"])
 
 BAU_1972 = Interpolation_BAU_1972()
 BAU_1972.Solve(T)
@@ -59,6 +59,6 @@ ax2.set_ylim( 0, 4000)
 ax2.grid(True)
 ax2.legend(loc=0)
 
-plt.savefig( ".\\Graphs\\figure_07_04.png")
+plt.savefig( "./Graphs/figure_07_04.png")
 fig.show()
 

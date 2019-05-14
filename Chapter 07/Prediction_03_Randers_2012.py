@@ -1,7 +1,7 @@
 from Predictions import * 
 
 T = np.linspace( 1890, 2100, 211)
-Time_Ran, Population_Ran = Load_Calibration( ".\Data\Randers_2052_World.csv", "Year", "Population")
+Time_Ran, Population_Ran = Load_Calibration( ".\Data\Randers_2052_World.csv", ["Year", "Population"])
 
 P0 = Population()
 UN_Med = P0.UN_Medium.GetVector( T)
@@ -30,6 +30,6 @@ plt.ylim( 0, 12000)
 plt.title( 'Аппроксимация NewWorld 2012 г: Население')
 plt.grid(True)
 plt.legend(loc=0)
-plt.savefig( ".\\Graphs\\figure_07_03.png")
+plt.savefig( "./Graphs/figure_07_03.png")
 fig.show()
 
