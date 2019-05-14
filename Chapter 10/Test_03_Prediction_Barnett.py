@@ -1,11 +1,8 @@
 from Utilities import *
 
-datafile = "./Data/US00_Barnett_Production_Data.csv"
-Year,Nwells_P = Load_Calibration( datafile, "Year", "Nwells_Plan") 
-Nwells_A, UTUR2011 = Load_Calibration( datafile, "Nwells_Actual", "UTUR2011") 
-AEO2014, AEO2015 = Load_Calibration( datafile, "AEO2014", "AEO2015")
-AEO2016, Hughes_2014 = Load_Calibration( datafile, "AEO2016", "Hughes_2014")
-Year,Actual = Load_Calibration( datafile, "Year", "Actual") 
+Year,Nwells_P, Nwells_A, UTUR2011, AEO2014, AEO2015, AEO2016, Hughes_2014, Year,Actual = Load_Calibration(
+    "./Data/US00_Barnett_Production_Data.csv",
+    ["Year", "Nwells_Plan", "Nwells_Actual", "UTUR2011", "AEO2014", "AEO2015", "AEO2016", "Hughes_2014", "Year", "Actual"]) 
 
 fig = plt.figure( figsize=(15,10))
 fig.suptitle( 'Предсказания добычи месторождения Барнетт', fontsize=22)
@@ -37,5 +34,5 @@ ax2.grid(True)
 ax2.set_title( "Количество газовых скважин в эксплуатации")
 ax2.legend(loc=0)
 
-plt.savefig( ".\\Graphs\\figure_10_03.png")
+plt.savefig( "./Graphs/figure_10_03.png")
 fig.show()

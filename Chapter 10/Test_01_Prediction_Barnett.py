@@ -21,7 +21,7 @@ for i in range( len(dQ0)): dQ1[i] = dQ0[i]
 Production = np.convolve( dWb, dQ1)
 
 fig = plt.figure( figsize=(15,10))
-img = imread( cbook.get_sample_data( os.getcwd() + '\\Barnett_Forecast.jpg'))
+img = imread( cbook.get_sample_data( os.getcwd() + '/Barnett_Forecast.jpg'))
 plt.imshow(img, zorder=0, extent=[1986.5, 2037.2, -950, 6750],  interpolation='nearest', aspect='auto')
 
 plt.plot( Ta, dWb*2, "-", lw=2, color="r", label="Ввод новых скважин N={:5.0f}".format( np.sum(dWb)))
@@ -34,5 +34,5 @@ plt.ylim( -1000, 6800)
 plt.title( 'Предсказание Университета Техаса и Университета Райса 2013 г')
 plt.grid(True)
 plt.legend(loc=1)
-plt.savefig( ".\\Graphs\\figure_10_01.png")
+plt.savefig( "./Graphs/figure_10_01.png")
 fig.show()

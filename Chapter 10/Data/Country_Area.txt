@@ -1,0 +1,220 @@
+Index	Country_Name	Short_Name	Code	Land_and_Sea	Land
+1	WORLD	World	WRLD	150331484	148939100
+15	Burundi	Burundi	BDI	27834	25680
+16	Comoros	Comoros	NONAME	1862	1862
+17	Djibouti	Djibouti	DJI	23200	23180
+18	Eritrea	Eritrea	ERI	117600	101000
+19	Ethiopia	Ethiopia	ETH	1104300	1000000
+20	Kenya	Kenya	KEN	580367	569140
+21	Madagascar	Madagascar	MDG	587041	581540
+22	Malawi	Malawi	MWI	118484	94080
+23	Mauritius	Mauritius	NONAME	2040	2030
+25	Mozambique	Mozambique	MOZ	801590	786380
+26	Reunion	Reunion	NONAME	2511	2511
+27	Rwanda	Rwanda	RWA	26338	24668
+28	Seychelles	Seychelles	NONAME	455	452
+29	Somalia	Somalia	SOM	637657	627337
+30	South Sudan	South Sudan	SDS	644329	644329
+31	Uganda	Uganda	UGA	241550	197100
+32	United Republic of Tanzania	Tanzania	TZA	945087	885800
+33	Zambia	Zambia	ZMB	752612	743398
+34	Zimbabwe	Zimbabwe	ZWE	390757	386847
+36	Angola	Angola	AGO	1246700	1246700
+37	Cameroon	Cameroon	CMR	475442	472710
+38	Central African Republic	CAR	CAF	622984	622984
+39	Chad	Chad	TCD	1284000	1259200
+40	Congo	Congo B	COG	342000	341500
+41	Democratic Republic of the Congo	Congo K	COD	2344858	2267048
+42	Equatorial Guinea	Eq Guinea	GNQ	28051	28051
+43	Gabon	Gabon	GAB	267668	257667
+44	Sao Tome and Principe	Sao Tome	NONAME	964	964
+46	Algeria	Algeria	DZA	2381741	2381741
+47	Egypt	Egypt	EGY	1002450	995450
+48	Libya	Libya	LBY	1759540	1759540
+49	Morocco	Morocco	MAR	446550	446300
+50	Sudan	Sudan	SDN	1861484	1861484
+51	Tunisia	Tunisia	TUN	163610	155360
+52	Western Sahara	Western Sahara	SAH	266000	266000
+54	Botswana	Botswana	BWA	581730	566730
+55	Lesotho	Lesotho	LSO	30355	30355
+56	Namibia	Namibia	NAM	825615	823290
+57	South Africa	South Africa	ZAF	1221037	1214470
+58	Swaziland	Swaziland	SWZ	17364	17204
+60	Benin	Benin	BEN	114763	114305
+61	Burkina Faso	Burkina Faso	BFA	274222	273602
+62	Cabo Verde	Cabo Verde	NONAME	4033	4033
+63	Cote d'Ivoire	Ivory Coast	CIV	322463	318003
+64	Gambia	Gambia	GMB	11295	10000
+65	Ghana	Ghana	GHA	238533	227533
+66	Guinea	Guinea	GIN	245857	245717
+67	Guinea-Bissau	Guinea-Bissau	GNB	36125	28120
+68	Liberia	Liberia	LBR	111369	96320
+69	Mali	Mali	MLI	1240192	1220190
+70	Mauritania	Mauritania	MRT	1030700	1025520
+71	Niger	Niger	NER	1267000	1266700
+72	Nigeria	Nigeria	NGA	923768	910768
+73	Saint Helena	Saint Helena	NONAME	308	308
+74	Senegal	Senegal	SEN	196722	192530
+75	Sierra Leone	Sierra Leone	SLE	71740	71620
+76	Togo	Togo	TGO	56785	54385
+79	China	China	CHN	9596961	9326410
+80	China, Hong Kong SAR	Hong Kong	NONAME	2755	1106
+81	China, Macao SAR	Macau	NONAME	31.3	28.2
+82	China, Taiwan Province of China	Taiwan	TWN	36193	32260
+83	Dem. People's Republic of Korea	N Korea	PRK	120540	120538
+84	Japan	Japan	JPN	377930	364485
+85	Mongolia	Mongolia	MNG	1564110	1553556
+86	Republic of Korea	S Korea	KOR	100210	99909
+89	Kazakhstan	Kazakhstan	KAZ	2724900	2699700
+90	Kyrgyzstan	Kyrgyzstan	KGZ	199951	191801
+91	Tajikistan	Tajikistan	TJK	143100	141510
+92	Turkmenistan	Turkmenistan	TKM	488100	469930
+93	Uzbekistan	Uzbekistan	UZB	447400	425400
+95	Afghanistan	Afghanistan	AFG	652864	652864
+96	Bangladesh	Bangladesh	BGD	147570	130168
+97	Bhutan	Bhutan	BTN	38394	38394
+98	India	India	IND	3287263	2973190
+99	Iran (Islamic Republic of)	Iran	IRN	1648195	1531595
+100	Maldives	Maldives	NONAME	300	298
+101	Nepal	Nepal	NPL	147181	143351
+102	Pakistan	Pakistan	PAK	881912	881912
+103	Sri Lanka	Sri Lanka	LKA	65610	62732
+105	Brunei Darussalam	Brunei	BRN	5765	5265
+106	Cambodia	Cambodia	KHM	181035	176515
+107	Indonesia	Indonesia	IDN	1910931	1811569
+108	Lao People's Democratic Republic	Laos	LAO	236800	230800
+109	Malaysia	Malaysia	MYS	330803	329613
+110	Myanmar	Myanmar	MMR	676578	653508
+111	Philippines	Philippines	PHL	300000	298170
+112	Singapore	Singapore	NONAME	719	687
+113	Thailand	Thailand	THA	513120	510890
+114	Timor-Leste	Timor-Leste	TLS	14874	14874
+115	Viet Nam	Vietnam	VNM	331212	310070
+117	Armenia	Armenia	ARM	29743	28342.1
+118	Azerbaijan	Azerbaijan	AZE	86600	86100
+119	Bahrain	Bahrain	BAHR	765	765
+120	Cyprus	Cyprus	CYP	9251	9241
+121	Georgia	Georgia	GEO	69700	69700
+122	Iraq	Iraq	IRQ	438317	437367
+123	Israel	Israel	ISR	28292	27632
+124	Jordan	Jordan	JOR	89342	88802
+125	Kuwait	Kuwait	KWT	17818	17818
+126	Lebanon	Lebanon	LBN	10452	10230
+127	Oman	Oman	OMN	309500	309500
+128	Qatar	Qatar	QAT	11586	11586
+129	Saudi Arabia	Saudi Arabia	SAU	2149690	2149690
+130	State of Palestine	Palestine	PSX	6020	5640
+131	Syrian Arab Republic	Syria	SYR	185180	183630
+132	Turkey	Turkey	TUR	783562	769632
+133	United Arab Emirates	UAE	ARE	83600	83600
+134	Yemen	Yemen	YEM	527968	527968
+137	Belarus	Belarus	BLR	207600	202900
+138	Bulgaria	Bulgaria	BGR	110879	108489
+139	Czechia	Czechia	CZE	78865	77247
+140	Hungary	Hungary	HUN	93028	89608
+141	Poland	Poland	POL	312679	311888
+142	Republic of Moldova	Moldova	MDA	33846	32891
+143	Romania	Romania	ROU	238397	231291
+144	Russian Federation	Russia	RUS	17098246	16377742
+145	Slovakia	Slovakia	SVK	49037	48105
+146	Ukraine	Ukraine	UKR	603500	579300
+149	Denmark	Denmark	DNK	43094	42434
+150	Estonia	Estonia	EST	45227	42388
+151	Faeroe Islands	Faeroe	NONAME	1393	1393
+152	Finland	Finland	FIN	338424	303815
+153	Iceland	Iceland	ISL	103000	100250
+154	Ireland	Ireland	IRL	70273	68883
+156	Latvia	Latvia	LVA	64559	62249
+157	Lithuania	Lithuania	LTU	65300	62680
+158	Norway	Norway	NOR	323802	304282
+159	Sweden	Sweden	SWE	450295	410335
+160	United Kingdom	UK	GBR	242495	241930
+162	Albania	Albania	ALB	28748	27396.8
+164	Bosnia and Herzegovina	Bosnia	BIH	51209	51187
+165	Croatia	Croatia	HRV	56594	55974
+166	Gibraltar	Gibraltar	NONAME	6.5	6
+167	Greece	Greece	GRC	131990	130647
+169	Italy	Italy	ITA	301336	294140
+170	Malta	Malta	NONAME	316	316
+171	Montenegro	Montenegro	MNE	13812	13452
+172	Portugal	Portugal	PRT	92090	91470
+174	Serbia	Serbia	SRB	88361	88246
+175	Slovenia	Slovenia	SVN	20273	20151
+176	Spain	Spain	ESP	505992	498980
+177	TFYR Macedonia	Macedonia	MKD	25713	25433
+179	Austria	Austria	AUT	83871	82445
+180	Belgium	Belgium	BEL	30528	30278
+181	France	France	FRA	640679	640427
+182	Germany	Germany	DEU	357114	348672
+184	Luxembourg	Luxembourg	LUX	2586	2586
+186	Netherlands	Netherlands	NLD	41850	33893
+187	Switzerland	Switzerland	CHE	41284	39997
+191	Antigua and Barbuda	Antigua	NONAME	442.6	442.6
+192	Aruba	Aruba	NONAME	180	180
+193	Bahamas	Bahamas	BHS	13943	10010
+194	Barbados	Barbados	NONAME	431	430
+195	British Virgin Islands	B Virgin Isl	NONAME	151	151
+196	Caribbean Netherlands	Caribbean Netherlands	NONAME	999	999
+197	Cayman Islands	Caymans	NONAME	264	264
+198	Cuba	Cuba	CUB	109884	109820
+200	Dominica	Dominica	NONAME	751	751
+201	Dominican Republic	Dominican	DOM	48671	48320
+202	Grenada	Grenada	NONAME	344	344
+203	Guadeloupe	Guadeloupe	NONAME	1628	1500
+204	Haiti	Haiti	HTI	27750	27560
+205	Jamaica	Jamaica	JAM	10991	10831
+206	Martinique	Martinique	NONAME	1128	1128
+207	Montserrat	Montserrat	NONAME	102	102
+208	Puerto Rico	Puerto Rico	PRI	9104	9104
+209	Saint Kitts and Nevis	Saint Kitts	NONAME	261	261
+210	Saint Lucia	Saint Lucia	NONAME	616	606
+211	Saint Vincent and the Grenadines	Saint Vincent	NONAME	389	389
+213	Trinidad and Tobago	Trinidad and Tobago	TTO	5130	5128
+214	Turks and Caicos Islands	Turks	NONAME	948	430
+215	United States Virgin Islands	US Virgin Isl	NONAME	347	346
+217	Belize	Belize	BLZ	22966	22806
+218	Costa Rica	Costa Rica	CRI	51100	51060
+219	El Salvador	Salvador	SLV	21041	20721
+220	Guatemala	Guatemala	GTM	108889	107159
+221	Honduras	Honduras	HND	112492	111890
+222	Mexico	Mexico	MEX	1964375	1943945
+223	Nicaragua	Nicaragua	NIC	130373	119990
+224	Panama	Panama	PAN	75417	74340
+226	Argentina	Argentina	ARG	2780400	2736747.7
+227	Bolivia (Plurinational State of)	Bolivia	BOL	1098581	1083301
+228	Brazil	Brazil	BRA	8515767	8460415
+229	Chile	Chile	CHL	756102	743812
+230	Colombia	Colombia	COL	1141748	1038700
+231	Ecuador	Ecuador	ECU	276841	256369
+232	Falkland Islands (Malvinas)	Falkland Isl	FLK	12173	12173
+233	French Guiana	French Guiana	FGU	83534	83000
+234	Guyana	Guyana	GUY	214969	196849
+235	Paraguay	Paraguay	PRY	406752	397302
+236	Peru	Peru	PER	1285216	1279996
+237	Suriname	Suriname	SUR	163820	156000
+238	Uruguay	Uruguay	URY	176215	175015
+239	Venezuela (Bolivarian Republic of)	Venezuela	VEN	916445	882050
+241	Bermuda	Bermuda	NONAME	54	54
+242	Canada	Canada	CAN	9984670	9093507
+243	Greenland	Greenland	GRL	2166086	2166086
+244	Saint Pierre and Miquelon	Saint Pierre	NONAME	242	242
+245	United States of America	USA	USA	9525067	9147593
+248	Australia	Australia	AUS	7692024	7633565
+249	New Zealand	New Zealand	NZL	270467	262443
+251	Fiji	Fiji	FJI	18274	18272
+252	New Caledonia	New Caledonia	NCL	18575	18275
+253	Papua New Guinea	PNG	PNG	462840	452860
+254	Solomon Islands	Solomon Isl	SLB	28896	27986
+255	Vanuatu	Vanuatu	VUT	12189	12189
+256	Micronesia	Micronesia	NONAME	2700	2700
+257	Guam	Guam	NONAME	549	544
+258	Kiribati	Kiribati	NONAME	811	811
+261	Nauru	Nauru	NONAME	21	21
+265	American Samoa	American Samoa	NONAME	199	199
+266	Cook Islands	Cook Isl	NONAME	236	236
+267	French Polynesia	French Polynesia	NONAME	4167	3827
+268	Niue	Niue	NONAME	260	260
+269	Samoa	Samoa	NONAME	2842	2821
+271	Tonga	Tonga	NONAME	747	717
+272	Tuvalu	Tuvalu	NONAME	26	26
+274	Antarctica	Antarctica	ATA	14000000	14000000

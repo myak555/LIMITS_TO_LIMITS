@@ -36,7 +36,7 @@ for i in range( len(dQ0)): dQ1[i] = dQ0[i]
 Production = np.convolve( dWb, dQ1)
 
 fig = plt.figure( figsize=(15,10))
-img = imread( cbook.get_sample_data( os.getcwd() + '\\Barnett_Forecast.jpg'))
+img = imread( cbook.get_sample_data( os.getcwd() + '/Barnett_Forecast.jpg'))
 plt.imshow(img, zorder=0, extent=[1986.5, 2037.2, -950, 6750],  interpolation='nearest', aspect='auto')
 
 plt.errorbar( T, dQ, yerr=dQ*0.03, fmt='o', color="r", label="Реальная добыча")
@@ -50,5 +50,5 @@ plt.ylim( -1000, 6800)
 plt.title( 'Реальная добыча по данным Железнодорожной комиссии Техаса, 2016 г')
 plt.grid(True)
 plt.legend(loc=1)
-plt.savefig( ".\\Graphs\\figure_10_02.png")
+plt.savefig( "./Graphs/figure_10_02.png")
 fig.show()
