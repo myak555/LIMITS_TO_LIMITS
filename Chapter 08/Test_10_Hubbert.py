@@ -66,8 +66,9 @@ class Resource_Weibull:
         self.Solution_Q *= norm
         return self.Solution_Q
 
-T_Cal, Coal_Cal = Load_Calibration( "Energy_Calibration.csv", "Year", "Coal")
-Oil_Cal, Gas_Cal = Load_Calibration( "Energy_Calibration.csv", "Oil", "Gas")
+T_Cal, Coal_Cal, Oil_Cal, Gas_Cal = Load_Calibration(
+    "Energy_Calibration.csv",
+    ["Year", "Coal", "Oil", "Gas"])
 Oil_Cal += Coal_Cal
 Gas_Cal += Oil_Cal
 
@@ -97,5 +98,5 @@ plt.ylim( 0, 13000)
 plt.title( 'Аппроксимация мировой добычи углеводородного топлива')
 plt.grid(True)
 plt.legend(loc=0)
-plt.savefig( ".\\Graphs\\figure_08_10.png")
+plt.savefig( "./Graphs/figure_08_10.png")
 fig.show()

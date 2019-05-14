@@ -85,5 +85,5 @@ plt.title( "Месторождение Весёлое - кривая сняти�
 plt.grid(True)
 plt.legend(loc=0)
 plt.annotate("Здесь две точки - из отчётов 2030 и 2040 годов!", xy=(85,1250), xytext=(115,885), arrowprops=dict(facecolor='black', shrink=0.05))
-plt.savefig( ".\\Graphs\\figure_08_08.png")
+plt.savefig( "./Graphs/figure_08_08.png")
 fig.show()

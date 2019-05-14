@@ -13,7 +13,7 @@ class _Interpolation:
             tmp += wavelets[i].GetVector(self.Time)
         return tmp
     def _Calibrate_Function(self, func, filename, timename, varname, start_t, stop_t, baseline=0.0):
-        calibrationT, calibrationV = Load_Calibration( filename, timename, varname);
+        calibrationT, calibrationV = Load_Calibration( filename, [timename, varname]);
         calibrationV -= baseline
         norm = 0.0
         count = 0.0
@@ -51,7 +51,7 @@ class _Interpolation:
             tmp[i] *= norm
         return tmp
     def _Shift_To_Actual( self, func, filename, timename, varname, start_t, stop_t, norm = 1.0):
-        calibrationT, calibrationV = Load_Calibration( filename, timename, varname);
+        calibrationT, calibrationV = Load_Calibration( filename, [timename, varname]);
         diff = int( calibrationT[0] - self.Time[0])
         for i in range( len( self.Time)):
             t = self.Time[i]
@@ -78,6 +78,7 @@ class _Interpolation:
 #
 class Interpolation_BAU_1972( _Interpolation):
     def __init__( self):
+        self.Name = "Interpolation BAU 1972"
         self._Population_Functions = [Sigmoid( x0=1986.000, s0=0.03059, left=0.091, right=0.360, shift=0.000)]
         self._Population_Functions += [Hubbert( x0=2050.000, s0=0.05345, s1=0.09477, peak=0.360, shift=0.000)]
         self._Population_Functions += [Hubbert( x0=1995.000, s0=0.13373, s1=0.11916, peak=0.012, shift=0.000)]
@@ -154,6 +155,7 @@ class Interpolation_BAU_1972( _Interpolation):
 #
 class Interpolation_BAU_2012( _Interpolation):
     def __init__( self):
+        self.Name = "Interpolation Randers 2012"
         self._Population_Functions = [Sigmoid( 1950, 0.030, 1150, 3600)]
         self._Population_Functions += [Hubbert( 2038, 0.036, 0.028, 4620)]
         self._Population_Functions += [Hubbert( 1955, 0.065, 0.080, -520)]
@@ -227,6 +229,7 @@ class Interpolation_BAU_2012( _Interpolation):
 #
 class Interpolation_Realistic_2012( _Interpolation):
     def __init__( self):
+        self.Name = "Interpolation BAU 2012"
         self._Population_Functions = [Sigmoid( x0=2002.000, s0=0.03300, left=958.000, right=11600.000, shift=0.000)]
         self._Population_Functions += [Hubbert( x0=1855.500, s0=0.07523, s1=0.10878, peak=182.819, shift=0.000)]
         self._Population_Functions += [Hubbert( x0=1903.000, s0=0.06400, s1=0.06400, peak=353.000, shift=0.000)]
@@ -246,7 +249,14 @@ class Interpolation_Realistic_2012( _Interpolation):
         self._Gas_Functions = [Hubbert( 2036, 0.061, 0.065, 4700)]
         self._Gas_Functions += [Hubbert( 1995, 0.1, 0.2, 600)]
         self._Gas_Functions += [Hubbert( 1975, 0.15, 0.2, 400)]
-        self._Nuclear_Functions = [Weibull( 1968, .015, 2.2, 45000)]
+
+        self._Nuclear_Functions = [Weibull( 1968, .018, 2.2, 40000)]
+        self._Nuclear_Functions += [Hubbert( 2013, 0.3, 0.3, -100)]
+        self._Nuclear_Functions += [Hubbert( 2028, 0.4, 0.29, 70)]
+        self._Nuclear_Functions += [Hubbert( 2038, 0.4, 0.4, -70)]
+        self._Nuclear_Functions += [Hubbert( 2052, 0.4, 0.4, 40)]
+        self._Nuclear_Functions += [Sigmoid( 2063, .08, 0, 1550)]
+
         self._Renewable_Functions = [Sigmoid( x0=2022.500, s0=0.07600, left=49.000, right=3550.000, shift=0.000)]
         self._Renewable_Functions += [Hubbert( x0=1985.000, s0=0.08724, s1=0.19580, peak=215.000, shift=0.000)]
         self._Renewable_Functions += [Hubbert( x0=1948.000, s0=0.07937, s1=0.14622, peak=55.132, shift=0.000)]
@@ -308,4 +318,113 @@ class Interpolation_Realistic_2012( _Interpolation):
 
         self.GDP = self._Shift_To_Actual( self.GDP, "./Data/GDP_World_Bank.csv", "Year", "GDP_IA", t0, t1)
         self.GDP_PC = self.GDP / self.Population * 1000000 / 365
+        return
+
+#
+# Феноменологическая интерполяция кривых модели BAU 2018
+# с ограничением возобновляемых ресурсов технологическим максимумом 4.6 ГВт = 3530 mln toe
+# и ограничением по добыче ископаемого топлива URR = 1200 mlrd toe
+#
+class Interpolation_Realistic_2018( _Interpolation):
+    def __init__( self):
+        self.Name = "Interpolation BAU 2018"
+        self._Population_Functions = [Sigmoid( x0=2002.000, s0=0.03300, left=958.000, right=11600.000, shift=0.000)]
+        self._Population_Functions += [Hubbert( x0=1855.500, s0=0.07523, s1=0.10878, peak=182.819, shift=0.000)]
+        self._Population_Functions += [Hubbert( x0=1903.000, s0=0.06400, s1=0.06400, peak=353.000, shift=0.000)]
+        self._Population_Functions += [Hubbert( x0=1951.000, s0=0.17975, s1=0.21109, peak=-118.000, shift=0.000)]
+        self._Population_Functions += [Hubbert( x0=1964.000, s0=0.30994, s1=0.34868, peak=-69.500, shift=0.000)]
+        self._Population_Functions += [Hubbert( x0=1992.000, s0=0.30994, s1=0.31987, peak=79.000, shift=0.000)]
+        self._Population_Functions += [Hubbert( x0=2010.000, s0=0.36475, s1=0.13208, peak=-32.500, shift=0.000)]
+        self._Population_Functions += [Hubbert( x0=2037.800, s0=0.16307, s1=0.10332, peak=-31.025, shift=0.000)]
+        self._Population_Functions += [Sigmoid( x0=2079.000, s0=0.10212, left=0.000, right=-6912.095, shift=0.000)]
+        self._Population_Functions += [Hubbert( x0=1942.000, s0=0.13107, s1=0.06064, peak=67.606, shift=0.000)]
+
+        self._Coal_Functions = [Hubbert( 2032, 0.058, 0.054, 5000)]
+        self._Coal_Functions += [Hubbert( 1925, 0.06, 0.05, 850)]
+        self._Oil_Functions = [Hubbert( 2024, 0.050, 0.053, 4060)]
+        self._Oil_Functions += [Hubbert( 1975, 0.2, 0.20, 1700)]
+        self._Oil_Functions += [Hubbert( 2007, 0.070, 0.35, 500)]
+        self._Gas_Functions = [Hubbert( 2036, 0.061, 0.065, 4700)]
+        self._Gas_Functions += [Hubbert( 1995, 0.1, 0.2, 600)]
+        self._Gas_Functions += [Hubbert( 1975, 0.15, 0.2, 400)]
+
+        self._Nuclear_Functions = [Weibull( 1968, .018, 2.2, 40000)]
+        self._Nuclear_Functions += [Hubbert( 2013, 0.3, 0.3, -100)]
+        self._Nuclear_Functions += [Hubbert( 2028, 0.4, 0.29, 70)]
+        self._Nuclear_Functions += [Hubbert( 2038, 0.4, 0.4, -70)]
+        self._Nuclear_Functions += [Hubbert( 2052, 0.4, 0.4, 40)]
+        self._Nuclear_Functions += [Sigmoid( 2063, .08, 0, 1550)]
+
+        self._Renewable_Functions = [Sigmoid( x0=2022.500, s0=0.07600, left=49.000, right=3550.000, shift=0.000)]
+        self._Renewable_Functions += [Hubbert( x0=1985.000, s0=0.08724, s1=0.19580, peak=215.000, shift=0.000)]
+        self._Renewable_Functions += [Hubbert( x0=1948.000, s0=0.07937, s1=0.14622, peak=55.132, shift=0.000)]
+        self._Renewable_Functions += [Hubbert( x0=1996.000, s0=0.54621, s1=0.62879, peak=69.368, shift=0.000)]
+        self._Renewable_Functions += [Hubbert( x0=2010.000, s0=0.27615, s1=0.37971, peak=-84.426, shift=0.000)]
+
+        self._Land_Functions = [Sigmoid( 1920, 0.03, 800, 1400)]
+        self._Land_Functions += [Hubbert( 1975, 0.3, 0.3, 100)]
+        self._Yield_Functions = [Hubbert( x0=2025.000, s0=0.05802, s1=0.04271, peak=5.200, shift=1.000)]
+        self._Yield_Functions += [Hubbert( x0=1974.000, s0=0.09749, s1=0.12311, peak=0.483, shift=0.000)]
+        self._Yield_Functions += [Hubbert( x0=1983.000, s0=0.97990, s1=0.97010, peak=0.093, shift=0.000)]
+        self._Yield_Functions += [Hubbert( x0=2003.000, s0=0.43013, s1=0.59049, peak=-0.172, shift=0.000)]
+        self._Yield_Functions += [Hubbert( x0=2015.000, s0=0.55593, s1=0.47351, peak=0.200, shift=0.000)]
+
+        self._GDP_Functions = [Hubbert( x0=2012.000, s0=0.16000, s1=0.03800, peak=72.000, shift=0.800)]
+        self._GDP_Functions += [Hubbert( x0=1979.000, s0=0.13438, s1=0.24664, peak=28.244, shift=0.000)]
+        self._GDP_Functions += [Hubbert( x0=1993.000, s0=0.42148, s1=0.40122, peak=29.443, shift=0.000)]
+        self._GDP_Functions += [Hubbert( x0=1954.000, s0=0.16268, s1=0.31071, peak=2.300, shift=0.000)]
+        self._GDP_Functions += [Hubbert( x0=1970.000, s0=0.53144, s1=0.34093, peak=-4.744, shift=0.000)]
+        self._GDP_Functions += [Hubbert( x0=2032.000, s0=0.16345, s1=0.16673, peak=-5.645, shift=0.000)]
+        self._GDP_Functions += [Hubbert( x0=2100, s0=0.203, s1=0.203, peak=4.571, shift=0.000)]
+        self._GDP_Functions += [Hubbert( x0=2020, s0=0.60541, s1=0.60515, peak=-3.391, shift=0.000)]
+
+        self._Prod_Functions = [Sigmoid( 2025, 0.042, 5000, 35000)]
+        self._CO2_Emission_Functions = [Hubbert( x0=2025.000, s0=0.04000, s1=0.04000, peak=38400.000, shift=0.000)]
+        self._CO2_Emission_Functions += [Hubbert( x0=1913.000, s0=0.08261, s1=0.10550, peak=1653.634, shift=0.000)]
+        self._CO2_Emission_Functions += [Hubbert( x0=1973.500, s0=0.41976, s1=0.43597, peak=2525.000, shift=0.000)]
+        self._CO2_Emission_Functions += [Hubbert( x0=2000.000, s0=0.22813, s1=0.34509, peak=-4810.824, shift=0.000)]
+        self._CO2_Emission_Functions += [Hubbert( x0=1950.000, s0=0.44788, s1=0.34174, peak=-615.293, shift=0.000)]
+        self._CO2_Functions = [Hubbert( 2062, 0.031, 0.02, 192, 284)]
+        return
+    def Solve( self, t):
+        self.Time = t
+        self.Population = self._Interpolate_Function( self._Population_Functions)
+        self.Coal = self._Interpolate_Function( self._Coal_Functions)
+        self.Oil = self._Interpolate_Function( self._Oil_Functions)
+        self.Gas = self._Interpolate_Function( self._Gas_Functions)
+        self.Nuclear = self._Interpolate_Function( self._Nuclear_Functions)
+        self.Renewable = self._Interpolate_Function( self._Renewable_Functions)
+        self.Energy = self.Coal + self.Oil + self.Gas + self.Nuclear + self.Renewable
+        self.Energy_PC = self.Energy / self.Population
+        self.Land = self._Interpolate_Function( self._Land_Functions)
+        self.Yield = self._Interpolate_Function( self._Yield_Functions)
+        self.Food = self.Yield * self.Land
+        self.Food_PC = self.Food / self.Population
+        self.GDP = self._Interpolate_Function( self._GDP_Functions)
+        self.GDP_PC = self.GDP / self.Population * 1000000 / 365
+        self.Productivity = self._Interpolate_Function( self._Prod_Functions) / 365
+        self.CO2_Emissions = self._Interpolate_Function( self._CO2_Emission_Functions)
+        self.CO2 = self._Interpolate_Function( self._CO2_Functions)
+        return
+    def Correct_To_Actual( self, t0, t1):
+        self.Coal = self._Shift_To_Actual( self.Coal, "Energy_Calibration.csv", "Year", "Coal", t0, t1)
+        self.Oil = self._Shift_To_Actual( self.Oil, "Energy_Calibration.csv", "Year", "Oil", t0, t1)
+        self.Gas = self._Shift_To_Actual( self.Gas, "Energy_Calibration.csv", "Year", "Gas", t0, t1)
+        self.Nuclear = self._Shift_To_Actual( self.Nuclear, "Energy_Calibration.csv", "Year", "Nuclear", t0, t1)
+        self.Renewable = self._Shift_To_Actual( self.Renewable, "Energy_Calibration.csv", "Year", "Renewable", t0, t1)
+        self.Energy = self._Shift_To_Actual( self.Energy, "Energy_Calibration.csv", "Year", "Total", t0, t1)
+        self.Energy_PC = self.Energy / self.Population
+
+        self.Land = self._Shift_To_Actual( self.Land, "Agriculture_Calibration.csv", "Year", "Cereal_Land", t0, t1)
+        self.Food = self._Shift_To_Actual( self.Food, "Agriculture_Calibration.csv", "Year", "Net_Food", t0, t1)
+        self.Yield = self.Food / self.Land
+        self.Food_PC = self.Food / self.Population
+
+        self.GDP = self._Shift_To_Actual( self.GDP, "./Data/GDP_World_Bank.csv", "Year", "GDP_IA", t0, t1)
+        self.GDP_PC = self.GDP / self.Population * 1000000 / 365
+        self.GDP_PC = self.GDP / self.Population * 1000000 / 365
+
+        self.CO2 = self._Shift_To_Actual( self.CO2, "./Data/Ice_Core_Law_Dome.csv", "Year", "Total", t0, t1)
+        self.CO2 = self._Shift_To_Actual( self.CO2, "./Data/CO2_Mauna_Loa.csv", "Year", "Mean", t0, t1)
+        self.CO2_Emissions = self._Shift_To_Actual( self.CO2_Emissions, "CO2_Calibration.csv", "Year", "Total", t0, t1)
         return

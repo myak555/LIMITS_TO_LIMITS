@@ -58,6 +58,6 @@ ax3.set_ylim( 0, 7000)
 ax3.grid(True)
 ax3.legend(loc=0)
 
-plt.savefig( ".\\Graphs\\figure_08_11.png")
+plt.savefig( "./Graphs/figure_08_11.png")
 fig.show()
 

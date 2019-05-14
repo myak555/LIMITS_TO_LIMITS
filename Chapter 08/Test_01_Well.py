@@ -47,5 +47,5 @@ plt.annotate("Фонтанная добыча. Снижение пластово
 plt.annotate("Капремонт и интенсификация добычи (например, гидроразрыв)", xy=(1980,18), xytext=(1983,20), arrowprops=dict(facecolor='black', shrink=0.05))
 plt.annotate("Механизированная добыча. Рост обводнённости", xy=(2001,9), xytext=(2007,13), arrowprops=dict(facecolor='black', shrink=0.05))
 plt.annotate("Скважина тампонирована", xy=(2030,2), xytext=(2024,6), arrowprops=dict(facecolor='black', shrink=0.05))
-plt.savefig( ".\\Graphs\\figure_08_01.png")
+plt.savefig( "./Graphs/figure_08_01.png")
 fig.show()
