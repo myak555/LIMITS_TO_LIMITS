@@ -3,11 +3,11 @@ from scipy.misc import imread
 import matplotlib.cbook as cbook
 import os
 
-Year,Production = Load_Calibration( "./Data/Samotlor_Production.csv", "Year", "Production")
+Year,Production = Load_Calibration( "./Data/Samotlor_Production.csv", ["Year", "Production"])
 Cumulative = np.array( Production)
 for i in range( 1, len(Cumulative)): Cumulative[i] += Cumulative[i-1]
 
-for i in range( len(Production)): print( "{:g}\t{:.1f}\t{:.1f}".format(Year[i], Production[i], Cumulative[i]))
+for i in range( len(Production)): print( "{:g}\t{:>8.1f}\t{:>8.1f}".format(Year[i], Production[i], Cumulative[i]))
 
 fig = plt.figure( figsize=(15,15))
 
@@ -44,5 +44,5 @@ ax2.set_xlabel( "Q, млн т")
 ax2.set_ylabel( "dQ/Q, %")
 ax2.legend(loc=2)
 
-plt.savefig( ".\\Graphs\\figure_09_16.png")
+plt.savefig( "./Graphs/figure_09_16.png")
 fig.show()

@@ -57,10 +57,8 @@ class CO2_Scenario_3 (Control_Curve):
             tmp += w.Compute( x)
         return tmp
 
-T_CO2, CO2_Cement = Load_Calibration( "CO2_Calibration.csv", "Year", "Cement")
-CO2_Coal, CO2_Oil = Load_Calibration( "CO2_Calibration.csv", "Coal", "Oil")
-CO2_Gas, CO2_Total = Load_Calibration( "CO2_Calibration.csv", "Gas", "Total")
-T_CO2, CO2_BP = Load_Calibration( "CO2_Calibration.csv", "Year", "BP_2018")
+T_CO2, CO2_Cement, CO2_Coal, CO2_Oil, CO2_Gas, CO2_Total, CO2_BP = Load_Calibration(
+    "CO2_Calibration.csv", ["Year", "Cement", "Coal", "Oil", "Gas", "Total", "BP_2018"])
 
 T = np.linspace( 1800, 2100, 301)
 l_real = len( T_CO2)
@@ -101,5 +99,5 @@ plt.ylim( 0, 45000)
 plt.title( "Проверка отчётов BP по выбросам CO₂")
 plt.grid(True)
 plt.legend(loc=0)
-plt.savefig( ".\\Graphs\\figure_09_13.png")
+plt.savefig( "./Graphs/figure_09_13.png")
 fig.show()

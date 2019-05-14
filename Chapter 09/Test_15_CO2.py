@@ -130,8 +130,8 @@ class Reagent_Sequestration_Analytical:
 #
 # Calibration data
 #
-T_ML, ML_PPM = Load_Calibration( "./Data/CO2_Mauna_Loa.csv", "Year", "Mean")
-T_LD, LD_PPM = Load_Calibration( "./Data/Ice_Core_Law_Dome.csv", "Year", "Total")
+T_ML, ML_PPM = Load_Calibration( "./Data/CO2_Mauna_Loa.csv", ["Year", "Mean"])
+T_LD, LD_PPM = Load_Calibration( "./Data/Ice_Core_Law_Dome.csv", ["Year", "Total"])
 Interpolation = Interpolation_Realistic_2018()
 
 #
@@ -167,5 +167,5 @@ plt.ylabel("Концентрация CO₂ в атмосфере[ppmv]")
 plt.title( "Накопление антропогенного CO₂ в атмосфере")
 plt.grid(True)
 plt.legend(loc=0)
-plt.savefig( ".\\Graphs\\figure_09_15.png")
+plt.savefig( "./Graphs/figure_09_15.png")
 fig.show()

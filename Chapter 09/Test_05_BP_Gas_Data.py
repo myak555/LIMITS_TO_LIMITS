@@ -1,12 +1,8 @@
 from Population import *
 
-datafile1 = "./Data/04_BP_Gas.csv"
-BP_Year, BP_2008P = Load_Calibration( datafile1, "Year", "2008")
-BP_2009P, BP_2010P = Load_Calibration( datafile1, "2009", "2010")
-BP_2011P, BP_2012P = Load_Calibration( datafile1, "2011", "2012")
-BP_2014P, BP_2015P = Load_Calibration( datafile1, "2014", "2015")
-BP_2016P, BP_2017P = Load_Calibration( datafile1, "2016", "2017")
-BP_2016P, BP_2018P = Load_Calibration( datafile1, "2016", "2018")
+BP_Year, BP_2008P, BP_2009P, BP_2010P, BP_2011P, BP_2012P, BP_2014P, BP_2015P, BP_2016P, BP_2017P, BP_2018P = Load_Calibration(
+    "./Data/04_BP_Gas.csv",
+    ["Year", "2008", "2009", "2010", "2011", "2012", "2014", "2015", "2016", "2017", "2018"])
 
 diff_2008 = BP_2008P[5:-10] * 100 / BP_2018P[5:-10] 
 diff_2009 = BP_2009P[5:-9] * 100 / BP_2018P[5:-9] 
@@ -56,5 +52,5 @@ ax2.set_ylabel("%%")
 ax2.grid(True)
 ax2.set_title( "В %% к отчёту 2018 г")
 
-plt.savefig( ".\\Graphs\\figure_09_05.png")
+plt.savefig( "./Graphs/figure_09_05.png")
 fig.show()

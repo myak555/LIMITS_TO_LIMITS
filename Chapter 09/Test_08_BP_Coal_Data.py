@@ -1,20 +1,12 @@
 from Population import *
 
-datafile1 = "./Data/06_BP_Coal.csv"
-BP_Year, BP_2008P = Load_Calibration( datafile1, "Year", "2008")
-BP_2009P, BP_2010P = Load_Calibration( datafile1, "2009", "2010")
-BP_2011P, BP_2012P = Load_Calibration( datafile1, "2011", "2012")
-BP_2014P, BP_2015P = Load_Calibration( datafile1, "2014", "2015")
-BP_2016P, BP_2017P = Load_Calibration( datafile1, "2016", "2017")
-BP_2016P, BP_2018P = Load_Calibration( datafile1, "2016", "2018")
+BP_Year, BP_2008P, BP_2009P, BP_2010P, BP_2011P, BP_2012P, BP_2014P, BP_2015P, BP_2016P, BP_2017P, BP_2018P = Load_Calibration(
+    "./Data/06_BP_Coal.csv",
+    ["Year", "2008", "2009", "2010", "2011", "2012", "2014", "2015", "2016", "2017", "2018"])
 
-datafile2 = "./Data/07_BP_Coal.csv"
-BP_Year, BP_2008C = Load_Calibration( datafile2, "Year", "2008")
-BP_2009C, BP_2010C = Load_Calibration( datafile2, "2009", "2010")
-BP_2011C, BP_2012C = Load_Calibration( datafile2, "2011", "2012")
-BP_2014C, BP_2015C = Load_Calibration( datafile2, "2014", "2015")
-BP_2016C, BP_2017C = Load_Calibration( datafile2, "2016", "2017")
-BP_2016C, BP_2018C = Load_Calibration( datafile2, "2016", "2018")
+BP_Year, BP_2008C, BP_2009C, BP_2010C, BP_2011C, BP_2012C, BP_2014C, BP_2015C, BP_2016C, BP_2017C, BP_2018C = Load_Calibration(
+    "./Data/07_BP_Coal.csv",
+    ["Year", "2008", "2009", "2010", "2011", "2012", "2014", "2015", "2016", "2017", "2018"])
 
 diff_2008 = BP_2008P - BP_2008C 
 diff_2009 = BP_2009P - BP_2009C 
@@ -78,10 +70,10 @@ ax2.set_ylabel("%%")
 ax2.grid(True)
 ax2.set_title( "В %% к добыче 2018 г")
 
-plt.savefig( ".\\Graphs\\figure_09_08.png")
+plt.savefig( "./Graphs/figure_09_08.png")
 fig.show()
 
-##dd = 0
-##for i in range( len( diff_2017)):
-##    dd += diff_2017[i]
-##    print( BP_Year[i], dd)
+dd = 0
+for i in range( len( diff_2018)):
+    dd += diff_2018[i]
+    print( "{:d}\t{:>8.1f}".format( int(BP_Year[i]), dd))

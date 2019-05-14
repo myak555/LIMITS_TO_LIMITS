@@ -3,14 +3,14 @@ from scipy.misc import imread
 import matplotlib.cbook as cbook
 import os
 
-Year,Production = Load_Calibration( "./Data/Samotlor_Production.csv", "Year", "Production")
+Year,Production = Load_Calibration( "./Data/Samotlor_Production.csv", ["Year", "Production"])
 Intense = Hubbert( 2017, 0.6, 2, 20).GetVector( Year)
 for i in range( 48, len(Production)): Production[i] = Intense[i]
 Cumulative = np.array( Production)
 for i in range( 1, len(Cumulative)): Cumulative[i] += Cumulative[i-1]
 
-for i in range( len(Production)): print( "{:g}\t{:.1f}\t{:.1f}".format(Year[i], Production[i], Cumulative[i]))
-print( np.sum( Production))
+for i in range( len(Production)): print( "{:g}\t{:>8.1f}\t{:>8.1f}".format(Year[i], Production[i], Cumulative[i]))
+print( "Total cumulative:{:.1f} mln t".format( np.sum( Production)))
 
 fig = plt.figure( figsize=(15,15))
 
@@ -42,5 +42,5 @@ ax2.set_xlabel( "Q, млн т")
 ax2.set_ylabel( "dQ x 1000")
 ax2.legend(loc=2)
 
-plt.savefig( ".\\Graphs\\figure_09_18.png")
+plt.savefig( "./Graphs/figure_09_18.png")
 fig.show()

@@ -13,7 +13,7 @@ class _Interpolation:
             tmp += wavelets[i].GetVector(self.Time)
         return tmp
     def _Calibrate_Function(self, func, filename, timename, varname, start_t, stop_t, baseline=0.0):
-        calibrationT, calibrationV = Load_Calibration( filename, timename, varname);
+        calibrationT, calibrationV = Load_Calibration( filename, [timename, varname]);
         calibrationV -= baseline
         norm = 0.0
         count = 0.0
@@ -51,7 +51,7 @@ class _Interpolation:
             tmp[i] *= norm
         return tmp
     def _Shift_To_Actual( self, func, filename, timename, varname, start_t, stop_t, norm = 1.0):
-        calibrationT, calibrationV = Load_Calibration( filename, timename, varname);
+        calibrationT, calibrationV = Load_Calibration( filename, [timename, varname]);
         diff = int( calibrationT[0] - self.Time[0])
         for i in range( len( self.Time)):
             t = self.Time[i]
@@ -249,7 +249,14 @@ class Interpolation_Realistic_2012( _Interpolation):
         self._Gas_Functions = [Hubbert( 2036, 0.061, 0.065, 4700)]
         self._Gas_Functions += [Hubbert( 1995, 0.1, 0.2, 600)]
         self._Gas_Functions += [Hubbert( 1975, 0.15, 0.2, 400)]
-        self._Nuclear_Functions = [Weibull( 1968, .015, 2.2, 45000)]
+
+        self._Nuclear_Functions = [Weibull( 1968, .018, 2.2, 40000)]
+        self._Nuclear_Functions += [Hubbert( 2013, 0.3, 0.3, -100)]
+        self._Nuclear_Functions += [Hubbert( 2028, 0.4, 0.29, 70)]
+        self._Nuclear_Functions += [Hubbert( 2038, 0.4, 0.4, -70)]
+        self._Nuclear_Functions += [Hubbert( 2052, 0.4, 0.4, 40)]
+        self._Nuclear_Functions += [Sigmoid( 2063, .08, 0, 1550)]
+
         self._Renewable_Functions = [Sigmoid( x0=2022.500, s0=0.07600, left=49.000, right=3550.000, shift=0.000)]
         self._Renewable_Functions += [Hubbert( x0=1985.000, s0=0.08724, s1=0.19580, peak=215.000, shift=0.000)]
         self._Renewable_Functions += [Hubbert( x0=1948.000, s0=0.07937, s1=0.14622, peak=55.132, shift=0.000)]
@@ -340,7 +347,14 @@ class Interpolation_Realistic_2018( _Interpolation):
         self._Gas_Functions = [Hubbert( 2036, 0.061, 0.065, 4700)]
         self._Gas_Functions += [Hubbert( 1995, 0.1, 0.2, 600)]
         self._Gas_Functions += [Hubbert( 1975, 0.15, 0.2, 400)]
-        self._Nuclear_Functions = [Weibull( 1968, .015, 2.2, 45000)]
+
+        self._Nuclear_Functions = [Weibull( 1968, .018, 2.2, 40000)]
+        self._Nuclear_Functions += [Hubbert( 2013, 0.3, 0.3, -100)]
+        self._Nuclear_Functions += [Hubbert( 2028, 0.4, 0.29, 70)]
+        self._Nuclear_Functions += [Hubbert( 2038, 0.4, 0.4, -70)]
+        self._Nuclear_Functions += [Hubbert( 2052, 0.4, 0.4, 40)]
+        self._Nuclear_Functions += [Sigmoid( 2063, .08, 0, 1550)]
+
         self._Renewable_Functions = [Sigmoid( x0=2022.500, s0=0.07600, left=49.000, right=3550.000, shift=0.000)]
         self._Renewable_Functions += [Hubbert( x0=1985.000, s0=0.08724, s1=0.19580, peak=215.000, shift=0.000)]
         self._Renewable_Functions += [Hubbert( x0=1948.000, s0=0.07937, s1=0.14622, peak=55.132, shift=0.000)]

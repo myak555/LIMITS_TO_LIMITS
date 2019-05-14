@@ -1,12 +1,8 @@
 from Population import *
 
-datafile1 = "./Data/03_BP_Oil_Density.csv"
-BP_Year, BP_2008P = Load_Calibration( datafile1, "Year", "2008")
-BP_2009P, BP_2010P = Load_Calibration( datafile1, "2009", "2010")
-BP_2011P, BP_2012P = Load_Calibration( datafile1, "2011", "2012")
-BP_2014P, BP_2015P = Load_Calibration( datafile1, "2014", "2015")
-BP_2016P, BP_2017P = Load_Calibration( datafile1, "2016", "2017")
-BP_2016P, BP_2018P = Load_Calibration( datafile1, "2016", "2018")
+BP_Year, BP_2008P, BP_2009P, BP_2010P, BP_2011P, BP_2012P, BP_2014P, BP_2015P, BP_2016P, BP_2017P, BP_2018P = Load_Calibration(
+    "./Data/03_BP_Oil_Density.csv",
+    ["Year", "2008", "2009", "2010", "2011", "2012", "2014", "2015", "2016", "2017", "2018"])
 
 P2 = Hubbert( 2022, .15, .1, 3.0).GetVector( BP_Year)
 P2 += Hubbert( 1980, 1.2, 1.2, 0.1).GetVector( BP_Year)
@@ -51,5 +47,5 @@ ax2.set_ylabel("млн м³")
 ax2.grid(True)
 ax2.set_title( "Добыча битума в Канаде")
 
-plt.savefig( ".\\Graphs\\figure_09_03.png")
+plt.savefig( "./Graphs/figure_09_03.png")
 fig.show()

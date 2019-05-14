@@ -10,8 +10,8 @@ rho_crude = 0.852
 rho_gc = 0.720
 rho_tar = 0.950
 
-BP_Year, M = Load_Calibration( "./Data/01_BP_Oil_Liquids.csv", "Year", "2018")
-BP_Year, rho = Load_Calibration( "./Data/03_BP_Oil_Density.csv", "Year", "2018")
+BP_Year, M = Load_Calibration( "./Data/01_BP_Oil_Liquids.csv", ["Year", "2018"])
+BP_Year, rho = Load_Calibration( "./Data/03_BP_Oil_Density.csv", ["Year", "2018"])
 
 P2 = Hubbert( 2022, .15, .1, 3.0).GetVector( BP_Year)
 P2 += Hubbert( 1980, 1.2, 1.2, 0.1).GetVector( BP_Year)
@@ -31,7 +31,7 @@ for i in range( len( M_crude)):
     M_gc[i] = 0.0
 
 for i in range( len(BP_Year)):
-    print( "{:g}\t{:.1f}\t{:.1f}\t{:.1f}".format( BP_Year[i], M_tar[i],M_crude[i],M_gc[i]))
+    print( "{:g}\t{:>8.1f}\t{:>8.1f}\t{:>8.1f}".format( BP_Year[i], M_tar[i],M_crude[i],M_gc[i]))
 
 fig = plt.figure( figsize=(15,10))
 fig.suptitle( 'Оценка добычи сырой нефти по отчётам "ВР" 2008-2018 гг', fontsize=22)
@@ -59,5 +59,5 @@ ax2.set_ylabel("г/см³")
 ax2.grid(True)
 ax2.set_title( "Средняя плотность нефти и жидкостей")
 
-plt.savefig( ".\\Graphs\\figure_09_04.png")
+plt.savefig( "./Graphs/figure_09_04.png")
 fig.show()

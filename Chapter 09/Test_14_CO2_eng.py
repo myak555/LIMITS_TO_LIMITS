@@ -128,8 +128,8 @@ class Reagent_Sequestration_Analytical:
 #
 # Calibration data
 #
-T_ML, ML_PPM = Load_Calibration( "./Data/CO2_Mauna_Loa.csv", ["Year", "Mean"])
-T_LD, LD_PPM = Load_Calibration( "./Data/Ice_Core_Law_Dome.csv", ["Year", "Total"])
+T_ML, ML_PPM = Load_Calibration( "./Data/CO2_Mauna_Loa.csv", "Year", "Mean")
+T_LD, LD_PPM = Load_Calibration( "./Data/Ice_Core_Law_Dome.csv", "Year", "Total")
 Interpolation = Interpolation_Realistic_2018()
 
 #
@@ -159,21 +159,34 @@ Sequestration_2e.Solve( T)
 Sequestration_3e = Reagent_Sequestration_Analytical( Q0, CO2_Scenario_3(), norm, sigma3, Interpolation.CO2_Emissions, 1800, 2016)
 Sequestration_3e.Solve( T)
 
+conc = 0
+for i in range( len(T_LD)):
+    if T_LD[i] == 1896: print( T_LD[i], LD_PPM[i])
+    if T_LD[i] != 1956: continue
+    print( T_LD[i], LD_PPM[i])
+    conc = LD_PPM[i]
+    break
+for i in range( len(T_ML)):
+    if T_ML[i] != 2017: continue
+    print( T_ML[i], ML_PPM[i])
+    print( "Increase {:.1f}% per 100 years".format( (ML_PPM[i]/conc-1)/(2017-1956)*10000))
+    break
+
 fig = plt.figure( figsize=(15,10))
-plt.plot( T, Sequestration_1.Solution_Q, "--", lw=2, color='m', label=Sequestration_1.B.Name)
-plt.plot( T, Sequestration_2.Solution_Q, "-", lw=2, color='m', label=Sequestration_2.B.Name)
-plt.plot( T, Sequestration_3.Solution_Q, "-.", lw=2, color='m', label=Sequestration_3.B.Name)
-plt.plot( T, Sequestration_1e.Solution_Q, "--", lw=2, color='r', label=Sequestration_1.B.Name + " (свёртка)")
-plt.plot( T, Sequestration_2e.Solution_Q, "-", lw=2, color='r', label=Sequestration_2.B.Name + " (свёртка)")
-plt.plot( T, Sequestration_3e.Solution_Q, "-.", lw=2, color='r', label=Sequestration_3.B.Name + " (свёртка)")
-plt.errorbar( T_ML, ML_PPM, yerr=ML_PPM*0.005, fmt='.', color="b", label="Данные обсерватории Мауна Лоа (Гавайи)")
-plt.errorbar( T_LD, LD_PPM, yerr=LD_PPM*0.020, fmt='.', color="g", label="Данные льда станции Купол Ло (Антарктика)")
-plt.xlabel("Годы")
-plt.xlim( 1800, 2100)
-plt.ylabel("Концентрация CO₂ в атмосфере[ppmv]")
+##plt.plot( T, Sequestration_1.Solution_Q, "--", lw=2, color='m', label=Sequestration_1.B.Name)
+##plt.plot( T, Sequestration_2.Solution_Q, "-", lw=2, color='m', label=Sequestration_2.B.Name)
+##plt.plot( T, Sequestration_3.Solution_Q, "-.", lw=2, color='m', label=Sequestration_3.B.Name)
+##plt.plot( T, Sequestration_1e.Solution_Q, "--", lw=2, color='r', label=Sequestration_1.B.Name + " (свёртка)")
+##plt.plot( T, Sequestration_2e.Solution_Q, "-", lw=2, color='r', label=Sequestration_2.B.Name + " (свёртка)")
+##plt.plot( T, Sequestration_3e.Solution_Q, "-.", lw=2, color='r', label=Sequestration_3.B.Name + " (свёртка)")
+plt.errorbar( T_ML, ML_PPM, yerr=ML_PPM*0.005, fmt='.', color="b", label="Direct observations (Mauna Loa, HI)")
+plt.errorbar( T_LD, LD_PPM, yerr=LD_PPM*0.020, fmt='.', color="g", label="Ice core content (Law Dome CO₂ station, Antarctica)")
+plt.xlabel("Year")
+plt.xlim( 1830, 2030)
+plt.ylabel("Atmosphere CO₂ Concentration [ppmv]")
 #plt.ylim( 300, 410)
-plt.title( "Накопление антропогенного CO₂ в атмосфере")
+plt.title( "Accumulation of Anthropgenic CO₂ in Atmosphere")
 plt.grid(True)
 plt.legend(loc=0)
-plt.savefig( "./Graphs/figure_09_14.png")
+plt.savefig( "./Graphs/figure_09_14_eng.png")
 fig.show()

@@ -1,14 +1,14 @@
 from Population import *
 
 yr = "2018"
-BP_Year, BP_Coal = Load_Calibration( "./Data/07_BP_Coal.csv", "Year", yr)
-BP_Year, BP_Oil = Load_Calibration( "./Data/01_BP_Oil_Liquids.csv", "Year", yr)
-BP_Year, BP_Gas = Load_Calibration( "./Data/05_BP_Gas.csv", "Year", yr)
-BP_Year, BP_Nuclear = Load_Calibration( "./Data/08_BP_Nuclear.csv", "Year", yr)
-BP_Year, BP_Hydro = Load_Calibration( "./Data/09_BP_Hydro.csv", "Year", yr)
-BP_Year, BP_Renewable = Load_Calibration( "./Data/10_BP_Renewable.csv", "Year", yr)
+BP_Year, BP_Coal = Load_Calibration( "./Data/07_BP_Coal.csv", ["Year", yr])
+BP_Year, BP_Oil = Load_Calibration( "./Data/01_BP_Oil_Liquids.csv", ["Year", yr])
+BP_Year, BP_Gas = Load_Calibration( "./Data/05_BP_Gas.csv", ["Year", yr])
+BP_Year, BP_Nuclear = Load_Calibration( "./Data/08_BP_Nuclear.csv", ["Year", yr])
+BP_Year, BP_Hydro = Load_Calibration( "./Data/09_BP_Hydro.csv", ["Year", yr])
+BP_Year, BP_Renewable = Load_Calibration( "./Data/10_BP_Renewable.csv", ["Year", yr])
 
-Pop_Year, Population = Load_Calibration( "Population_Calibration.csv", "Year", "Population")
+Pop_Year, Population = Load_Calibration( "Population_Calibration.csv", ["Year", "Population"])
 
 fig = plt.figure( figsize=(15,10))
 fig.suptitle( 'Мировое производство энергии по отчёту "ВР" ' + yr + ' г', fontsize=22)
@@ -46,7 +46,7 @@ tonn_per_second_hc_nuc = tonn_per_year_hc_nuc / 365 / 24 /3600
 watt_hc_nuc = tonn_per_second_hc_nuc * 41e9
 
 for i in range( 30, len(pop)):
-    print( "{:g},{:.1f},{:.1f}".format(BP_Year[i], watt[i], watt_hc_nuc[i]))
+    print( "{:g}\t{:>8.1f}\t{:>8.1f}".format(BP_Year[i], watt[i], watt_hc_nuc[i]))
 
 print( "Пик энергии из угля, нефти и газа: {:.1f} Вт/дущу в {:g} году".format(np.max( watt_hc), 1965+np.argmax( watt_hc)))
 print( "Пик энергии из угля, нефти, газа и урана: {:.1f} Вт/дущу в {:g} году".format(np.max( watt_hc_nuc), 1965+np.argmax( watt_hc_nuc)))
@@ -71,5 +71,5 @@ ax2.grid(True)
 ax2.set_title( "Эквивалент мощности на душу населения")
 ax2.legend(loc=4)
 
-plt.savefig( ".\\Graphs\\figure_09_12.png")
+plt.savefig( "./Graphs/figure_09_12.png")
 fig.show()

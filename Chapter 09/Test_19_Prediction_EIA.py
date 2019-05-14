@@ -28,7 +28,7 @@ EIA_OnC = np.array( [62430.3,63818.3,65802.4,67032.8,65967.0,
                      80454.7,80578.1])
 
 fig = plt.figure( figsize=(15,10))
-img = imread( cbook.get_sample_data( os.getcwd() + '\\EIA_Prognosis.png'))
+img = imread( cbook.get_sample_data( os.getcwd() + '/EIA_Prognosis.png'))
 plt.imshow(img, zorder=0, extent=[1991.2, 2036, 51.9, 125],  interpolation='nearest', aspect='auto')
 
 plt.errorbar( T, EIA_All/1000, yerr=EIA_All*0.00003, fmt='o', color="b", label="Все жидкости (EIA-2017)")
@@ -39,5 +39,5 @@ plt.ylim( 45, 130)
 plt.title( 'Прогнозы EIA, 2000-2011 гг')
 #plt.grid(True)
 plt.legend(loc=4)
-plt.savefig( ".\\Graphs\\figure_09_19.png")
+plt.savefig( "./Graphs/figure_09_19.png")
 fig.show()
