@@ -145,5 +145,5 @@ ax3.set_ylim( 0, 18)
 ax3.set_xlabel("Годы")
 ax3.grid(True)
 
-plt.savefig( ".\\Graphs\\figure_15_07.png")
+plt.savefig( "./Graphs/figure_15_07.png")
 fig.show()

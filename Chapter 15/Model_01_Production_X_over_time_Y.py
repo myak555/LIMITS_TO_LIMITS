@@ -52,5 +52,5 @@ ax1.text(2060, 11800, "2048 год", color='m')
 ax1.grid(True)
 ax1.legend(loc=2)
 
-plt.savefig( ".\\Graphs\\figure_15_01.png")
+plt.savefig( "./Graphs/figure_15_01.png")
 fig.show()

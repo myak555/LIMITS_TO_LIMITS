@@ -179,5 +179,5 @@ ax2.set_ylabel("кг нефтяного эквив. в год")
 ax2.grid(True)
 #ax2.legend(loc=2)
 
-plt.savefig( ".\\Graphs\\figure_15_09.png")
+plt.savefig( "./Graphs/figure_15_09.png")
 fig.show()
