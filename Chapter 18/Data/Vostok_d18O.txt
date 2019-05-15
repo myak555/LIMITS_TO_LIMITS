@@ -1,8 +1,8 @@
 # Vostok Ice Core Data for 420,000 Years: Readme file
 # ---------------------------------------------------------------------
-              # World Data Center for Paleoclimatology, Boulder
-                                # and 
-                   # NOAA Paleoclimatology Program
+# World Data Center for Paleoclimatology, Boulder
+# and 
+# NOAA Paleoclimatology Program
 # ---------------------------------------------------------------------
 # NOTE: PLEASE CITE ORIGINAL REFERENCE WHEN USING THIS DATA!!!!!
 # 
@@ -51,8 +51,8 @@
 # Jouzel J., C. Waelbroeck, B. Malaize, M. Bender, J. R. Petit, N. I. Barkov, 
 # J. M. Barnola, T. King, V. M. Kotlyakov, V. Lipenkov, C. Lorius, D. Raynaud, C. Ritz 
 # and T. Sowers, 1996,Climatic interpretation of the recently extended Vostok ice records, 
-# Clim.Dyn., 12, 513-521. 
-	# 
+# Clim.Dyn., 12, 513-521.
+# 
 # Legrand M., C. Lorius, N;I. Barkov, V.N. Petrov, 1988, 
 # Vostok (Antarctica) ice core: atmospheric chemistry changes over the last 
 # climatic cycle (160,000 years), Atmos. Environ. 1988, 22, 317-331.
