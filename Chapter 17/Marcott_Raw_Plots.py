@@ -3,13 +3,12 @@ import scipy.stats as stat
 
 def Plot_Raw( filename):
     print( "Processing " + filename)
-    Age, T_Pub = Load_Calibration( "./Climate_Proxy/" + filename, "Age_Pub", "Temp_Pub", separator="\t")
-    Depth, Proxy = Load_Calibration( "./Climate_Proxy/" + filename, "Depth", "Proxy", separator="\t")
-    Age_M09, Age_error = Load_Calibration( "./Climate_Proxy/" + filename, "Age_Marine09", "Age_error", separator="\t")
+    Age, T_Pub, Depth, Proxy, Age_M09, Age_error = Load_Calibration(
+        "./Climate_Proxy/" + filename,
+        ["Age_Pub", "Temp_Pub", "Depth", "Proxy", "Age_Marine09", "Age_error"], separator="\t")
     if not np.all(np.diff(Age) > 0):
         print( "Age not increasing: " + filename)
         return
-    #print(Age, T_Pub)
     resolution = (Age[-1]-Age[0]) / (Depth[-1]-Depth[0])
     aver = np.average(T_Pub)
     Age_Corr = np.linspace( Age_M09[0], Age_M09[-1], 50)
@@ -45,11 +44,8 @@ def Plot_Raw( filename):
     ax1.plot( [1870,1870], limits, "-.", lw=2, color="b")
     ax1.text( 1300+20, limits[0], "LIA", color="b")
     ax1.set_xlim( age_limits)
-    #ax1.set_ylim( -70, -50)
-    #ax1.set_yticks( [-65,-60,-55,-50])
     ax1.set_xlabel("Year (-BC/+AD)")
     ax1.set_ylabel("[ºC]")
-    #ax1.legend(loc=3)
     ax1.grid(True)
 
     ax2.set_title('Age ( {:.1f} year(s)/cm)'.format(resolution), fontsize=22)

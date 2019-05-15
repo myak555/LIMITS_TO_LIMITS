@@ -1,10 +1,11 @@
 from Utilities import *
 
-filename = "./Data/Vostok_CDI_Temperature_CO2_Radiation.txt"
-Y_Vostok, T_Vostok = Load_Calibration( filename, "BP", "Temp")
-CO2_Vostok, Radiation = Load_Calibration( filename, "CO2", "Radiation")
-filename2 = "./Data/NOAA_EPICA_Deuterium.txt"
-Y_EPICA, D_EPICA = Load_Calibration( filename2, "Age/mean", "deltaD", separator="\t")
+Y_Vostok, T_Vostok, CO2_Vostok, Radiation = Load_Calibration(
+    "./Data/Vostok_CDI_Temperature_CO2_Radiation.txt",
+    ["BP", "Temp", "CO2", "Radiation"])
+Y_EPICA, D_EPICA = Load_Calibration(
+    "./Data/NOAA_EPICA_Deuterium.txt",
+    ["Age/mean", "deltaD"], separator="\t")
 
 Y_Vostok /= 1000
 T_Vostok -= 55
@@ -67,5 +68,5 @@ ax3.legend(loc=3)
 ax3.grid(True)
 ax3.set_xlabel("тысяч лет назад")
 
-plt.savefig( ".\\Graphs\\figure_17_05.png")
+plt.savefig( "./Graphs/figure_17_05.png")
 fig.show()

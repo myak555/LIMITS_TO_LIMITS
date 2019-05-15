@@ -69,11 +69,11 @@ def ProduceData( pop, comm):
         outfile = "none"
         if len(ss) > 2: outfile = ss[2]
         Pyr = -1 
-        for i in range( len(entity.Time)):
-            if entity.Time[i] != yr: continue
+        for i, t in enumerate( entity.Time):
+            if t != yr: continue
             if entity.Land_Area > 0.0:
                 print( "Area: {:.1f} km² ({:.1f} km² with sea)".format( entity.Land_Area, entity.Total_Area))
-            print( "In year {:g}:".format( entity.Time[i]) )
+            print( "In year {:g}:".format( t) )
             print( "Population {:.1f} mln (from {:.1f} to {:.1f})".format(
                     entity.Population[i],entity.Population_Low[i],entity.Population_High[i]) )
             if entity.Land_Area > 0.0:

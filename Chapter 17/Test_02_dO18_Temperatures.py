@@ -8,9 +8,9 @@ def Compute_T_from_CO2( t, gc):
     atm_temp -= solar_response * (t/570)
     return atm_temp 
 
-mya, gc3 = Load_Calibration( "./Data/GEOCARB_III.csv", "MYA", "GEOCARB3", '\t')
-Delta_O18, Polar_Ice = Load_Calibration( "./Data/GEOCARB_III.csv", "Delta_O18", "Polar_Ice", '\t')
-Tropical, CO2Corr = Load_Calibration( "./Data/GEOCARB_III.csv", "Tropical", "CO2Corr", '\t')
+mya, gc3, Delta_O18, Polar_Ice, Tropical, CO2Corr = Load_Calibration(
+    "./Data/GEOCARB_III.csv",
+    ["MYA", "GEOCARB3", "Delta_O18", "Polar_Ice","Tropical", "CO2Corr"], '\t')
 
 uncertainty = 6000 / np.exp( (mya+570)*0.005)
 gc3_max = gc3 + uncertainty
@@ -75,5 +75,5 @@ ax3.set_ylabel("[ºЦ от среднего 1960-1990 гг.]")
 ax3.grid(True)
 ax3.legend(loc=3)
 
-plt.savefig( ".\\Graphs\\figure_17_02.png")
+plt.savefig( "./Graphs/figure_17_02.png")
 fig.show()

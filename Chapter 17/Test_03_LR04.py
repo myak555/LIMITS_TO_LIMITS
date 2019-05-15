@@ -1,12 +1,19 @@
 from Utilities import *
 
-filename = "./Data/LR04_bentic_stack.txt"
-Y_LR04, d18O_LR04 = Load_Calibration( filename, "Time (ka)", "Benthic d18O (per mil)", separator='\t')
-Y_LR04, d18O_std_LR04 = Load_Calibration( filename, "Time (ka)", "Standard error (per mil)", separator='\t')
-Y_Vostok_NOAA, T_Vostok_NOAA = Load_Calibration( "./Data/Vostok_NOAA_Temperature.txt", "age egtmod", "temperature", separator='\t')
-Y_Vostok_CDI, T_Vostok_CDI = Load_Calibration( "./Data/Vostok_CDI_Temperature.txt", "BP", "Temp", separator=',')
+Y_LR04, d18O_LR04, d18O_std_LR04 = Load_Calibration(
+    "./Data/LR04_bentic_stack.txt",
+    ["Time (ka)", "Benthic d18O (per mil)", "Standard error (per mil)"],
+    separator='\t')
+Y_Vostok_NOAA, T_Vostok_NOAA = Load_Calibration(
+    "./Data/Vostok_NOAA_Temperature.txt",
+    ["age egtmod", "temperature"], separator='\t')
+Y_Vostok_CDI, T_Vostok_CDI = Load_Calibration(
+    "./Data/Vostok_CDI_Temperature.txt",
+    ["BP", "Temp"], separator=',')
 Y_Vostok_CDI /= 1000
-Y_Vostok, d18O_Vostok = Load_Calibration( "./Data/Vostok_d18O.txt", "gas age (GT4)", "Atm O18", separator='\t')
+Y_Vostok, d18O_Vostok = Load_Calibration(
+    "./Data/Vostok_d18O.txt",
+    ["gas age (GT4)", "Atm O18"], separator='\t')
 Y_Vostok /= 1000
 T_LR04 = 11.64-4*d18O_LR04
 print( T_LR04[-1] )
@@ -40,5 +47,5 @@ ax2.set_ylabel("[ºЦ]")
 ax2.grid(True)
 ax2.legend(loc=0)
 
-plt.savefig( ".\\Graphs\\figure_17_03.png")
+plt.savefig( "./Graphs/figure_17_03.png")
 fig.show()

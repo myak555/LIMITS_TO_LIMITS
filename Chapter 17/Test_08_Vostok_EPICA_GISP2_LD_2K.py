@@ -6,8 +6,10 @@ class AgeTemp():
         self.t = t
 
 def GetData( filename):
-    Age, T_Pub = Load_Calibration( "./Climate_Proxy/" + filename, "Age_Pub", "Temp_Pub", separator="\t")
-    Depth, Proxy = Load_Calibration( "./Climate_Proxy/" + filename, "Depth", "Proxy", separator="\t")
+    Age, T_Pub, Depth, Proxy = Load_Calibration(
+        "./Climate_Proxy/" + filename,
+        ["Age_Pub", "Temp_Pub", "Depth", "Proxy"],
+        separator="\t")
     if not np.all(np.diff(Age) > 0):
         print( "Age not increasing: " + filename)
         return
@@ -91,8 +93,9 @@ Frozen_Thames = [1408, 1435, 1506, 1514, 1537, 1565,
                  1795, 1814]
 
 filename1 = "./Climate_Proxy/LD_CA_Correlation.txt"
-Y_CE, T_CE = Load_Calibration( filename1, "Year", "CE_Year_Average", separator="\t")
-Y_LD, T_LD = Load_Calibration( filename1, "Year", "LD_d18O", separator="\t")
+Y_CE, T_CE, Y_LD, T_LD = Load_Calibration(
+    "./Climate_Proxy/LD_CA_Correlation.txt",
+    ["Year", "CE_Year_Average", "Year", "LD_d18O"], separator="\t")
 Y_CE = Y_CE[:360]
 T_CE = T_CE[:360]
 Y_LD = Y_LD[23:]
@@ -146,5 +149,5 @@ ax2.legend(loc=0)
 ax2.grid(True)
 ax2.set_xlabel("год")
 
-plt.savefig( ".\\Graphs\\figure_17_08.png")
+plt.savefig( "./Graphs/figure_17_08.png")
 fig.show()

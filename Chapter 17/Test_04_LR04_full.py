@@ -1,9 +1,12 @@
 from Utilities import *
 
-filename = "./Data/LR04_bentic_stack.txt"
-Y_LR04, d18O_LR04 = Load_Calibration( filename, "Time (ka)", "Benthic d18O (per mil)", separator='\t')
-Y_LR04, d18O_std_LR04 = Load_Calibration( filename, "Time (ka)", "Standard error (per mil)", separator='\t')
-Y_Vostok_NOAA, T_Vostok_NOAA = Load_Calibration( "./Data/Vostok_NOAA_Temperature.txt", "age egtmod", "temperature", separator='\t')
+Y_LR04, d18O_LR04, d18O_std_LR04 = Load_Calibration(
+    "./Data/LR04_bentic_stack.txt",
+    ["Time (ka)", "Benthic d18O (per mil)", "Standard error (per mil)"],
+    separator='\t')
+Y_Vostok_NOAA, T_Vostok_NOAA = Load_Calibration(
+    "./Data/Vostok_NOAA_Temperature.txt",
+    ["age egtmod", "temperature"], separator='\t')
 T_LR04 = 11.64-4*d18O_LR04
 Y_Error_LR04 = np.ones( len(Y_LR04))*60*(np.exp(Y_LR04/5400)-1)
 D_Error_LR04 = np.ones( len(Y_LR04))*0.3*(np.exp(Y_LR04/5400)-0.5)
@@ -36,5 +39,5 @@ ax2.set_ylabel("[ºЦ]")
 ax2.grid(True)
 ax2.legend(loc=0)
 
-plt.savefig( ".\\Graphs\\figure_17_04.png")
+plt.savefig( "./Graphs/figure_17_04.png")
 fig.show()

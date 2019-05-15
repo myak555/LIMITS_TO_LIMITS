@@ -58,7 +58,7 @@ class Ice_Age_Simple:
 #
 # Calibrate
 #
-Age, Tvar = Load_Calibration("./Data/Vostok_T.csv", "Age", "Tvar")
+Age, Tvar = Load_Calibration("./Data/Vostok_T.csv", ["Age", "Tvar"])
 Age /= -1000
 
 #
@@ -91,5 +91,5 @@ ax2.grid( True)
 ax2.legend( loc=0)
 ax2.set_xlabel("Тысячи лет")
 
-plt.savefig( ".\\Graphs\\figure_17_06.png")
+plt.savefig( "./Graphs/figure_17_06.png")
 fig.show()

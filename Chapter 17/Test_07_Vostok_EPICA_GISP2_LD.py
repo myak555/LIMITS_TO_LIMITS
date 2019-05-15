@@ -16,41 +16,49 @@ Period_Times += [-11400]
 Period_Times += [-10730]
 Period_Times += [-9640]
 
-filename1 = "./Climate_Proxy/050_Vostok, Antarctica.txt"
-Y_Vostok, D_Vostok = Load_Calibration( filename1, "Age_Pub", "Proxy", separator="\t")
-Y2_Vostok, T_Vostok = Load_Calibration( filename1, "Age_Marine09", "Temp_Pub", separator="\t")
+Y_Vostok, D_Vostok, Y2_Vostok, T_Vostok = Load_Calibration(
+    "./Climate_Proxy/050_Vostok, Antarctica.txt",
+    ["Age_Pub", "Proxy", "Age_Marine09", "Temp_Pub"],
+    separator="\t")
 Y_Vostok = 1950 - Y_Vostok
 #T_Vostok += 55
 
-filename2 = "./Climate_Proxy/025_Dome C, Antarctica.txt"
-Y_DomeC, D_DomeC = Load_Calibration( filename2, "Age_Pub", "Proxy", separator="\t")
-Y2_DomeC, T_DomeC = Load_Calibration( filename2, "Age_Marine09", "Temp_Pub", separator="\t")
+Y_DomeC, D_DomeC, Y2_DomeC, T_DomeC = Load_Calibration(
+    "./Climate_Proxy/025_Dome C, Antarctica.txt",
+    ["Age_Pub", "Proxy", "Age_Marine09", "Temp_Pub"], separator="\t")
 Y_DomeC = 1950 - Y_DomeC
 T_DomeC += 25
 
-filename3 = "./Climate_Proxy/Deuterium_Law_Dome.txt"
-Y_LD, D_LD = Load_Calibration( filename3, "Year", "Deuterium_excess", separator=" ")
+Y_LD, D_LD = Load_Calibration(
+    "./Climate_Proxy/Deuterium_Law_Dome.txt",
+    ["Year", "Deuterium_excess"], separator=" ")
 
-filename4 = "./Climate_Proxy/D18O_Law_Dome.txt"
-Y_LD2, Delta18O_LD = Load_Calibration( filename4, "age_CE", "d18O", separator="\t")
+Y_LD2, Delta18O_LD = Load_Calibration(
+    "./Climate_Proxy/D18O_Law_Dome.txt",
+    ["age_CE", "d18O"], separator="\t")
 
-filename5 = "./Climate_Proxy/067b_Agassiz & Renland.txt"
-Y_Greenland, d18O_Greenland = Load_Calibration( filename5, "Age_Pub", "Proxy", separator="\t")
-Y2_Greenland, T_Greenland = Load_Calibration( filename5, "Age_Marine09", "Temp_Pub", separator="\t")
+Y_Greenland, d18O_Greenland, Y2_Greenland, T_Greenland = Load_Calibration(
+    "./Climate_Proxy/067b_Agassiz & Renland.txt",
+    ["Age_Pub", "Proxy", "Age_Marine09", "Temp_Pub"], separator="\t")
 Y_Greenland = 1950 - Y_Greenland
 T_Greenland -= 12
 
-filename6 = "./Climate_Proxy/GISP_2_Temperature.txt"
-Y_GISP2, T_GISP2 = Load_Calibration( filename6, "Age", "Temperature", separator=" ")
+Y_GISP2, T_GISP2 = Load_Calibration(
+    "./Climate_Proxy/GISP_2_Temperature.txt",
+    ["Age", "Temperature"], separator=" ")
 Y_GISP2 = 1950 - Y_GISP2*1000
 #T_GISP2 += 32
 
-filename7 = "./Climate_Proxy/GISP_2.txt"
-Y_GISP2_A, d18O_GISP2 = Load_Calibration( filename7, "Age", "d18O", separator="\t")
+Y_GISP2_A, d18O_GISP2 = Load_Calibration(
+    "./Climate_Proxy/GISP_2.txt",
+    ["Age", "d18O"], separator="\t")
 Y_GISP2_A = 1950 - Y_GISP2_A
 
-YearCorr, Law_Dome_d18O = Load_Calibration( "./Climate_Proxy/LD_CA_Correlation.txt", "Year", "LD_d18O", separator="\t")
-Central_England_Tmean, Casey_Tmean = Load_Calibration( "./Climate_Proxy/LD_CA_Correlation.txt", "CE_Year_Average", "Casey_Year_Average", separator="\t")
+YearCorr, Law_Dome_d18O, Central_England_Tmean, Casey_Tmean = Load_Calibration(
+    "./Climate_Proxy/LD_CA_Correlation.txt",
+    ["Year", "LD_d18O", "CE_Year_Average", "Casey_Year_Average"],
+    separator="\t")
+
 Matrix = np.ones(11)
 Central_England_T10 = Filter( Central_England_Tmean[:360], matrix=Matrix)
 Casey_T10 = Filter( Casey_Tmean[6:61], matrix=Matrix)
@@ -135,5 +143,5 @@ ax3.legend(loc=0)
 ax3.grid(True)
 ax3.set_xlabel("год")
 
-plt.savefig( ".\\Graphs\\figure_17_07.png")
+plt.savefig( "./Graphs/figure_17_07.png")
 fig.show()
