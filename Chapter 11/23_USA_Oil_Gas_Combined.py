@@ -5,13 +5,15 @@ PC_Estimate = Hubbert( 2016, 0.56, 0.1, 230, 15).GetVector( Year)
 PE_Estimate = Hubbert( 2016, 0.56, 0.11, 420, 15).GetVector( Year)
 PG_Estimate = Hubbert( 2018, 0.05, 0.07, 1040, 80).GetVector( Year)
 
-Historical_Year, Historical_Oil = Load_Calibration( "./Data/US_Fossil_Fuel_Reconstructed.csv", "Year", "Oil")
-Historical_Year, Historical_Gas = Load_Calibration( "./Data/US_Fossil_Fuel_Reconstructed.csv", "Year", "Gas")
-Rig_Year, Oil_Wells = Load_Calibration( "./Data/US_Rigs_and_Wells.csv", "Year", "Dev_Oil")
-Gas_Wells, Dry_Wells = Load_Calibration( "./Data/US_Rigs_and_Wells.csv", "Dev_Gas", "Dev_Dry")
-Rig_Year, Expl_Wells = Load_Calibration( "./Data/US_Rigs_and_Wells.csv", "Year", "Expl_Total")
-Footage_Year, Length_Total = Load_Calibration( "./Data/US_Well_Footage.csv", "Year", "Total")
-Length_Expl, Length_Dev = Load_Calibration( "./Data/US_Well_Footage.csv", "Expl_Total", "Prod_Total")
+Historical_Year, Historical_Oil, Historical_Gas = Load_Calibration(
+    "./Data/US_Fossil_Fuel_Reconstructed.csv",
+    ["Year", "Oil", "Gas"])
+Rig_Year, Oil_Wells, Gas_Wells, Dry_Wells, Expl_Wells = Load_Calibration(
+    "./Data/US_Rigs_and_Wells.csv",
+    ["Year", "Dev_Oil", "Dev_Gas", "Dev_Dry", "Expl_Total"])
+Footage_Year, Length_Total, Length_Expl, Length_Dev = Load_Calibration(
+    "./Data/US_Well_Footage.csv",
+    ["Year", "Total", "Expl_Total", "Prod_Total"])
 
 fig = plt.figure( figsize=(15,15))
 fig.suptitle( 'Добыча нефти и природного газа в США', fontsize=22)
@@ -26,7 +28,7 @@ ax1.plot( [1900,2100], [1155,1155], "--", lw=1, color='r', label="Рекорд �
 ax1.plot( Year[17:], PE_Estimate[17:], "--", lw=3, color='g')
 ax1.plot( Year[17:], PG_Estimate[17:], "--", lw=3, color='r')
 ax1.set_xlim( 1900, 2020)
-ax1.set_ylim( 0, 2000)
+ax1.set_ylim( 0, 1500)
 ax1.set_ylabel("Млн toe в год")
 ax1.grid(True)
 ax1.set_title( "Добыча природных углеводородов")
@@ -37,7 +39,7 @@ ax2.plot( Rig_Year[:-7], (Gas_Wells[:-7]+Oil_Wells[:-7])/1000, "-", lw=2, color=
 ax2.plot( Rig_Year[:-7], (Gas_Wells[:-7]+Oil_Wells[:-7]+Dry_Wells[:-7])/1000, "-", lw=1, color='k', label="Сухих {:.0f} тыс".format(np.sum(Dry_Wells[:-7])/1000))
 ax2.plot( Rig_Year[:-7], (Gas_Wells[:-7]+Oil_Wells[:-7]+Dry_Wells[:-7]+Expl_Wells[:-7])/1000, "--", lw=1, color='k', label="Разведочных {:.0f} тыс".format(np.sum(Expl_Wells[:-7])/1000))
 #print( (Gas_Wells[:-7]+Oil_Wells[:-7]+Dry_Wells[:-7]+Expl_Wells[:-7])/1000)
-print( "Общее накопленное производство нефти и газа", np.sum(Historical_Oil[149:]+Historical_Gas[149:])/1000, "млрд toe")
+print( "Total cumulative oil and gas: {:.1f} mlrd toe".format( np.sum(Historical_Oil[149:]+Historical_Gas[149:])/1000))
 ax2.plot( [1986,2040], [20,20], "--", lw=1, color='k')
 ax2.set_xlim( 1900, 2020)
 ax2.set_ylim( 0, 100)
@@ -59,5 +61,5 @@ ax3.set_title( "Проходка скважин с 1949 по 2010 гг")
 ax3.legend(loc=2)
 ax3.annotate("Пик в 1981 году", xy=(1981, 125), xytext=(1950, 100), arrowprops=dict(facecolor='black', shrink=0.05))
 
-plt.savefig( ".\\Graphs\\figure_11_23.png")
+plt.savefig( "./Graphs/figure_11_23.png")
 fig.show()

@@ -1,23 +1,4 @@
-from Utilities import *
-
-def GetFile( data_name, sum_data_EIA, sum_well_HP, sum_well_HA, sum_well_P, sum_well_A, proj_name="Hughes2014"):
-    bft2bmy = 0.3048**3 * 365
-    Y,AEO2016 = Load_Calibration( data_name, "Year", "AEO2016") 
-    Hughes,Actual = Load_Calibration( data_name, proj_name, "Actual")
-    AEO2016 *= bft2bmy 
-    Hughes *= bft2bmy
-    Actual *= bft2bmy
-    sp = int( Y[0] - 1994)
-    for i in range( sp, len(sum_data_EIA)):
-        sum_data_EIA[i] += AEO2016[i-sp]
-        sum_well_HP[i] += Hughes[i-sp]
-        sum_well_HA[i] += Actual[i-sp]
-    WP,WA = Load_Calibration( data_name, "Wells_Plan", "Wells_Actual")
-    if len(WP) < 1: return np.array( sum_well_HP)
-    for i in range( sp, len(sum_data_EIA)):
-        sum_well_P[i] += WP[i-sp]
-        sum_well_A[i] += WA[i-sp]
-    return np.array( sum_well_HP)
+from US_Utilities import *
 
 Year = np.linspace( 1994, 2040, 47)
 sum_EIA = np.zeros( len( Year))
@@ -45,12 +26,10 @@ Prediction_TG_EIA = Hubbert( 2042, .07, .107, 820).GetVector( Prediction_T)
 Prediction_Total_Huges = Prediction_Conventional/1.1 + Prediction_TG_Huges 
 Prediction_Total_EIA = Prediction_Conventional/1.1 + Prediction_TG_EIA
 
-EIA_Year, EIA_Withdrawals = Load_Calibration( "./Data/US11_US_Gas_EIA.csv", "year", "gross")
-EIA_Repress, EIA_VnF = Load_Calibration( "./Data/US11_US_Gas_EIA.csv", "repress", "vnf")
-EIA_GW, EIA_OW = Load_Calibration( "./Data/US11_US_Gas_EIA.csv", "gas_wells", "oil_wells")
-EIA_TG, EIA_CBM = Load_Calibration( "./Data/US11_US_Gas_EIA.csv", "TG_wells", "CBM_wells")
-EIA_Repress, EIA_VnF = Load_Calibration( "./Data/US11_US_Gas_EIA.csv", "repress", "vnf")
-EIA_dry, EIA_Marketed = Load_Calibration( "./Data/US11_US_Gas_EIA.csv", "dry", "marketed")
+EIA_Year, EIA_Withdrawals, EIA_Repress, EIA_VnF, EIA_GW, EIA_OW, EIA_TG, EIA_CBM, EIA_dry, EIA_Marketed = Load_Calibration(
+    "./Data/US11_US_Gas_EIA.csv",
+    ["year", "gross", "repress", "vnf", "gas_wells", "oil_wells", "TG_wells", "CBM_wells", "dry", "marketed"])
+
 mfty2bmy = 0.3048**3/1000
 EIA_Withdrawals *= mfty2bmy
 EIA_Repress *= mfty2bmy
@@ -108,5 +87,5 @@ ax2.grid(True)
 ax2.set_title( "Добыча по типу местрождения")
 ax2.legend(loc=2)
 
-plt.savefig( ".\\Graphs\\figure_11_12.png")
+plt.savefig( "./Graphs/figure_11_12.png")
 fig.show()

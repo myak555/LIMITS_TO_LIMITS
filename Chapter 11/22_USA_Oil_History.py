@@ -1,56 +1,35 @@
-from Utilities import *
+from US_Utilities import *
 
-def GetOthers( ):
-    Year,AEO2016 = Load_Calibration( "./Data/US20_Others_Oil.csv", "Year", "AEO2016") 
-    YC,PC1 = Load_Calibration( "./Data/US22_US_Tight_Oil_EIA.csv", "Year", "Monterey")
-    PC2,PC3 = Load_Calibration( "./Data/US22_US_Tight_Oil_EIA.csv", "Granite_Wash", "Marcellus")
-    PC4,PC5 = Load_Calibration( "./Data/US22_US_Tight_Oil_EIA.csv", "Haynesville", "Yeso_Glorieta")
-    PC6,PC7 = Load_Calibration( "./Data/US22_US_Tight_Oil_EIA.csv", "Delaware", "Utica")
-    PC = PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7
-    b2t = 0.159 * 0.827 
-    bd2ty = b2t * 365
-    AEO2016 *= bd2ty 
-    PC *= b2t
-    return Year, AEO2016, np.zeros(len(Year)), YC, PC 
-
-def GetFile( data_name, field_name, sum_data_EIA, sum_well, sum_actual):
-    Y,AEO2016 = Load_Calibration( data_name, "Year", "AEO2016") 
-    Actual, Wells = Load_Calibration( data_name, "Actual", "Wells_Actual")
-    YC,PC = Load_Calibration( "./Data/US22_US_Tight_Oil_EIA.csv", "Year", field_name)
-    b2t = 0.159 * 0.827 
-    bd2ty = b2t * 365
-    AEO2016 *= bd2ty 
-    PC *= b2t
-    return sum_data_EIA+AEO2016, sum_well+Wells, sum_actual+PC 
-
-Year, sum_EIA, Wells, YC, PC = GetOthers()
+Year, sum_EIA, Wells, YC, PC = Get_Oil_Others()
 sum_EIA1 = np.array(sum_EIA)
 Wells1 = np.array(Wells)
 PC1 = np.array(PC)
-sum_EIA, Wells, PC = GetFile( "./Data/US13_Bakken_Oil.csv", "Bakken", sum_EIA, Wells, PC)
-sum_EIA, Wells, PC = GetFile( "./Data/US14_EagleFord_Oil.csv", "EagleFord", sum_EIA, Wells, PC)
+sum_EIA, Wells, PC = GetFile_Oil( "./Data/US13_Bakken_Oil.csv", "Bakken", sum_EIA, Wells, PC)
+sum_EIA, Wells, PC = GetFile_Oil( "./Data/US14_EagleFord_Oil.csv", "EagleFord", sum_EIA, Wells, PC)
 sum_EIA2 = np.array(sum_EIA)
 Wells2 = np.array(Wells)
 PC2 = np.array(PC)
-sum_EIA, Wells, PC = GetFile( "./Data/US15_Permian_BoneSpring_Oil.csv", "Bonespring", sum_EIA, Wells, PC)
-sum_EIA, Wells, PC = GetFile( "./Data/US16_Permian_Spraberry_Oil.csv", "Spraberry", sum_EIA, Wells, PC)
-sum_EIA, Wells, PC = GetFile( "./Data/US17_Permian_Wolfcamp_Oil.csv", "Wolfcamp", sum_EIA, Wells, PC)
-sum_EIA, Wells, PC = GetFile( "./Data/US18_Niobrara_Oil.csv", "Niobrara_Codell", sum_EIA, Wells, PC)
-sum_EIA, Wells, PC = GetFile( "./Data/US19_Austin_Chalk_Oil.csv", "Austin_Chalk", sum_EIA, Wells, PC)
+sum_EIA, Wells, PC = GetFile_Oil( "./Data/US15_Permian_BoneSpring_Oil.csv", "Bonespring", sum_EIA, Wells, PC)
+sum_EIA, Wells, PC = GetFile_Oil( "./Data/US16_Permian_Spraberry_Oil.csv", "Spraberry", sum_EIA, Wells, PC)
+sum_EIA, Wells, PC = GetFile_Oil( "./Data/US17_Permian_Wolfcamp_Oil.csv", "Wolfcamp", sum_EIA, Wells, PC)
+sum_EIA, Wells, PC = GetFile_Oil( "./Data/US18_Niobrara_Oil.csv", "Niobrara_Codell", sum_EIA, Wells, PC)
+sum_EIA, Wells, PC = GetFile_Oil( "./Data/US19_Austin_Chalk_Oil.csv", "Austin_Chalk", sum_EIA, Wells, PC)
 sum_EIA3 = np.array(sum_EIA)
 Wells3 = np.array(Wells)
 PC3 = np.array(PC)
 
-YH, PH1 = Load_Calibration( "./Data/US13_Bakken_Oil.csv", "Year", "Hughes2014")
-YH, PH2 = Load_Calibration( "./Data/US14_EagleFord_Oil.csv", "Year", "Hughes2014")
+YH, PH1 = Load_Calibration( "./Data/US13_Bakken_Oil.csv", ["Year", "Hughes2014"])
+YH, PH2 = Load_Calibration( "./Data/US14_EagleFord_Oil.csv", ["Year", "Hughes2014"])
 PH = (PH1 + PH2) * 0.159 * 0.827 * 365
 
 PC_Estimate = Hubbert( 2016, 0.56, 0.1, 230, 15).GetVector( Year)
 PE_Estimate = Hubbert( 2016, 0.56, 0.11, 420, 15).GetVector( Year)
 
-Historical_Year, Historical_Production = Load_Calibration( "./Data/US_Fossil_Fuel_Reconstructed.csv", "Year", "Oil")
-Rig_Year, Rotary_Rigs = Load_Calibration( "./Data/US_Rigs_and_Wells.csv", "Year", "Rotary_Rigs")
-Rig_Year, Onshore_Rigs = Load_Calibration( "./Data/US_Rigs_and_Wells.csv", "Year", "Onshore")
+Historical_Year, Historical_Production = Load_Calibration(
+    "./Data/US_Fossil_Fuel_Reconstructed.csv", ["Year", "Oil"])
+Rig_Year, Rotary_Rigs, Onshore_Rigs = Load_Calibration(
+    "./Data/US_Rigs_and_Wells.csv",
+    ["Year", "Rotary_Rigs", "Onshore"])
 
 Hubbert_Year = np.linspace( 1956, 2100, 145)
 Hubbert_Oil = Hubbert( 1970, 0.054, 0.054, 392).GetVector( Hubbert_Year)
@@ -88,5 +67,5 @@ ax2.set_title( "Буровых в США")
 ax2.legend(loc=2)
 ax2.annotate("Пик буровых в 1981 году", xy=(1981, 4000), xytext=(1990, 3500), arrowprops=dict(facecolor='black', shrink=0.05))
 
-plt.savefig( ".\\Graphs\\figure_11_22.png")
+plt.savefig( "./Graphs/figure_11_22.png")
 fig.show()

@@ -5,20 +5,16 @@ PC_Estimate = Hubbert( 2016, 0.56, 0.1, 230, 15).GetVector( Year)
 PE_Estimate = Hubbert( 2016, 0.56, 0.11, 420, 15).GetVector( Year)
 PG_Estimate = Hubbert( 2018, 0.05, 0.07, 1040, 80).GetVector( Year)
 
-Historical_Year, Historical_Oil = Load_Calibration( "./Data/US_Fossil_Fuel_Reconstructed.csv", "Year", "Oil")
-Historical_Year, Historical_Gas = Load_Calibration( "./Data/US_Fossil_Fuel_Reconstructed.csv", "Year", "Gas")
+Historical_Year, Historical_Oil, Historical_Gas = Load_Calibration(
+    "./Data/US_Fossil_Fuel_Reconstructed.csv",
+    ["Year", "Oil", "Gas"])
 
-AEO2017_Year, AEO2016_Ref = Load_Calibration( "./Data/US23_AEO2017_Oil.csv", "Year", "AEO2016")
-AEO2017_Ref, AEO2017_NCP = Load_Calibration( "./Data/US23_AEO2017_Oil.csv", "Ref", "NCP")
-AEO2017_HEG, AEO2017_LEG = Load_Calibration( "./Data/US23_AEO2017_Oil.csv", "HEG", "LEG")
-AEO2017_HOP, AEO2017_LOP = Load_Calibration( "./Data/US23_AEO2017_Oil.csv", "HOP", "LOP")
-AEO2017_HOA, AEO2017_LOA = Load_Calibration( "./Data/US23_AEO2017_Oil.csv", "HOA", "LOA")
-
-AEO2017_YearG, AEO2016_RefG = Load_Calibration( "./Data/US24_AEO2017_Gas.csv", "Year", "AEO2016")
-AEO2017_RefG, AEO2017_NCPG = Load_Calibration( "./Data/US24_AEO2017_Gas.csv", "Ref", "NCP")
-AEO2017_HEGG, AEO2017_LEGG = Load_Calibration( "./Data/US24_AEO2017_Gas.csv", "HEG", "LEG")
-AEO2017_HOPG, AEO2017_LOPG = Load_Calibration( "./Data/US24_AEO2017_Gas.csv", "HOP", "LOP")
-AEO2017_HOAG, AEO2017_LOAG = Load_Calibration( "./Data/US24_AEO2017_Gas.csv", "HOA", "LOA")
+AEO2017_Year, AEO2016_Ref, AEO2017_Ref, AEO2017_NCP, AEO2017_HEG, AEO2017_LEG, AEO2017_HOP, AEO2017_LOP, AEO2017_HOA, AEO2017_LOA = Load_Calibration(
+    "./Data/US23_AEO2017_Oil.csv",
+    ["Year", "AEO2016", "Ref", "NCP", "HEG", "LEG", "HOP", "LOP", "HOA", "LOA"])
+AEO2017_YearG, AEO2016_RefG, AEO2017_RefG, AEO2017_NCPG, AEO2017_HEGG, AEO2017_LEGG, AEO2017_HOPG, AEO2017_LOPG, AEO2017_HOAG, AEO2017_LOAG = Load_Calibration(
+    "./Data/US24_AEO2017_Gas.csv",
+    ["Year", "AEO2016", "Ref", "NCP", "HEG", "LEG", "HOP", "LOP", "HOA", "LOA"])
 
 quad2t = 22.6766
 market2total = 1.15
@@ -85,5 +81,5 @@ ax2.grid(True)
 ax2.set_title( "Добыча газа и NGPL")
 ax2.legend(loc=1)
 
-plt.savefig( ".\\Graphs\\figure_11_24.png")
+plt.savefig( "./Graphs/figure_11_24.png")
 fig.show()

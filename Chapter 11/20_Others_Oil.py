@@ -1,17 +1,14 @@
 from Utilities import *
 
 name = "Остальные"
-data_name = "./Data/US20_Others_Oil.csv"
 metric = True
 
-Year,AEO2014 = Load_Calibration( data_name, "Year", "AEO2014") 
-AEO2015,AEO2016 = Load_Calibration( data_name, "AEO2015", "AEO2016") 
-Hughes2014,Actual = Load_Calibration( data_name, "Hughes2014", "Actual") 
-WP, WA = Load_Calibration( data_name, "Wells_Plan", "Wells_Actual")
-YC,PC1 = Load_Calibration( "./Data/US22_US_Tight_Oil_EIA.csv", "Year", "Monterey")
-PC2,PC3 = Load_Calibration( "./Data/US22_US_Tight_Oil_EIA.csv", "Granite_Wash", "Marcellus")
-PC4,PC5 = Load_Calibration( "./Data/US22_US_Tight_Oil_EIA.csv", "Haynesville", "Yeso_Glorieta")
-PC6,PC7 = Load_Calibration( "./Data/US22_US_Tight_Oil_EIA.csv", "Delaware", "Utica")
+Year,AEO2014,AEO2015,AEO2016,Hughes2014,Actual,WP,WA = Load_Calibration(
+    "./Data/US20_Others_Oil.csv",
+    ["Year", "AEO2014", "AEO2015", "AEO2016", "Hughes2014", "Actual", "Wells_Plan", "Wells_Actual"])
+YC,PC1,PC2,PC3,PC4,PC5,PC6,PC7 = Load_Calibration(
+    "./Data/US22_US_Tight_Oil_EIA.csv",
+    ["Year", "Monterey", "Granite_Wash", "Marcellus", "Haynesville", "Yeso_Glorieta", "Delaware", "Utica"])
 
 PC = PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7
 
@@ -65,5 +62,5 @@ ax2.grid(True)
 ax2.set_title( "Количество скважин в эксплуатации")
 ax2.legend(loc=0)
 
-plt.savefig( ".\\Graphs\\figure_11_20.png")
+plt.savefig( "./Graphs/figure_11_20.png")
 fig.show()

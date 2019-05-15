@@ -1,14 +1,14 @@
 from Utilities import *
 
 name = "Остальные и Антрим"
-data_name = "./Data/US09_Others_Gas.csv"
 metric = True
 
-Year,AEO2014 = Load_Calibration( data_name, "Year", "AEO2014") 
-AEO2015,AEO2016 = Load_Calibration( data_name, "AEO2015", "AEO2016") 
-Hughes2014,Actual = Load_Calibration( data_name, "Hughes2014", "Actual") 
-YC,PC = Load_Calibration( "./Data/US12_US_Tight_Gas_EIA.csv", "Year", "RestUS")
-PA,PP = Load_Calibration( "./Data/US12_US_Tight_Gas_EIA.csv", "Antrim", "Permian")
+Year, AEO2014, AEO2015, AEO2016, Hughes2014, Actual = Load_Calibration(
+    "./Data/US09_Others_Gas.csv",
+    ["Year", "AEO2014", "AEO2015", "AEO2016", "Hughes2014", "Actual"])
+YC,PC,PA,PP = Load_Calibration(
+    "./Data/US12_US_Tight_Gas_EIA.csv",
+    ["Year", "RestUS", "Antrim", "Permian"])
 PC += PA
 PC += PP
 
@@ -68,5 +68,5 @@ ax2.grid(True)
 ax2.set_title( "Реальная добыча на месторождении Антрим")
 ax2.legend(loc=0)
 
-plt.savefig( ".\\Graphs\\figure_11_09.png")
+plt.savefig( "./Graphs/figure_11_09.png")
 fig.show()

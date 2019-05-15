@@ -1,26 +1,9 @@
-from Utilities import *
+from US_Utilities import *
 
 name = "Пермское / Вольфкэмп"
-data_name = "./Data/US17_Permian_Wolfcamp_Oil.csv"
 metric = True
-
-Year,AEO2014 = Load_Calibration( data_name, "Year", "AEO2014") 
-AEO2015,AEO2016 = Load_Calibration( data_name, "AEO2015", "AEO2016") 
-Hughes2014,Actual = Load_Calibration( data_name, "Hughes2014", "Actual") 
-WP, WA = Load_Calibration( data_name, "Wells_Plan", "Wells_Actual")
-YC,PC = Load_Calibration( "./Data/US22_US_Tight_Oil_EIA.csv", "Year", "Wolfcamp")
-
-if metric:
-    b2t = 0.159 * 0.827 
-    bd2ty = b2t * 365 
-    AEO2014 *= bd2ty    
-    AEO2015 *= bd2ty   
-    AEO2016 *= bd2ty   
-    Hughes2014 *= bd2ty   
-    Actual *= bd2ty   
-    PC *= b2t
-else:
-    PC /= 365
+Year, AEO2014, AEO2015, AEO2016, Hughes2014, Actual, WP, WA, YC, PC = GetOil(
+    "Wolfcamp", "./Data/US17_Permian_Wolfcamp_Oil.csv", metric)
 
 fig = plt.figure( figsize=(15,10))
 fig.suptitle( "Добыча нефти и конденсата на месторождении " + name, fontsize=22)
@@ -36,7 +19,6 @@ if metric:
     ax1.errorbar( YC, PC, yerr=PC*.05, fmt='o', color="k", label="Реальная ({:.2f} 10⁹ т)".format(np.sum(PC)/1000))
     #ax1.set_ylim( 0, 120)
     ax1.set_ylabel("Млн тонн в год")
-    #ax1.annotate("Пик добычи в марте 2015", xy=(2015, 72), xytext=(2002, 100), arrowprops=dict(facecolor='black', shrink=0.05))
 else:
     ax1.plot( Year, AEO2014, "--", lw=2, color='g', label="AEO2014 ({:.1f} 10⁹ bbl)".format(np.sum(AEO2014[14:])*0.365))
     ax1.plot( Year, AEO2015, "--", lw=2, color='b', label="AEO2015 ({:.1f} 10⁹ bbl)".format(np.sum(AEO2015[14:])*0.365))
@@ -60,5 +42,5 @@ ax2.grid(True)
 ax2.set_title( "Количество скважин в эксплуатации")
 ax2.legend(loc=0)
 
-plt.savefig( ".\\Graphs\\figure_11_17.png")
+plt.savefig( "./Graphs/figure_11_17.png")
 fig.show()

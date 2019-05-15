@@ -1,27 +1,9 @@
-from Utilities import *
+from US_Utilities import *
 
 name = "Хайнесвилль"
-data_name = "./Data/US03_Haynesville_Gas.csv"
 metric = True
-
-Year,AEO2014 = Load_Calibration( data_name, "Year", "AEO2014") 
-AEO2015,AEO2016 = Load_Calibration( data_name, "AEO2015", "AEO2016") 
-Hughes2014,Actual = Load_Calibration( data_name, "Hughes2014", "Actual") 
-WP, WA = Load_Calibration( data_name, "Wells_Plan", "Wells_Actual")
-YC,PC = Load_Calibration( "./Data/US12_US_Tight_Gas_EIA.csv", "Year", "Haynesville")
-
-if metric:
-    ft2m = 0.3048**3
-    AEO2014 *= ft2m   
-    AEO2015 *= ft2m   
-    AEO2016 *= ft2m   
-    Hughes2014 *= ft2m   
-    Actual *= ft2m   
-    AEO2014 *= 365   
-    AEO2015 *= 365   
-    AEO2016 *= 365   
-    Hughes2014 *= 365   
-    Actual *= 365   
+Year, AEO2014, AEO2015, AEO2016, Hughes2014, Actual, WP, WA, YC, PC = GetGas(
+    "Haynesville", "./Data/US03_Haynesville_Gas.csv", metric)
 
 fig = plt.figure( figsize=(15,10))
 fig.suptitle( "Добыча газа на месторождении " + name, fontsize=22)
@@ -61,5 +43,5 @@ ax2.grid(True)
 ax2.set_title( "Количество газовых скважин в эксплуатации")
 ax2.legend(loc=0)
 
-plt.savefig( ".\\Graphs\\figure_11_03.png")
+plt.savefig( "./Graphs/figure_11_03.png")
 fig.show()

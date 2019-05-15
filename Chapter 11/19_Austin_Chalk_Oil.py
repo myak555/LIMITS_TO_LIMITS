@@ -1,26 +1,9 @@
-from Utilities import *
+from US_Utilities import *
 
 name = "Остин-Чалк"
-data_name = "./Data/US19_Austin_Chalk_Oil.csv"
 metric = True
-
-Year,AEO2014 = Load_Calibration( data_name, "Year", "AEO2014") 
-AEO2015,AEO2016 = Load_Calibration( data_name, "AEO2015", "AEO2016") 
-Hughes2014,Actual = Load_Calibration( data_name, "Hughes2014", "Actual") 
-WP, WA = Load_Calibration( data_name, "Wells_Plan", "Wells_Actual")
-YC,PC = Load_Calibration( "./Data/US22_US_Tight_Oil_EIA.csv", "Year", "Austin_Chalk")
-
-if metric:
-    b2t = 0.159 * 0.827 
-    bd2ty = b2t * 365 
-    AEO2014 *= bd2ty    
-    AEO2015 *= bd2ty   
-    AEO2016 *= bd2ty   
-    Hughes2014 *= bd2ty   
-    Actual *= bd2ty   
-    PC *= b2t
-else:
-    PC /= 365
+Year, AEO2014, AEO2015, AEO2016, Hughes2014, Actual, WP, WA, YC, PC = GetOil(
+    "Austin_Chalk", "./Data/US19_Austin_Chalk_Oil.csv", metric)
 
 fig = plt.figure( figsize=(15,10))
 fig.suptitle( "Добыча нефти и конденсата на месторождении " + name, fontsize=22)
@@ -60,5 +43,5 @@ ax2.grid(True)
 ax2.set_title( "Количество скважин в эксплуатации")
 ax2.legend(loc=0)
 
-plt.savefig( ".\\Graphs\\figure_11_19.png")
+plt.savefig( "./Graphs/figure_11_19.png")
 fig.show()

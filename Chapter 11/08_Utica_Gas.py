@@ -1,13 +1,12 @@
 from Utilities import *
 
 name = "Ютика"
-data_name = "./Data/US08_Utica_Gas.csv"
 metric = True
 
-Year,AEO2016 = Load_Calibration( data_name, "Year", "AEO2016") 
-Yakimov2017,Actual = Load_Calibration( data_name, "Yakimov2017", "Actual") 
-WP, WA = Load_Calibration( data_name, "Wells_Plan", "Wells_Actual")
-YC,PC = Load_Calibration( "./Data/US12_US_Tight_Gas_EIA.csv", "Year", "Utica")
+Year, AEO2016, Yakimov2017, Actual, WP, WA = Load_Calibration(
+    "./Data/US08_Utica_Gas.csv",
+    ["Year", "AEO2016", "Yakimov2017", "Actual", "Wells_Plan", "Wells_Actual"])
+YC,PC = Load_Calibration( "./Data/US12_US_Tight_Gas_EIA.csv", ["Year", "Utica"])
 
 if metric:
     ft2m = 0.3048**3
@@ -52,5 +51,5 @@ ax2.grid(True)
 ax2.set_title( "Количество газовых скважин в эксплуатации")
 ax2.legend(loc=0)
 
-plt.savefig( ".\\Graphs\\figure_11_08.png")
+plt.savefig( "./Graphs/figure_11_08.png")
 fig.show()
