@@ -18,4 +18,3 @@ for i in range( 1000):
     s = s.strip()
     if s.startswith("#"): continue 
     RunChapterExample( s)
-
