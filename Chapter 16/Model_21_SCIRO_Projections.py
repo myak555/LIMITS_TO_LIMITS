@@ -3,27 +3,25 @@ from scipy.misc import imread
 import matplotlib.cbook as cbook
 import os
 
-Y_BP, Coal = Load_Calibration( "./Data/11_BP_Electricity_Generation.csv", "Year", "Coal")
+Y_BP, Coal, Gas, Nuclear, Oil, Solar, Wind, Hydro, Other, Unind = Load_Calibration(
+    "./Data/11_BP_Electricity_Generation.csv",
+    ["Year", "Coal", "Gas", "Nuclear", "Oil", "Solar", "Wind", "Hydro", "Geo_Biomass_Other", "Unindentified"])
 Coal /= 8.766
-print( Coal[-1])
-Gas, Nuclear = Load_Calibration( "./Data/11_BP_Electricity_Generation.csv", "Gas", "Nuclear")
+print( "Coal: {:.1f}".format( Coal[-1]))
 Gas = Gas/8.766+Coal
-print( Gas[-1])
+print( "Gas: {:.1f}".format( Gas[-1]))
 Nuclear = Nuclear/8.766+Gas
-print( Nuclear[-1])
-Oil, Solar = Load_Calibration( "./Data/11_BP_Electricity_Generation.csv", "Oil", "Solar")
+print( "Nuclear: {:.1f}".format( Nuclear[-1]))
 Oil = Oil/8.766+Nuclear
-print( Oil[-1])
+print( "Oil: {:.1f}".format( Oil[-1]))
 Solar = Solar/8.766+Oil
-print( Solar[-1])
-Wind, Hydro = Load_Calibration( "./Data/11_BP_Electricity_Generation.csv", "Wind", "Hydro")
+print( "Solar: {:.1f}".format( Solar[-1]))
 Wind = Wind/8.766+Solar
-print( Wind[-1])
+print( "Wind: {:.1f}".format( Wind[-1]))
 Hydro = Hydro/8.766+Wind
-print( Hydro[-1])
-Other, Unind = Load_Calibration( "./Data/11_BP_Electricity_Generation.csv", "Geo_Biomass_Other", "Unindentified")
+print( "Hydro: {:.1f}".format( Hydro[-1]))
 Other = (Other+Unind)/8.766+Hydro
-print( Other[-1])
+print( "Other: {:.1f}".format( Other[-1]))
 
 Year_Model = np.linspace( 2018, 2050, 33)
 
@@ -81,6 +79,6 @@ ax1.set_ylabel("ГВт·лет")
 ax1.grid(True)
 ax1.legend(loc=2)
 
-plt.savefig( ".\\Graphs\\figure_16_21.png")
+plt.savefig( "./Graphs/figure_16_21.png")
 fig.show()
 

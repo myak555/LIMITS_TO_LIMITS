@@ -146,11 +146,27 @@ print( "In {:g} cumulative production is {:.1f} mlrd toe".format( Year[endProd],
 return1960,consumption1960 = E.GetConsumptionYear( 1960)
 return1930,consumption1930 = E.GetConsumptionYear( 1930)
 
+# Check phenomenological model
+pPhen = Interpolation_Realistic_2018()
+pPhen.Solve( Year)
+pPhen.Correct_To_Actual( 1890,2017)
+TotProd = Linear_Combo()
+TotProd.Wavelets += [Hubbert( x0=2025.000, s0=0.06000, s1=0.07000, peak=12500.000, shift=0.000)]
+TotProd.Wavelets += [Hubbert( x0=2073.000, s0=0.15000, s1=0.10500, peak=10200.000, shift=0.000)]
+TotProd.Wavelets += [Hubbert( x0=1979.000, s0=0.20000, s1=0.39000, peak=3600.000, shift=0.000)]
+TotProd.Wavelets += [Hubbert( x0=1968.306, s0=0.05800, s1=0.39000, peak=1500.000, shift=0.000)]
+TotProd.Wavelets += [Hubbert( x0=1989.000, s0=0.43000, s1=0.23000, peak=2300.000, shift=0.000)]
+TotProd.Wavelets += [Hubbert( x0=1913.000, s0=0.05000, s1=0.05000, peak=565.000, shift=0.000)]
+TotProd.Wavelets += [Hubbert( x0=2054.000, s0=0.16000, s1=0.22000, peak=5700.000, shift=0.000)]
+TotProd.Wavelets += [Hubbert( x0=2041.530, s0=0.25105, s1=0.38742, peak=1188.600, shift=0.000)]
+TotProd.Wavelets += [Hubbert( x0=2061.749, s0=0.72900, s1=0.53144, peak=967.738, shift=0.000)]
+TP = TotProd.GetVector(Year)
+
 x_start, x_end = 1850, 2150
 
 fig = plt.figure( figsize=(15,15))
 fig.suptitle( 'Модель энергетики "Колеблющееся плато"', fontsize=22)
-gs = plt.GridSpec(3, 1, height_ratios=[1, 1, 1]) 
+gs = plt.GridSpec(3, 1, height_ratios=[3, 1, 1]) 
 ax1 = plt.subplot(gs[0])
 ax2 = plt.subplot(gs[1])
 ax3 = plt.subplot(gs[2])
@@ -162,8 +178,11 @@ ax1.plot( Year, E.Production, "-", lw=2, color="k", label="Годовая доб
 ax1.plot( Year, E.UsefulProduction, "--", lw=2, color="k", label="За вычетом ERoEI")
 ax1.plot( [Year[maxYear],Year[maxYear]], [0,E.Production[maxYear]*1.1], "--", lw=1, color="k")
 ax1.text( Year[maxYear]-75, E.Production[maxYear]*0.1, "Максимум энергии: {:.1f} млрд toe в {:g} году".format( E.Production[maxYear]/1000,Year[maxYear]))
+ax1.plot( Year, pPhen.Oil, "--", lw=1, color="g")
+ax1.plot( Year, TP, "-", lw=1, color="m")
 ax1.set_xlim( x_start, x_end)
-ax1.set_ylim( 0,18000)
+#ax1.set_ylim( 0,18000)
+ax1.set_ylim( 0,14000)
 ax1.set_ylabel("миллионов")
 ax1.grid(True)
 ax1.legend(loc=0)
@@ -197,6 +216,6 @@ ax3.set_ylabel("кг нефт. экв.")
 ax3.grid(True)
 ax3.legend(loc=2)
 
-plt.savefig( ".\\Graphs\\figure_16_13.png")
+plt.savefig( "./Graphs/figure_16_13.png")
 fig.show()
 

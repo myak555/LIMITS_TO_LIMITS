@@ -307,6 +307,6 @@ ax3.set_ylabel("кг нефт. экв.")
 ax3.grid(True)
 ax3.legend(loc=2)
 
-plt.savefig( ".\\Graphs\\figure_16_19.png")
+plt.savefig( "./Graphs/figure_16_19.png")
 fig.show()
 

@@ -1,16 +1,4 @@
-from Predictions import *
-
-Years = np.linspace( 1800,2200,401)
-mc = Markov_Chain([3, 8, 5, 10], Years, Years[0])
-Discovery = np.zeros( len(Years))
-
-dYear, Discovery_Actual = Load_Calibration( "./Data/Backdated_Discovery_Laherrere_2014.csv", "Year", "Discovery")
-for i in range(len(Years)):
-    if Years[i] < dYear[0]: continue
-    if dYear[-1] < Years[i]: break
-    Discovery[i] = Discovery_Actual[ int(Years[i]-dYear[0])]
-for i in range(99,-1,-1):
-    Discovery[i] = Discovery[i+1] * 0.92
+from Oil_Shock_Model import *
 
 Discovery_Projected = np.array( Discovery)
 for i in range(215,len(Years)):
@@ -18,11 +6,8 @@ for i in range(215,len(Years)):
 
 Developed_Resource = np.convolve( mc.Filter, Discovery_Projected)[0:len(Years)]
 
-Cumulative_Discovery = np.array( Discovery_Projected)
-Cumulative_Developed = np.array( Developed_Resource)
-for i in range( 1, len(Years)):
-    Cumulative_Discovery[i] += Cumulative_Discovery[i-1]
-    Cumulative_Developed[i] += Cumulative_Developed[i-1]
+Cumulative_Discovery = Cumulative( Discovery_Projected)
+Cumulative_Developed = Cumulative( Developed_Resource)
 
 fig = plt.figure( figsize=(15,15))
 fig.suptitle( 'Aлгоритм "Нефтяной шок" (П.Пукайт)', fontsize=22)
@@ -31,7 +16,7 @@ ax1 = plt.subplot(gs[0])
 ax2 = plt.subplot(gs[1])
 
 ax1.set_title("Обнаружение и подготовка месторождений нефти")
-ax1.plot( Years[50:], mc.Filter[0:-50]*10000, "--", lw=2, color="k", label="Фильтр х 10'000")
+ax1.plot( Years[50:], mc.Filter[0:-50]*10000, "-.", lw=2, color="k", label="Фильтр х 10'000")
 ax1.plot( Years, Discovery, "-", lw=2, color="b", label="Открытия (Лагеррер, 2014), URR={:.0f} млрд т".format( np.sum(Discovery)/1000))
 ax1.plot( Years, Discovery_Projected, "--", lw=2, color="b", label="Будущие открытия, URR={:.0f} млрд т".format( np.sum(Discovery_Projected)/1000))
 ax1.plot( Years, Developed_Resource, "-", lw=2, color="g", label="Освоенные ресурсы, URR={:.0f} млрд т".format( np.sum(Developed_Resource)/1000))
@@ -51,5 +36,5 @@ ax2.set_ylabel("млрд тонн")
 ax2.grid(True)
 ax2.legend(loc=0)
 
-plt.savefig( ".\\Graphs\\figure_16_04.png")
+plt.savefig( "./Graphs/figure_16_04.png")
 fig.show()

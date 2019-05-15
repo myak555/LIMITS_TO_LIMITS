@@ -13,7 +13,7 @@ class _Interpolation:
             tmp += wavelets[i].GetVector(self.Time)
         return tmp
     def _Calibrate_Function(self, func, filename, timename, varname, start_t, stop_t, baseline=0.0):
-        calibrationT, calibrationV = Load_Calibration( filename, timename, varname);
+        calibrationT, calibrationV = Load_Calibration( filename, [timename, varname]);
         calibrationV -= baseline
         norm = 0.0
         count = 0.0
@@ -51,7 +51,7 @@ class _Interpolation:
             tmp[i] *= norm
         return tmp
     def _Shift_To_Actual( self, func, filename, timename, varname, start_t, stop_t, norm = 1.0):
-        calibrationT, calibrationV = Load_Calibration( filename, timename, varname);
+        calibrationT, calibrationV = Load_Calibration( filename, [timename, varname]);
         diff = int( calibrationT[0] - self.Time[0])
         for i in range( len( self.Time)):
             t = self.Time[i]

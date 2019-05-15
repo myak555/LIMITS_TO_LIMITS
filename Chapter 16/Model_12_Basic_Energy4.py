@@ -138,7 +138,7 @@ for i in range( len( Year)):
 ##plt.xlabel("Год")
 ##plt.xlim( -1, 100)
 ##plt.legend(loc=0)
-##plt.savefig( ".\\Graphs\\figure_16_12a.png")
+##plt.savefig( "./Graphs/figure_16_12a.png")
 ##fig.show()
 
 x_start, x_end = 1850, 2150
@@ -190,6 +190,6 @@ ax3.set_ylabel("кг нефт. экв.")
 ax3.grid(True)
 ax3.legend(loc=2)
 
-plt.savefig( ".\\Graphs\\figure_16_12.png")
+plt.savefig( "./Graphs/figure_16_12.png")
 fig.show()
 
