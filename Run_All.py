@@ -6,7 +6,6 @@ import subprocess
 # Calls a chapter executable
 #
 def RunChapterExample( program_name, report_file):
-    CREATE_NO_WINDOW = 0x08000000
     if sys.platform.lower().startswith('win'): executable = ""
     else: executable = "python3 "
     runpath = os.path.realpath(program_name)
@@ -22,8 +21,7 @@ def RunChapterExample( program_name, report_file):
         shell=True,
         cwd=rundir,
         stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        creationflags=CREATE_NO_WINDOW)
+        stderr=subprocess.PIPE)
     output, err = p.communicate()
     i = p.returncode
     if i != 0:
