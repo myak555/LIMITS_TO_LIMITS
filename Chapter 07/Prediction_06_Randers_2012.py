@@ -9,7 +9,7 @@ Calibration_Time, Calibration_Land, Calibration_Gross, Calibration_Net = Load_Ca
     ["Year", "Cereal_Land", "Gross_Food", "Net_Food"])
 
 Time_Ran, Land_Ran, Food_Ran, Yield_Ran = Load_Calibration(
-    ".\Data\Randers_2052_World.csv",
+    "./Data/Randers_2052_World.csv",
     ["Year", "Land", "Food", "Yield"])
 
 BAU_1972 = Interpolation_BAU_1972()

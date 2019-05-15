@@ -4,7 +4,7 @@ from Predictions import Interpolation_BAU_2012
 
 
 Time, Pop, Workforce, Labor_Prod, GDP, Consumption, Coal, Oil, Gas, Nuclear, Renewable, Food, Land, Yield = Load_Calibration(
-    ".\Data\Randers_2052_China.csv",
+    "./Data/Randers_2052_China.csv",
     ["Year", "Population", "Workforce", "Labor_Prod", "GDP", "Consumption", "Coal", "Oil",
      "Gas", "Nuclear", "Renewable", "Food", "Land", "Yield"])
 

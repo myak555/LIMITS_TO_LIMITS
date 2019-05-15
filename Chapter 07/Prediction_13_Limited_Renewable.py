@@ -9,7 +9,7 @@ Resources_Time, Resources_Coal, Resources_Oil, Resources_Gas, Resources_Nuclear,
     ["Year", "Coal", "Oil", "Gas", "Nuclear", "Renewable"])
 
 Time_Ran, Coal_Ran, Oil_Ran, Gas_Ran, Nuclear_Ran, Renewable_Ran = Load_Calibration(
-    ".\Data\Randers_2052_World.csv",
+    "./Data/Randers_2052_World.csv",
     ["Year", "Coal", "Oil", "Gas", "Nuclear", "Renewable"])
 
 BAU_2012 = Interpolation_BAU_2012()
