@@ -556,8 +556,8 @@ def Load_Calibration_Text( file_Name, var_Names, separator=',', verbose=False):
         while True:
             s = fin.readline()
             if len(s) <= 0: break
-            if s.startswith( "#"): continue
             s = s.strip()
+            if s.startswith( "#"): continue
             ss = s.split( separator)
             for n in var_Names:
                 if not n in ss: continue
