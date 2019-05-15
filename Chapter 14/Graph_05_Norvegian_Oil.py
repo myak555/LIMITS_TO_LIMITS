@@ -1,6 +1,6 @@
 from Population import *
 
-Year_Samotlor, P_Samotlor = Load_Calibration("./Data/Samotlor_Production.csv", "Year", "Production")
+Year_Samotlor, P_Samotlor = Load_Calibration("./Data/Samotlor_Production.csv", ["Year", "Production"])
 
 Year = np.linspace( 1971, 2100, 130)
 P_Norway_BP = np.array( [0.3,1.6,1.6,1.7,9.2,
@@ -18,12 +18,10 @@ P_Norway_Hub_2 = np.array( P_Norway_Hub)
 P_Norway_Hub_2 += Hubbert(2025,0.18,0.13,70).GetVector( Year)
 for i in range( len( P_Norway_BP)): P_Norway_Hub_2[i] = P_Norway_BP[i]
 
-Cumulative = np.array( P_Norway_Hub_2)
-for i in range( 1, len(Cumulative)): Cumulative[i] += Cumulative[i-1]
+Cumulative_P = Cumulative( P_Norway_Hub_2)
+Per_km2 = np.array( Cumulative_P) / 0.450
 
-Per_km2 = np.array( Cumulative) / 0.450
-
-for i in range( len(Year)): print( "{:g},{:.3f},{:.3f},{:.1f}".format( Year[i], P_Norway_Hub_2[i], Cumulative[i], Per_km2[i]))
+for i in range( len(Year)): print( "{:g}\t{:.3f}\t{:.3f}\t{:.1f}".format( Year[i], P_Norway_Hub_2[i], Cumulative_P[i], Per_km2[i]))
 
 fig = plt.figure( figsize=(15,10))
 
@@ -39,5 +37,5 @@ plt.ylabel( "миллионов тонн в год")
 plt.title( 'Добыча нефти в Норвегии 1971-2017 гг')
 plt.grid(True)
 plt.legend(loc=1)
-plt.savefig( ".\\Graphs\\figure_14_05.png")
+plt.savefig( "./Graphs/figure_14_05.png")
 fig.show()

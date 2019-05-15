@@ -3,7 +3,7 @@ from scipy.misc import imread
 import matplotlib.cbook as cbook
 import os
 
-Year_Samotlor, P_Samotlor = Load_Calibration("./Data/Samotlor_Production.csv", "Year", "Production")
+Year_Samotlor, P_Samotlor = Load_Calibration("./Data/Samotlor_Production.csv", ["Year", "Production"])
 
 Year = np.linspace( 1965, 2117, 153)
 P_UK_BP = np.array( [ 0.1,0.1,0.1,0.1,0.1,
@@ -26,12 +26,10 @@ for i in range( len(P_UK_BP)):
 for i in range( len(P_UK_BP), len(Year)):
     P_UK_1[i] = P_UK_1[i-1] * 0.94
     P_UK_2[i] = P_UK_2[i-1] * 0.89
-Cumulative = np.array( P_UK_1)
-for i in range( 1, len(Cumulative)): Cumulative[i] += Cumulative[i-1]
+Cumulative_P = Cumulative( P_UK_1)
+Per_km2 = np.array( Cumulative_P) / 0.24250 / 1.10
 
-Per_km2 = np.array( Cumulative) / 0.24250 / 1.10
-
-for i in range( len(Year)): print( "{:g},{:.3f},{:.3f},{:.1f}".format( Year[i], P_UK_1[i], Cumulative[i], Per_km2[i]))
+for i in range( len(Year)): print( "{:g}\t{:.3f}\t{:.3f}\t{:.1f}".format( Year[i], P_UK_1[i], Cumulative_P[i], Per_km2[i]))
 
 Prepare_Russian_Font()
 fig = plt.figure( figsize=(15,10))
@@ -47,5 +45,5 @@ plt.ylabel( "миллионов тонн в год")
 plt.title( 'Добыча нефти в Великобритании 1965-2017 гг')
 plt.grid(True)
 plt.legend(loc=0)
-plt.savefig( ".\\Graphs\\figure_14_06.png")
+plt.savefig( "./Graphs/figure_14_06.png")
 fig.show()

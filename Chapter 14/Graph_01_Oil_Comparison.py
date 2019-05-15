@@ -4,8 +4,9 @@ Year_Model = np.linspace(1830,2200,371)
 Production_Hubbert = Hubbert( 2000, .041, .0345, 1700).GetVector(Year_Model)
 Production_Campbell = Hubbert( 2005, .080, .059, 3300).GetVector(Year_Model)
 
-Year, Oil = Load_Calibration( "Resources_Calibration.csv", "Year", "Oil")
-Condensate, NGPL = Load_Calibration( "Resources_Calibration.csv", "Condensate", "NGPL")
+Year, Oil, Condensate, NGPL = Load_Calibration(
+    "Resources_Calibration.csv",
+    ["Year", "Oil", "Condensate", "NGPL"])
 Liquids = Oil + Condensate + NGPL
 for i in range(1830,1956):
     j = i-1830
@@ -14,17 +15,12 @@ for i in range(1830,1999):
     j = i-1830
     Production_Campbell[j] = Oil[j]
 
-Oil_Cum = np.array( Oil)
-Hubbert_Cum = np.array( Production_Hubbert)
-Campbell_Cum = np.array( Production_Campbell)
+Oil_Cum = Cumulative( Oil)
+Hubbert_Cum = Cumulative( Production_Hubbert)
+Campbell_Cum = Cumulative( Production_Campbell)
 
-for i in range( 1, len(Year)):
-    Oil_Cum[i] += Oil_Cum[i-1]
-    print( Year[i], Oil_Cum[i])
-
-for i in range( 1, len(Hubbert_Cum)):
-    Hubbert_Cum[i] += Hubbert_Cum[i-1]
-    Campbell_Cum[i] += Campbell_Cum[i-1]
+for i, y in enumerate(Year):
+    print( "{:g}\t{:.1f}".format(y, Oil_Cum[i]))
 
 fig = plt.figure( figsize=(15,10))
 fig.suptitle( 'Оценка добытых запасов сырой нефти 1860-2017 гг', fontsize=22)
@@ -55,5 +51,5 @@ ax2.grid(True)
 ax2.set_title( "Накопленная добыча")
 ax2.legend(loc=0)
 
-plt.savefig( ".\\Graphs\\figure_14_01.png")
+plt.savefig( "./Graphs/figure_14_01.png")
 fig.show()

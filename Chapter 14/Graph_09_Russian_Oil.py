@@ -1,6 +1,6 @@
 from Population import *
 
-Year_Samotlor, P_Samotlor = Load_Calibration("./Data/Samotlor_Production.csv", "Year", "Production")
+Year_Samotlor, P_Samotlor = Load_Calibration("./Data/Samotlor_Production.csv", ["Year", "Production"])
 Year_Samotlor = Year_Samotlor[:-82]
 P_Samotlor = P_Samotlor[:-82]
 
@@ -65,12 +65,10 @@ for i in range( len(Year_Poland)): P_RussianEmpire[i+120] += P_Poland[i]
 P_WithoutSamotlor = np.array( P_RussianEmpire)
 for i in range( len(Year_Samotlor)): P_WithoutSamotlor[i+109] -= P_Samotlor[i] 
 
-Cumulative = np.array( P_RussianEmpire)
-for i in range( 1, len(Cumulative)): Cumulative[i] += Cumulative[i-1]
+Cumulative_P = Cumulative( P_RussianEmpire)
+Per_km2 = np.array( Cumulative_P) / 23.0533
 
-Per_km2 = np.array( Cumulative) / 23.0533
-
-for i in range( len(Year)): print( "{:g},{:.3f},{:.3f},{:.1f}".format( Year[i], P_RussianEmpire[i], Cumulative[i], Per_km2[i]))
+for i in range( len(Year)): print( "{:g}\t{:.3f}\t{:.3f}\t{:.1f}".format( Year[i], P_RussianEmpire[i], Cumulative_P[i], Per_km2[i]))
 
 fig = plt.figure( figsize=(15,10))
 
@@ -87,5 +85,5 @@ plt.ylabel( "миллионов тонн в год")
 plt.title( 'Добыча нефти в странах бывшей Российской Империи 1860-2017 гг')
 plt.grid(True)
 plt.legend(loc=0)
-plt.savefig( ".\\Graphs\\figure_14_09.png")
+plt.savefig( "./Graphs/figure_14_09.png")
 fig.show()

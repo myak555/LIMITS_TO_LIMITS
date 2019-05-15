@@ -1,6 +1,6 @@
 from Population import *
 
-Year_Samotlor, P_Samotlor = Load_Calibration("./Data/Samotlor_Production.csv", "Year", "Production")
+Year_Samotlor, P_Samotlor = Load_Calibration("./Data/Samotlor_Production.csv", ["Year", "Production"])
 
 Year = np.linspace( 1938, 2017, 80)
 P_Saudi_BP = np.array( [111.0,130.8,141.3,154.2,162.7,
@@ -18,12 +18,10 @@ P_Saudi_BP = np.array( [111.0,130.8,141.3,154.2,162.7,
 P_Saudi = Hubbert( 1969,0.15,0.1,130).GetVector( Year)
 for i in range( 27, len(P_Saudi)): P_Saudi[i] = P_Saudi_BP[i-27]
 
-Cumulative = np.array( P_Saudi)
-for i in range( 1, len(Cumulative)): Cumulative[i] += Cumulative[i-1]
+Cumulative_P = Cumulative( P_Saudi)
+Per_km2 = Cumulative_P / 2.1497 / 1.05
 
-Per_km2 = np.array( Cumulative) / 2.1497 / 1.05
-
-for i in range( len(Year)): print( "{:g},{:.3f},{:.3f},{:.1f}".format( Year[i], P_Saudi[i], Cumulative[i], Per_km2[i]))
+for i in range( len(Year)): print( "{:g}\t{:.3f}\t{:.3f}\t{:.1f}".format( Year[i], P_Saudi[i], Cumulative_P[i], Per_km2[i]))
 
 fig = plt.figure( figsize=(15,10))
 
@@ -40,5 +38,5 @@ plt.ylabel( "миллионов тонн в год")
 plt.title( 'Добыча нефти в Саудовской Аравии 1938-2017 гг')
 plt.grid(True)
 plt.legend(loc=0)
-plt.savefig( ".\\Graphs\\figure_14_04.png")
+plt.savefig( "./Graphs/figure_14_04.png")
 fig.show()

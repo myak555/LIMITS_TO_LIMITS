@@ -68,8 +68,8 @@ CS.levels = ["10%","50%","90%"]
 ax3.clabel(CS, inline=1, fontsize=10)
 ax3.set_xlim( 100, 600)
 ax3.set_ylim( 100, 600)
-ax3.set_xlabel( "Сырая нефть, млрд тонн")
-ax3.set_ylabel( "Газ, конденсат, ШФЛУ, млрд toe")
+ax3.set_xlabel( "Газ, конденсат, ШФЛУ, млрд toe")
+ax3.set_ylabel( "Сырая нефть, млрд тонн")
 ax3.text(105, 150, "Остаточные извлекаемые (1P) = 230 млрд toe", color='g')
 ax3.grid(True)
 
@@ -87,5 +87,5 @@ ax4.text(20, 85, "3P URR = 800 млрд toe")
 ax4.text(20, 45, "2P URR = 640 млрд toe")
 ax4.text(550, 5, "1P URR = 530 млрд toe")
 
-plt.savefig( ".\\Graphs\\figure_14_11.png")
+plt.savefig( "./Graphs/figure_14_11.png")
 fig.show()

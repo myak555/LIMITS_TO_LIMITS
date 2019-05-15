@@ -3,7 +3,7 @@ from scipy.misc import imread
 import matplotlib.cbook as cbook
 import os
 
-Year_Samotlor, P_Samotlor = Load_Calibration("./Data/Samotlor_Production.csv", "Year", "Production")
+Year_Samotlor, P_Samotlor = Load_Calibration("./Data/Samotlor_Production.csv", ["Year", "Production"])
 
 Year = np.linspace( 1946, 2199, 254)
 Year_BP = np.linspace( 1965, 2017, 53)
@@ -24,12 +24,10 @@ for i in range( 28): P_Burgan[i+19] = P_Kuwait_BP[i]
 P_Кuwait = P_Burgan + Hubbert( 2014, 0.20, 0.07, 125).GetVector( Year)
 for i in range( 53): P_Кuwait[i+19] = P_Kuwait_BP[i] 
 
-Cumulative = np.array( P_Кuwait)
-for i in range( 1, len(Cumulative)): Cumulative[i] += Cumulative[i-1]
+Cumulative_P = Cumulative( P_Кuwait)
+Per_km2 = np.array( Cumulative_P) / 0.018
 
-Per_km2 = np.array( Cumulative) / 0.018
-
-for i in range( len(Year)): print( "{:g},{:.3f},{:.3f},{:.1f}".format( Year[i], P_Кuwait[i], Cumulative[i], Per_km2[i]))
+for i in range( len(Year)): print( "{:g}\t{:.3f}\t{:.3f}\t{:.1f}".format( Year[i], P_Кuwait[i], Cumulative_P[i], Per_km2[i]))
 
 fig = plt.figure( figsize=(15,10))
 
@@ -48,5 +46,5 @@ plt.ylabel( "миллионов тонн в год")
 plt.title( 'Добыча нефти в Кувейте 1946-2017 гг')
 plt.grid(True)
 plt.legend(loc=0)
-plt.savefig( ".\\Graphs\\figure_14_03.png")
+plt.savefig( "./Graphs/figure_14_03.png")
 fig.show()
