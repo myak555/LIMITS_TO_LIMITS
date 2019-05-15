@@ -115,10 +115,16 @@ for i in range( len(plants_operating)):
         plants_connected[i],plants_disconnected[i],
         MW_connected[i],MW_disconnected[i],w/1000))
 
-y, nuc = Load_Calibration("Energy_Calibration.csv", "Year", "Nuclear")
+print("Megawatts operating")
+for i in range( len(MW_operating)):
+    print( "{:g} {:.1f}".format( years[i], MW_operating[i]))
+
+y, nuc = Load_Calibration("Energy_Calibration.csv", ["Year", "Nuclear"])
 nuc *= 4419.2 / 24 / 365.25
 
-y1, nuc1 = Load_Calibration("./Data/Civil_Nuclear_Energy_Generation.csv", "Year", "Nuclear_Generation")
+y1, nuc1 = Load_Calibration(
+    "./Data/Civil_Nuclear_Energy_Generation.csv",
+    ["Year", "Nuclear_Generation"])
 nuc1 *= 1000 / 24 / 365.25
 
 x_start, x_end = 1950, 2020
@@ -135,9 +141,9 @@ ax1.bar( years, -plants_disconnected * 10, 0.35, alpha=0.4, color="r", label="В
 ax1.plot( years, plants_operating, "-", color="k", label="Рабочих реакторов")
 ax1.plot( years, MW_operating/plants_operating, "--", color="k", label="Средняя мощность реактора (МВт)")
 ax1.plot( [1986,1986], [-150,900], "--", color="m")
-ax1.plot( [2010,2010], [-150,900], "--", color="m")
+ax1.plot( [2011,2011], [-150,900], "--", color="m")
 ax1.text( 1986.5, 600, "Чернобыль", color="m")
-ax1.text( 2010.5, 600, "Фукусима-1", color="m")
+ax1.text( 2011.5, 600, "Фукусима-1", color="m")
 ax1.set_xlim( x_start, x_end)
 ax1.set_ylim( -150,900)
 ax1.set_ylabel("единиц")
@@ -157,7 +163,7 @@ ax2.set_ylabel("Гигаватт")
 ax2.grid(True)
 ax2.legend(loc=0)
 
-plt.savefig( ".\\Graphs\\figure_12_09.png")
+plt.savefig( "./Graphs/figure_12_09.png")
 fig.show()
 
 fig1 = plt.figure( figsize=(15,12))
@@ -185,6 +191,6 @@ ax2.set_ylabel("единиц")
 ax2.legend(loc=0)
 ax2.grid(True)
 
-plt.savefig( ".\\Graphs\\figure_12_10.png")
+plt.savefig( "./Graphs/figure_12_10.png")
 fig1.show()
 

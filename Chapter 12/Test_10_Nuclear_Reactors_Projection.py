@@ -70,7 +70,7 @@ for i in range( len(years)):
 Production = MW_operating * 0.77
 Pop = Population().UN_Medium.GetVector( years)
 
-y, nuc = Load_Calibration("Energy_Calibration.csv", "Year", "Nuclear")
+y, nuc = Load_Calibration("Energy_Calibration.csv", ["Year", "Nuclear"])
 nuc *= 4419.2 / 24 / 365.25
 for i in range(len(y)):
     j = int(y[i]-years[0])
@@ -110,5 +110,5 @@ ax2.set_xlabel("год")
 ax2.set_ylabel("Ватт(электрич.)")
 ax2.grid(True)
 
-plt.savefig( ".\\Graphs\\figure_12_11.png")
+plt.savefig( "./Graphs/figure_12_11.png")
 fig.show()

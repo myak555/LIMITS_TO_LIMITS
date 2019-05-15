@@ -1,6 +1,6 @@
 from Predictions import *
 
-Year,Renewable = Load_Calibration("Energy_Calibration.csv", "Year", "Renewable")
+Year,Renewable = Load_Calibration("Energy_Calibration.csv", ["Year", "Renewable"])
 Pop = Population().UN_Medium.GetVector(Year)
 Renewable /= Pop
 Renewable *= 1000 # Convert from toe to kg
@@ -22,6 +22,6 @@ ax1.set_xlabel("Год")
 ax1.set_ylabel("Вт на душу населения")
 ax1.grid(True)
 
-plt.savefig( ".\\Graphs\\figure_12_12.png")
+plt.savefig( "./Graphs/figure_12_12.png")
 fig.show()
 

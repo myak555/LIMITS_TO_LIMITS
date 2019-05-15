@@ -1,7 +1,8 @@
 from Predictions import *
 
-Year, Production = Load_Calibration( "./Data/Uranium_Production_and_Consumption.csv", "Year", "Production")
-Civil, Civil_Naval = Load_Calibration( "./Data/Uranium_Production_and_Consumption.csv", "Civil", "Civil_Naval")
+Year, Production, Civil, Civil_Naval = Load_Calibration(
+    "./Data/Uranium_Production_and_Consumption.csv",
+    ["Year", "Production", "Civil", "Civil_Naval"])
 Stock = np.zeros( len(Year))
 Stock[0] += Production[0] 
 Stock[0] -= Civil_Naval[0] 
@@ -37,6 +38,6 @@ ax2.set_ylabel("тысяч тонн")
 ax2.grid(True)
 #ax2.legend(loc=0)
 
-plt.savefig( ".\\Graphs\\figure_12_08.png")
+plt.savefig( "./Graphs/figure_12_08.png")
 fig.show()
 

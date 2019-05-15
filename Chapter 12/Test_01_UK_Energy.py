@@ -1,28 +1,7 @@
-from Population import *
+from UK_Utilities import *
 
-#
-# Феноменологическая модель населения Великобритании
-#
-class Population_UK:
-    def __init__( self):
-        self.Functions = []
-        self.Functions += [Sigmoid( 1945, 0.021, 20, 70.5)]
-        self.Functions += [Hubbert( 2020, 0.20, 0.10, 5)]
-        self.Functions += [Hubbert( 1972, 0.05, 0.17, 3.3)]
-        self.Functions += [Hubbert( 1940, 0.4, 0.3, 5)]
-        self.Functions += [Hubbert( 1911, 0.15, 0.10, 5)]
-        self.Functions += [Hubbert( 1890, 0.10, 0.25, 4.5)]
-        self.Functions += [Hubbert( 1841, 0.60, 0.10, 1.5)]
-        #self.Functions += [Sigmoid( 2050, 0.15, 0, 20)]
-        return
-    def Solve( self, t):
-        self.Time = t
-        self.Total = self.Functions[0].GetVector( t)
-        for i in range( 1, len(self.Functions)):
-            self.Total += self.Functions[i].GetVector( t)
-        return self.Total
+T0, Pop, C_Coal, C_Oil, C_Gas, P_Coal, P_Oil, P_Gas = Load_Calibrations_UK()
 
-T0, Pop = Load_Calibration( "./Data/UK_Population_and_Energy.csv", "Year", "population")
 P1 = Population_UK()
 P1.Solve( np.linspace( 1800, 2100, 301))
 
@@ -36,5 +15,5 @@ plt.ylim( 20, 80)
 plt.title( 'Население Великобритании')
 plt.grid(True)
 plt.legend(loc=0)
-plt.savefig( ".\\Graphs\\figure_12_01.png")
+plt.savefig( "./Graphs/figure_12_01.png")
 fig.show()
