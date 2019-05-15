@@ -30,8 +30,9 @@ Coal_Production_Functions += [Hubbert( x0=1931.523, s0=3.11249, s1=1.36618, peak
 Coal_Production_Functions += [Hubbert( x0=1912.705, s0=1.00000, s1=1.00000, peak=2.433, shift=0.000)]
 Coal_Production_Functions += [Hubbert( x0=1914.341, s0=1.00000, s1=1.00000, peak=-3.949, shift=0.000)]
 
-Year,Poland = Load_Calibration( data_name, "Year", "Poland") 
-Republics,Russia = Load_Calibration( data_name, "Republics", "Russia")
+Year,Poland,Republics,Russia = Load_Calibration(
+    data_name,
+    ["Year", "Poland", "Republics", "Russia"])
 Finland = np.zeros(len(Year))
 Republics += Poland
 Russia += Republics
@@ -78,5 +79,5 @@ ax2.set_ylim( 0, 25000)
 ax2.grid(True)
 ax2.set_xlabel("Годы")
 
-plt.savefig( ".\\Graphs\\figure_13_04.png")
+plt.savefig( "./Graphs/figure_13_04.png")
 fig.show()

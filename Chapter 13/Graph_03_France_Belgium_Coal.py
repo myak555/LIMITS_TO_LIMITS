@@ -30,7 +30,7 @@ Coal_Production_Functions += [Hubbert( x0=1931.523, s0=3.11249, s1=1.36618, peak
 Coal_Production_Functions += [Hubbert( x0=1912.705, s0=1.00000, s1=1.00000, peak=2.433, shift=0.000)]
 Coal_Production_Functions += [Hubbert( x0=1914.341, s0=1.00000, s1=1.00000, peak=-3.949, shift=0.000)]
 
-Year,Total = Load_Calibration( data_name, "Year", "Total_toe") 
+Year,Total = Load_Calibration( data_name, ["Year", "Total_toe"]) 
 Estimate = np.zeros( len(Year))
 for c in Coal_Production_Functions:
     Estimate += c.GetVector( Year)
@@ -52,5 +52,5 @@ ax1.legend(loc=2)
 ax1.set_xlabel("Годы")
 ax1.annotate("Пик добычи по энергии в 1956 году", xy=(1956, 53), xytext=(1973, 55), arrowprops=dict(facecolor='black', shrink=0.05))
 
-plt.savefig( ".\\Graphs\\figure_13_03.png")
+plt.savefig( "./Graphs/figure_13_03.png")
 fig.show()

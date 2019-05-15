@@ -1,12 +1,8 @@
 from Utilities import *
 
-data_name = "./Data/US_China_India_Compared.csv"
-
-Year,US_Cons = Load_Calibration( data_name, "Year", "US_Cons_toe") 
-China_Cons,India_Cons = Load_Calibration( data_name, "China_Cons_toe", "India_Cons_toe") 
-US_Prod,US_PT = Load_Calibration( data_name, "US_Prod_toe", "US_Prod_t") 
-China_Prod,India_Prod = Load_Calibration( data_name, "China_Prod_toe", "India_Prod_toe") 
-China_PT,India_PT = Load_Calibration( data_name, "China_Prod_t", "India_Prod_t") 
+Year,US_Cons,China_Cons,India_Cons,US_Prod,China_Prod,India_Prod,US_PT,China_PT,India_PT = Load_Calibration(
+    "./Data/US_China_India_Compared.csv",
+    ["Year", "US_Cons_toe", "China_Cons_toe", "India_Cons_toe","US_Prod_toe","China_Prod_toe", "India_Prod_toe", "US_Prod_t", "China_Prod_t", "India_Prod_t"]) 
 
 US_Import = US_Cons-US_Prod
 US_PT = US_Prod/US_PT
@@ -76,5 +72,5 @@ ax6.set_ylim( minQ, maxQ)
 ax6.grid(True)
 ax6.legend(loc=2)
 
-plt.savefig( ".\\Graphs\\figure_13_09.png")
+plt.savefig( "./Graphs/figure_13_09.png")
 fig.show()

@@ -1,27 +1,24 @@
 from Population import *
 
-Year, Coal = Load_Calibration( "Resources_Calibration.csv", "Year", "Coal")
-Bitumen, Oil = Load_Calibration( "Resources_Calibration.csv", "Bitumen", "Oil")
-Condensate, NGPL = Load_Calibration( "Resources_Calibration.csv", "Condensate", "NGPL")
-Gas, Total = Load_Calibration( "Resources_Calibration.csv", "Gas", "Total")
+Year, Coal, Bitumen, Oil, Condensate, NGPL, Gas, Total = Load_Calibration(
+    "Resources_Calibration.csv",
+    ["Year", "Coal", "Bitumen", "Oil", "Condensate", "NGPL", "Gas", "Total"])
 
-Coal_Cum = np.array( Coal)
-Bitumen_Cum = np.array( Bitumen)
-Oil_Cum = np.array( Oil)
-Condensate_Cum = np.array( Condensate)
-Gas_Cum = np.array( Gas)
-NGPL_Cum = np.array( NGPL)
-Total_Cum = np.array( Total)
+Coal_Cum = Cumulative( Coal)
+Bitumen_Cum = Cumulative( Bitumen)
+Oil_Cum = Cumulative( Oil)
+Condensate_Cum = Cumulative( Condensate)
+Gas_Cum = Cumulative( Gas)
+NGPL_Cum = Cumulative( NGPL)
+Total_Cum = Cumulative( Total)
 
-for i in range( 1, len(Year)):
-    Coal_Cum[i] += Coal_Cum[i-1]
-    Bitumen_Cum[i] += Bitumen_Cum[i-1]
-    Oil_Cum[i] += Oil_Cum[i-1]
-    Condensate_Cum[i] += Condensate_Cum[i-1]
-    Gas_Cum[i] += Gas_Cum[i-1]
-    NGPL_Cum[i] += NGPL_Cum[i-1]
-    Total_Cum[i] += Total_Cum[i-1]
-    print( Year[i], Total_Cum[i]) 
+yr = 2017
+report_year = int(yr - Year[0])
+print( "{:g}".format( Year[report_year]))
+print( " Coal: \t{:.1f} mlrd toe".format( Coal_Cum[report_year]/1000))
+print( " Oil:  \t{:.1f} mlrd toe".format( (Bitumen_Cum[report_year]+Oil_Cum[report_year]+Condensate_Cum[report_year])/1000))
+print( " Gas:  \t{:.1f} mlrd toe".format( (Gas_Cum[report_year]+NGPL_Cum[report_year])/1000))
+print( " Total:\t{:.1f} mlrd toe".format( Total_Cum[report_year]/1000))
 
 fig = plt.figure( figsize=(15,10))
 fig.suptitle( 'Оценка добытых запасов 1860-2017 гг', fontsize=22)
@@ -60,5 +57,5 @@ ax2.grid(True)
 ax2.set_title( "Накопленная добыча")
 ax2.legend(loc=0)
 
-plt.savefig( ".\\Graphs\\figure_13_01.png")
+plt.savefig( "./Graphs/figure_13_01.png")
 fig.show()

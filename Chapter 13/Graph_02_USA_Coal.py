@@ -1,11 +1,8 @@
 from Utilities import *
 
-data_name = "./Data/US_Coal_Reconstructed.csv"
-
-Year,Total = Load_Calibration( data_name, "Year", "Total_T") 
-Total_toe,Anthracite_T = Load_Calibration( data_name, "Total_toe", "Anthracite_T")
-Bituminous_T,Subbituminous_T = Load_Calibration( data_name, "Bituminous_T", "Subbituminous_T")
-Lignite_T,Consumption_toe = Load_Calibration( data_name, "Lignite_T", "Consumption_toe")
+Year,Total,Total_toe,Anthracite_T,Bituminous_T,Subbituminous_T,Lignite_T,Consumption_toe = Load_Calibration(
+    "./Data/US_Coal_Reconstructed.csv",
+    ["Year", "Total_T","Total_toe", "Anthracite_T", "Bituminous_T", "Subbituminous_T", "Lignite_T", "Consumption_toe"])
 
 toet = Total_toe / Total
 Year_Ext = np.linspace( 2011, 2017, 7)
@@ -59,5 +56,5 @@ ax3.annotate("Пик добычи по энергии в 1998 году", xy=(199
 #ax3.set_title( "Производство и потребление")
 ax3.legend(loc=0)
 
-plt.savefig( ".\\Graphs\\figure_13_02.png")
+plt.savefig( "./Graphs/figure_13_02.png")
 fig.show()
