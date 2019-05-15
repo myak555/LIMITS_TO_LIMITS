@@ -64,5 +64,5 @@ plt.title( "Население Земли (численное решение)")
 plt.grid(True)
 plt.legend(loc=0)
 plt.savefig( "./Graphs/figure_03_02.png")
-fig.show()
+if InteractiveModeOn: fig.show()
     

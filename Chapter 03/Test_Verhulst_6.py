@@ -74,4 +74,4 @@ plt.title( "Население Земли (Уравнение Ферхюльст
 plt.grid(True)
 plt.legend(loc=0)
 plt.savefig( "./Graphs/figure_03_06.png")
-fig.show()
+if InteractiveModeOn: fig.show()

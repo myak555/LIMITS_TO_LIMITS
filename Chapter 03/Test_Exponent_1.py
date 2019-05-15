@@ -26,5 +26,4 @@ plt.title( "Население Земли (аналитическое решен
 plt.grid(True)
 plt.legend(loc=0)
 plt.savefig( "./Graphs/figure_03_01.png")
-fig.show()
-    
+if InteractiveModeOn: fig.show()

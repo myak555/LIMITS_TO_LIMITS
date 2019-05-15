@@ -608,6 +608,7 @@ def Prepare_Russian_Font():
 # Comment out if Russian font not needed
 #
 Prepare_Russian_Font()
+InteractiveModeOn = not ('-t' in sys.argv)
 
 #
 # Test code
