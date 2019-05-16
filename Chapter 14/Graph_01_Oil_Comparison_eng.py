@@ -52,4 +52,4 @@ ax2.set_title( "Cumulative extraction")
 ax2.legend(loc=0)
 
 plt.savefig( "./Graphs/figure_14_01en.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

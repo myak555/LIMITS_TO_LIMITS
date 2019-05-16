@@ -46,4 +46,4 @@ plt.title( 'Добыча нефти в Великобритании 1965-2017 г
 plt.grid(True)
 plt.legend(loc=0)
 plt.savefig( "./Graphs/figure_14_06.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

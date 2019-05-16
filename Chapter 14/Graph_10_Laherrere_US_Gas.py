@@ -105,4 +105,4 @@ ax2.set_title( "Накопленная добыча")
 ax2.legend(loc=0)
 
 plt.savefig( "./Graphs/figure_14_10.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

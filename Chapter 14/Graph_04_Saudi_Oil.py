@@ -39,4 +39,4 @@ plt.title( 'Добыча нефти в Саудовской Аравии 1938-20
 plt.grid(True)
 plt.legend(loc=0)
 plt.savefig( "./Graphs/figure_14_04.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

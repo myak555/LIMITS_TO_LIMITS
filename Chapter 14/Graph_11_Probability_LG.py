@@ -88,4 +88,4 @@ ax4.text(20, 45, "2P URR = 640 млрд toe")
 ax4.text(550, 5, "1P URR = 530 млрд toe")
 
 plt.savefig( "./Graphs/figure_14_11.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

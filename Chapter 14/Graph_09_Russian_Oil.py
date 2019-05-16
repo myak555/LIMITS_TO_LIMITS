@@ -86,4 +86,4 @@ plt.title( 'Добыча нефти в странах бывшей Россий�
 plt.grid(True)
 plt.legend(loc=0)
 plt.savefig( "./Graphs/figure_14_09.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)
