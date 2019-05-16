@@ -1,11 +1,11 @@
 #
-# Добыча угля на территории бывшей Российской Империи
-# (включая страны бывшего СССР, Польшу и Финляндию)
-# Добыча угля на территории Финляндии незначительна и не учитывается.
-# Уголь включает все градации битуминозных и суббитуминозных углей,
-# антрацит и бурый уголь (лигнит), а также энергетический торф
-# Общая территория бывшей Российской Империи:
-# 23053.3 тыс км2 (15.5% площади суши)
+# Coal mining in the former Russian Empire
+# (including countries of the former USSR, Poland and Finland)
+# Coal mining in Finland is insignificant and is not counted.
+# Coal includes all grades: bituminous and sub-bituminous,
+# anthracite and brown coal (lignite), as well as steam peat
+# The total territory of the former Russian Empire:
+# 23053.3 thousand km2 (15.5% of the Earth land area)
 #
 Year,Poland,Republics,Russia
 1897,0.3,3.3,1.7
