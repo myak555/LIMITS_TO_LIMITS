@@ -108,4 +108,4 @@ plt.title( 'Подбор С, τ, To в формуле С.П.Капицы по д
 plt.grid(True)
 plt.legend(loc=0)
 plt.savefig( "./Graphs/figure_05_04.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

@@ -101,4 +101,4 @@ plt.title( "Остров Мальтуса #1 - Примитивное племя
 plt.grid(True)
 plt.legend(loc=0)
 plt.savefig( "./Graphs/figure_05_06.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

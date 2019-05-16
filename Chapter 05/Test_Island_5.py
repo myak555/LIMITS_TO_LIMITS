@@ -102,4 +102,4 @@ plt.title( "Остров Мальтуса #3 - скорость внедрени
 plt.grid(True)
 plt.legend(loc=0)
 plt.savefig( "./Graphs/figure_05_10.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

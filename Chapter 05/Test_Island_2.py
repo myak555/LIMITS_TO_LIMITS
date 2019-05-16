@@ -101,4 +101,4 @@ plt.title( "Остров Мальтуса #2 - Первое технологич
 plt.grid(True)
 plt.legend(loc=0)
 plt.savefig( "./Graphs/figure_05_07.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)
