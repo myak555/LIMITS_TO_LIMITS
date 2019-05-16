@@ -164,7 +164,7 @@ ax2.grid(True)
 ax2.legend(loc=0)
 
 plt.savefig( "./Graphs/figure_12_09.png")
-if InteractiveModeOn: plt.show(True)
+if InteractiveModeOn: plt.show(False)
 
 fig1 = plt.figure( figsize=(15,12))
 fig1.suptitle( 'Распределение реакторов', fontsize=22)
@@ -192,5 +192,4 @@ ax2.legend(loc=0)
 ax2.grid(True)
 
 plt.savefig( "./Graphs/figure_12_10.png")
-fig1.show()
-
+if InteractiveModeOn: plt.show(True)
