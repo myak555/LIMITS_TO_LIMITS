@@ -68,7 +68,7 @@ def Plot_Raw( filename):
     ax3.legend(loc=0)
     ax3.grid(True)
     plt.savefig( "./Climate_Graphs/{:s}".format(filename.replace(".txt", ".png")))
-    #fig.show()
+    #if InteractiveModeOn: plt.show(True)
     plt.close('all')
 
 filenames = []

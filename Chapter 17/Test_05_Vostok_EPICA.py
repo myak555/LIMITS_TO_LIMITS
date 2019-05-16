@@ -69,4 +69,4 @@ ax3.grid(True)
 ax3.set_xlabel("тысяч лет назад")
 
 plt.savefig( "./Graphs/figure_17_05.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

@@ -76,4 +76,4 @@ ax3.grid(True)
 ax3.legend(loc=3)
 
 plt.savefig( "./Graphs/figure_17_02.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

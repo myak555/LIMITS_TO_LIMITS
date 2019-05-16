@@ -92,4 +92,4 @@ ax2.legend( loc=0)
 ax2.set_xlabel("Тысячи лет")
 
 plt.savefig( "./Graphs/figure_17_06.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)
