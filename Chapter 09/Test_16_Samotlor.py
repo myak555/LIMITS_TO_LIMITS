@@ -45,4 +45,4 @@ ax2.set_ylabel( "dQ/Q, %")
 ax2.legend(loc=2)
 
 plt.savefig( "./Graphs/figure_09_16.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

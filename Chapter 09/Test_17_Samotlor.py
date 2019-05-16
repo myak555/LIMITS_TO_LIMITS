@@ -44,4 +44,4 @@ ax2.set_ylabel( "dQ x 1000")
 ax2.legend(loc=2)
 
 plt.savefig( "./Graphs/figure_09_17.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

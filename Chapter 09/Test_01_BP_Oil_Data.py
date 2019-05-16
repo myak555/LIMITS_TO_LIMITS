@@ -54,4 +54,4 @@ ax2.grid(True)
 ax2.set_title( "В %% к отчёту 2018 г")
 
 plt.savefig( "./Graphs/figure_09_01.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

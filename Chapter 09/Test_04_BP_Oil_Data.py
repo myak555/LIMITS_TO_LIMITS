@@ -60,4 +60,4 @@ ax2.grid(True)
 ax2.set_title( "Средняя плотность нефти и жидкостей")
 
 plt.savefig( "./Graphs/figure_09_04.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

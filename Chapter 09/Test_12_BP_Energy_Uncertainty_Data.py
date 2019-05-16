@@ -48,11 +48,11 @@ watt_hc_nuc = tonn_per_second_hc_nuc * 41e9
 for i in range( 30, len(pop)):
     print( "{:g}\t{:>8.1f}\t{:>8.1f}".format(BP_Year[i], watt[i], watt_hc_nuc[i]))
 
-print( "Пик энергии из угля, нефти и газа: {:.1f} Вт/дущу в {:g} году".format(np.max( watt_hc), 1965+np.argmax( watt_hc)))
-print( "Пик энергии из угля, нефти, газа и урана: {:.1f} Вт/дущу в {:g} году".format(np.max( watt_hc_nuc), 1965+np.argmax( watt_hc_nuc)))
-print( "Глобальный пик энергии, включая ВИЭ: {:.1f} Вт/дущу в {:g} году".format(np.max( watt), 1965+np.argmax( watt)))
-print( "Энергии угля, нефти, газа и урана в 2017 году: {:.1f} Вт/душу".format( watt_hc_nuc[len(watt)-1]))
-print( "Энергии в 2017 году: {:.1f} Вт/душу".format( watt[len(watt)-1]))
+print( "Peak energy from coal, oil and gas: {:.1f} W/person in {:g}".format(np.max( watt_hc), 1965+np.argmax( watt_hc)))
+print( "Peak energy from coal, oil, gas and uranium: {:.1f} W/person in {:g}".format(np.max( watt_hc_nuc), 1965+np.argmax( watt_hc_nuc)))
+print( "Global peak energy, including Renewables: {:.1f} W/person in {:g}".format(np.max( watt), 1965+np.argmax( watt)))
+print( "Energy from coal, oil, gas and uranium in 2017: {:.1f} W/person".format( watt_hc_nuc[len(watt)-1]))
+print( "Total energy in 2017: {:.1f} W/person".format( watt[len(watt)-1]))
 
 ax1.set_xlim( 1965, 2020)
 ax1.set_ylim( 0, 15000)
@@ -72,4 +72,4 @@ ax2.set_title( "Эквивалент мощности на душу населе
 ax2.legend(loc=4)
 
 plt.savefig( "./Graphs/figure_09_12.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)
