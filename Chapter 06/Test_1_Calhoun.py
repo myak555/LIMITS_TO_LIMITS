@@ -22,4 +22,4 @@ plt.title( 'Популяция Вселенной-25 (по статье Кэлх
 plt.grid(True)
 plt.legend(loc=0)
 plt.savefig( "./Graphs/figure_06_01.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)
