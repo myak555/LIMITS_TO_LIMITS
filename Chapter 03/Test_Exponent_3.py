@@ -65,11 +65,18 @@ T  = np.linspace(1890, 2200, 311)
 #
 # Solve numerically
 #
-P1 = Population_1( 1534.1, 9.5/1000, 22/1000)
+P0 = 1534.1
+b = 22/1000
+a = 9.5/1000
+P1 = Population_1( P0, a, b)
 P1.Solve( T)
-P2 = Population_2( 1534.1, 9.5/1000, 22/1000)
+P2 = Population_2( P0, a, b)
 P2.Solve( T)
 
+print( "P0 = {:.1f}".format(P0))
+print( "a  = {:.4f}".format(a))
+print( "b  = {:.4f}".format(b))
+print( "Year\tNumerical-1\tNumerical-2")
 for i, t in enumerate(T):
     print( "{:4.0f} {:7.1f} {:7.1f}".format( t, P1.Solution_Total[i], P2.Solution_Total[i]))
 
@@ -85,4 +92,4 @@ plt.title( "Население Земли (численное решение)")
 plt.grid(True)
 plt.legend(loc=0)
 plt.savefig( "./Graphs/figure_03_03.png")
-if InteractiveModeOn: fig.show()
+if InteractiveModeOn: plt.show(True)

@@ -76,7 +76,7 @@ class Population_Velhurst:
             p2 = soln[:, 0]
             p1 = mp*2 - p2[mpi:0:-1]
             self.Solution_Total = np.concatenate( (p1, p2))
-        print( self.Solution_Year[0], self.Solution_Total[0])
+        print( "{:g}:{:.1f}".format( self.Solution_Year[0], self.Solution_Total[0]))
         self.Total = self.Initial
         return
 
@@ -107,4 +107,4 @@ plt.title( "Население Земли (Уравнение Ферхюльст
 plt.grid(True)
 plt.legend(loc=4)
 plt.savefig( "./Graphs/figure_03_04.png")
-if InteractiveModeOn: fig.show()
+if InteractiveModeOn: plt.show(True)

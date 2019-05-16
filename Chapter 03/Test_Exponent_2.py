@@ -47,10 +47,14 @@ P0 = 1534.1
 b = 22/1000
 a = 9.5/1000
 
+print( "P0 = {:.1f}".format(P0))
+print( "a  = {:.4f}".format(a))
+print( "b  = {:.4f}".format(b))
+print( "Year\tNumerical\tAnalytical")
 for i, t in enumerate(T):
     p = P0 * np.exp( (b-a)*(t-1890))
     P2 += [p]
-    print( "{:4.0f} {:7.1f} {:7.1f}".format( t, P1.Solution_Total[i], p))
+    print( "{:4.0f}\t{:7.1f}\t{:7.1f}".format( t, P1.Solution_Total[i], p))
 
 fig = plt.figure( figsize=(15,10))
 plt.plot( P1.Solution_Year, P1.Solution_Total, "-", color='r', lw=1, label="Численное решение")
@@ -64,5 +68,5 @@ plt.title( "Население Земли (численное решение)")
 plt.grid(True)
 plt.legend(loc=0)
 plt.savefig( "./Graphs/figure_03_02.png")
-if InteractiveModeOn: fig.show()
+if InteractiveModeOn: plt.show(True)
     

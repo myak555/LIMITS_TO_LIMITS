@@ -103,7 +103,7 @@ class Control_Curve:
             plt.savefig( file_Name + ".png")
         else:
             plt.title( self.Name + " curve")            
-        if not no_screen: fig.show()
+        if not no_screen: plt.show(True)
         else: plt.close("all")
         return
 
@@ -548,7 +548,7 @@ def Load_Calibration_Text( file_Name, var_Names, separator=',', verbose=False):
     """
     if verbose:
         print( "Parsing file: {:s}".format( file_Name)) 
-    fin = open( file_Name)
+    fin = open( file_Name, "rt", encoding="cp1252")
     var_Found = []
     var_Indexes = []
     data_Arrays = []
