@@ -54,4 +54,4 @@ ax4.set_ylim( 0, 0.6)
 ax4.legend(loc=3)
 
 plt.savefig( "./Graphs/figure_07_02.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

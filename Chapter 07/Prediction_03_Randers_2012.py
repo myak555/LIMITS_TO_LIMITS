@@ -31,5 +31,5 @@ plt.title( 'Аппроксимация NewWorld 2012 г: Население')
 plt.grid(True)
 plt.legend(loc=0)
 plt.savefig( "./Graphs/figure_07_03.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)
 
