@@ -32,4 +32,4 @@ plt.title( 'Потребление ядерной и возобновляемо�
 plt.grid(True)
 plt.legend(loc=0)
 plt.savefig( "./Graphs/figure_12_04.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

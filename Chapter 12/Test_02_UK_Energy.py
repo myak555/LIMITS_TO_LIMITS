@@ -33,4 +33,4 @@ plt.title( 'Добыча угля, нефти и газа в Великобри�
 plt.grid(True)
 plt.legend(loc=0)
 plt.savefig( "./Graphs/figure_12_02.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

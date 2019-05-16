@@ -62,4 +62,4 @@ plt.title( 'Энергобаланс Великобритании на душу 
 plt.grid(True)
 plt.legend(loc=0)
 plt.savefig( "./Graphs/figure_12_07.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

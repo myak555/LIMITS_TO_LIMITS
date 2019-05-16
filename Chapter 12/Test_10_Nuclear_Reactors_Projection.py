@@ -111,4 +111,4 @@ ax2.set_ylabel("Ватт(электрич.)")
 ax2.grid(True)
 
 plt.savefig( "./Graphs/figure_12_11.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

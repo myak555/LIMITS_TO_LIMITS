@@ -29,4 +29,4 @@ plt.title( 'Потребление угля, нефти и газа Велико
 plt.grid(True)
 plt.legend(loc=0)
 plt.savefig( "./Graphs/figure_12_03.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

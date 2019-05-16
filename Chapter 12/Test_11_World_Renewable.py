@@ -23,5 +23,5 @@ ax1.set_ylabel("Вт на душу населения")
 ax1.grid(True)
 
 plt.savefig( "./Graphs/figure_12_12.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)
 
