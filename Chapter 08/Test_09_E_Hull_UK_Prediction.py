@@ -33,4 +33,4 @@ plt.annotate('Анеурин Беван: "Этот остров стоит на 
 plt.annotate("Обвал рыболовства в Северном море", xy=(1992, 62), xytext=(1880,65), arrowprops=dict(facecolor='black', shrink=0.05))
 plt.annotate("Прекращена добыча угля", xy=(2016, 2), xytext=(2000,165), arrowprops=dict(facecolor='black', shrink=0.05))
 plt.savefig( "./Graphs/figure_08_09.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

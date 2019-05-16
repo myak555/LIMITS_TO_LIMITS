@@ -99,4 +99,4 @@ plt.title( 'Аппроксимация мировой добычи углево�
 plt.grid(True)
 plt.legend(loc=0)
 plt.savefig( "./Graphs/figure_08_10.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

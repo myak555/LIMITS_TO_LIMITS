@@ -61,4 +61,4 @@ plt.title( "Месторождение Весёлое - классическая
 plt.grid(True)
 plt.legend(loc=0)
 plt.savefig( "./Graphs/figure_08_05.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

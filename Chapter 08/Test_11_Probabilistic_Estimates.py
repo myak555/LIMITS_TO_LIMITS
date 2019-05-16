@@ -59,5 +59,5 @@ ax3.grid(True)
 ax3.legend(loc=0)
 
 plt.savefig( "./Graphs/figure_08_11.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)
 

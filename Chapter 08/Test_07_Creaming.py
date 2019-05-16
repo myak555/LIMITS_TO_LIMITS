@@ -86,4 +86,4 @@ plt.title( "Месторождение Весёлое - отчёты и нако
 plt.grid(True)
 plt.legend(loc=0)
 plt.savefig( "./Graphs/figure_08_07.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

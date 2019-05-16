@@ -48,4 +48,4 @@ plt.annotate("Капремонт и интенсификация добычи (�
 plt.annotate("Механизированная добыча. Рост обводнённости", xy=(2001,9), xytext=(2007,13), arrowprops=dict(facecolor='black', shrink=0.05))
 plt.annotate("Скважина тампонирована", xy=(2030,2), xytext=(2024,6), arrowprops=dict(facecolor='black', shrink=0.05))
 plt.savefig( "./Graphs/figure_08_01.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

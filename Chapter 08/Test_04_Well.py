@@ -48,4 +48,4 @@ plt.title( "Месторождение дяди Джо - одна суперск
 plt.grid(True)
 plt.legend(loc=0)
 plt.savefig( "./Graphs/figure_08_04.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)
