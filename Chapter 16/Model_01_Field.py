@@ -73,4 +73,4 @@ plt.title( "Месторождение Весёлое - добыча и затр
 plt.grid(True)
 plt.legend(loc=1)
 plt.savefig( "./Graphs/figure_16_01.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

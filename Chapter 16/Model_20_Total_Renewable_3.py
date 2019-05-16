@@ -308,5 +308,5 @@ ax3.grid(True)
 ax3.legend(loc=2)
 
 plt.savefig( "./Graphs/figure_16_20.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)
 

@@ -40,4 +40,4 @@ plt.title( 'Предсказание добычи цепочкой Марков�
 plt.grid(True)
 plt.legend(loc=0)
 plt.savefig( "./Graphs/figure_16_03.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

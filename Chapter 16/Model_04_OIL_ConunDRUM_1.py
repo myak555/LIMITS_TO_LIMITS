@@ -37,4 +37,4 @@ ax2.grid(True)
 ax2.legend(loc=0)
 
 plt.savefig( "./Graphs/figure_16_04.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

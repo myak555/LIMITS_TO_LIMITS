@@ -130,7 +130,7 @@ plt.xlabel("Год")
 plt.xlim( -1, 100)
 plt.legend(loc=0)
 plt.savefig( "./Graphs/figure_16_11a.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)
 
 x_start, x_end = 1850, 2150
 
@@ -181,5 +181,5 @@ ax3.grid(True)
 ax3.legend(loc=2)
 
 plt.savefig( "./Graphs/figure_16_11.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)
 

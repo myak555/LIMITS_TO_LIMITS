@@ -21,4 +21,4 @@ plt.title( 'Распределение месторождений нефти (П
 plt.grid(True)
 plt.legend(loc=3)
 plt.savefig( "./Graphs/figure_16_02.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)
