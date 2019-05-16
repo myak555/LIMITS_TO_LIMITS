@@ -60,4 +60,4 @@ ax2.legend( loc=2)
 ax2.set_xlabel("год")
 
 plt.savefig( "./Graphs/figure_18_01.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)
