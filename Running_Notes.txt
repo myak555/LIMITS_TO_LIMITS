@@ -39,5 +39,4 @@
 # to build PDF document from the chapters:
 #    cd PDF
 #    Merge_Book
-# Executing ./Chapter 17/Test_01_Geocarb_Temperatures.py
 #
