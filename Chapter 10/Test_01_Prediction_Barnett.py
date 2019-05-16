@@ -35,4 +35,4 @@ plt.title( 'Предсказание Университета Техаса и У
 plt.grid(True)
 plt.legend(loc=1)
 plt.savefig( "./Graphs/figure_10_01.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

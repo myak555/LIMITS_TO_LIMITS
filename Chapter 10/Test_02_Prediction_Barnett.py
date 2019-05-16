@@ -51,4 +51,4 @@ plt.title( 'Реальная добыча по данным Железнодор
 plt.grid(True)
 plt.legend(loc=1)
 plt.savefig( "./Graphs/figure_10_02.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)
