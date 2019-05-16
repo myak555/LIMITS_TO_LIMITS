@@ -62,4 +62,4 @@ ax1.annotate("Пик добычи по энергии в 2011 году", xy=(201
 ax1.annotate("К 2070 году добыто 90% запасов", xy=(2070, 1400), xytext=(2080, 2000), arrowprops=dict(facecolor='blue', shrink=0.05))
 
 plt.savefig( "./Graphs/figure_13_08.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

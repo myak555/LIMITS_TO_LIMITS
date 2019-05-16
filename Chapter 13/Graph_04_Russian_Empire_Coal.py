@@ -80,4 +80,4 @@ ax2.grid(True)
 ax2.set_xlabel("Годы")
 
 plt.savefig( "./Graphs/figure_13_04.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

@@ -57,4 +57,4 @@ ax3.annotate("Пик добычи по энергии в 1998 году", xy=(199
 ax3.legend(loc=0)
 
 plt.savefig( "./Graphs/figure_13_02.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

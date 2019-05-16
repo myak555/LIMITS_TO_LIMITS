@@ -96,4 +96,4 @@ ax4.text(180, 45, "2P UR = 163 млн т")
 ax4.text(130, 5, "1P UR = 123 млн т")
 
 plt.savefig( "./Graphs/figure_13_06.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

@@ -53,4 +53,4 @@ ax1.set_xlabel("Годы")
 ax1.annotate("Пик добычи по энергии в 1956 году", xy=(1956, 53), xytext=(1973, 55), arrowprops=dict(facecolor='black', shrink=0.05))
 
 plt.savefig( "./Graphs/figure_13_03.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)
