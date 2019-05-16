@@ -78,4 +78,4 @@ plt.title( "Пруд Мальтуса #3 - Моделирование о Св.М
 plt.grid(True)
 plt.legend(loc=0)
 plt.savefig( "./Graphs/figure_04_07.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

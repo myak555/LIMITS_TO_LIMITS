@@ -133,4 +133,4 @@ plt.title( "Пруд Мальтуса #3 - Осциллирующая попул
 plt.grid(True)
 plt.legend(loc=0)
 plt.savefig( "./Graphs/figure_04_05.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

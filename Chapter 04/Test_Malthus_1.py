@@ -74,4 +74,4 @@ plt.title( "Пруд Мальтуса #1 - Популяция стремится
 plt.grid(True)
 plt.legend(loc=0)
 plt.savefig( "./Graphs/figure_04_01.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

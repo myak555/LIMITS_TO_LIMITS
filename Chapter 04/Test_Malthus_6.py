@@ -77,4 +77,4 @@ plt.title( "Пруд Мальтуса #3 - Моделирование чашки
 plt.grid(True)
 plt.legend(loc=0)
 plt.savefig( "./Graphs/figure_04_06.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

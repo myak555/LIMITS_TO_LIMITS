@@ -80,4 +80,4 @@ plt.title( "Пруд Мальтуса #2 - Эффект воспроизводс
 plt.grid(True)
 plt.legend(loc=0)
 plt.savefig( "./Graphs/figure_04_04.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)
