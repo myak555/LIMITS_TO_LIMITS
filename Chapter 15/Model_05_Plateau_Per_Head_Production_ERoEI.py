@@ -149,4 +149,4 @@ ax2.grid(True)
 ax2.legend(loc=2)
 
 plt.savefig( "./Graphs/figure_15_05.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

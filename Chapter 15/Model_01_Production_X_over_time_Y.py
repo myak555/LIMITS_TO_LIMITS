@@ -53,4 +53,4 @@ ax1.grid(True)
 ax1.legend(loc=2)
 
 plt.savefig( "./Graphs/figure_15_01.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

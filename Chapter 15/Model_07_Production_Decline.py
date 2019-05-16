@@ -146,4 +146,4 @@ ax3.set_xlabel("Годы")
 ax3.grid(True)
 
 plt.savefig( "./Graphs/figure_15_07.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

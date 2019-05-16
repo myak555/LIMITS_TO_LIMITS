@@ -68,4 +68,4 @@ ax2.set_xlabel("Накопленная добыча Q, млрд toe")
 ax2.grid(True)
 
 plt.savefig( "./Graphs/figure_15_04.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)
