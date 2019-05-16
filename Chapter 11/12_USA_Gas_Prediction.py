@@ -88,4 +88,4 @@ ax2.set_title( "Добыча по типу местрождения")
 ax2.legend(loc=2)
 
 plt.savefig( "./Graphs/figure_11_12.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

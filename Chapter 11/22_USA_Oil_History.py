@@ -68,4 +68,4 @@ ax2.legend(loc=2)
 ax2.annotate("Пик буровых в 1981 году", xy=(1981, 4000), xytext=(1990, 3500), arrowprops=dict(facecolor='black', shrink=0.05))
 
 plt.savefig( "./Graphs/figure_11_22.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

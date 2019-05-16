@@ -43,4 +43,4 @@ ax2.set_title( "Количество газовых скважин в экспл
 ax2.legend(loc=0)
 
 plt.savefig( "./Graphs/figure_11_02.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

@@ -63,4 +63,4 @@ ax2.set_title( "Количество скважин в эксплуатации"
 ax2.legend(loc=0)
 
 plt.savefig( "./Graphs/figure_11_20.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

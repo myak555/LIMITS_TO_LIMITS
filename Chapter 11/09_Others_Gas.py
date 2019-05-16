@@ -69,4 +69,4 @@ ax2.set_title( "Реальная добыча на месторождении А
 ax2.legend(loc=0)
 
 plt.savefig( "./Graphs/figure_11_09.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

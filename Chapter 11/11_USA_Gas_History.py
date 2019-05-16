@@ -88,4 +88,4 @@ ax2.annotate("Пик добычи в 1973 г", xy=(1973, 550), xytext=(1960, 300
 ax2.annotate("Падение добычи по 4.8% в год", xy=(2009, 387), xytext=(1970, 250), arrowprops=dict(facecolor='black', shrink=0.05))
 
 plt.savefig( "./Graphs/figure_11_11.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

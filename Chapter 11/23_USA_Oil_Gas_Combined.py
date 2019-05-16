@@ -62,4 +62,4 @@ ax3.legend(loc=2)
 ax3.annotate("Пик в 1981 году", xy=(1981, 125), xytext=(1950, 100), arrowprops=dict(facecolor='black', shrink=0.05))
 
 plt.savefig( "./Graphs/figure_11_23.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

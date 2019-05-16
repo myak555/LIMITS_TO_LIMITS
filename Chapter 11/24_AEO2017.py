@@ -82,4 +82,4 @@ ax2.set_title( "Добыча газа и NGPL")
 ax2.legend(loc=1)
 
 plt.savefig( "./Graphs/figure_11_24.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)

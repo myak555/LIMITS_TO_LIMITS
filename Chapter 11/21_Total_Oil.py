@@ -56,4 +56,4 @@ ax2.set_title( 'Количество "нефтяных" скважин в экс
 ax2.legend(loc=0)
 
 plt.savefig( "./Graphs/figure_11_21.png")
-fig.show()
+if InteractiveModeOn: plt.show(True)
