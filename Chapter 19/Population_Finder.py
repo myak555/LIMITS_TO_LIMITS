@@ -18,7 +18,7 @@ def PlotDataPopulationOnly( entity, yr, Pyr):
     ax1.set_ylabel("Year")
     ax1.grid(True)
     ax1.legend(loc=0)
-    plt.show()
+    plt.show(True)
 
 def PlotDataLandUse( entity, yr, Pyr):
     fig = plt.figure( figsize=(15,10))
@@ -53,7 +53,7 @@ def PlotDataLandUse( entity, yr, Pyr):
     ax2.set_xlabel("Year")
     ax2.grid(True)
     ax2.legend(loc=0)
-    plt.show()
+    plt.show(True)
     
 def ProduceData( pop, comm):
     ss = comm.strip().split(",")
