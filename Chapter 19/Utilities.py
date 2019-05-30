@@ -506,6 +506,16 @@ def Decimate( x, n):
         tmp2 += [tmp1[i]]
     return np.array( tmp2)
 
+def Normalize( x, n=1.0):
+    """
+    Performs the array sum normalization to n 
+    """
+    tmp = np.array(x)
+    norm = np.sum(x)
+    if norm == 0.0: return tmp
+    norm = n/norm
+    return tmp * norm
+
 def ArrayMerge( a, b):
     """
     Merges two arrays (either numpy or sets)
@@ -634,6 +644,7 @@ if __name__ == "__main__":
     help( FilterN)
     help( Cumulative)
     help( Decimate)
+    help( Normalize)
     help( ArrayMerge)
     help( Strings_To_Array)
     help( Load_Calibration)

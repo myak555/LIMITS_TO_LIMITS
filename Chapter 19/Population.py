@@ -84,6 +84,103 @@ class Population:
         return tmp
 
 #
+# Описывает популяцию матрицей Лесли с шагом 1 год
+# year0 - начальный год модели
+# population0 - общее население в начальном году
+# tfr - количество живых родов в среднем у женщщны
+# leb - ожидаемая продолжительность жизни при рождении
+# m2f - отношение мальчики:девочки при рождении
+#
+class Population_World3:
+    def __init__( self, year0=1890, population0=1530.880, tfr=5.4, leb=32, m2f=1.0):
+        self.Year = year0
+        self.Ages = np.linspace( 0,199, 200)
+        self.Population_Male = np.ones( 200)
+        self.Population_Female = np.ones( 200)
+        self.Attrition_Model_Male = Bathtub( x0=5.0, s0=1.0, x1=80, s1=0.2, left=0.1, middle=0.01, right=0.20)
+        self.Attrition_Model_Female = Bathtub( x0=5.0, s0=1.0, x1=80, s1=0.2, left=0.1, middle=0.01, right=0.20)
+        self.Fertility_Model = Bathtub( x0=18.0, s0=1.0, x1=35, s1=0.4, left=0.0, middle=1, right=0)
+        self.TFR = tfr
+        self.LEB_Male = leb
+        self.LEB_Female = leb
+        self.M2F = m2f
+        self.__expectancy__ = Linear_Combo()
+        self.__expectancy__.Wavelets += [Hubbert( x0=-10.0, s0=0.064, s1=0.064, peak= 0.370)]
+        self.__expectancy__.Wavelets += [Hubbert( x0= 45.0, s0=0.095, s1=0.092, peak= 0.024)]
+        self.__expectancy__.Wavelets += [Hubbert( x0= 14.0, s0=0.349, s1=0.214, peak=-0.018)]
+        self.__expectancy__.Wavelets += [Hubbert( x0=  6.0, s0=1.162, s1=1.162, peak= 0.017)]
+        self.__expectancy__.Wavelets += [Hubbert( x0= 82.0, s0=0.240, s1=0.240, peak=-0.009)]
+
+        # create initial population
+        for i in range( 300): self.Compute_Next_Year()
+        self.Normalize( population0)
+        self.Compute_Next_Year()
+        self.Normalize( population0)
+        self.Year = year0
+        return
+    def Set_Attrition_Model( self, attr=None):
+        if not attr is None:
+            self.Attrition_Model_Male.Left = attr
+            self.Attrition_Model_Male.Middle = attr * 0.1
+            self.Attrition_Model_Female.Left = attr
+            self.Attrition_Model_Female.Middle = attr * 0.1
+            return
+        self.Attrition_Model_Male.Left = self.__expectancy__.Compute_Cropped(
+            Limit( self.LEB_Male, 5, 85), min_y=0.001, max_y=0.300)
+        self.Attrition_Model_Male.Middle = self.Attrition_Model_Male.Left * 0.1
+        self.Attrition_Model_Female.Left = self.__expectancy__.Compute_Cropped(
+            Limit( self.LEB_Female, 5, 85), min_y=0.001, max_y=0.300)
+        self.Attrition_Model_Female.Middle = self.Attrition_Model_Female.Left * 0.1
+        return
+    def Compute_LEB(self, attrition, population):
+        """
+        Computes true and apparent LEB
+        """
+        leb_true = 0
+        counter = 1
+        for i in range(199):
+            counter *= 1-attrition[i]
+            leb_true += counter
+        pSum = np.sum( population)
+        if pSum <= 0: return leb_true, 0.0
+        tmpLEB = attrition * population
+        tmpLEB[-1] = population[-1]
+        leb_apparent = np.sum( tmpLEB * self.Ages) / np.sum(tmpLEB)
+        return leb_true, leb_apparent
+    def Compute_Next_Year( self, tfr=None, leb_male=None, leb_female=None, m2f=None,):
+        self.Year += 1
+        if not tfr is None: self.TFR = tfr
+        if not leb_male is None: self.LEB_Male = leb_male
+        if not leb_female is None: self.LEB_Female = leb_female
+        if not m2f is None: self.M2F = m2f
+        self.Set_Attrition_Model()
+        attrition_male = self.Attrition_Model_Male.GetVector( self.Ages)
+        attrition_female = self.Attrition_Model_Female.GetVector( self.Ages)
+        self.LEB_True_Male, self.LEB_Apparent_Male = self.Compute_LEB(
+            attrition_male, self.Population_Male )
+        self.LEB_True_Female, self.LEB_Apparent_Female = self.Compute_LEB(
+            attrition_female, self.Population_Female )
+        self.nDeath = np.sum( self.Population_Male * attrition_male)
+        self.nDeath += np.sum( self.Population_Female * attrition_female)
+        self.Population_Male = np.roll( self.Population_Male * (1-attrition_male), 1)
+        self.Population_Female = np.roll( self.Population_Female * (1-attrition_female), 1)
+        fertility = self.Fertility_Model.GetVector(self.Ages)
+        nFertile = np.dot( self.Population_Female, fertility)
+        self.nBirth = nFertile * self.TFR / np.sum( fertility)
+        self.Population_Male[0] = self.nBirth * 0.5 * self.M2F
+        self.Population_Female[0] = self.nBirth  - self.Population_Male[0]
+        self.Total = np.sum(self.Population_Male) + np.sum(self.Population_Female)
+        return
+    def Normalize( self, norm):
+        n = np.sum( self.Population_Male) + np.sum( self.Population_Female)
+        if n <= 0.0: return
+        n = norm/n
+        self.Population_Male *= n
+        self.Population_Female *= n
+        self.Total = np.sum(self.Population_Male) + np.sum(self.Population_Female)
+        return
+
+#
 # Рrovides a programmatic interface to the UN country statistical data and future estimates
 # The current statistics is from 1950 to 2017.
 # The future estimates are from 2018 till 2100.
@@ -646,3 +743,275 @@ class Population_UN:
             if e.Short_Name.lower() == n: return e
             if e.Code != "NONAME" and e.Code.lower == n: return e
         return Entity_UN(self.Time, "0\t" + name + " not found","0\tnull","0\tnull","0\tnull")
+
+class Country_Fertility():
+    def __init__( self, name, year, tfr, leb):
+        self.Name = name
+        self.Data = {year: (float(year), float(tfr), float(leb))}
+        #print("{:s} created".format( self.Name))
+        return
+    def Add_TFR( self, year, tfr):
+        if year in self.Data:
+            d = self.Data[year]
+            self.Data[year] = (float(year), float(tfr), d[2])
+            return
+        self.Data[year] = (float(year), float(tfr), -999.0)        
+        return
+    def Add_LEB( self, year, leb):
+        if year in self.Data:
+            d = self.Data[year]
+            self.Data[year] = (float(year), d[1], float(leb))
+            return
+        self.Data[year] = (float(year), -999.0, float(leb))        
+        return
+    def Get_TFR_vs_Year( self):
+        tmp_y = []
+        tmp_t = []
+        for i, v in self.Data.items():
+            if v[1] < 0: continue
+            tmp_y += [v[0]]
+            tmp_t += [v[1]]
+        return np.array(tmp_y), np.array(tmp_t)
+    def Get_LEB_vs_Year( self, lim=1950):
+        tmp_y = []
+        tmp_l = []
+        for i, v in self.Data.items():
+            if v[2] < 0: continue
+            if v[0] < lim: continue
+            tmp_y += [v[0]]
+            tmp_l += [v[2]]
+        return np.array(tmp_y), np.array(tmp_l)
+    def Get_TFR_vs_LEB( self):
+        tmp_t = []
+        tmp_l = []
+        for i, v in self.Data.items():
+            if v[1] < 0: continue
+            if v[2] < 0: continue
+            tmp_t += [v[1]]
+            tmp_l += [v[2]]
+        return np.array(tmp_l), np.array(tmp_t)
+
+class UN_Fertility():
+    def __init__( self):
+        self.Countries = {}
+        country, year, leb = Load_Calibration_Text("./Data/UN_LEB_Estimates.csv", ["Entity","Year","LEB"], "\t")
+        for i, c in enumerate(country):
+            if not c in self.Countries:
+                self.Countries[c] = Country_Fertility( c, year[i], -999.0, leb[i])
+                continue
+            self.Countries[c].Add_LEB( year[i], leb[i])
+        country, year, tfr = Load_Calibration_Text("./Data/UN_TFR_Estimates.csv", ["Entity","Year","TFR"], "\t")
+        for i, c in enumerate(country):
+            if not c in self.Countries:
+                self.Countries[c] = Country_Fertility( c, year[i], tfr[i], -999.0)
+                continue
+            self.Countries[c].Add_TFR( year[i], tfr[i])
+        self.Exceptions = ["French Guiana"]
+        self.Exceptions += ["Israel"]
+        self.Exceptions += ["Kazakhstan"]
+        self.Exceptions += ["Kyrgyzstan"]
+        self.Exceptions += ["Mongolia"]
+        self.Exceptions += ["Niger"]
+        self.Exceptions += ["Nigeria"]
+        self.Exceptions += ["Syria"]
+        self.Exceptions += ["Tajikistan"]
+        self.Exceptions += ["Timor-Leste"]
+        self.Exceptions += ["Turkmenistan"]
+        self.Exceptions += ["Zimbabwe"]
+
+        self.Group_2a = ["Afghanistan"]
+        self.Group_2a += ["Angola"]
+        self.Group_2a += ["Bangladesh"]
+        self.Group_2a += ["Benin"]
+        self.Group_2a += ["Bhutan"]
+        self.Group_2a += ["Burkina Faso"]
+        self.Group_2a += ["Burundi"]
+        self.Group_2a += ["Cameroon"]
+        self.Group_2a += ["Central African Republic"]
+        self.Group_2a += ["Chad"]
+        self.Group_2a += ["Comoros"]
+        self.Group_2a += ["Congo"]
+        self.Group_2a += ["Cote d'Ivoire"]
+        self.Group_2a += ["Democratic Republic of the Congo"]
+        self.Group_2a += ["Djibouti"]
+        self.Group_2a += ["Egypt"]
+        self.Group_2a += ["Equatorial Guinea"]
+        self.Group_2a += ["Eritrea"]
+        self.Group_2a += ["Ethiopia"]
+        self.Group_2a += ["Gabon"]
+        self.Group_2a += ["Gambia"]
+        self.Group_2a += ["Ghana"]
+        self.Group_2a += ["Guinea-Bissau"]
+        self.Group_2a += ["Guinea"]
+        self.Group_2a += ["Haiti"]
+        self.Group_2a += ["Iraq"]
+        self.Group_2a += ["Jordan"]
+        self.Group_2a += ["Kenya"]
+        self.Group_2a += ["Kiribati"]
+        self.Group_2a += ["Laos"]
+        self.Group_2a += ["Lesotho"]
+        self.Group_2a += ["Liberia"]
+        self.Group_2a += ["Madagascar"]
+        self.Group_2a += ["Malawi"]
+        self.Group_2a += ["Mali"]
+        self.Group_2a += ["Mauritania"]
+        self.Group_2a += ["Mayotte"]
+        self.Group_2a += ["Melanesia"]
+        self.Group_2a += ["Micronesia (Fed. States of)"]
+        self.Group_2a += ["Micronesia"]
+        self.Group_2a += ["Mozambique"]
+        self.Group_2a += ["Namibia"]
+        self.Group_2a += ["Pakistan"]
+        self.Group_2a += ["Palestine"]
+        self.Group_2a += ["Papua New Guinea"]
+        self.Group_2a += ["Philippines"]
+        self.Group_2a += ["Rwanda"]
+        self.Group_2a += ["Samoa"]
+        self.Group_2a += ["Sao Tome and Principe"]
+        self.Group_2a += ["Senegal"]
+        self.Group_2a += ["Sierra Leone"]
+        self.Group_2a += ["Solomon Islands"]
+        self.Group_2a += ["Somalia"]
+        self.Group_2a += ["South Sudan"]
+        self.Group_2a += ["Sudan"]
+        self.Group_2a += ["Swaziland"]
+        self.Group_2a += ["Tanzania"]
+        self.Group_2a += ["Togo"]
+        self.Group_2a += ["Tonga"]
+        self.Group_2a += ["Uganda"]
+        self.Group_2a += ["Vanuatu"]
+        self.Group_2a += ["Yemen"]
+        self.Group_2a += ["Zambia"]
+
+        self.Group_2b = ["Algeria"]
+        self.Group_2b += ["Bahrain"]
+        self.Group_2b += ["Belize"]
+        self.Group_2b += ["Bolivia"]
+        self.Group_2b += ["Botswana"]
+        self.Group_2b += ["Cabo Verde"]
+        self.Group_2b += ["Cambodia"]
+        self.Group_2b += ["Colombia"]
+        self.Group_2b += ["Dominican Republic"]
+        self.Group_2b += ["Ecuador"]
+        self.Group_2b += ["El Salvador"]
+        self.Group_2b += ["Fiji"]
+        self.Group_2b += ["French Polynesia"]
+        self.Group_2b += ["Guatemala"]
+        self.Group_2b += ["Honduras"]
+        self.Group_2b += ["India"]
+        self.Group_2b += ["Indonesia"]
+        self.Group_2b += ["Iran"]
+        self.Group_2b += ["Libya"]
+        self.Group_2b += ["Maldives"]
+        self.Group_2b += ["Mauritius"]
+        self.Group_2b += ["Mexico"]
+        self.Group_2b += ["Morocco"]
+        self.Group_2b += ["Myanmar"]
+        self.Group_2b += ["Nepal"]
+        self.Group_2b += ["New Caledonia"]
+        self.Group_2b += ["Nicaragua"]
+        self.Group_2b += ["Oman"]
+        self.Group_2b += ["Panama"]
+        self.Group_2b += ["Paraguay"]
+        self.Group_2b += ["Peru"]
+        self.Group_2b += ["Polynesia"]
+        self.Group_2b += ["Reunion"]
+        self.Group_2b += ["Saint Vincent and the Grenadines"]
+        self.Group_2b += ["Saudi Arabia"]
+        self.Group_2b += ["South Africa"]
+        self.Group_2b += ["Suriname"]
+        self.Group_2b += ["Thailand"]
+        self.Group_2b += ["Tunisia"]
+        self.Group_2b += ["Turkey"]
+        self.Group_2b += ["United Arab Emirates"]
+        self.Group_2b += ["Western Sahara"]
+
+        self.Group_3 = ["Albania"]
+        self.Group_3 += ["Antigua and Barbuda"]
+        self.Group_3 += ["Argentina"]
+        self.Group_3 += ["Armenia"]
+        self.Group_3 += ["Aruba"]
+        self.Group_3 += ["Australia"]
+        self.Group_3 += ["Azerbaijan"]
+        self.Group_3 += ["Bahamas"]
+        self.Group_3 += ["Barbados"]
+        self.Group_3 += ["Bosnia and Herzegovina"]
+        self.Group_3 += ["Brazil"]
+        self.Group_3 += ["Brunei"]
+        self.Group_3 += ["Canada"]
+        self.Group_3 += ["Chile"]
+        self.Group_3 += ["China, Hong Kong SAR"]
+        self.Group_3 += ["China, Macao SAR"]
+        self.Group_3 += ["China"]
+        self.Group_3 += ["Costa Rica"]
+        self.Group_3 += ["Cuba"]
+        self.Group_3 += ["Curacao"]
+        self.Group_3 += ["Cyprus"]
+        self.Group_3 += ["Dem. People's Republic of Korea"]
+        self.Group_3 += ["Finland"]
+        self.Group_3 += ["Grenada"]
+        self.Group_3 += ["Guadeloupe"]
+        self.Group_3 += ["Guam"]
+        self.Group_3 += ["Guyana"]
+        self.Group_3 += ["Iceland"]
+        self.Group_3 += ["Ireland"]
+        self.Group_3 += ["Jamaica"]
+        self.Group_3 += ["Japan"]
+        self.Group_3 += ["Kuwait"]
+        self.Group_3 += ["Lebanon"]
+        self.Group_3 += ["Macedonia"]
+        self.Group_3 += ["Malaysia"]
+        self.Group_3 += ["Malta"]
+        self.Group_3 += ["Martinique"]
+        self.Group_3 += ["Moldova"]
+        self.Group_3 += ["Montenegro"]
+        self.Group_3 += ["Netherlands"]
+        self.Group_3 += ["New Zealand"]
+        self.Group_3 += ["Norway"]
+        self.Group_3 += ["Poland"]
+        self.Group_3 += ["Portugal"]
+        self.Group_3 += ["Puerto Rico"]
+        self.Group_3 += ["Qatar"]
+        self.Group_3 += ["Republic of Korea"]
+        self.Group_3 += ["Romania"]
+        self.Group_3 += ["Saint Lucia"]
+        self.Group_3 += ["Serbia"]
+        self.Group_3 += ["Seychelles"]
+        self.Group_3 += ["Singapore"]
+        self.Group_3 += ["Slovakia"]
+        self.Group_3 += ["Slovenia"]
+        self.Group_3 += ["Sri Lanka"]
+        self.Group_3 += ["Taiwan"]
+        self.Group_3 += ["Trinidad and Tobago"]
+        self.Group_3 += ["United States of America"]
+        self.Group_3 += ["United States Virgin Islands"]
+        self.Group_3 += ["Uruguay"]
+        self.Group_3 += ["Uzbekistan"]
+        self.Group_3 += ["Venezuela"]
+        self.Group_3 += ["Vietnam"]
+
+        self.Group_4 = ["Austria"]
+        self.Group_4 += ["Belarus"]
+        self.Group_4 += ["Belgium"]
+        self.Group_4 += ["Bulgaria"]
+        self.Group_4 += ["Channel Islands"]
+        self.Group_4 += ["Croatia"]
+        self.Group_4 += ["Czechia"]
+        self.Group_4 += ["Denmark"]
+        self.Group_4 += ["Estonia"]
+        self.Group_4 += ["France"]
+        self.Group_4 += ["Georgia"]
+        self.Group_4 += ["Germany"]
+        self.Group_4 += ["Greece"]
+        self.Group_4 += ["Hungary"]
+        self.Group_4 += ["Italy"]
+        self.Group_4 += ["Latvia"]
+        self.Group_4 += ["Lithuania"]
+        self.Group_4 += ["Luxembourg"]
+        self.Group_4 += ["Russia"]
+        self.Group_4 += ["Spain"]
+        self.Group_4 += ["Sweden"]
+        self.Group_4 += ["Switzerland"]
+        self.Group_4 += ["Ukraine"]
+        self.Group_4 += ["United Kingdom"]
+        return
