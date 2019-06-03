@@ -176,3 +176,11 @@
 ./Chapter 18/Test_03_CO2_Emissions.py
 ./Chapter 18/Test_04_CO2_Emissions.py
 ./Chapter 18/Test_05_CO2_Accumulation.py
+./Chapter 19/Test_01_Population_World3.py
+./Chapter 19/Test_02_Population_World3.py
+./Chapter 19/Test_03_Population_World3.py
+./Chapter 19/Test_04_LEB_and_TFR.py
+./Chapter 19/Test_05_TFR_Change.py
+./Chapter 19/Test_06_LEB_Change.py
+./Chapter 19/Test_07_LEB_TFR_World_Data.py
+./Chapter 19/Test_08_LEB_TFR_World_Dat
