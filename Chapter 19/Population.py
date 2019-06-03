@@ -1,14 +1,14 @@
 from Utilities import *
 
-#
-# Describes population (as a Malthus-Velhurst equation solution AKA Shark Fin)
-# Peak_Year - peak population year
-# Peak_Value - peak population value
-# L_Slope - left slope
-# R_Slope - right slope
-# Additionaly creates three approximate UN solutions using linear combinations of Sigmoid and Hubbert functions 
-#
 class Population:
+    """
+    Describes population (as a Malthus-Velhurst equation solution AKA Shark Fin)
+    Peak_Year - peak population year
+    Peak_Value - peak population value
+    L_Slope - left slope
+    R_Slope - right slope
+    Additionaly creates three approximate UN solutions using linear combinations of Sigmoid and Hubbert functions 
+    """
     def __init__( self, Peak_Year=2057, Peak_Value=8000, L_Slope=0.028, R_Slope=0.080):
         self._Model0 = Linear_Combo()
         self._Model0.Wavelets += [Bathtub( -650,0.0025,2200,0.004,30,260,4250)]
@@ -83,16 +83,16 @@ class Population:
         tmp = self._Model0.Compute( t)
         return tmp
 
-#
-# Описывает популяцию матрицей Лесли с шагом 1 год
-# year0 - начальный год модели
-# population0 - общее население в начальном году
-# tfr - количество живых родов в среднем у женщщны
-# leb - ожидаемая продолжительность жизни при рождении
-# m2f - отношение мальчики:девочки при рождении
-#
 class Population_World3:
-    def __init__( self, year0=1890, population0=1530.880, tfr=5.4, leb=32, m2f=1.0):
+    """
+    Описывает популяцию матрицей Лесли с шагом 1 год
+    year0 - начальный год модели
+    population0 - общее население в начальном году
+    tfr - количество живых родов в среднем у женщщны
+    leb - ожидаемая продолжительность жизни при рождении
+    m2f - отношение мальчики:девочки при рождении
+    """
+    def __init__( self, year0=1890, population0=1530.880, tfr=5.4, leb=30, m2f=1.05):
         self.Year = year0
         self.Ages = np.linspace( 0,199, 200)
         self.Population_Male = np.ones( 200)
@@ -101,8 +101,8 @@ class Population_World3:
         self.Attrition_Model_Female = Bathtub( x0=5.0, s0=1.0, x1=80, s1=0.2, left=0.1, middle=0.01, right=0.20)
         self.Fertility_Model = Bathtub( x0=18.0, s0=1.0, x1=35, s1=0.4, left=0.0, middle=1, right=0)
         self.TFR = tfr
-        self.LEB_Male = leb
-        self.LEB_Female = leb
+        self.LEB_Male = leb-2
+        self.LEB_Female = leb+2
         self.M2F = m2f
         self.__expectancy__ = Linear_Combo()
         self.__expectancy__.Wavelets += [Hubbert( x0=-10.0, s0=0.064, s1=0.064, peak= 0.370)]
@@ -180,12 +180,12 @@ class Population_World3:
         self.Total = np.sum(self.Population_Male) + np.sum(self.Population_Female)
         return
 
-#
-# Рrovides a programmatic interface to the UN country statistical data and future estimates
-# The current statistics is from 1950 to 2017.
-# The future estimates are from 2018 till 2100.
-#
 class Entity_UN:
+    """
+    Рrovides a programmatic interface to the UN country statistical data and future estimates
+    The current statistics is from 1950 to 2017.
+    The future estimates are from 2018 till 2100.
+    """
     def __init__( self, time, estimate, low, med, high):
         estimate = estimate.strip()
         low = low.strip()
@@ -1014,4 +1014,49 @@ class UN_Fertility():
         self.Group_4 += ["Switzerland"]
         self.Group_4 += ["Ukraine"]
         self.Group_4 += ["United Kingdom"]
+
+        self.Regions = ["Africa"]
+        self.Regions += ["Asia"]
+        self.Regions += ["Caribbean"]
+        self.Regions += ["Central America"]
+        self.Regions += ["Central Asia"]
+        self.Regions += ["Eastern Africa"]
+        self.Regions += ["Eastern Asia"]
+        self.Regions += ["Eastern Europe"]
+        self.Regions += ["Europe"]
+        self.Regions += ["High-income countries"]
+        self.Regions += ["Latin America and the Caribbean"]
+        self.Regions += ["Least developed countries"]
+        self.Regions += ["Less developed regions, excluding China"]
+        self.Regions += ["Less developed regions, excluding least developed countries"]
+        self.Regions += ["Less developed regions"]
+        self.Regions += ["Low-income countries"]
+        self.Regions += ["Lower-middle-income countries"]
+        self.Regions += ["Middle Africa"]
+        self.Regions += ["Middle-income countries"]
+        self.Regions += ["More developed regions"]
+        self.Regions += ["Northern Africa"]
+        self.Regions += ["Northern America"]
+        self.Regions += ["Northern Europe"]
+        self.Regions += ["Oceania"]
+        self.Regions += ["South America"]
+        self.Regions += ["South-Central Asia"]
+        self.Regions += ["South-Eastern Asia"]
+        self.Regions += ["Southern Africa"]
+        self.Regions += ["Southern Asia"]
+        self.Regions += ["Southern Europe"]
+        self.Regions += ["Sub-Saharan Africa"]
+        self.Regions += ["Upper-middle-income countries"]
+        self.Regions += ["Western Africa"]
+        self.Regions += ["Western Asia"]
+        self.Regions += ["Western Europe"]
+        self.Regions += ["World"]
+
+        self.Areas = ["Africa"]
+        self.Areas += ["Asia"]
+        self.Areas += ["Europe"]
+        self.Areas += ["Latin America and the Caribbean"]
+        self.Areas += ["Northern America"]
+        self.Areas += ["Oceania"]
+        self.Areas += ["World"]
         return

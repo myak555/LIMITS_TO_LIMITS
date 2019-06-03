@@ -2,17 +2,24 @@ from Population import *
 
 P0 = Population()
 P1 = Population_World3()
+
 tfr = Linear_Combo()
 tfr.Wavelets += [Sigmoid( x0=1975.000, s0=0.07740, left=5.400, right=2.350)]
 tfr.Wavelets += [Hubbert( x0=1967.000, s0=0.29510, s1=0.24133, peak=0.631)]
 tfr.Wavelets += [Hubbert( x0=1987.000, s0=0.43047, s1=0.43047, peak=0.211)]
 tfr.Wavelets += [Hubbert( x0=1998.000, s0=0.53144, s1=0.31381, peak=-0.074)]
+tfr.Wavelets += [Hubbert( x0=1955.000, s0=1.00000, s1=1.00000, peak=-0.057)]
+tfr.Wavelets += [Hubbert( x0=1962.000, s0=1.00000, s1=1.00000, peak=0.048)]
+tfr.Wavelets += [Hubbert( x0=1978.000, s0=1.00000, s1=1.00000, peak=-0.030)]
+tfr.Wavelets += [Hubbert( x0=2014.000, s0=0.59049, s1=0.59049, peak=0.017)]
+tfr.Wavelets += [Hubbert( x0=1955, s0=0.2, s1=0.09, peak=0.5)]
+
 leb = Linear_Combo()
-leb.Wavelets += [Sigmoid( x0=1965.000, s0=0.03183, left=28.000, right=80.5)]
-leb.Wavelets += [Hubbert( x0=1960.656, s0=0.04239, s1=0.47351, peak=-1.814)]
-leb.Wavelets += [Hubbert( x0=1977.095, s0=0.20179, s1=0.18345, peak=1.174)]
-leb.Wavelets += [Hubbert( x0=1999.712, s0=0.34519, s1=0.34519, peak=-0.865)]
-leb.Wavelets += [Hubbert( x0=1948, s0=0.05, s1=1, peak=-7)]
+leb.Wavelets  = [Sigmoid( x0=1965.000, s0=0.03183, left=26.500, right=80.400)]
+leb.Wavelets += [Hubbert( x0=1975.000, s0=0.18500, s1=0.13500, peak=1.632)]
+leb.Wavelets += [Hubbert( x0=2000.000, s0=0.28000, s1=0.31000, peak=-1.000)]
+leb.Wavelets += [Hubbert( x0=1961.000, s0=0.15009, s1=0.47500, peak=-1.700)]
+leb.Wavelets += [Hubbert( x0=1948, s0=0.1, s1=1, peak=-7)]
 
 Year = []
 Total = []
@@ -22,6 +29,7 @@ LEB_Actual_Female = []
 LEB_Apparent_Male = []
 LEB_Apparent_Female = []
 Pops = []
+Male_Female_Ratio = []
 for i in range(1890, 2041):
     Year += [i]
     Total += [P1.Total]
@@ -30,10 +38,13 @@ for i in range(1890, 2041):
     LEB_Apparent_Male += [P1.LEB_Apparent_Male]
     LEB_Apparent_Female += [P1.LEB_Apparent_Female]
     TFR_Actual += [P1.TFR]
+    Male_Female_Ratio += [np.sum(P1.Population_Male)*100/np.sum(P1.Population_Female)]
     Pops += [(np.array(P1.Population_Male),np.array(P1.Population_Female))]
-    P1.Compute_Next_Year(tfr.Compute(i), leb_male=leb.Compute(i), leb_female=leb.Compute(i)+2)
+    P1.Compute_Next_Year(tfr.Compute(i), leb_male=leb.Compute(i)-2, leb_female=leb.Compute(i)+2)
 Year = np.array(Year)
 Total = np.array(Total)
+LEB_Actual_Male[0] = LEB_Actual_Male[1]
+LEB_Actual_Female[0] += LEB_Actual_Female[1]
 Absolute_Growth = np.array(Total)
 Absolute_Growth[1:] -= Total[:-1] 
 Absolute_Growth[0] = Absolute_Growth[1]
@@ -60,6 +71,7 @@ ax1.set_ylabel("миллионов")
 ax1.grid(True)
 ax1.legend(loc=0)
 
+#ax2.plot( Year, Male_Female_Ratio, "-", lw=2, color="m", label="Отношение мужч.:женщ.")
 ax2.plot( Year, LEB_Actual_Male, "-", lw=2, color="b", label="LEB, мужч.")
 ax2.plot( Year, LEB_Apparent_Male, "--", lw=2, color="b")
 ax2.plot( Year, LEB_Actual_Female, "-", lw=2, color="r", label="LEB, женщ.")
@@ -77,9 +89,9 @@ ax2.grid(True)
 ax2.legend(loc=0)
 
 ax3.plot( Year, TFR_Actual, "-", lw=2, color="g", label="TFR")
-ax3.plot( [1969, 1969], [1,4.9], "--", lw=1, color="k")
+ax3.plot( [1969, 1969], [1,5.5], "--", lw=1, color="k")
 ax3.text( 1970, 0.8, '"Одна семья - два ребёнка" в КНР')
-ax3.plot( [1979, 1979], [2,3.9], "--", lw=1, color="k")
+ax3.plot( [1979, 1979], [2,4.5], "--", lw=1, color="k")
 ax3.text( 1980, 1.8, '"Одна семья - один ребёнок" в КНР')
 ax3.plot( [2016, 2016], [2.5,3.5], "--", lw=1, color="k")
 ax3.text( 1980, 4.0, 'Возврат к "Одна семья - два ребёнка"')

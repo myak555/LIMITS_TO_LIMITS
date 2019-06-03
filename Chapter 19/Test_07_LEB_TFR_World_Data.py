@@ -72,20 +72,22 @@ def Plot_Group( dest, group_name, UNF, UNFGroup, Population, pop_scale):
         total_P[0], total_P[-1],
         total_TFR[0], total_TFR[-1],
         total_LEB[0], total_LEB[-1], total_P[-1]/total_P[0]))
-    f.write( "{:s}\t{:.1f}\t{:.1f}\t{:.1f}\t{:.1f}\t{:.1f}\t{:.1f}\t{:.2f}\n".format( "TOTAL Group",
-        total_P[0], total_P[-1],
-        total_TFR[0], total_TFR[-1],
-        total_LEB[0], total_LEB[-1], total_P[-1]/total_P[0]))
+    if group_name != "Regions_Combined":
+        f.write( "{:s}\t{:.1f}\t{:.1f}\t{:.1f}\t{:.1f}\t{:.1f}\t{:.1f}\t{:.2f}\n".format( "TOTAL Group",
+            total_P[0], total_P[-1],
+            total_TFR[0], total_TFR[-1],
+            total_LEB[0], total_LEB[-1], total_P[-1]/total_P[0]))
+        Plot_Country( dest, group_name, yt, total_TFR, yl, total_LEB, yp, total_P, pop_scale)
     f.close()
-    Plot_Country( dest, group_name, yt, total_TFR, yl, total_LEB, yp, total_P, pop_scale)
     return
 
 Population = Population_UN()
 UNF = UN_Fertility()
 Plot_Group( "./Exceptions/", "Exceptions_Combined", UNF, UNF.Exceptions, Population, 20)
 Plot_Group( "./Phase_2a/", "Phase_2a_Combined", UNF, UNF.Group_2a, Population, 20)
-#Plot_Group( "./Phase_2b/", "Phase_2b_Combined", UNF, UNF.Group_2b, Population, 10)
-#Plot_Group( "./Phase_3/", "Phase_3_Combined", UNF, UNF.Group_3, Population, 6)
-#Plot_Group( "./Phase_4/", "Phase_4_Combined", UNF, UNF.Group_4, Population, 2)
+Plot_Group( "./Phase_2b/", "Phase_2b_Combined", UNF, UNF.Group_2b, Population, 10)
+Plot_Group( "./Phase_3/", "Phase_3_Combined", UNF, UNF.Group_3, Population, 6)
+Plot_Group( "./Phase_4/", "Phase_4_Combined", UNF, UNF.Group_4, Population, 2)
+Plot_Group( "./Regions/", "Regions_Combined", UNF, UNF.Regions, Population, 10)
 
 #if InteractiveModeOn: plt.show(True)
