@@ -56,7 +56,7 @@ class Control_Curve:
         Calculates a numpy vector of given argument vector x, crops to min_y, max_y
         """
         y = self.GetVector( x)
-        return np.crop( y, min_y, max_y)
+        return np.clip( y, min_y, max_y)
     def GetVector_Normalized( self, x, norm=1.0):
         """
         Calculates a numpy vector of given argument vector x, performs normalization
@@ -437,7 +437,7 @@ class Markov_Chain:
         norm = np.sum( tmp)
         return tmp/norm
 
-def Delay():
+class Delay:
     """
     Defines a time delay feature, corresponding to World3 implementation
     """
@@ -452,11 +452,19 @@ def Delay():
         self.Chain = np.roll( self.Chain, 1)
         self.Chain[0] = val
         return
+    def Get_Value( self):
         """
         Retrieves a value from the chain
         """
-    def Get_Value( self):
         return self.Chain[-1]
+    def Get_Average( self, n=-1):
+        """
+        Retrieves an average value from the chain
+        n - number of years
+        """
+        l = len(self.Chain)
+        if n < 0 or n > l: return np.average(self.Chain) 
+        return np.average(self.Chain[l-n:])
 
 def Filter( x, start=-1, end=-1, matrix = [1,2,1]):
     """
@@ -505,6 +513,16 @@ def Decimate( x, n):
     for i in range( 0, len(tmp1), n):
         tmp2 += [tmp1[i]]
     return np.array( tmp2)
+
+def Normalize( x, n=1.0):
+    """
+    Performs the array sum normalization to n 
+    """
+    tmp = np.array(x)
+    norm = np.sum(x)
+    if norm == 0.0: return tmp
+    norm = n/norm
+    return tmp * norm
 
 def ArrayMerge( a, b):
     """
@@ -634,6 +652,7 @@ if __name__ == "__main__":
     help( FilterN)
     help( Cumulative)
     help( Decimate)
+    help( Normalize)
     help( ArrayMerge)
     help( Strings_To_Array)
     help( Load_Calibration)
