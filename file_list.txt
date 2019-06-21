@@ -183,4 +183,9 @@
 ./Chapter 19/Test_05_TFR_Change.py
 ./Chapter 19/Test_06_LEB_Change.py
 ./Chapter 19/Test_07_LEB_TFR_World_Data.py
-./Chapter 19/Test_08_LEB_TFR_World_Dat
+./Chapter 19/Test_08_LEB_TFR_World_Data.py
+./Chapter 19/Prediction_09_Carr-Sounders_Wilcox_UN_1968.py
+./Chapter 20/01_World3_Model.py
+./Chapter 20/World3_Model.py
+./Chapter 20/02_World3_Model_Sensitivity.py
+./Chapter 20/03_World3_Model_Stability.py
