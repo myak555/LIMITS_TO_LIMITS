@@ -30,6 +30,10 @@ def RunChapterExample( program_name, report_file):
     report_file.write( output)
     return False
 
+File_Mask = None
+if len(sys.argv) >= 2:
+    File_Mask = sys.argv[1]
+
 f1 = open( "file_list.txt")
 f2 = open( "test_report.txt", "wb")
 failCount = 0
@@ -38,7 +42,8 @@ for i in range( 1000):
     s = f1.readline()
     if len( s) <= 0: break
     s = s.strip()
-    if s.startswith("#"): continue 
+    if s.startswith("#"): continue
+    if File_Mask != None and not File_Mask in s: continue 
     if RunChapterExample( s, f2): failCount += 1
     totalCount += 1
 f1.close()
