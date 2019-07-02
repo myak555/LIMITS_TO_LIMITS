@@ -2,7 +2,7 @@ from Predictions import *
 
 T0 = np.linspace( 1900, 2100, 201)
 P0 = Population()
-R0 = Resources()
+R0 = Resources(Q0=1200e3)
 BAU_1972 = Interpolation_BAU_1972()
 BAU_1972.Solve(T0)
 

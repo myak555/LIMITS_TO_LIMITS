@@ -54,6 +54,9 @@
 #
 # CO2 expressed as a mole fraction in dry air, micromol/mol, abbreviated as ppm
 #
+# Note that NOAA ***INCREASED*** historical data in 2019. In this table, the ***ORIGINAL***
+# reports from 2018 are presented in order to keep NOAA from being dishonest.
+#
 Year,Mean,Unc
 1959,315.97,0.12
 1960,316.91,0.12
@@ -114,3 +117,4 @@ Year,Mean,Unc
 2015,400.83,0.12
 2016,404.21,0.12
 2017,406.53,0.12
+2018,408.52,0.12

@@ -35,9 +35,12 @@ ax2 = plt.subplot(gs[1])
 ax1.plot( BAU_2012_Realistic.Time, BAU_2012_Realistic.Food, "-", lw=2, color="g")
 ax1.plot( BAU_2012_Realistic.Time, BAU_2012_Realistic.Yield*1000, "-", lw=1, color="m")
 ax1.plot( BAU_2012_Realistic.Time, BAU_2012_Realistic.Land, "-", lw=1, color="k")
-ax1.errorbar( Calibration_Time, Calibration_Net, yerr=Calibration_Net*0.05, fmt='.', color="g", label="Продовольствие [млн тонн]")
-ax1.errorbar( Calibration_Time, Calibration_Net/Calibration_Land*1000, fmt='.', color="m", label="Урожайность [кг/га]")
-ax1.errorbar( Calibration_Time, Calibration_Land, yerr=Calibration_Land*0.03, fmt='.', color="k", label="Пашня [млн га]")
+ax1.errorbar( Calibration_Time, Calibration_Net, yerr=Calibration_Net*0.05, fmt='.', color="g",
+              label="Продовольствие [млн тонн]")
+ax1.errorbar( Calibration_Time, Calibration_Net/Calibration_Land*1000, fmt='.', color="m",
+              label="Урожайность [кг/га]")
+ax1.errorbar( Calibration_Time, Calibration_Land, yerr=Calibration_Land*0.03, fmt='.', color="k",
+              label="Пашня [млн га]")
 ax1.grid(True)
 ax1.set_ylabel("единиц")
 ax1.set_xlim( 1900, 2100)
@@ -46,8 +49,10 @@ ax1.legend(loc=0)
 
 ax2.set_title( "Душевое потребление")
 ax2.plot( BAU_1972.Time, BAU_1972.Food_PC*1000, "--", lw=1, color="r", label="World3 - 1972")
-ax2.plot( BAU_2012.Time, BAU_2012_Realistic.Food / BAU_2012.Population*1000, ".", lw=3, color="y", label="По демографической модели Рандерса - 2012")
-ax2.plot( BAU_2012.Time, Food_Per_Capita_UN, "-", lw=1, color="y", label="По демографической модели ООН - 2014")
+ax2.plot( BAU_2012.Time, BAU_2012_Realistic.Food / BAU_2012.Population*1000, ".", lw=3, color="y",
+          label="По демографической модели Рандерса - 2012")
+ax2.plot( BAU_2012.Time, Food_Per_Capita_UN, "-", lw=1, color="y",
+          label="По демографической модели ООН - 2019")
 ax2.set_ylabel("кг/год")
 ax2.set_xlabel("Годы")
 ax2.set_xlim( 1900, 2100)

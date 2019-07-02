@@ -18,10 +18,11 @@ for i in range( len( BAU_2012.Time)):
 fig = plt.figure( figsize=(15,10))
 plt.plot( BAU_1972.Time, BAU_1972.Population, "--", lw=1, color="b", label="World3 - 1972")
 plt.plot( BAU_2012.Time, BAU_2012.Population, "-", lw=3, color="b", label="Рандерс - 2012")
-plt.plot( T[125:], UN_Med[125:], "-", lw=2, color="g", label="Средняя оценка ООН - 2014")
+plt.plot( T[125:], UN_Med[125:], "-", lw=2, color="g", label="Средняя оценка ООН - 2019")
 plt.plot( T[100:], Difference[100:], "--", lw=2, color="r", label="Разница ООН-Рандерс")
 plt.errorbar( Time_Ran, Population_Ran, fmt='o', color="b")
-plt.errorbar( P0.Calibration_Year, P0.Calibration_Total, yerr=P0.Calibration_Yerr, fmt='.', color="k", label="Статистика ООН - 2014")
+plt.errorbar( P0.Calibration_Year, P0.Calibration_Total, yerr=P0.Calibration_Yerr, fmt='.', color="k",
+              label="Статистика ООН - 2019")
 
 plt.xlabel("Годы")
 plt.xlim( 1900, 2100)

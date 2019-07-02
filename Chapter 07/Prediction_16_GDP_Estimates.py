@@ -17,7 +17,7 @@ BAU_2012.Solve(T)
 BAU_2012.Correct_To_Actual( 1900, 2010)
 BAU_2012_Realistic = Interpolation_Realistic_2012()
 BAU_2012_Realistic.Solve(T)
-BAU_2012_Realistic.Correct_To_Actual( 1900, 2016)
+BAU_2012_Realistic.Correct_To_Actual( 1900, 2018)
 
 fig = plt.figure( figsize=(15,15))
 fig.suptitle( 'Экономика NewWorld 2012 г с ограничениями по ВИЭ и урожайности', fontsize=22)
