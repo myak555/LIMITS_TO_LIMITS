@@ -31,6 +31,5 @@ plt.annotate("Предсказание Э.Халла, 1861 г", xy=(1861, 75), x
 plt.annotate("Пик добычи 292 млн т в 1913 г", xy=(1913, 292), xytext=(1825,375), arrowprops=dict(facecolor='black', shrink=0.05))
 plt.annotate('Анеурин Беван: "Этот остров стоит на угле и окружён рыбой"', xy=(1945, 186), xytext=(1915,435), arrowprops=dict(facecolor='black', shrink=0.05))
 plt.annotate("Обвал рыболовства в Северном море", xy=(1992, 62), xytext=(1880,65), arrowprops=dict(facecolor='black', shrink=0.05))
-plt.annotate("Прекращена добыча угля", xy=(2016, 2), xytext=(2000,165), arrowprops=dict(facecolor='black', shrink=0.05))
 plt.savefig( "./Graphs/figure_08_09.png")
 if InteractiveModeOn: plt.show(True)
