@@ -1,6 +1,6 @@
 from Population import *
 
-yr = "2018"
+yr = "2019"
 BP_Year, BP_Coal = Load_Calibration( "./Data/07_BP_Coal.csv", ["Year", yr])
 BP_Year, BP_Oil = Load_Calibration( "./Data/01_BP_Oil_Liquids.csv", ["Year", yr])
 BP_Year, BP_Gas = Load_Calibration( "./Data/05_BP_Gas.csv", ["Year", yr])
@@ -32,8 +32,8 @@ ax1.bar( BP_Year, BP_Renewable, width=0.35, bottom=btm, yerr=(btm+BP_Renewable)*
 btm += BP_Renewable
 
 d0 = int( BP_Year[0] - Pop_Year[0])
-d1 = int( BP_Year[len(BP_Year)-1] - Pop_Year[len(Pop_Year)-1])
-if d1 > 0: pop = np.array( Population[d0:d1])
+d1 = int( BP_Year[-1] - Pop_Year[-1])
+if d1 < 0: pop = np.array( Population[d0:d1])
 else: pop = np.array( Population[d0:])
 tonn_per_year = btm / pop
 tonn_per_second = tonn_per_year / 365 / 24 /3600
@@ -45,14 +45,16 @@ tonn_per_year_hc_nuc = btm_hc_nuc / pop
 tonn_per_second_hc_nuc = tonn_per_year_hc_nuc / 365 / 24 /3600
 watt_hc_nuc = tonn_per_second_hc_nuc * 41e9
 
-for i in range( 30, len(pop)):
+for i in range( 30, int(yr)-1965):
     print( "{:g}\t{:>8.1f}\t{:>8.1f}".format(BP_Year[i], watt[i], watt_hc_nuc[i]))
 
-print( "Peak energy from coal, oil and gas: {:.1f} W/person in {:g}".format(np.max( watt_hc), 1965+np.argmax( watt_hc)))
-print( "Peak energy from coal, oil, gas and uranium: {:.1f} W/person in {:g}".format(np.max( watt_hc_nuc), 1965+np.argmax( watt_hc_nuc)))
-print( "Global peak energy, including Renewables: {:.1f} W/person in {:g}".format(np.max( watt), 1965+np.argmax( watt)))
-print( "Energy from coal, oil, gas and uranium in 2017: {:.1f} W/person".format( watt_hc_nuc[len(watt)-1]))
-print( "Total energy in 2017: {:.1f} W/person".format( watt[len(watt)-1]))
+print( "Peak energy from coal, oil and gas: {:.0f} W/person in {:g}".format(np.max( watt_hc), 1965+np.argmax( watt_hc)))
+print( "Peak energy from coal, oil, gas and uranium: {:.0f} W/person in {:g}".format(np.max( watt_hc_nuc), 1965+np.argmax( watt_hc_nuc)))
+print( "Global peak energy, including Renewables: {:.0f} W/person in {:g}".format(np.max( watt), 1965+np.argmax( watt)))
+j = int(np.where(BP_Year==2012)[0])
+print( "Total energy in {:g}: {:.0f} W/person".format( BP_Year[j], watt[j]))
+j = int(np.where(BP_Year==2015)[0])
+print( "Total energy in {:g}: {:.0f} W/person".format( BP_Year[j], watt[j]))
 
 ax1.set_xlim( 1965, 2020)
 ax1.set_ylim( 0, 15000)

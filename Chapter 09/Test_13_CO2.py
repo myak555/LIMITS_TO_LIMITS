@@ -58,7 +58,7 @@ class CO2_Scenario_3 (Control_Curve):
         return tmp
 
 T_CO2, CO2_Cement, CO2_Coal, CO2_Oil, CO2_Gas, CO2_Total, CO2_BP = Load_Calibration(
-    "CO2_Calibration.csv", ["Year", "Cement", "Coal", "Oil", "Gas", "Total", "BP_2018"])
+    "CO2_Calibration.csv", ["Year", "Cement", "Coal", "Oil", "Gas", "Total", "BP_2019"])
 
 T = np.linspace( 1800, 2100, 301)
 l_real = len( T_CO2)
@@ -78,15 +78,15 @@ for i in range( l_real):
     if 1990<t and t<=2000: S1 += CO2_Total[i] / 1000
     if 2000<t and t<=2010: S2  += CO2_Total[i] / 1000
     
-print( "Всего CO2: {:.1f} ± {:.1f} млрд т".format( S, S*0.15))
-print( "С 1991 по 2000 гг: {:.1f} ± {:.1f} млрд т".format( S1, S1*0.15))
-print( "С 2001 по 2010 гг: {:.1f} ± {:.1f} млрд т".format( S2, S2*0.15))
+print( "Total CO2: {:.1f} ± {:.1f} billion tonn".format( S, S*0.15))
+print( "From 1991 to 2000: {:.1f} ± {:.1f} billion tonn".format( S1, S1*0.15))
+print( "From 2001 to 2010: {:.1f} ± {:.1f} billion tonn".format( S2, S2*0.15))
 
 fig = plt.figure( figsize=(15,10))
 plt.plot( T, Scenario1, "--", lw=2, color='m', label="Сценарий #1: Обвал в 2014 г")
 plt.plot( T, Scenario2, "-", lw=2, color='m', label="Сценарий #2: Плато с 2016 г")
 plt.plot( T, Scenario3, "-.", lw=2, color='m', label="Сценарий #3: Рост до 2025 г")
-plt.plot( T_CO2[165:], CO2_BP[165:], "-", lw=3, color='g', label="Собственная оценка BP (1965-2017)")
+plt.plot( T_CO2[165:], CO2_BP[165:], "-", lw=3, color='g', label="Собственная оценка BP (1965-2018)")
 plt.errorbar( T_CO2, CO2_Cement, yerr=CO2_Cement*0.15, fmt='.', color="b", label="Производство цемента")
 plt.errorbar( T_CO2, CO2_Coal, yerr=CO2_Coal*0.15, fmt='.', color="k", label="Каменный уголь")
 plt.errorbar( T_CO2, CO2_Oil, yerr=CO2_Oil*0.15, fmt='.', color="g", label="Нефть и жидкости")
