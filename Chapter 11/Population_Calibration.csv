@@ -6,7 +6,7 @@
 # data composed from:
 # prior 1950: Wikipedia and other sources, interpolated
 # 1950-2015: UNESCO/UN Population division: POP/DB/WPP/Rev.2017/POP/F01-1
-# 2016-2017: extrapolation of the UN data using World Bank dataset
+# 2016-2019: extrapolation of the UN data using World Bank dataset
 # http://databank.worldbank.org/data/home.aspx
 #
 Year,Population,Yerror
@@ -206,5 +206,7 @@ Year,Population,Yerror
 2013,7213.4,108.2
 2014,7298.5,109.5
 2015,7383.0,110.7
-2016,7465.2,112.0
-2017,7556.1,113.3
+2016,7465.6,112.0
+2017,7548.3,113.2
+2018,7630.9,114.5
+2019,7713.5,115.7
