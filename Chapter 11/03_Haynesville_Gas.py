@@ -19,7 +19,7 @@ if metric:
     ax1.errorbar( YC, PC, yerr=PC*.05, fmt='o', color="k", label="Реальная EIA ({:.2f} 10¹² м³)".format(np.sum(PC)/1000))
     ax1.set_ylim( 0, 170)
     ax1.set_ylabel("Млрд м³ в год")
-    ax1.annotate("Пик добычи в январе 2012", xy=(2012, 72), xytext=(2025, 60), arrowprops=dict(facecolor='black', shrink=0.05))
+    #ax1.annotate("Пик добычи в январе 2012", xy=(2012, 72), xytext=(2025, 60), arrowprops=dict(facecolor='black', shrink=0.05))
 else:
     ax1.plot( Year, AEO2014, "--", lw=2, color='g', label="AEO-2014 ({:.1f} tcf)".format(np.sum(AEO2014[21:])*0.365))
     ax1.plot( Year, AEO2015, "--", lw=2, color='b', label="AEO-2015 ({:.1f} tcf)".format(np.sum(AEO2015[21:])*0.365))
