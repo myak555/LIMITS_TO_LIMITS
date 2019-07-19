@@ -1,4 +1,4 @@
-from Population import *
+from W3_Population_Test import *
 
 def Plot_Area( area, area_name, ax1, ax2, ax3, UNF, Population, col="k"):
     entity = Population.GetEntity( area)

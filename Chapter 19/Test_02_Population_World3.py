@@ -1,4 +1,4 @@
-from Predictions import *
+from W3_Population_Test import *
 
 P0 = Population()
 BAU_1972 = Interpolation_BAU_1972()

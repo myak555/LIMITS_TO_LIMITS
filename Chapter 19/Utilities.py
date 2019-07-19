@@ -37,7 +37,7 @@ class Control_Curve:
         """
         if self.__compute is None: return x
         else: return self.__compute.Compute( x)
-    def Compute_Cropped( self, x, min_y=0.0, max_y=1.0):
+    def Compute_Clipped( self, x, min_y=0.0, max_y=1.0):
         """
         Computation with cropping
         """
@@ -51,12 +51,12 @@ class Control_Curve:
         for i, vx in enumerate(x):
             y[i] = self.Compute( vx)
         return y
-    def GetVector_Cropped( self, x, min_y=0.0, max_y=1.0):
+    def GetVector_Clipped( self, x, min_y=0.0, max_y=1.0):
         """
         Calculates a numpy vector of given argument vector x, crops to min_y, max_y
         """
         y = self.GetVector( x)
-        return np.crop( y, min_y, max_y)
+        return np.clip( y, min_y, max_y)
     def GetVector_Normalized( self, x, norm=1.0):
         """
         Calculates a numpy vector of given argument vector x, performs normalization
@@ -437,7 +437,7 @@ class Markov_Chain:
         norm = np.sum( tmp)
         return tmp/norm
 
-def Delay():
+class Delay:
     """
     Defines a time delay feature, corresponding to World3 implementation
     """
@@ -452,11 +452,19 @@ def Delay():
         self.Chain = np.roll( self.Chain, 1)
         self.Chain[0] = val
         return
+    def Get_Value( self):
         """
         Retrieves a value from the chain
         """
-    def Get_Value( self):
         return self.Chain[-1]
+    def Get_Average( self, n=-1):
+        """
+        Retrieves an average value from the chain
+        n - number of years
+        """
+        l = len(self.Chain)
+        if n < 0 or n > l: return np.average(self.Chain) 
+        return np.average(self.Chain[l-n:])
 
 def Filter( x, start=-1, end=-1, matrix = [1,2,1]):
     """
@@ -541,24 +549,24 @@ def Strings_To_Array( Strings):
             continue
     return np.array( tmp)
 
-def Load_Calibration( file_Name, var_Names, separator=',', verbose=False):
+def Load_Calibration( file_Name, var_Names, separator=',', verbose=False, codepage="cp1251"):
     """
     Loads data from a CSV file
     """
-    dataStrings = Load_Calibration_Text( file_Name, var_Names, separator, verbose)
+    dataStrings = Load_Calibration_Text( file_Name, var_Names, separator, verbose, codepage)
     tmp = ()
     for ds in dataStrings:
         tmp_d = Strings_To_Array( ds)
         tmp += (tmp_d,)
     return tmp
 
-def Load_Calibration_Text( file_Name, var_Names, separator=',', verbose=False):
+def Load_Calibration_Text( file_Name, var_Names, separator=',', verbose=False, codepage="cp1251"):
     """
     Loads text data from a CSV file
     """
     if verbose:
         print( "Parsing file: {:s}".format( file_Name)) 
-    fin = open( file_Name, "rt", encoding="cp1252")
+    fin = open( file_Name, "rt", encoding=codepage)
     var_Found = []
     var_Indexes = []
     data_Arrays = []

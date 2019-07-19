@@ -1,4 +1,4 @@
-from Population import *
+from W3_Population_Test import *
 
 P0 = Population()
 P1 = Population_World3()

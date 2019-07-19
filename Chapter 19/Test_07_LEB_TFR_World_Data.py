@@ -1,4 +1,4 @@
-from Population import *
+from W3_Population_Test import *
 
 def Plot_Country( dest, country, yt, tfr, yl, leb, yp, pop, pop_scale, limits=(1950,2015)):
     fig = plt.figure( figsize=(15,15))

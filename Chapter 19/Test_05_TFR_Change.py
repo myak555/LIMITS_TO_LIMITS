@@ -1,4 +1,4 @@
-from Population import *
+from W3_Population_Test import *
 
 class Country():
     def __init__( self, name, year, tfr1=6, tfr2=4, leb=35):
