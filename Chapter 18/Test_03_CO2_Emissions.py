@@ -33,7 +33,7 @@ YearRCP, RCP_8_5, RCP_6_0, RCP_4_5, RCP_2_6 = Load_Calibration(
 
 # Resources extraction
 YRes, Res = Load_Calibration( "Resources_Calibration.csv", ["Year", "Total"])
-Res_PC = Res / Pop.Calibration_Total[10:]
+Res_PC = Res / Pop.Calibration_Total[10:-1]
 Res /= 1000
 Randers2012 = Interpolation_BAU_2012()
 Randers2012.Solve( np.linspace( 2000, 2200, 201))

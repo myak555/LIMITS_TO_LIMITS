@@ -24,7 +24,7 @@ YIPCC, BaU, FAR_B, FAR_C, FAR_D, IS92a, IS92b, IS92c, IS92d, IS92e, IS92f= Load_
 
 # Resources extraction
 YRes, Res = Load_Calibration( "Resources_Calibration.csv", ["Year", "Total"])
-Res_PC = Res / Pop.Calibration_Total[10:]
+Res_PC = Res / Pop.Calibration_Total[10:-1]
 Res /= 1000
 LTG72 = Interpolation_BAU_1972()
 LTG72.Solve( np.linspace( 1970, 2100, 131))
