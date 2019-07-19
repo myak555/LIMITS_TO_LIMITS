@@ -269,8 +269,8 @@ ax1 = plt.subplot(gs[0])
 ax3 = plt.subplot(gs[1])
 
 ax1.set_title("Население и производство")
-Energy_Calibration = R.Calibration_Total+E.Production_Bio[90:218]+E.Production_Animal[90:218]
-Energy_Calibration_Error = R.Calibration_Total*0.1 + (E.Production_Bio[90:218]+E.Production_Animal[90:218])*0.25
+Energy_Calibration = R.Calibration_Total+E.Production_Bio[90:219]+E.Production_Animal[90:219]
+Energy_Calibration_Error = R.Calibration_Total*0.1 + (E.Production_Bio[90:219]+E.Production_Animal[90:219])*0.25
 ax1.errorbar( R.Calibration_Year, Energy_Calibration, yerr=Energy_Calibration_Error, fmt=".", color="m")
 ax1.plot( Year, E.Pop, "-.", lw=2, color="b", label="Население (модель ООН)")
 ax1.plot( Year, E.Production_Animal, "-", lw=1, color="y", label="Мускульная сила животных")
