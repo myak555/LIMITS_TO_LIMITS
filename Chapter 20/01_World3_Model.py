@@ -43,10 +43,10 @@ class W3_Demographics:
             self.Attrition_Model_Female.Left = attr
             self.Attrition_Model_Female.Middle = attr * 0.1
             return
-        self.Attrition_Model_Male.Left = self.__expectancy__.Compute_Cropped(
+        self.Attrition_Model_Male.Left = self.__expectancy__.Compute_Clipped(
             Limit( self.LEB_Male, 5, 85), min_y=0.001, max_y=0.300)
         self.Attrition_Model_Male.Middle = self.Attrition_Model_Male.Left * 0.1
-        self.Attrition_Model_Female.Left = self.__expectancy__.Compute_Cropped(
+        self.Attrition_Model_Female.Left = self.__expectancy__.Compute_Clipped(
             Limit( self.LEB_Female, 5, 85), min_y=0.001, max_y=0.300)
         self.Attrition_Model_Female.Middle = self.Attrition_Model_Female.Left * 0.1
         return

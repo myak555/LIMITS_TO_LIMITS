@@ -54,10 +54,10 @@ class W3_Demographics:
             self.Attrition_Model_Female.Left = 1.0
             self.Attrition_Model_Female.Middle = 0.5
             return
-        self.Attrition_Model_Male.Left = self.__expectancy__.Compute_Cropped(
+        self.Attrition_Model_Male.Left = self.__expectancy__.Compute_Clipped(
             Limit( self.LEB_Male, 5, 85), min_y=0.001, max_y=0.300)
         self.Attrition_Model_Male.Middle = self.Attrition_Model_Male.Left * 0.1
-        self.Attrition_Model_Female.Left = self.__expectancy__.Compute_Cropped(
+        self.Attrition_Model_Female.Left = self.__expectancy__.Compute_Clipped(
             Limit( self.LEB_Female, 5, 85), min_y=0.001, max_y=0.300)
         self.Attrition_Model_Female.Middle = self.Attrition_Model_Female.Left * 0.1
         return
@@ -135,7 +135,7 @@ class W3_Demographics:
         gs = plt.GridSpec(1, 1) 
         ax1 = plt.subplot(gs[0])
         leb = np.linspace( 0, 100, 101)
-        a = self.__expectancy__.GetVector_Cropped( leb, 0.001, 0.3)
+        a = self.__expectancy__.GetVector_Clipped( leb, 0.001, 0.3)
         ax1.plot( leb, a, "-", lw=2, color= "r")
         ax1.set_xlim( 0, 100)
         #ax1.set_ylim( 0, 0.25)
