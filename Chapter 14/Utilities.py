@@ -531,24 +531,24 @@ def Strings_To_Array( Strings):
             continue
     return np.array( tmp)
 
-def Load_Calibration( file_Name, var_Names, separator=',', verbose=False):
+def Load_Calibration( file_Name, var_Names, separator=',', verbose=False, codepage="cp1251"):
     """
     Loads data from a CSV file
     """
-    dataStrings = Load_Calibration_Text( file_Name, var_Names, separator, verbose)
+    dataStrings = Load_Calibration_Text( file_Name, var_Names, separator, verbose, codepage)
     tmp = ()
     for ds in dataStrings:
         tmp_d = Strings_To_Array( ds)
         tmp += (tmp_d,)
     return tmp
 
-def Load_Calibration_Text( file_Name, var_Names, separator=',', verbose=False):
+def Load_Calibration_Text( file_Name, var_Names, separator=',', verbose=False, codepage="cp1251"):
     """
     Loads text data from a CSV file
     """
     if verbose:
         print( "Parsing file: {:s}".format( file_Name)) 
-    fin = open( file_Name, "rt", encoding="cp1252")
+    fin = open( file_Name, "rt", encoding=codepage)
     var_Found = []
     var_Indexes = []
     data_Arrays = []
