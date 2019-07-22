@@ -75,6 +75,9 @@ class Population:
         """
         self.Solution_Year = t0
         self.Solution_Total = self._Model0.GetVector( t0)
+        self.Solution_UN_Low = self.UN_Low.GetVector( t0)
+        self.Solution_UN_Medium = self.UN_Medium.GetVector( t0)
+        self.Solution_UN_High = self.UN_High.GetVector( t0)
         return self.Solution_Total
     def Compute( self, t):
         """
@@ -1391,6 +1394,323 @@ class Population_UN:
             if e.Code != "NONAME" and e.Code.lower() == n: return e
         return Entity_UN(self.Country_Dictionary, self.Time, "0\t" + name + " not found","0\tnull","0\tnull","0\tnull")
 
+class Country_Fertility():
+    """
+    Describes fertility in single country, based on the UN data
+    """
+    def __init__( self, name, year, tfr, leb):
+        self.Name = name
+        self.Data = {year: (float(year), float(tfr), float(leb))}
+        #print("{:s} created".format( self.Name))
+        return
+    def Add_TFR( self, year, tfr):
+        if year in self.Data:
+            d = self.Data[year]
+            self.Data[year] = (float(year), float(tfr), d[2])
+            return
+        self.Data[year] = (float(year), float(tfr), -999.0)        
+        return
+    def Add_LEB( self, year, leb):
+        if year in self.Data:
+            d = self.Data[year]
+            self.Data[year] = (float(year), d[1], float(leb))
+            return
+        self.Data[year] = (float(year), -999.0, float(leb))        
+        return
+    def Get_TFR_vs_Year( self):
+        tmp_y = []
+        tmp_t = []
+        for i, v in self.Data.items():
+            if v[1] < 0: continue
+            tmp_y += [v[0]]
+            tmp_t += [v[1]]
+        return np.array(tmp_y), np.array(tmp_t)
+    def Get_LEB_vs_Year( self, lim=1950):
+        tmp_y = []
+        tmp_l = []
+        for i, v in self.Data.items():
+            if v[2] < 0: continue
+            if v[0] < lim: continue
+            tmp_y += [v[0]]
+            tmp_l += [v[2]]
+        return np.array(tmp_y), np.array(tmp_l)
+    def Get_TFR_vs_LEB( self):
+        tmp_t = []
+        tmp_l = []
+        for i, v in self.Data.items():
+            if v[1] < 0: continue
+            if v[2] < 0: continue
+            tmp_t += [v[1]]
+            tmp_l += [v[2]]
+        return np.array(tmp_l), np.array(tmp_t)
+
+class UN_Fertility():
+    """
+    Programmatic access to the UN fertility data
+    """
+    def __init__( self):
+        self.Countries = {}
+        country, year, leb = Load_Calibration_Text("./Data/UN_LEB_Estimates.csv", ["Entity","Year","LEB"], "\t")
+        for i, c in enumerate(country):
+            if not c in self.Countries:
+                self.Countries[c] = Country_Fertility( c, year[i], -999.0, leb[i])
+                continue
+            self.Countries[c].Add_LEB( year[i], leb[i])
+        country, year, tfr = Load_Calibration_Text("./Data/UN_TFR_Estimates.csv", ["Entity","Year","TFR"], "\t")
+        for i, c in enumerate(country):
+            if not c in self.Countries:
+                self.Countries[c] = Country_Fertility( c, year[i], tfr[i], -999.0)
+                continue
+            self.Countries[c].Add_TFR( year[i], tfr[i])
+        self.Exceptions = ["French Guiana",
+            "Israel",
+            "Kazakhstan",
+            "Kyrgyzstan",
+            "Mongolia",
+            "Niger",
+            "Nigeria",
+            "Syria",
+            "Tajikistan",
+            "Timor-Leste",
+            "Turkmenistan",
+            "Zimbabwe"]
+        self.Group_2a = ["Afghanistan",
+            "Angola",
+            "Bangladesh",
+            "Benin",
+            "Bhutan",
+            "Burkina Faso",
+            "Burundi",
+            "Cameroon",
+            "Central African Republic",
+            "Chad",
+            "Comoros",
+            "Congo",
+            "Cote d'Ivoire",
+            "Democratic Republic of the Congo",
+            "Djibouti",
+            "Egypt",
+            "Equatorial Guinea",
+            "Eritrea",
+            "Ethiopia",
+            "Gabon",
+            "Gambia",
+            "Ghana",
+            "Guinea-Bissau",
+            "Guinea",
+            "Haiti",
+            "Iraq",
+            "Jordan",
+            "Kenya",
+            "Kiribati",
+            "Laos",
+            "Lesotho",
+            "Liberia",
+            "Madagascar",
+            "Malawi",
+            "Mali",
+            "Mauritania",
+            "Mayotte",
+            "Melanesia",
+            "Micronesia (Fed. States of)",
+            "Micronesia",
+            "Mozambique",
+            "Namibia",
+            "Pakistan",
+            "Palestine",
+            "Papua New Guinea",
+            "Philippines",
+            "Rwanda",
+            "Samoa",
+            "Sao Tome and Principe",
+            "Senegal",
+            "Sierra Leone",
+            "Solomon Islands",
+            "Somalia",
+            "South Sudan",
+            "Sudan",
+            "Swaziland",
+            "Tanzania",
+            "Togo",
+            "Tonga",
+            "Uganda",
+            "Vanuatu",
+            "Yemen",
+            "Zambia"]
+        self.Group_2b = ["Algeria",
+            "Bahrain",
+            "Belize",
+            "Bolivia",
+            "Botswana",
+            "Cabo Verde",
+            "Cambodia",
+            "Colombia",
+            "Dominican Republic",
+            "Ecuador",
+            "El Salvador",
+            "Fiji",
+            "French Polynesia",
+            "Guatemala",
+            "Honduras",
+            "India",
+            "Indonesia",
+            "Iran",
+            "Libya",
+            "Maldives",
+            "Mauritius",
+            "Mexico",
+            "Morocco",
+            "Myanmar",
+            "Nepal",
+            "New Caledonia",
+            "Nicaragua",
+            "Oman",
+            "Panama",
+            "Paraguay",
+            "Peru",
+            "Polynesia",
+            "Reunion",
+            "Saint Vincent and the Grenadines",
+            "Saudi Arabia",
+            "South Africa",
+            "Suriname",
+            "Thailand",
+            "Tunisia",
+            "Turkey",
+            "United Arab Emirates",
+            "Western Sahara"]
+        self.Group_3 = ["Albania",
+            "Antigua and Barbuda",
+            "Argentina",
+            "Armenia",
+            "Aruba",
+            "Australia",
+            "Azerbaijan",
+            "Bahamas",
+            "Barbados",
+            "Bosnia and Herzegovina",
+            "Brazil",
+            "Brunei",
+            "Canada",
+            "Chile",
+            "China, Hong Kong SAR",
+            "China, Macao SAR",
+            "China",
+            "Costa Rica",
+            "Cuba",
+            "Curacao",
+            "Cyprus",
+            "Dem. People's Republic of Korea",
+            "Finland",
+            "Grenada",
+            "Guadeloupe",
+            "Guam",
+            "Guyana",
+            "Iceland",
+            "Ireland",
+            "Jamaica",
+            "Japan",
+            "Kuwait",
+            "Lebanon",
+            "Macedonia",
+            "Malaysia",
+            "Malta",
+            "Martinique",
+            "Moldova",
+            "Montenegro",
+            "Netherlands",
+            "New Zealand",
+            "Norway",
+            "Poland",
+            "Portugal",
+            "Puerto Rico",
+            "Qatar",
+            "Republic of Korea",
+            "Romania",
+            "Saint Lucia",
+            "Serbia",
+            "Seychelles",
+            "Singapore",
+            "Slovakia",
+            "Slovenia",
+            "Sri Lanka",
+            "Taiwan",
+            "Trinidad and Tobago",
+            "United States of America",
+            "United States Virgin Islands",
+            "Uruguay",
+            "Uzbekistan",
+            "Venezuela",
+            "Vietnam"]
+        self.Group_4 = ["Austria",
+            "Belarus",
+            "Belgium",
+            "Bulgaria",
+            "Channel Islands",
+            "Croatia",
+            "Czechia",
+            "Denmark",
+            "Estonia",
+            "France",
+            "Georgia",
+            "Germany",
+            "Greece",
+            "Hungary",
+            "Italy",
+            "Latvia",
+            "Lithuania",
+            "Luxembourg",
+            "Russia",
+            "Spain",
+            "Sweden",
+            "Switzerland",
+            "Ukraine",
+            "United Kingdom"]
+        self.Regions = ["Africa",
+            "Asia",
+            "Caribbean",
+            "Central America",
+            "Central Asia",
+            "Eastern Africa",
+            "Eastern Asia",
+            "Eastern Europe",
+            "Europe",
+            "High-income countries",
+            "Latin America and the Caribbean",
+            "Least developed countries",
+            "Less developed regions, excluding China",
+            "Less developed regions, excluding least developed countries",
+            "Less developed regions",
+            "Low-income countries",
+            "Lower-middle-income countries",
+            "Middle Africa",
+            "Middle-income countries",
+            "More developed regions",
+            "Northern Africa",
+            "Northern America",
+            "Northern Europe",
+            "Oceania",
+            "South America",
+            "South-Central Asia",
+            "South-Eastern Asia",
+            "Southern Africa",
+            "Southern Asia",
+            "Southern Europe",
+            "Sub-Saharan Africa",
+            "Upper-middle-income countries",
+            "Western Africa",
+            "Western Asia",
+            "Western Europe",
+            "World"]
+        self.Areas = ["Africa",
+            "Asia",
+            "Europe",
+            "Latin America and the Caribbean",
+            "Northern America",
+            "Oceania",
+            "World"]
+        return
+
 #
 # Test code
 #
@@ -1468,4 +1788,3 @@ if __name__ == "__main__":
         pun.GetEntity("Uzbekistan").Population[y],
         pun.GetEntity("ASIA").Population[y]+
         pun.GetEntity("OCEANIA").Population[y]))
-   
