@@ -20,7 +20,7 @@ class Population:
         self._Model0.Wavelets += [Hubbert( 1930, 0.2, 0.2, -50)]
         self.Name = "PyWorld 2017"
         self.Calibration_Year, self.Calibration_Total, self.Calibration_Yerr = Load_Calibration(
-            "Population_Calibration.csv", ["Year", "Population", "Yerror"])
+            "./Global/Population_Calibration.csv", ["Year", "Population", "Yerror"])
         self.UN_Low = Linear_Combo()
         self.UN_Low.Name = "UN Low Case"
         self.UN_Low.Wavelets += [ Sigmoid( x0=2002.0, s0=0.03300, left=980.000, right=11600.000, shift=0.000)]
@@ -65,10 +65,10 @@ class Population:
         return
     def LoadHistorical(self):
         """
-        Loads historical data from file Earth_Historical.csv
+        Loads historical data from file ./Global/Earth_Historical.csv
         """
         self.Historical_Year, self.Historical_Total, self.Historical_Yerr = Load_Calibration(
-            "Earth_Historical.csv", ["Year", "Population", "Yerror"])
+            "./Global/Earth_Historical.csv", ["Year", "Population", "Yerror"])
     def Solve( self, t0):
         """
         Creates the solution vector
@@ -1307,10 +1307,10 @@ class Population_UN:
     """
     def __init__( self):
         self.Country_Dictionary = Country_Dictionary()
-        f0 = open("./Data/UN_RAW_1950_2015.txt", encoding="cp1251")
-        f1 = open("./Data/UN_LOW_2015_2100.txt", encoding="cp1251")
-        f2 = open("./Data/UN_MED_2015_2100.txt", encoding="cp1251")
-        f3 = open("./Data/UN_HIG_2015_2100.txt", encoding="cp1251")
+        f0 = open("./Global/UN_RAW_1950_2015.txt", encoding="cp1251")
+        f1 = open("./Global/UN_LOW_2015_2100.txt", encoding="cp1251")
+        f2 = open("./Global/UN_MED_2015_2100.txt", encoding="cp1251")
+        f3 = open("./Global/UN_HIG_2015_2100.txt", encoding="cp1251")
         f0.readline()
         f1.readline()
         f2.readline()
@@ -1342,7 +1342,7 @@ class Population_UN:
             if self.Country_Dictionary.is_Aggregate(e.Name): continue
             print( e.Name)
         self.Country_Codes, self.Short_Names, self.Long_Names, Area_Land_Sea, Area_Land = Load_Calibration_Text(
-            "./Data/Country_Area.txt", ["Code", "Short_Name", "Country_Name", "Land_and_Sea", "Land"], "\t")
+            "./Global/Country_Area.txt", ["Code", "Short_Name", "Country_Name", "Land_and_Sea", "Land"], "\t")
         Area_Land_Sea = Strings_To_Array(Area_Land_Sea)
         Area_Land = Strings_To_Array(Area_Land)
         for i, longName in enumerate( self.Long_Names):
@@ -1450,13 +1450,13 @@ class UN_Fertility():
     """
     def __init__( self):
         self.Countries = {}
-        country, year, leb = Load_Calibration_Text("./Data/UN_LEB_Estimates.csv", ["Entity","Year","LEB"], "\t")
+        country, year, leb = Load_Calibration_Text("./Global/UN_LEB_Estimates.csv", ["Entity","Year","LEB"], "\t")
         for i, c in enumerate(country):
             if not c in self.Countries:
                 self.Countries[c] = Country_Fertility( c, year[i], -999.0, leb[i])
                 continue
             self.Countries[c].Add_LEB( year[i], leb[i])
-        country, year, tfr = Load_Calibration_Text("./Data/UN_TFR_Estimates.csv", ["Entity","Year","TFR"], "\t")
+        country, year, tfr = Load_Calibration_Text("./Global/UN_TFR_Estimates.csv", ["Entity","Year","TFR"], "\t")
         for i, c in enumerate(country):
             if not c in self.Countries:
                 self.Countries[c] = Country_Fertility( c, year[i], tfr[i], -999.0)

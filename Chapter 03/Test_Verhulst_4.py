@@ -13,7 +13,7 @@ class Population_Exponent:
         self.A = a
         self.B = b
         self.Calibration_Year, self.Calibration_Total, self.Calibration_Yerr = Load_Calibration(
-            "Population_Calibration.csv", ["Year", "Population", "Yerror"])
+            "./Global/Population_Calibration.csv", ["Year", "Population", "Yerror"])
         return
     def dP_dt( self, t):
         tmp = self.Total
@@ -47,7 +47,7 @@ class Population_Velhurst:
         self.O_right = o_right
         self.Midpoint = o_year
         self.Calibration_Year, self.Calibration_Total, self.Calibration_Yerr = Load_Calibration(
-            "Population_Calibration.csv", ["Year", "Population", "Yerror"])
+            "./Global/Population_Calibration.csv", ["Year", "Population", "Yerror"])
         return
     def dP_dt( self, t):
         tmp = self.Total

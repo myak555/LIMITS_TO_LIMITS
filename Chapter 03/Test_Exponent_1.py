@@ -1,7 +1,6 @@
-from Utilities import *
+from Population import *
 
-Ta,Pa,Da = Load_Calibration( "Population_Calibration.csv", ["Year", "Population","Yerror"])
-
+Po = Population()
 T  = np.linspace(1800, 2200, 401)
 P = []
 
@@ -20,7 +19,7 @@ for t in T:
 
 fig = plt.figure( figsize=(15,10))
 plt.plot( T, P, "-", lw=1,  color='b', label="Население (экспонента)")
-plt.errorbar( Ta, Pa, yerr=Da, fmt='.', color='b', label="Население (реальное)")
+plt.errorbar( Po.Calibration_Year, Po.Calibration_Total, yerr=Po.Calibration_Yerr, fmt='.', color='b', label="Население (реальное)")
 plt.xlabel("Годы")
 plt.xlim( 1820, 2100)
 plt.ylabel("миллионов человек")
