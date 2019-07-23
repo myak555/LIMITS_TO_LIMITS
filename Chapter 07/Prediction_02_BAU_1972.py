@@ -44,7 +44,7 @@ ax3.set_xlim( 1900, 2100)
 ax3.set_ylim( 0, 50)
 ax3.legend(loc=0)
 
-ML_Year, ML_CO2 = Load_Calibration("./Data/CO2_Mauna_Loa.csv", ["Year", "Mean"])
+ML_Year, ML_CO2 = Load_Calibration("../Global Data/CO2_Mauna_Loa.csv", ["Year", "Mean"])
 ax4.plot( T0, BAU_1972.CO2/1000, "-", lw=2, color="y", label="World3")
 ax4.errorbar( ML_Year, ML_CO2/1e3, fmt='.', color="k", label="Статистика (Мауна Лоа)")
 ax4.set_title( "Уровень СО₂ (ppb)")

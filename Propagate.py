@@ -2,6 +2,7 @@ import os
 import sys
 import shutil
 
+
 def GetSource():
     if len( sys.argv) <= 2:
         print("Usage:")
@@ -28,6 +29,7 @@ def GetSource():
     print("Propagating {:s}:".format(Full_Name))
     return Full_Name, Source_File, Start_Folder
 
+
 def CopyToAllFolders(Source_Name, Destination_Name, Start_Folder):
     if Source_Name is None: return
     if Destination_Name is None: return
@@ -44,6 +46,7 @@ def CopyToAllFolders(Source_Name, Destination_Name, Start_Folder):
             print("   {:s}".format(dest_name))
         except:
             print(" * {:s} - failed to copy".format(dest_name))
+
 
 a, b, n = GetSource()
 CopyToAllFolders( a, b, n)

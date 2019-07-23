@@ -40,3 +40,5 @@
 #    cd PDF
 #    Merge_Book
 #
+# Anaconda installation (any platform). Tested on Python 3.7.3 with Spyder 3.3.3:
+#   Simply select any Python file in the Spyder File Explorer and hit "run".

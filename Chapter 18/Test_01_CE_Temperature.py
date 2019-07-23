@@ -7,8 +7,8 @@ Y_CET, T_CET, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec = Load_
     "./Data/Central_England_Temperature_Dataset.txt",
     ["Year", "YEAR_Average", "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"],
     separator='\t')
-Y_LD, CO2_LD = Load_Calibration("./Data/Ice_Core_Law_Dome.csv", ["Year", "Total"])
-Y_ML, CO2_ML = Load_Calibration("./Data/CO2_Mauna_Loa.csv", ["Year", "Mean"])
+Y_LD, CO2_LD = Load_Calibration("../Global Data/Ice_Core_Law_Dome.csv", ["Year", "Total"])
+Y_ML, CO2_ML = Load_Calibration("../Global Data/CO2_Mauna_Loa.csv", ["Year", "Mean"])
 
 baseline = np.average(T_CET[:1750-1659])
 dT_CET = T_CET - baseline

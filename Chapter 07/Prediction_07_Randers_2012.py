@@ -8,10 +8,10 @@ Time_Ran, GDP_Ran, CO2_Ran, Prod_Ran = Load_Calibration(
     "./Data/Randers_2052_World.csv",
     ["Year", "GDP", "CO2", "Labor_Prod"])
 Time_GDP, GDP_Cal, Pop_GDP, GDPPC_Cal = Load_Calibration(
-    "./Data/GDP_World_Bank.csv",
+    "../Global Data/GDP_World_Bank.csv",
     ["Year", "GDP_IA", "Population", "GDP_per_capita"])
 Time_CO2, CO2_Cal = Load_Calibration(
-    "./Data/CO2_Mauna_Loa.csv", ["Year", "Mean"])
+    "../Global Data/CO2_Mauna_Loa.csv", ["Year", "Mean"])
 
 BAU_1972 = Interpolation_BAU_1972()
 BAU_1972.Solve(T)

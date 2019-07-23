@@ -325,7 +325,7 @@ class Interpolation_BAU_2012( _Interpolation):
         self.Yield = self.Food / self.Land
         self.Food_PC = self.Food / self.Population
 
-        self.GDP = self._Shift_To_Actual( self.GDP, "./Data/GDP_World_Bank.csv", "Year", "GDP_IA", t0, t1)
+        self.GDP = self._Shift_To_Actual( self.GDP, "../Global Data/GDP_World_Bank.csv", "Year", "GDP_IA", t0, t1)
         self.GDP_PC = self.GDP / self.Population * 1000000 / 365
         return
 
@@ -422,7 +422,7 @@ class Interpolation_Realistic_2012( _Interpolation):
         self.Yield = self.Food / self.Land
         self.Food_PC = self.Food / self.Population
 
-        self.GDP = self._Shift_To_Actual( self.GDP, "./Data/GDP_World_Bank.csv", "Year", "GDP_IA", t0, t1)
+        self.GDP = self._Shift_To_Actual( self.GDP, "../Global Data/GDP_World_Bank.csv", "Year", "GDP_IA", t0, t1)
         self.GDP_PC = self.GDP / self.Population * 1000000 / 365
         return
 
@@ -526,12 +526,12 @@ class Interpolation_Realistic_2018( _Interpolation):
         self.Yield = self.Food / self.Land
         self.Food_PC = self.Food / self.Population
 
-        self.GDP = self._Shift_To_Actual( self.GDP, "./Data/GDP_World_Bank.csv", "Year", "GDP_IA", t0, t1)
+        self.GDP = self._Shift_To_Actual( self.GDP, "../Global Data/GDP_World_Bank.csv", "Year", "GDP_IA", t0, t1)
         self.GDP_PC = self.GDP / self.Population * 1000000 / 365
         self.GDP_PC = self.GDP / self.Population * 1000000 / 365
 
-        self.CO2 = self._Shift_To_Actual( self.CO2, "./Data/Ice_Core_Law_Dome.csv", "Year", "Total", t0, t1)
-        self.CO2 = self._Shift_To_Actual( self.CO2, "./Data/CO2_Mauna_Loa.csv", "Year", "Mean", t0, t1)
+        self.CO2 = self._Shift_To_Actual( self.CO2, "../Global Data/Ice_Core_Law_Dome.csv", "Year", "Total", t0, t1)
+        self.CO2 = self._Shift_To_Actual( self.CO2, "../Global Data/CO2_Mauna_Loa.csv", "Year", "Mean", t0, t1)
         self.CO2_Emissions = self._Shift_To_Actual( self.CO2_Emissions, "../Global Data/CO2_Calibration.csv", "Year", "Total", t0, t1)
         return
 
