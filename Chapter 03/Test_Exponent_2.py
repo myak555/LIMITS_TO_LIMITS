@@ -13,7 +13,7 @@ class Population:
         self.A = a
         self.B = b
         self.Calibration_Year, self.Calibration_Total, self.Calibration_Yerr = Load_Calibration(
-            "./Global/Population_Calibration.csv", ["Year", "Population", "Yerror"])
+            "../Global Data/Population_Calibration.csv", ["Year", "Population", "Yerror"])
         return
     def dP_dt( self, t):
         tmp = self.Total

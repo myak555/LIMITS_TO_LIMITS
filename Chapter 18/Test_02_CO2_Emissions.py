@@ -13,7 +13,7 @@ for i in range(155,len(Pop_UN_Medium), 5):
     Pop_UN_Medium5 += [Pop_UN_Medium[i]/1000]
 
 # CO2 emissions
-YCO2, ECO2 = Load_Calibration( "CO2_Calibration.csv", ["Year", "Total"])
+YCO2, ECO2 = Load_Calibration( "../Global Data/CO2_Calibration.csv", ["Year", "Total"])
 ECO2 /= 3660
 YCO2 = YCO2[30:]
 ECO2 = ECO2[30:]
@@ -23,7 +23,7 @@ YIPCC, BaU, FAR_B, FAR_C, FAR_D, IS92a, IS92b, IS92c, IS92d, IS92e, IS92f= Load_
     separator="\t")
 
 # Resources extraction
-YRes, Res = Load_Calibration( "Resources_Calibration.csv", ["Year", "Total"])
+YRes, Res = Load_Calibration( "../Global Data/Resources_Calibration.csv", ["Year", "Total"])
 Res_PC = Res / Pop.Calibration_Total[10:-1]
 Res /= 1000
 LTG72 = Interpolation_BAU_1972()

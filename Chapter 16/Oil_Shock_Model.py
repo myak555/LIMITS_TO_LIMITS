@@ -60,6 +60,6 @@ for i in range(99,-1,-1):
     Discovery[i] = Discovery[i+1] * 0.92
 
 pYear, pOil, pCondensate, pNGPL = Load_Calibration(
-    "Resources_Calibration.csv",
+    "../Global Data/Resources_Calibration.csv",
     ["Year", "Oil", "Condensate", "NGPL"])
 pOil += pCondensate

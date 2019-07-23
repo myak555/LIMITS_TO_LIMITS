@@ -6,9 +6,9 @@ UN_Medium = P0.UN_Medium.GetVector( T)
 UN_Low = P0.UN_Low.GetVector( T)
 
 Calibration_Time, Calibration_Net = Load_Calibration(
-    "Agriculture_Calibration.csv", ["Year", "Net_Food"])
+    "../Global Data/Agriculture_Calibration.csv", ["Year", "Net_Food"])
 Calibration_Year, Calibration_Pop = Load_Calibration(
-    "Population_Calibration.csv", ["Year", "Population"])
+    "../Global Data/Population_Calibration.csv", ["Year", "Population"])
 
 BAU_2012 = Interpolation_BAU_2012()
 BAU_2012.Solve(T)

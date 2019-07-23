@@ -128,8 +128,8 @@ class Reagent_Sequestration_Analytical:
 #
 # Calibration data
 #
-T_ML, ML_PPM = Load_Calibration( "./Data/CO2_Mauna_Loa.csv", "Year", "Mean")
-T_LD, LD_PPM = Load_Calibration( "./Data/Ice_Core_Law_Dome.csv", "Year", "Total")
+T_ML, ML_PPM = Load_Calibration( "./Data/CO2_Mauna_Loa.csv", ["Year", "Mean"])
+T_LD, LD_PPM = Load_Calibration( "./Data/Ice_Core_Law_Dome.csv", ["Year", "Total"])
 Interpolation = Interpolation_Realistic_2018()
 
 #

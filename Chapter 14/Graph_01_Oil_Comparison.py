@@ -5,7 +5,7 @@ Production_Hubbert = Hubbert( 2000, .041, .0345, 1700).GetVector(Year_Model)
 Production_Campbell = Hubbert( 2005, .080, .059, 3300).GetVector(Year_Model)
 
 Year, Oil, Condensate, NGPL = Load_Calibration(
-    "Resources_Calibration.csv",
+    "../Global Data/Resources_Calibration.csv",
     ["Year", "Oil", "Condensate", "NGPL"])
 Liquids = Oil + Condensate + NGPL
 for i in range(1830,1956):

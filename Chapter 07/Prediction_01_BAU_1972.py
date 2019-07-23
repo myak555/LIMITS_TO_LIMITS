@@ -1,4 +1,3 @@
-from Population import *
 from Predictions import *
 from scipy.misc import imread
 import matplotlib.cbook as cbook

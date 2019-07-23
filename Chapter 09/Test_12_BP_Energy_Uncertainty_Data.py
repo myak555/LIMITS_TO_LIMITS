@@ -8,7 +8,7 @@ BP_Year, BP_Nuclear = Load_Calibration( "./Data/08_BP_Nuclear.csv", ["Year", yr]
 BP_Year, BP_Hydro = Load_Calibration( "./Data/09_BP_Hydro.csv", ["Year", yr])
 BP_Year, BP_Renewable = Load_Calibration( "./Data/10_BP_Renewable.csv", ["Year", yr])
 
-Pop_Year, Population = Load_Calibration( "Population_Calibration.csv", ["Year", "Population"])
+Po = Population()
 
 fig = plt.figure( figsize=(15,10))
 fig.suptitle( 'Мировое производство энергии по отчёту "ВР" ' + yr + ' г', fontsize=22)
@@ -31,10 +31,10 @@ btm += BP_Hydro
 ax1.bar( BP_Year, BP_Renewable, width=0.35, bottom=btm, yerr=(btm+BP_Renewable)*0.05, color='#005F00', label="Остальные возобновляемые")
 btm += BP_Renewable
 
-d0 = int( BP_Year[0] - Pop_Year[0])
-d1 = int( BP_Year[-1] - Pop_Year[-1])
-if d1 < 0: pop = np.array( Population[d0:d1])
-else: pop = np.array( Population[d0:])
+d0 = int( BP_Year[0] - Po.Calibration_Year[0])
+d1 = int( BP_Year[-1] - Po.Calibration_Year[-1])
+if d1 < 0: pop = np.array( Po.Calibration_Total[d0:d1])
+else: pop = np.array( Po.Calibration_Total[d0:])
 tonn_per_year = btm / pop
 tonn_per_second = tonn_per_year / 365 / 24 /3600
 watt = tonn_per_second * 41e9

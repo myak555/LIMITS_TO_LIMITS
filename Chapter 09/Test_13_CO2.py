@@ -58,7 +58,7 @@ class CO2_Scenario_3 (Control_Curve):
         return tmp
 
 T_CO2, CO2_Cement, CO2_Coal, CO2_Oil, CO2_Gas, CO2_Total, CO2_BP = Load_Calibration(
-    "CO2_Calibration.csv", ["Year", "Cement", "Coal", "Oil", "Gas", "Total", "BP_2019"])
+    "../Global Data/CO2_Calibration.csv", ["Year", "Cement", "Coal", "Oil", "Gas", "Total", "BP_2019"])
 
 T = np.linspace( 1800, 2100, 301)
 l_real = len( T_CO2)

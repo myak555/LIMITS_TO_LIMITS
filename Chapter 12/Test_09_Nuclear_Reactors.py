@@ -119,7 +119,7 @@ print("Megawatts operating")
 for i in range( len(MW_operating)):
     print( "{:g} {:.1f}".format( years[i], MW_operating[i]))
 
-y, nuc = Load_Calibration("Energy_Calibration.csv", ["Year", "Nuclear"])
+y, nuc = Load_Calibration("../Global Data/Energy_Calibration.csv", ["Year", "Nuclear"])
 nuc *= 4419.2 / 24 / 365.25
 
 y1, nuc1 = Load_Calibration(

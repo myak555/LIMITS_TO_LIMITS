@@ -18,7 +18,7 @@ for i in range(170,len(Pop_UN_Medium), 5):
     #print( Pop.Solution_Year[i], Pop_UN_Medium2000[-1])
 
 # CO2 emissions
-YCO2, ECO2 = Load_Calibration( "CO2_Calibration.csv", ["Year", "Total"])
+YCO2, ECO2 = Load_Calibration( "../Global Data/CO2_Calibration.csv", ["Year", "Total"])
 ECO2 /= 3660
 YCO2 = YCO2[30:]
 ECO2 = ECO2[30:]
@@ -32,7 +32,7 @@ YearRCP, RCP_8_5, RCP_6_0, RCP_4_5, RCP_2_6 = Load_Calibration(
     separator="\t")
 
 # Resources extraction
-YRes, Res = Load_Calibration( "Resources_Calibration.csv", ["Year", "Total"])
+YRes, Res = Load_Calibration( "../Global Data/Resources_Calibration.csv", ["Year", "Total"])
 Res_PC = Res / Pop.Calibration_Total[10:-1]
 Res /= 1000
 Randers2012 = Interpolation_BAU_2012()

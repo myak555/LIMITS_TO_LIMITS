@@ -16,7 +16,7 @@ Res_Decimated = Decimate( Res1, 5)
 # CO2 emissions recalculated into fossil fuel production
 # 1 ton of carbon = 3.66 ton of CO2
 # 1 ton of carbon = 1.13 ton of oil equivalent (by fuel mix)
-YearCO2, CO2 = Load_Calibration( "CO2_Calibration.csv", ["Year", "Total"])
+YearCO2, CO2 = Load_Calibration( "../Global Data/CO2_Calibration.csv", ["Year", "Total"])
 YearCO2 = Year[30:]
 CO2 = CO2[30:] / 3660
 YearRCP, RCP_8_5, RCP_6_0, RCP_4_5, RCP_2_6 = Load_Calibration(

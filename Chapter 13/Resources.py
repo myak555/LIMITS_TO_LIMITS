@@ -8,7 +8,7 @@ class Resources:
     def __init__( self, Q0=1400e3):
         self.Name = "PyWorld 2017"
         self.Year, self.Oil, self.Coal, self.Bitumen, self.Condensate, self.NGPL, self.Gas, self.Total = Load_Calibration(
-            "Resources_Calibration.csv", ["Year", "Oil", "Coal", "Bitumen", "Condensate", "NGPL", "Gas", "Total"])
+            "../Global Data/Resources_Calibration.csv", ["Year", "Oil", "Coal", "Bitumen", "Condensate", "NGPL", "Gas", "Total"])
         self.Oil_Error = self.Oil * 0.05
         self.Coal_Error = self.Coal * 0.10
         self.Bitumen_Error = self.Bitumen * 0.05
@@ -20,7 +20,7 @@ class Resources:
         self.Gas_and_Liquids_Error = self.Oil_Error + self.Condensate_Error + self.NGPL_Error + self.Gas_Error
 
         self.Calibration_Year, self.Calibration_Carbon, self.Calibration_Nuclear, self.Calibration_Renewable = Load_Calibration(
-            "Energy_Calibration.csv", ["Year", "Total_C", "Nuclear", "Renewable"])
+            "../Global Data/Energy_Calibration.csv", ["Year", "Total_C", "Nuclear", "Renewable"])
         self.Calibration_Total = self.Calibration_Carbon + self.Calibration_Nuclear + self.Calibration_Renewable
         self.Calibration_Yerr = np.ones( len(self.Calibration_Year)) * 0.035 
         self.Calibration_Reserves = np.zeros( len(self.Calibration_Year))

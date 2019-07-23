@@ -67,7 +67,7 @@ class Resource_Weibull:
         return self.Solution_Q
 
 T_Cal, Coal_Cal, Oil_Cal, Gas_Cal = Load_Calibration(
-    "Energy_Calibration.csv",
+    "../Global Data/Energy_Calibration.csv",
     ["Year", "Coal", "Oil", "Gas"])
 Oil_Cal += Coal_Cal
 Gas_Cal += Oil_Cal

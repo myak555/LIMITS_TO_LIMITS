@@ -2,7 +2,7 @@ from Population import *
 
 data = './Data/Campbell_Laherrere_Backdated.csv'
 
-Year, Oil = Load_Calibration( "Resources_Calibration.csv", ["Year", "Oil"])
+Year, Oil = Load_Calibration( "../Global Data/Resources_Calibration.csv", ["Year", "Oil"])
 Cumulative = np.array( Oil)
 for i in range(1, len(Oil)):
     Cumulative[i] += Cumulative[i-1]
@@ -11,6 +11,7 @@ Cumulative /= 1000
 Y1, R1998B, R1998R, R2014B, R2014R = Load_Calibration(
     data,
     ["Year", "R1998_Backdated", "R1998_Reported", "R2014_Backdated", "R2014_Reported"])
+
 Year_1 = np.linspace( 1940, 1998, 59)
 R1998_Backdated = np.zeros( len(Year_1))
 R1998_Reported = np.zeros( len(Year_1))

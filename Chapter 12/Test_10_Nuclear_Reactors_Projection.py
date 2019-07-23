@@ -70,7 +70,7 @@ for i in range( len(years)):
 Production = MW_operating * 0.77
 Pop = Population().UN_Medium.GetVector( years)
 
-y, nuc = Load_Calibration("Energy_Calibration.csv", ["Year", "Nuclear"])
+y, nuc = Load_Calibration("../Global Data/Energy_Calibration.csv", ["Year", "Nuclear"])
 nuc *= 4419.2 / 24 / 365.25
 for i in range(len(y)):
     j = int(y[i]-years[0])

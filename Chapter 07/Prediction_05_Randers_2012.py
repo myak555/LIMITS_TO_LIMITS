@@ -5,7 +5,7 @@ P0 = Population()
 UN_Med = P0.UN_Medium.GetVector( T)
 
 Resources_Time, Resources_Coal, Resources_Oil, Resources_Gas, Resources_Nuclear, Resources_Renewable = Load_Calibration(
-    "Energy_Calibration.csv",
+    "../Global Data/Energy_Calibration.csv",
     ["Year", "Coal", "Oil", "Gas", "Nuclear", "Renewable"])
 
 Time_Ran, Coal_Ran, Oil_Ran, Gas_Ran, Nuclear_Ran, Renewable_Ran = Load_Calibration(

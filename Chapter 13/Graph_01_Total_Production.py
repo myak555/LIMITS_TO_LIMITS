@@ -1,7 +1,7 @@
 from Population import *
 
 Year, Coal, Bitumen, Oil, Condensate, NGPL, Gas, Total = Load_Calibration(
-    "Resources_Calibration.csv",
+    "../Global Data/Resources_Calibration.csv",
     ["Year", "Coal", "Bitumen", "Oil", "Condensate", "NGPL", "Gas", "Total"])
 
 Coal_Cum = Cumulative( Coal)

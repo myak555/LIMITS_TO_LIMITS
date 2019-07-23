@@ -1,6 +1,6 @@
 from Predictions import *
 
-Year,Renewable = Load_Calibration("Energy_Calibration.csv", ["Year", "Renewable"])
+Year,Renewable = Load_Calibration("../Global Data/Energy_Calibration.csv", ["Year", "Renewable"])
 Pop = Population().UN_Medium.GetVector(Year)
 Renewable /= Pop
 Renewable *= 1000 # Convert from toe to kg
@@ -17,7 +17,7 @@ ax1 = plt.subplot(gs[0])
 ax1.set_title("Выработка энергии из ВИЭ (включая гидро и биомассу)")
 ax1.bar( Year, Renewable, 0.35, alpha=0.4, color="g")
 ax1.set_xlim( x_start, x_end)
-ax1.set_ylim( 0,100)
+ax1.set_ylim( 0,110)
 ax1.set_xlabel("Год")
 ax1.set_ylabel("Вт на душу населения")
 ax1.grid(True)

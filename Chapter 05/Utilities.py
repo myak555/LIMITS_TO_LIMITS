@@ -545,7 +545,7 @@ def Strings_To_Array( Strings):
             tmp += [d]
         except:
             tmp += [0.0]
-            print("Warning: float conversion error, value {:s}".format(s))
+            print("Warning: float conversion error, value [{:s}]".format(str(s)))
             continue
     return np.array( tmp)
 

@@ -31,7 +31,7 @@ ax2.set_xlim( 1900, 2100)
 ax2.set_ylim( 0, 1.2)
 ax2.legend(loc=0)
 
-FAO_Year, FAO_Net_Food = Load_Calibration("Agriculture_Calibration.csv", ["Year", "Net_Food"])
+FAO_Year, FAO_Net_Food = Load_Calibration("../Global Data/Agriculture_Calibration.csv", ["Year", "Net_Food"])
 ax3.plot( T0, BAU_1972.Industrial, "-", lw=2, color="r", label="Промтоваров")
 ax3.plot( T0, BAU_1972.Food, "-", lw=2, color="g", label="Продовольствия")
 ax3.plot( T0, BAU_1972.Services, "-", lw=2, color="m", label="Услуг")

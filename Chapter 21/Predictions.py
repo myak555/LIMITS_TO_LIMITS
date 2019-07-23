@@ -77,8 +77,8 @@ class _Interpolation:
 
 class Interpolation_BAU_1972( _Interpolation):
     """
-    Феноменологическая интерполяция кривых модели BAU 1972
-    'Limits to Growth', 1972, график 35 на странице 124
+    Phenomenological model BAU 1972
+    'Limits to Growth', 1972, Graph 35 Page 124
     """
     def __init__( self):
         self.Name = "Interpolation BAU 1972"
@@ -135,7 +135,7 @@ class Interpolation_BAU_1972( _Interpolation):
         self.Pollution_U = self._Interpolate_Function( self._Pollution_Functions)
         self.Birth_Rate_U = self._Interpolate_Function( self._Birth_Rate_Functions)
         self.Death_Rate_U = self._Interpolate_Function( self._Death_Rate_Functions)
-        self.Population = self._Calibrate_Function(self.Population_U, "Population_Calibration.csv", "Year", "Population", 1930, 1970)
+        self.Population = self._Calibrate_Function(self.Population_U, "../Global Data/Population_Calibration.csv", "Year", "Population", 1930, 1970)
         self.Resources = self.Resources_U * 1186e3
         self.Energy = -self._Differentiate(self.Resources, "Resources")
         self.Energy = Filter( self.Energy, matrix = [1,2,2,2,3,3,3,2,2,2,1])
@@ -153,8 +153,8 @@ class Interpolation_BAU_1972( _Interpolation):
 
 class Interpolation_BAU_2002( _Interpolation):
     """
-    Феноменологическая интерполяция кривых модели BAU 2002
-    'Limits to Growth', 2002, график 4-11 на странице 169
+    Phenomenological model BAU 2002
+    'Limits to Growth', 2002, Graph 4-11 Page 169
     """
     def __init__( self):
         self.Name = "Interpolation BAU 2002"
@@ -257,9 +257,8 @@ class Interpolation_BAU_2002( _Interpolation):
 
 class Interpolation_BAU_2012( _Interpolation):
     """
-    Феноменологическая интерполяция кривых модели BAU 2012
-    Веб-страница http://www.2052.info/
-    Версия 7 ноября 2014 г
+    Phenomenological model BAU 2012
+    http://www.2052.info/, 07-Nov-2014
     """
     def __init__( self):
         self.Name = "Interpolation Randers 2012"
@@ -313,16 +312,16 @@ class Interpolation_BAU_2012( _Interpolation):
         self.CO2 = self._Interpolate_Function( self._CO2_Functions)
         return
     def Correct_To_Actual( self, t0, t1):
-        self.Coal = self._Shift_To_Actual( self.Coal, "Energy_Calibration.csv", "Year", "Coal", t0, t1)
-        self.Oil = self._Shift_To_Actual( self.Oil, "Energy_Calibration.csv", "Year", "Oil", t0, t1)
-        self.Gas = self._Shift_To_Actual( self.Gas, "Energy_Calibration.csv", "Year", "Gas", t0, t1)
-        self.Nuclear = self._Shift_To_Actual( self.Nuclear, "Energy_Calibration.csv", "Year", "Nuclear", t0, t1)
-        self.Renewable = self._Shift_To_Actual( self.Renewable, "Energy_Calibration.csv", "Year", "Renewable", t0, t1)
-        self.Energy = self._Shift_To_Actual( self.Energy, "Energy_Calibration.csv", "Year", "Total", t0, t1)
+        self.Coal = self._Shift_To_Actual( self.Coal, "../Global Data/Energy_Calibration.csv", "Year", "Coal", t0, t1)
+        self.Oil = self._Shift_To_Actual( self.Oil, "../Global Data/Energy_Calibration.csv", "Year", "Oil", t0, t1)
+        self.Gas = self._Shift_To_Actual( self.Gas, "../Global Data/Energy_Calibration.csv", "Year", "Gas", t0, t1)
+        self.Nuclear = self._Shift_To_Actual( self.Nuclear, "../Global Data/Energy_Calibration.csv", "Year", "Nuclear", t0, t1)
+        self.Renewable = self._Shift_To_Actual( self.Renewable, "../Global Data/Energy_Calibration.csv", "Year", "Renewable", t0, t1)
+        self.Energy = self._Shift_To_Actual( self.Energy, "../Global Data/Energy_Calibration.csv", "Year", "Total", t0, t1)
         self.Energy_PC = self.Energy / self.Population
 
-        self.Land = self._Shift_To_Actual( self.Land, "Agriculture_Calibration.csv", "Year", "Cereal_Land", t0, t1)
-        self.Food = self._Shift_To_Actual( self.Food, "Agriculture_Calibration.csv", "Year", "Net_Food", t0, t1)
+        self.Land = self._Shift_To_Actual( self.Land, "../Global Data/Agriculture_Calibration.csv", "Year", "Cereal_Land", t0, t1)
+        self.Food = self._Shift_To_Actual( self.Food, "../Global Data/Agriculture_Calibration.csv", "Year", "Net_Food", t0, t1)
         self.Yield = self.Food / self.Land
         self.Food_PC = self.Food / self.Population
 
@@ -332,8 +331,8 @@ class Interpolation_BAU_2012( _Interpolation):
 
 class Interpolation_Realistic_2012( _Interpolation):
     """
-    Феноменологическая интерполяция кривых модели BAU 2012
-    с ограничением возобновляемых ресурсов технологическим максимумом 4.6 ГВт = 3530 mln toe
+    Phenomenological model BAU 2012
+    with tecnological limit 4.6 GW = 3530 mln toe
     """
     def __init__( self):
         self.Name = "Interpolation BAU 2012"
@@ -410,16 +409,16 @@ class Interpolation_Realistic_2012( _Interpolation):
         self.CO2 = self._Interpolate_Function( self._CO2_Functions)
         return
     def Correct_To_Actual( self, t0, t1):
-        self.Coal = self._Shift_To_Actual( self.Coal, "Energy_Calibration.csv", "Year", "Coal", t0, t1)
-        self.Oil = self._Shift_To_Actual( self.Oil, "Energy_Calibration.csv", "Year", "Oil", t0, t1)
-        self.Gas = self._Shift_To_Actual( self.Gas, "Energy_Calibration.csv", "Year", "Gas", t0, t1)
-        self.Nuclear = self._Shift_To_Actual( self.Nuclear, "Energy_Calibration.csv", "Year", "Nuclear", t0, t1)
-        self.Renewable = self._Shift_To_Actual( self.Renewable, "Energy_Calibration.csv", "Year", "Renewable", t0, t1)
-        self.Energy = self._Shift_To_Actual( self.Energy, "Energy_Calibration.csv", "Year", "Total", t0, t1)
+        self.Coal = self._Shift_To_Actual( self.Coal, "../Global Data/Energy_Calibration.csv", "Year", "Coal", t0, t1)
+        self.Oil = self._Shift_To_Actual( self.Oil, "../Global Data/Energy_Calibration.csv", "Year", "Oil", t0, t1)
+        self.Gas = self._Shift_To_Actual( self.Gas, "../Global Data/Energy_Calibration.csv", "Year", "Gas", t0, t1)
+        self.Nuclear = self._Shift_To_Actual( self.Nuclear, "../Global Data/Energy_Calibration.csv", "Year", "Nuclear", t0, t1)
+        self.Renewable = self._Shift_To_Actual( self.Renewable, "../Global Data/Energy_Calibration.csv", "Year", "Renewable", t0, t1)
+        self.Energy = self._Shift_To_Actual( self.Energy, "../Global Data/Energy_Calibration.csv", "Year", "Total", t0, t1)
         self.Energy_PC = self.Energy / self.Population
 
-        self.Land = self._Shift_To_Actual( self.Land, "Agriculture_Calibration.csv", "Year", "Cereal_Land", t0, t1)
-        self.Food = self._Shift_To_Actual( self.Food, "Agriculture_Calibration.csv", "Year", "Net_Food", t0, t1)
+        self.Land = self._Shift_To_Actual( self.Land, "../Global Data/Agriculture_Calibration.csv", "Year", "Cereal_Land", t0, t1)
+        self.Food = self._Shift_To_Actual( self.Food, "../Global Data/Agriculture_Calibration.csv", "Year", "Net_Food", t0, t1)
         self.Yield = self.Food / self.Land
         self.Food_PC = self.Food / self.Population
 
@@ -429,9 +428,9 @@ class Interpolation_Realistic_2012( _Interpolation):
 
 class Interpolation_Realistic_2018( _Interpolation):
     """
-    Феноменологическая интерполяция кривых модели BAU 2018
-    с ограничением возобновляемых ресурсов технологическим максимумом 4.6 ГВт = 3530 mln toe
-    и ограничением по добыче ископаемого топлива URR = 1200 mlrd toe
+    Phenomenological model BAU 2012
+    with tecnological limit 4.6 GW = 3530 mln toe
+    and carbon fuel URR = 1200 bln toe
     """
     def __init__( self):
         self.Name = "Interpolation BAU 2018"
@@ -514,16 +513,16 @@ class Interpolation_Realistic_2018( _Interpolation):
         self.CO2 = self._Interpolate_Function( self._CO2_Functions)
         return
     def Correct_To_Actual( self, t0, t1):
-        self.Coal = self._Shift_To_Actual( self.Coal, "Energy_Calibration.csv", "Year", "Coal", t0, t1)
-        self.Oil = self._Shift_To_Actual( self.Oil, "Energy_Calibration.csv", "Year", "Oil", t0, t1)
-        self.Gas = self._Shift_To_Actual( self.Gas, "Energy_Calibration.csv", "Year", "Gas", t0, t1)
-        self.Nuclear = self._Shift_To_Actual( self.Nuclear, "Energy_Calibration.csv", "Year", "Nuclear", t0, t1)
-        self.Renewable = self._Shift_To_Actual( self.Renewable, "Energy_Calibration.csv", "Year", "Renewable", t0, t1)
-        self.Energy = self._Shift_To_Actual( self.Energy, "Energy_Calibration.csv", "Year", "Total", t0, t1)
+        self.Coal = self._Shift_To_Actual( self.Coal, "../Global Data/Energy_Calibration.csv", "Year", "Coal", t0, t1)
+        self.Oil = self._Shift_To_Actual( self.Oil, "../Global Data/Energy_Calibration.csv", "Year", "Oil", t0, t1)
+        self.Gas = self._Shift_To_Actual( self.Gas, "../Global Data/Energy_Calibration.csv", "Year", "Gas", t0, t1)
+        self.Nuclear = self._Shift_To_Actual( self.Nuclear, "../Global Data/Energy_Calibration.csv", "Year", "Nuclear", t0, t1)
+        self.Renewable = self._Shift_To_Actual( self.Renewable, "../Global Data/Energy_Calibration.csv", "Year", "Renewable", t0, t1)
+        self.Energy = self._Shift_To_Actual( self.Energy, "../Global Data/Energy_Calibration.csv", "Year", "Total", t0, t1)
         self.Energy_PC = self.Energy / self.Population
 
-        self.Land = self._Shift_To_Actual( self.Land, "Agriculture_Calibration.csv", "Year", "Cereal_Land", t0, t1)
-        self.Food = self._Shift_To_Actual( self.Food, "Agriculture_Calibration.csv", "Year", "Net_Food", t0, t1)
+        self.Land = self._Shift_To_Actual( self.Land, "../Global Data/Agriculture_Calibration.csv", "Year", "Cereal_Land", t0, t1)
+        self.Food = self._Shift_To_Actual( self.Food, "../Global Data/Agriculture_Calibration.csv", "Year", "Net_Food", t0, t1)
         self.Yield = self.Food / self.Land
         self.Food_PC = self.Food / self.Population
 
@@ -533,7 +532,7 @@ class Interpolation_Realistic_2018( _Interpolation):
 
         self.CO2 = self._Shift_To_Actual( self.CO2, "./Data/Ice_Core_Law_Dome.csv", "Year", "Total", t0, t1)
         self.CO2 = self._Shift_To_Actual( self.CO2, "./Data/CO2_Mauna_Loa.csv", "Year", "Mean", t0, t1)
-        self.CO2_Emissions = self._Shift_To_Actual( self.CO2_Emissions, "CO2_Calibration.csv", "Year", "Total", t0, t1)
+        self.CO2_Emissions = self._Shift_To_Actual( self.CO2_Emissions, "../Global Data/CO2_Calibration.csv", "Year", "Total", t0, t1)
         return
 
 #

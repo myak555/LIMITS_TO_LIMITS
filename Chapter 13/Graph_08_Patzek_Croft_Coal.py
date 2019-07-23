@@ -1,7 +1,7 @@
 from Utilities import *
 
 data_name = "./Data/Coal_Patzek_Croft_EJ.csv"
-calibration_name = "Resources_Calibration.csv"
+calibration_name = "../Global Data/Resources_Calibration.csv"
 var_names = ["Year", "Coal"]
 
 Coal_Production_Function = Linear_Combo()
