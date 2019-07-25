@@ -6,7 +6,7 @@ PE_Estimate = Hubbert( 2016, 0.56, 0.11, 420, 15).GetVector( Year)
 PG_Estimate = Hubbert( 2018, 0.05, 0.07, 1040, 80).GetVector( Year)
 
 Historical_Year, Historical_Oil, Historical_Gas = Load_Calibration(
-    "./Data/US_Fossil_Fuel_Reconstructed.csv",
+    "../Global Data/US_Fossil_Fuel_Reconstructed.csv",
     ["Year", "Oil", "Gas"])
 Rig_Year, Oil_Wells, Gas_Wells, Dry_Wells, Expl_Wells = Load_Calibration(
     "./Data/US_Rigs_and_Wells.csv",

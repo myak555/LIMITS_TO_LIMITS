@@ -1,6 +1,6 @@
 from Population import *
 
-Year_US, Gas_US = Load_Calibration("./Data/US_Fossil_Fuel_Reconstructed.csv", ["Year", "Gas"])
+Year_US, Gas_US = Load_Calibration("../Global Data/US_Fossil_Fuel_Reconstructed.csv", ["Year", "Gas"])
 Gas_US *= 1.1
 
 Year_US2 = np.linspace( 1970, 2017, 48)
