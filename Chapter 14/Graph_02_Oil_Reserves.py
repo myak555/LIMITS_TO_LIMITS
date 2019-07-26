@@ -1,6 +1,6 @@
 from Population import *
 
-data = './Data/Campbell_Laherrere_Backdated.csv'
+data = '../Global Data/Campbell_Laherrere_Backdated.csv'
 
 Year, Oil = Load_Calibration( "../Global Data/Resources_Calibration.csv", ["Year", "Oil"])
 Cumulative = np.array( Oil)

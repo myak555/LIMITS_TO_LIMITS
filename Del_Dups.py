@@ -23,7 +23,7 @@ def DeleteInAllChapters(Name):
         if not exists(dest_name):
             continue
         DeleteInFolder(Name, dest_name)
-        DeleteInFolder(Name, dest_name + "/Data/")
+        DeleteInFolder(Name, dest_name + "Data/")
 
 
 Names = GetNames("./Global Data/")
