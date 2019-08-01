@@ -5,9 +5,8 @@
 #   http://www.iea.org/statistics/topics/oil/
 # US gas production, reconstructed from historical data sets
 #   https://www.iea.org/statistics/
-# Cross-checked against BP World Energy report 2017
-# 2017 data is the best estimate as of october 2017
-# The "Tail from 1860 to 1800 is estimated as 5% per year growth
+# Cross-checked against BP World Energy reports 2017-2019
+# The "Tail" from 1860 to 1800 is estimated as 5% per year growth
 # Units in million tonn of oil equvalent per year, counting oil density at 0.827 g/cm (WTI)
 #
 Year,Coal,Oil,Gas,Total
@@ -228,4 +227,5 @@ Year,Coal,Oil,Gas,Total
 2014,507.7,420.1,672.2,1600.0
 2015,449.3,451.5,705.3,1606.2
 2016,364.8,426.2,695.8,1486.9
-2017,296.2,447.3,675.0,1408.2
+2017,371.3,448.8,778.7,1598.8
+2018,364.5,526.1,873.2,1763.8

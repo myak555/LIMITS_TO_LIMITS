@@ -45,7 +45,7 @@ def GetOil( name_en, data_name, metric = True):
     Year, AEO2014, AEO2015, AEO2016, Hughes2014, Actual, WP, WA = Load_Calibration(
         data_name,
         ["Year", "AEO2014", "AEO2015", "AEO2016", "Hughes2014", "Actual", "Wells_Plan", "Wells_Actual"])
-    YC,PC = Load_Calibration( "./Data/US22_US_Tight_Oil_EIA.csv", ["Year", name_en])
+    YC,PC = Load_Calibration( "./Data/US22_US_Tight_Oil_EIA.csv", ["Year", name_en], separator="\t")
     if metric:
         b2t = 0.159 * 0.827 
         bd2ty = b2t * 365 
@@ -63,7 +63,8 @@ def Get_Oil_Others( ):
     Year,AEO2016 = Load_Calibration( "./Data/US20_Others_Oil.csv", ["Year", "AEO2016"]) 
     YC,PC1,PC2,PC3,PC4,PC5,PC6,PC7 = Load_Calibration(
         "./Data/US22_US_Tight_Oil_EIA.csv",
-        ["Year", "Monterey", "Granite_Wash", "Marcellus", "Haynesville", "Yeso_Glorieta", "Delaware", "Utica"])
+        ["Year", "Monterey", "Granite_Wash", "Marcellus", "Haynesville", "Yeso_Glorieta", "Delaware", "Utica"],
+        separator="\t")
     PC = PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7
     b2t = 0.159 * 0.827 
     bd2ty = b2t * 365
@@ -75,7 +76,8 @@ def GetFile_Oil( data_name, field_name, sum_data_EIA, sum_well, sum_actual):
     Y,AEO2016,Actual,Wells = Load_Calibration(
         data_name,
         ["Year", "AEO2016", "Actual", "Wells_Actual"])
-    YC,PC = Load_Calibration( "./Data/US22_US_Tight_Oil_EIA.csv", ["Year", field_name])
+    YC,PC = Load_Calibration( "./Data/US22_US_Tight_Oil_EIA.csv", ["Year", field_name],
+        separator="\t")
     b2t = 0.159 * 0.827 
     bd2ty = b2t * 365
     AEO2016 *= bd2ty 

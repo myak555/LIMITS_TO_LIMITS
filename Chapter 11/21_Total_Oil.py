@@ -33,6 +33,10 @@ ax2 = plt.subplot(gs[1])
 ax1.plot( Year, sum_EIA3, "--", lw=2, color='g', label= 'За счёт "старых" месторождений ({:.1f} 10⁹ т)'.format(np.sum(sum_EIA3-sum_EIA2)/1000))
 ax1.plot( Year, sum_EIA2, "--", lw=2, color='m', label= 'LTO "новых сланцевых" ({:.1f} 10⁹ т)'.format(np.sum(sum_EIA2-sum_EIA1)/1000))
 ax1.plot( Year, sum_EIA1, "--", lw=2, color='r', label= 'Лицензионный конденсат "сланцевых" ({:.1f} 10⁹ т)'.format(np.sum(sum_EIA1)/1000))
+
+print(Year)
+print(PC_Estimate)
+
 ax1.plot( Year, PC_Estimate, "-", lw=2, color='g', label= 'Вероятная добыча из "сланцевых" ({:.1f} 10⁹ т)'.format(np.sum(PC_Estimate)/1000))
 ax1.plot( YH, PH, "-", lw=2, color='m', label= 'Hughes-2014 Баккен+Иглфорд ({:.1f} 10⁹ т)'.format(np.sum(PH)/1000))
 ax1.errorbar( YC, PC3, yerr=PC3*.05, fmt='o', color="g")

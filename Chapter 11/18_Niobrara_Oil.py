@@ -1,6 +1,6 @@
 from US_Utilities import *
 
-name = "Ниобрара"
+name = "Ниобрара-Коделл"
 metric = True
 Year, AEO2014, AEO2015, AEO2016, Hughes2014, Actual, WP, WA, YC, PC = GetOil(
     "Niobrara_Codell", "./Data/US18_Niobrara_Oil.csv", metric)
@@ -19,7 +19,7 @@ if metric:
     ax1.errorbar( YC, PC, yerr=PC*.05, fmt='o', color="k", label="Реальная ({:.2f} 10⁹ т)".format(np.sum(PC)/1000))
     #ax1.set_ylim( 0, 120)
     ax1.set_ylabel("Млн toe в год")
-    #ax1.annotate("Пик добычи в марте 2015", xy=(2015, 72), xytext=(2002, 100), arrowprops=dict(facecolor='black', shrink=0.05))
+    ax1.annotate("В статистику добавлено месторождение Коделл", xy=(2015, 14), xytext=(2016, 7.5), arrowprops=dict(facecolor='black', shrink=0.05))
 else:
     ax1.plot( Year, AEO2014, "--", lw=2, color='g', label="AEO2014 ({:.1f} 10⁹ bbl)".format(np.sum(AEO2014[14:])*0.365))
     ax1.plot( Year, AEO2015, "--", lw=2, color='b', label="AEO2015 ({:.1f} 10⁹ bbl)".format(np.sum(AEO2015[14:])*0.365))

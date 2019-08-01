@@ -24,7 +24,7 @@ else:
     ax1.plot( Year, AEO2015, "--", lw=2, color='b', label="AEO-2015 ({:.1f} tcf)".format(np.sum(AEO2015[21:])*0.365))
     ax1.plot( Year, AEO2016, "--", lw=2, color='r', label="AEO-2016 ({:.1f} tcf)".format(np.sum(AEO2016[21:])*0.365))
     ax1.plot( Year, Hughes2014, "-", lw=3, color='m', label="Hughes2014 ({:.1f} tcf)".format(np.sum(Hughes2014[21:])*0.365))
-    ax1.errorbar( Year[:-24], Actual[:-24], yerr=Actual[:-24]*.05, fmt='o', color="k", label="Реальная")
+    ax1.errorbar( Year[:-23], Actual[:-23], yerr=Actual[:-24]*.05, fmt='o', color="k", label="Реальная")
     ax1.set_ylabel("Млрд кубических футов в сутки")
 
 ax1.set_xlim( 2000, 2040)

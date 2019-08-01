@@ -1,7 +1,7 @@
-#,,,,,,,,
-# Gas production in Barnett,,,,,,,,
-# billion ft3 per day,,,,,,,,
-#,,,,,,,,
+#
+# Gas production in Barnett
+# billion ft3 per day
+#
 Year,Wells_Plan,Wells_Actual,UTUR2011,AEO2014,AEO2015,AEO2016,Hughes2014,Actual
 1994,-999,-999,0.002,0.002,0.002,0.002,0.002,0.002
 1995,-999,-999,0.002,0.002,0.002,0.002,0.002,0.002
