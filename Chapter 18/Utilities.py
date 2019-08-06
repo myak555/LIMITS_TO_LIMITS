@@ -524,6 +524,20 @@ def Cumulative(x, x0=0.0):
     return tmp
 
 
+def Rate(y, dx=1.0):
+    """
+    Computes a derivative (rate of change)
+    2-point method at the ends, 3-point method for others
+    Presumes uniform domain spacing dx
+    """
+    tmp = np.zeros(len(y))
+    tmp[0] = (y[1]-y[0]) / dx
+    for i in range(1, len(tmp)-1):
+        tmp[i] = (y[i+1]-y[i-1]) / dx / 2
+    tmp[-1] = (y[-1]-y[-2]) / dx
+    return tmp
+
+
 def Decimate(x, n):
     """
     Decimates an array using moving filter method

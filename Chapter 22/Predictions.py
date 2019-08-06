@@ -1,6 +1,7 @@
 from Population import *
 from Resources import *
 
+
 class _Interpolation:
     """
     Generic interpolation class for creation of phenomenological models (data fits)
@@ -65,15 +66,7 @@ class _Interpolation:
             if j >= len(calibrationV): continue
             func[i] = calibrationV[j] * norm
         return func
-    def _Differentiate(self, func, varname):
-        print( "Differentiated {:s}".format( varname))
-        tmp = np.zeros( len( func))
-        tmp[0] = func[1] - func[0]
-        l = len(self.Time)-1
-        for i in range( 1, l):
-            tmp[i] = (func[i+1] - func[i-1]) * 0.5
-        tmp[l] = func[l] - func[l-1]
-        return tmp
+
 
 class Interpolation_BAU_1972( _Interpolation):
     """
@@ -137,7 +130,7 @@ class Interpolation_BAU_1972( _Interpolation):
         self.Death_Rate_U = self._Interpolate_Function( self._Death_Rate_Functions)
         self.Population = self._Calibrate_Function(self.Population_U, "../Global Data/Population_Calibration.csv", "Year", "Population", 1930, 1970)
         self.Resources = self.Resources_U * 1186e3
-        self.Energy = -self._Differentiate(self.Resources, "Resources")
+        self.Energy = -Rate(self.Resources)
         self.Energy = Filter( self.Energy, matrix = [1,2,2,2,3,3,3,2,2,2,1])
         self.Energy_PC = self.Energy / self.Population 
         self.Industrial_PC = self._Calibrate_To_First_Value( self.Industrial_PC_U, "Industrial PC")
@@ -150,6 +143,7 @@ class Interpolation_BAU_1972( _Interpolation):
         self.GDP_PC = (2.0*self.Industrial_PC+self.Services_PC+self.Food_PC)*.8
         self.CO2 = self.Pollution_U*600 + 305
         return
+
 
 class Interpolation_BAU_2002( _Interpolation):
     """
@@ -232,8 +226,10 @@ class Interpolation_BAU_2002( _Interpolation):
         # Model calibrations:
         # Population = 0..12e9 - from Appendix 1, page 288. Best fit to the UN data 2015: 11.75e9
         self.Population = self.Population_U * 12000 # in million 
-        # Resources = 0..2e12 - from Appendix 1, page 288. Best fit to energy estimates: 2.8e9 tonn
-        self.Resources = self.Resources_U * 2800 # in billion tonn 
+        # Resources = 0..2e12 - from Appendix 1, page 288. Best fit to energy estimates: 2.4e9 tonn
+        # Fossil energy fraction in total production assumed 0.55
+        self.Resources = self.Resources_U * 2400e3 # in million tonn
+        self.Energy = -Rate(self.Resources) * 0.55 + 800
         # Industrial output = 0..4e9 tonn - from Appendix 1, page 288
         self.Industrial = self.Industrial_U * 4000 # in million tonn 
         # Pollution = 0..40 (index) - from Appendix 1, page 288
@@ -254,6 +250,7 @@ class Interpolation_BAU_2002( _Interpolation):
         # LEB = 0..90 - from Appendix 1, page 288. Note unexplained jump from 34 in 1938 to 42 in 1941
         self.LEB = self.LEB_U * 90 # in years 
         return
+
 
 class Interpolation_BAU_2012( _Interpolation):
     """
@@ -300,7 +297,9 @@ class Interpolation_BAU_2012( _Interpolation):
         self.Gas = self._Interpolate_Function( self._Gas_Functions)
         self.Nuclear = self._Interpolate_Function( self._Nuclear_Functions)
         self.Renewable = self._Interpolate_Function( self._Renewable_Functions)
-        self.Energy = self.Coal + self.Oil + self.Gas + self.Nuclear + self.Renewable
+        self.Energy_Carbon = self.Coal + self.Oil + self.Gas
+        self.Resources = 1200e3 - Cumulative(self.Energy_Carbon)
+        self.Energy = self.Energy_Carbon + self.Nuclear + self.Renewable
         self.Energy_PC = self.Energy / self.Population
         self.Land = self._Interpolate_Function( self._Land_Functions)
         self.Yield = self._Interpolate_Function( self._Yield_Functions)
@@ -318,6 +317,7 @@ class Interpolation_BAU_2012( _Interpolation):
         self.Nuclear = self._Shift_To_Actual( self.Nuclear, "../Global Data/Energy_Calibration.csv", "Year", "Nuclear", t0, t1)
         self.Renewable = self._Shift_To_Actual( self.Renewable, "../Global Data/Energy_Calibration.csv", "Year", "Renewable", t0, t1)
         self.Energy = self._Shift_To_Actual( self.Energy, "../Global Data/Energy_Calibration.csv", "Year", "Total", t0, t1)
+        self.Energy_Carbon = self._Shift_To_Actual( self.Energy, "../Global Data/Energy_Calibration.csv", "Year", "Total_C", t0, t1)
         self.Energy_PC = self.Energy / self.Population
 
         self.Land = self._Shift_To_Actual( self.Land, "../Global Data/Agriculture_Calibration.csv", "Year", "Cereal_Land", t0, t1)
@@ -328,6 +328,7 @@ class Interpolation_BAU_2012( _Interpolation):
         self.GDP = self._Shift_To_Actual( self.GDP, "../Global Data/GDP_World_Bank.csv", "Year", "GDP_IA", t0, t1)
         self.GDP_PC = self.GDP / self.Population * 1000000 / 365
         return
+
 
 class Interpolation_Realistic_2012( _Interpolation):
     """
@@ -397,7 +398,9 @@ class Interpolation_Realistic_2012( _Interpolation):
         self.Gas = self._Interpolate_Function( self._Gas_Functions)
         self.Nuclear = self._Interpolate_Function( self._Nuclear_Functions)
         self.Renewable = self._Interpolate_Function( self._Renewable_Functions)
-        self.Energy = self.Coal + self.Oil + self.Gas + self.Nuclear + self.Renewable
+        self.Energy_Carbon = self.Coal + self.Oil + self.Gas
+        self.Resources = 1200e3 - Cumulative(self.Energy_Carbon)
+        self.Energy = self.Energy_Carbon + self.Nuclear + self.Renewable
         self.Energy_PC = self.Energy / self.Population
         self.Land = self._Interpolate_Function( self._Land_Functions)
         self.Yield = self._Interpolate_Function( self._Yield_Functions)
@@ -414,6 +417,7 @@ class Interpolation_Realistic_2012( _Interpolation):
         self.Gas = self._Shift_To_Actual( self.Gas, "../Global Data/Energy_Calibration.csv", "Year", "Gas", t0, t1)
         self.Nuclear = self._Shift_To_Actual( self.Nuclear, "../Global Data/Energy_Calibration.csv", "Year", "Nuclear", t0, t1)
         self.Renewable = self._Shift_To_Actual( self.Renewable, "../Global Data/Energy_Calibration.csv", "Year", "Renewable", t0, t1)
+        self.Energy_Carbon = self._Shift_To_Actual( self.Energy, "../Global Data/Energy_Calibration.csv", "Year", "Total_C", t0, t1)
         self.Energy = self._Shift_To_Actual( self.Energy, "../Global Data/Energy_Calibration.csv", "Year", "Total", t0, t1)
         self.Energy_PC = self.Energy / self.Population
 
@@ -425,6 +429,7 @@ class Interpolation_Realistic_2012( _Interpolation):
         self.GDP = self._Shift_To_Actual( self.GDP, "../Global Data/GDP_World_Bank.csv", "Year", "GDP_IA", t0, t1)
         self.GDP_PC = self.GDP / self.Population * 1000000 / 365
         return
+
 
 class Interpolation_Realistic_2018( _Interpolation):
     """
@@ -500,7 +505,9 @@ class Interpolation_Realistic_2018( _Interpolation):
         self.Gas = self._Interpolate_Function( self._Gas_Functions)
         self.Nuclear = self._Interpolate_Function( self._Nuclear_Functions)
         self.Renewable = self._Interpolate_Function( self._Renewable_Functions)
-        self.Energy = self.Coal + self.Oil + self.Gas + self.Nuclear + self.Renewable
+        self.Energy_Carbon = self.Coal + self.Oil + self.Gas
+        self.Resources = 1400e3 - Cumulative(self.Energy_Carbon)
+        self.Energy = self.Energy_Carbon + self.Nuclear + self.Renewable
         self.Energy_PC = self.Energy / self.Population
         self.Land = self._Interpolate_Function( self._Land_Functions)
         self.Yield = self._Interpolate_Function( self._Yield_Functions)
@@ -518,6 +525,7 @@ class Interpolation_Realistic_2018( _Interpolation):
         self.Gas = self._Shift_To_Actual( self.Gas, "../Global Data/Energy_Calibration.csv", "Year", "Gas", t0, t1)
         self.Nuclear = self._Shift_To_Actual( self.Nuclear, "../Global Data/Energy_Calibration.csv", "Year", "Nuclear", t0, t1)
         self.Renewable = self._Shift_To_Actual( self.Renewable, "../Global Data/Energy_Calibration.csv", "Year", "Renewable", t0, t1)
+        self.Energy_Carbon = self._Shift_To_Actual( self.Energy, "../Global Data/Energy_Calibration.csv", "Year", "Total_C", t0, t1)
         self.Energy = self._Shift_To_Actual( self.Energy, "../Global Data/Energy_Calibration.csv", "Year", "Total", t0, t1)
         self.Energy_PC = self.Energy / self.Population
 
@@ -534,6 +542,7 @@ class Interpolation_Realistic_2018( _Interpolation):
         self.CO2 = self._Shift_To_Actual( self.CO2, "../Global Data/CO2_Mauna_Loa.csv", "Year", "Mean", t0, t1)
         self.CO2_Emissions = self._Shift_To_Actual( self.CO2_Emissions, "../Global Data/CO2_Calibration.csv", "Year", "Total", t0, t1)
         return
+
 
 #
 # Test code
