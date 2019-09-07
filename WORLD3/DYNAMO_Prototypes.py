@@ -1,49 +1,205 @@
 from Utilities import *
 
-DYNAMO_Function_Dictionary = {}
-DYNAMO_Function_Name_Dictionary = {}
-DYNAMO_Parameter_Dictionary = {}
-DYNAMO_Level_Dictionary = {}
-DYNAMO_Aux_Dictionary = {}
-DYNAMO_Aux_Name_Dictionary = {}
-DYNAMO_Rate_Dictionary = {}
-DYNAMO_Table_Dictionary = {}
-DYNAMO_Smooth_Dictionary = {}
-DYNAMO_Delay3_Dictionary = {}
-DYNAMO_Policy_Dictionary = {}
-DYNAMO_dt = 1.0
-DYNAMO_start_time = 1900
-DYNAMO_stop_time = 2100
-DYNAMO_time = DYNAMO_start_time
-DYNAMO_global_policy_year = 1975
-DYNAMO_global_stability_year = 4000
 
-def Select( t, t0, before, after):
+class Engine:
     """
-    Selects 'before' if t<t0 and 'after' if >=
+    Singleton class for function handling
     """
-    if t >= t0: return after
-    return before
+    def __init__(self):
+        self.Primary_Dictionary = {} # equation by number 
+        self.Secondary_Dictionary = {} # number by name 
+        self.Parameters = {} # here and below: name by number
+        self.Tables = {} 
+        self.Levels = {} 
+        self.Rates = {} 
+        self.Smooths = {} 
+        self.Delays = {}
+        self.Dependents = {}        
+        self.ChangePolicies = {}
+        self.dt = 1.0
+        self.start_time = 1900
+        self.stop_time = 2100
+        self.time = self.start_time
+        self.global_policy_year = 1975
+        self.global_stability_year = 4000
+        self.Model_Time = []
+        return
+    def Register( self, func):
+        self.Primary_Dictionary[func.Number] = func
+        self.Secondary_Dictionary[func.Name] = func.Number
+        return
+    def byNumber( self, number):
+        if not number in self.Primary_Dictionary: return None
+        return self.Primary_Dictionary[number]
+    def byName( self, name):
+        if name is None: return None
+        if not name in self.Secondary_Dictionary: return None
+        number = self.Secondary_Dictionary[name]
+        return self.Primary_Dictionary[number]
+    def SortByType( self):
+        for name in self.Secondary_Dictionary:
+            eq = self.byName( name)
+            if eq.Type == "Parameter":
+                self.Parameters[eq.Number] = eq.Name  
+            if eq.Type == "Table":
+                self.Tables[eq.Number] = eq.Name  
+                self.Dependents[eq.Number] = eq.Name
+            if eq.Type == "Level":
+                self.Levels[eq.Number] = eq.Name  
+            if eq.Type == "Rate":
+                self.Rates[eq.Number] = eq.Name  
+            if eq.Type == "Smooth":
+                self.Smooths[eq.Number] = eq.Name  
+                self.Dependents[eq.Number] = eq.Name
+            if eq.Type == "Delay":
+                self.Delays[eq.Number] = eq.Name  
+                self.Dependents[eq.Number] = eq.Name
+            if eq.Type == "Aux":
+                self.Dependents[eq.Number] = eq.Name
+            if eq.PolicyInput == "Policy":
+                self.Dependents[eq.Number] = eq.Name
+                self.ChangePolicies[eq.Number] = eq.Name  
+        return
+    def SelectByGlobalPolicy( self, cutoff, before, after, stable):
+        """
+        Selects 'before' before the global policy, b 'after' and 'stable'
+        after stability is achieved
+        """
+        if cutoff is not None and self.time < 1940:
+            return cutoff
+        if before is not None and self.time < self.global_policy_year:
+            return before
+        if stable is not None and self.time >= self.global_stability_year:
+            return stable
+        if after is not None: return after
+        return before
+    def Produce_Solution_Path(self, verbose=False):
+        self.SolutionPath = []
+        iStep = 0
+        print("Generating solution path")
+        
+        # parameters and level-types are presumed independent
+        for number in self.Parameters:
+            self.SolutionPath += [ number]
+            if verbose:
+                print("   {:03d} {{{:03d}}} {:s}".format( iStep, number, self.byNumber(number).Name))
+            iStep += 1
+        for number in self.Levels:
+            self.SolutionPath += [ number]
+            if verbose:
+                print("   {:03d} {{{:03d}}} {:s}".format( iStep, number, self.byNumber(number).Name))
+            iStep += 1
 
-def SelectByGlobalPolicy( cutoff, before, after, stable):
-    """
-    Selects 'before' before the global policy, b 'after' and 'stable'
-    after stability is achieved
-    """
-    if cutoff is not None and DYNAMO_time < 1940:
-        return cutoff
-    if DYNAMO_time < DYNAMO_global_policy_year: return before
-    if stable is not None and DYNAMO_time >= DYNAMO_global_stability_year:
-        return stable
-    if after is not None: return after
-    return before
+        to_solve = len(self.Dependents)
+        to_solve_prev = to_solve
+        for npass in range( 1, 101):
+            if verbose:
+                print()
+                print( "   Pass {:d} to solve {:d} equations".format(npass, to_solve))
+            for number in self.Dependents:
+                if number in self.SolutionPath: continue 
+                equation = self.byNumber(number)
+                dependencies_resolved = True
+                for dependence in equation.Dependencies:
+                    if self.Secondary_Dictionary[dependence] in self.SolutionPath: continue
+                    dependencies_resolved = False
+                    break
+                if not dependencies_resolved: continue
+                self.SolutionPath += [ number]
+                to_solve -= 1
+                if verbose: 
+                    print("   {:03d} {{{:03d}}} {:s}".format( iStep, number, equation.Name))
+                iStep += 1
+            if to_solve <= 0:
+                if verbose: 
+                    print()
+                    print( "   All {:d} solved".format(len(self.Dependents)))
+                break
+            if to_solve == to_solve_prev:
+                print()
+                print( "   Got stuck at {:d} equations".format( to_solve))
+                break        
+            to_solve_prev = to_solve 
 
-def GetDefault( value, default_value):
-    """
-    returns a default if the value is not specified
-    """
-    if value is None: return default_value
-    return value
+        if to_solve > 0:
+            print()
+            print( "   Unresolved dependencies: ")
+            for number in self.Dependents:
+                if number in self.SolutionPath: continue 
+                equation = self.byNumber(number)
+                print( "      {{{:03}}} {:s}: ".format( equation.Number, equation.Name))
+                print( "         ", equation.Dependencies)
+            return
+
+        # rate-types are presumed defined at this point
+        for number in self.Rates:
+            self.SolutionPath += [ number]
+            if verbose:
+                print("   {:03d} {{{:03d}}} {:s}".format( iStep, number, self.byNumber(number).Name))
+            iStep += 1
+        return
+    def LockVariables(self):
+        undefined_count = 0
+        for num in self.Primary_Dictionary:
+            equation = self.Primary_Dictionary[num]
+            equation.Lock()
+            if (equation.J is None) or (equation.K is None):
+                undefined_count += 1
+        return undefined_count
+    def Reset(self,
+             dt = 1.0,
+             start_time = 1900,
+             stop_time = 2100,
+             global_policy_year = 1975,
+             global_stability_year = 4000,
+             verbose=False):
+        print("DYNAMO reset")
+        self.dt = dt
+        self.start_time = start_time
+        self.stop_time = stop_time
+        self.time = start_time
+        self.global_policy_year = global_policy_year
+        self.global_stability_year = global_stability_year
+        self.Model_Time = []
+        if verbose:
+            print( "   Model from {:.0f} to {:.0f}".format(self.start_time, self.stop_time) )
+            print( "   Time step {:.1f} year(s)".format(self.dt) )
+            print( "   Global policy in {:.1f}".format(self.global_policy_year) )
+            print( "   Stability forced in {:.1f}".format(self.global_stability_year) )
+        for num in self.Primary_Dictionary:
+            equation = self.Primary_Dictionary[num]
+            equation.Reset()
+            if verbose:
+                print( "   {:s} reset".format(equation.Name) )
+        return
+    def Warmup(self, cycles = 10, verbose=False):
+        print("DYNAMO Warm-up")
+        for num in self.Parameters:
+            self.Primary_Dictionary[num].Warmup()
+        for i in range(cycles):
+            for num in self.SolutionPath:
+                self.Primary_Dictionary[num].Warmup()                
+            undefined = self.LockVariables()
+            if verbose:
+                print( "   Warmup pass {:d}: {:d} undefined".format(i+1, undefined) )
+        return
+    def Compute(self, verbose=False):
+        print("DYNAMO Running")
+        while self.time <= self.stop_time:
+            self.Model_Time += [self.time]
+            for num in self.SolutionPath:
+                self.Primary_Dictionary[num].Update()                
+            undefined = self.LockVariables()
+            if verbose:
+                if undefined == 0:
+                    print( "   {:.1f}: all defined".format(self.Model_Time[-1]) )
+                else:
+                    print( "   {:.1f}: {:d} undefined".format(self.Model_Time[-1], undefined) )
+            self.time += self.dt
+        return
+    
+        
+DYNAMO_Engine = Engine()
 
 
 class Parameter:
@@ -51,21 +207,21 @@ class Parameter:
     DYNAMO prototype for a fixed value
     """
     def __init__(self,
-                 number, name, Val,
-                 equations = [],
+                 number, name,
+                 Val,
+                 usedIn = [],
                  units="unitless"):
         self.Number = number
         self.Name = name
         self.Type = "Parameter"
+        self.PolicyInput = "Fixed"
         self.Value = Val
-        self.Equations = equations
+        self.UsedIn = usedIn
         self.Units = units
         self.Dependencies = [] # depends on nothing
         self.J = self.Value
         self.K = self.Value
-        DYNAMO_Function_Dictionary[ number] = self
-        DYNAMO_Function_Name_Dictionary[ name] = self
-        DYNAMO_Parameter_Dictionary[ number] = self
+        DYNAMO_Engine.Register(self)
         return
     def Reset(self):
         return
@@ -74,11 +230,11 @@ class Parameter:
     def Update(self):
         self.Warmup()
         return self.K
-    def Tick(self):
+    def Lock(self):
         return
     def __str__(self):
-        s = "{{{:03d}}}\tParameter {:s} = {:g} [{:s}]".format(
-            self.Number, self.Name, self.Value, self.Units)
+        s = "{{{:03d}}}\t{:s} {:s} {:s} = {:g} [{:s}]".format(
+            self.Number, self.PolicyInput, self.Type, self.Name, self.Value, self.Units)
         return s
 
 
@@ -87,43 +243,45 @@ class PolicyParametrization:
     DYNAMO prototype for selecting parameter before and after policy implementation
     This is essentially a Heaviside step function aH(t-to)+b
     """
-    def __init__(self, number, name, value_before, value_after, units="unitless"):
+    def __init__(self,
+                 number, name,
+                 value_before, value_after,
+                 units="unitless"):
         self.Number = number
         self.Name = name
         self.Type = "Parameter"
+        self.PolicyInput = "Policy"
         self.Units = units
         self.BeforePolicy = value_before
         self.AfterPolicy = value_after
         self.Dependencies = [] # depends only on model time
-        DYNAMO_Function_Dictionary[ number] = self
-        DYNAMO_Function_Name_Dictionary[ name] = self
-        DYNAMO_Aux_Dictionary[ number] = self
-        DYNAMO_Aux_Name_Dictionary[ name] = self
-        DYNAMO_Policy_Dictionary[ number] = self
+        DYNAMO_Engine.Register(self)
         return
     def Reset(self):
-        self.J = SelectByGlobalPolicy( self.BeforePolicy,
-                                       self.BeforePolicy,
-                                       self.AfterPolicy,
-                                       self.AfterPolicy)
+        self.J = DYNAMO_Engine.SelectByGlobalPolicy(
+            self.BeforePolicy,
+            self.BeforePolicy,
+            self.AfterPolicy,
+            self.AfterPolicy)
         self.K = self.J
         return
     def Warmup(self):
-        self.K = SelectByGlobalPolicy( self.BeforePolicy,
-                                       self.BeforePolicy,
-                                       self.AfterPolicy,
-                                       self.AfterPolicy)
+        self.K = DYNAMO_Engine.SelectByGlobalPolicy(
+            self.BeforePolicy,
+            self.BeforePolicy,
+            self.AfterPolicy,
+            self.AfterPolicy)
         return
     def Update(self):
         self.Warmup()
         return self.K
-    def Tick(self):
+    def Lock(self):
         self.J = self.K
         return
     def __str__(self):
-        s = "{{{:03d}}}\tPolicy {:s} changes from {:g} to {:g} [{:s}] in {:g}".format(
-            self.Number, self.Name, self.BeforePolicy, self.AfterPolicy,
-            self.Units, DYNAMO_global_policy_year)
+        s = "{{{:03d}}}\t{:s} {:s} {:s} changes from {:g} to {:g} [{:s}] in {:g}".format(
+            self.Number, self.PolicyInput, self.Type, self.Name, self.BeforePolicy, self.AfterPolicy,
+            self.Units, DYNAMO_Engine.global_policy_year)
         return s
 
 
@@ -140,12 +298,15 @@ class TableParametrization:
                   data_after_policy = None,
                   dependencies = [],
                   updatefn = None,
-                  norm = 1.0):
+                  normfn = lambda: 1.0,
+                  initialValue = None):
         self.Number = number
         self.Name = name
-        self.Type = "Aux"
+        self.Type = "Table"
+        self.PolicyInput = "Fixed"
         self.Units = units
-        self.Norm = norm
+        self.NormFn = normfn
+        self.InitialValue = initialValue
         if data_1940 is not None:
             self.DataHistory = np.array( data_1940)
         else:
@@ -153,27 +314,25 @@ class TableParametrization:
         self.DataBefore = np.array( data)
         if data_after_policy is not None:
             self.DataAfter = np.array( data_after_policy)
-            DYNAMO_Policy_Dictionary[ number] = self
+            self.PolicyInput = "Policy"
         else:
             self.DataAfter = None
         self.Indices = np.linspace( imin, imax, len(data))
         self.Delta = self.Indices[1]-self.Indices[0]
-        self.Dependencies = dependencies # may depend on model time as well
-        self.K = None
-        self.J = None
+        self.Dependencies = []
+        if self.InitialValue is None:
+            self.Dependencies = dependencies # may depend on model time as well
         self.UpdateFn = updatefn
-        DYNAMO_Function_Dictionary[ number] = self
-        DYNAMO_Function_Name_Dictionary[ name] = self
-        DYNAMO_Aux_Dictionary[ number] = self
-        DYNAMO_Aux_Name_Dictionary[ name] = self
-        DYNAMO_Table_Dictionary[ number] = self
+        self.K = self.InitialValue
+        self.J = self.InitialValue
+        DYNAMO_Engine.Register(self)
         return
     def Lookup( self, v):
-        data = SelectByGlobalPolicy( self.DataHistory,
-                                     self.DataBefore,
-                                     self.DataAfter,
-                                     self.DataAfter)
-        if v is None: return None
+        data = DYNAMO_Engine.SelectByGlobalPolicy(
+            self.DataHistory,
+            self.DataBefore,
+            self.DataAfter,
+            self.DataAfter)
         if v <= self.Indices[0] : return data[ 0]
         if v >= self.Indices[-1]: return data[-1]
         for i, vi in enumerate( self.Indices):
@@ -182,51 +341,28 @@ class TableParametrization:
                 return data[i]*(1-f) + data[i+1]*f
         return data[-1]
     def Reset(self):
-        return None
+        return
     def Warmup(self):
-        v = self.UpdateFn()
-        if v is None and len( self.Dependencies) == 1:
-            v = DYNAMO_Function_Name_Dictionary[self.Dependencies[0]].K
-        if v is not None: v /= self.Norm
+        v = self.InitialValue
+        try:
+            if v is None and self.UpdateFn is None:
+                v = DYNAMO_Engine.byName( self.Dependencies[0]).K
+            if v is None and self.UpdateFn is not None:
+                v = self.UpdateFn()
+        except:
+            v = self.InitialValue
+        if v is not None: v /= self.NormFn()
+        if v is None:
+            self.K = None
+            print( "Table Achtung! " + self.Name)
+            return
         self.K = self.Lookup( v)
         return
     def Update(self):
         self.Warmup();
         return self.K
-    def Tick(self):
+    def Lock(self):
         self.J = self.K
-        return
-    def Plot(self, plotMin=None, plotMax=None, xLabel=None, filename="./Graphs/DYNAMO_{:s}.png"):
-        print( "Plotting test table {:s}".format( self.Name))
-        if plotMin is None: plotMin = self.Indices[0]  
-        if plotMax is None: plotMax = self.Indices[-1]  
-        xPlot = np.linspace( plotMin, plotMax, 101)
-        yPlot = np.zeros( 101)
-        for i, v in enumerate( xPlot): yPlot[i] = self.Lookup( v)       
-        fig = plt.figure( figsize=(15,10))
-        fig.suptitle('Проверка модели "World3": {:s}'.format(self.Name), fontsize=25)
-        gs = plt.GridSpec(1, 1) 
-        ax1 = plt.subplot(gs[0])
-        ax1.plot( xPlot*self.Norm, yPlot, "-", lw=3, color="k")
-        ax1.plot( self.Indices*self.Norm, self.DataBefore, "o", lw=2, color="r", label="Before policy")
-        if self.DataAfter is not None:
-            ax1.plot( self.Indices*self.Norm, self.DataAfter, "o", lw=2, color="b", label="After policy")
-            ax1.legend(loc=0)
-        if self.DataHistory is not None:
-            ax1.plot( self.Indices*self.Norm, self.DataHistory, "o", lw=2, color="m", label="Prior to 1940")
-            ax1.legend(loc=0)
-        ax1.set_xlim( plotMin*self.Norm, plotMax*self.Norm)
-        ax1.grid(True)
-        if xLabel is not None:
-            ax1.set_xlabel(xLabel)
-        else:
-            first_dependency = DYNAMO_Function_Name_Dictionary[self.Dependencies[0]]
-            s = "{:s} [{:s}]".format(first_dependency.Name, first_dependency.Units)
-            if self.Norm != 1.0: s += ", Norm = {:g}".format(self.Norm)
-            ax1.set_xlabel(s)
-        ax1.set_ylabel("{:s} [{:s}]".format(self.Name, self.Units))
-        plt.savefig( filename.format(self.Name))
-        plt.close('all')
         return
     def __str__(self):
         s = "{{{:03d}}}\tTable {:s} [{:s}]".format(
@@ -237,9 +373,9 @@ class TableParametrization:
             diff = self.DataAfter - self.DataBefore
             diff = np.sum( diff*diff)
             if diff > 0.0:
-                s += (" - changing in {:g}".format(DYNAMO_global_policy_year))
+                s += (" - changing in {:g}".format(DYNAMO_Engine.global_policy_year))
             else:
-                s += (" - no change in {:g}".format(DYNAMO_global_policy_year))
+                s += (" - no change in {:g}".format(DYNAMO_Engine.global_policy_year))
         return s
 
 
@@ -248,37 +384,41 @@ class LevelVariable:
     DYNAMO prototype for a level variable
     """
     def __init__(self,
-                 number, name, initVal,
+                 number, name,
+                 initialValue,
                  units="unitless",
                  updatefn = None):
         self.Number = number
         self.Name = name
         self.Type = "Level"
-        self.InitialValue = initVal
+        self.PolicyInput = "None"
+        self.InitialValue = initialValue
         self.Units = units
         self.UpdateFn = updatefn
         self.Dependencies = [] # depends only on model time step and rates
         self.Reset()
-        DYNAMO_Function_Dictionary[ number] = self
-        DYNAMO_Function_Name_Dictionary[ name] = self
-        DYNAMO_Level_Dictionary[ number] = self
+        DYNAMO_Engine.Register(self)
         return
     def Reset(self):
         self.J = self.InitialValue
         self.K = self.InitialValue
-        self.Data = [self.K]
+        self.Data = []
         return
     def Warmup(self):
-        rate = 0.0
-        if self.UpdateFn is not None:
-            rate = self.UpdateFn()
-        self.K = self.J + rate * DYNAMO_dt
+        self.J = self.InitialValue
+        self.K = self.InitialValue
         return
     def Update(self):
-        self.Warmup()
+        rate = 0.0
+        try:
+            if self.UpdateFn is not None: rate = self.UpdateFn()
+        except:
+            print("Level Achtung! " + self.Name)
+            rate = 0.0
+        self.K = self.J + rate * DYNAMO_Engine.dt
         self.Data += [self.K]
         return self.K
-    def Tick(self):
+    def Lock(self):
         self.J = self.K
         return
     def __str__(self):
@@ -299,14 +439,13 @@ class RateVariable:
         self.Number = number
         self.Name = name
         self.Type = "Rate"
+        self.PolicyInput = "None"
         self.Units = units
         self.Reset()
         self.UpdateFn = updatefn            
         self.EquilibriumFn = equilibriumfn
         self.Dependencies = [] # all dependencies are presumed resolved
-        DYNAMO_Function_Dictionary[ number] = self
-        DYNAMO_Function_Name_Dictionary[ name] = self
-        DYNAMO_Rate_Dictionary[ number] = self
+        DYNAMO_Engine.Register(self)
         return
     def Reset(self):
         self.J = None
@@ -314,20 +453,40 @@ class RateVariable:
         self.Data = []
         return
     def Warmup(self):
-        fn = SelectByGlobalPolicy( self.UpdateFn,
-                                  self.UpdateFn,
-                                  self.UpdateFn,
-                                  self.EquilibriumFn)
+        fn = DYNAMO_Engine.SelectByGlobalPolicy(
+            self.UpdateFn,
+            self.UpdateFn,
+            self.UpdateFn,
+            self.EquilibriumFn)
         if fn is None:
+            print("ERROR: Rate " + self.Name + " has no update function")
             self.K = None
             return
-        self.K = fn()
+        try:
+            self.K = fn()
+        except:
+            self.J = 0.0
+            self.K = 0.0
+            print( "Warning:" + self.Name + ".J and .K replaced  with zeros in warm-up")
         return
     def Update(self):
-        self.Warmup()
+        fn = DYNAMO_Engine.SelectByGlobalPolicy(
+            self.UpdateFn,
+            self.UpdateFn,
+            self.UpdateFn,
+            self.EquilibriumFn)
+        if fn is None:
+            print("ERROR: Rate " + self.Name + " has no update function")
+            self.K = None
+            return
+        try:
+            self.K = fn()
+        except:
+            self.K = 0.0
+            print( "Warning:" + self.Name + ".K replaced with zero in update")
         self.Data += [self.K]
         return self.K
-    def Tick(self):
+    def Lock(self):
         self.J = self.K
         return
     def __str__(self):
@@ -349,43 +508,45 @@ class AuxVariable:
                  units="unitless",
                  dependencies=[],
                  updatefn = None,
-                 norm = 1.0,
+                 normfn = lambda: 1.0,
                  equilibriumfn=None):
         self.Number = number
         self.Name = name
         self.Type = "Aux"
+        self.PolicyInput = "None"
         self.Units = units
-        self.Norm = norm
+        self.NormFn = normfn
         self.Dependencies = dependencies
         self.Reset()
         self.UpdateFn = updatefn
         self.EquilibriumFn = equilibriumfn
-        DYNAMO_Function_Dictionary[ number] = self
-        DYNAMO_Function_Name_Dictionary[ name] = self
-        DYNAMO_Aux_Dictionary[ number] = self
-        DYNAMO_Aux_Name_Dictionary[ name] = self
+        DYNAMO_Engine.Register(self)
         return
+    def Op(self, name):
+        return DYNAMO_Engine.byName(name)
     def Reset(self):
         self.J = None
         self.K = None
         self.Data = []
         return
     def Warmup(self):
-        fn = SelectByGlobalPolicy( self.UpdateFn,
-                                   self.UpdateFn,
-                                   self.UpdateFn,
-                                   self.EquilibriumFn)
-
+        fn = DYNAMO_Engine.SelectByGlobalPolicy(
+            self.UpdateFn,
+            self.UpdateFn,
+            self.UpdateFn,
+            self.EquilibriumFn)
         self.K = None
-        if fn is not None:
-            self.K = fn()
-        if self.K is not None: self.K / self.Norm 
+        try:
+            if fn is not None: self.K = fn()
+        except:
+            print("Warning: K is undefined " + self.Name)
+        if self.K is not None: self.K / self.NormFn() 
         return
     def Update(self):
         self.Warmup()
         self.Data += [self.K]
         return self.K
-    def Tick(self):
+    def Lock(self):
         self.J = self.K
         return
     def __str__(self):
@@ -397,163 +558,300 @@ class AuxVariable:
                 self.Number, self.Name, self.K, self.Units, len(self.Data))
         return s
 
-    def Plot( self, ModelTime, xLabel="Model time [years]", filename="./Graphs/WORLD3_{:s}.png"):
-        print( "Plotting test for {:s}".format( self.Name))
-        xPlot = []
-        yPlot = []
-        xNone = []
-        for i, t in enumerate( ModelTime):
-            if self.Data[i] is None:
-                xNone += [t]
-                continue
-            xPlot += [t]
-            yPlot += [self.Data[i]]
-        xPlot = np.array(xPlot)
-        yPlot = np.array(yPlot)
-        yPlotMin = min(yPlot)
-        yPlotMax = max(yPlot)
-        fig = plt.figure( figsize=(15,10))
-        fig.suptitle('Проверка модели "World3": {:s}'.format(self.Name), fontsize=25)
-        gs = plt.GridSpec(1, 1) 
-        ax1 = plt.subplot(gs[0])
-        for x in xNone:
-            ax1.plot( [x,x], [yPlotMin, yPlotMax], "--", lw=3, alpha= 0.5, color="k")
-        ax1.plot( xPlot, yPlot, "o", lw=2, color="k")
-        ax1.plot( xPlot, yPlot, "-", lw=4, color="b", alpha=0.7)
-        ax1.set_xlim( ModelTime[0], ModelTime[-1])
-        ax1.grid(True)
-        ax1.set_xlabel(xLabel)
-        ax1.set_ylabel("{:s} [{:s}]".format(self.Name, self.Units))
-        plt.savefig( filename.format(self.Name))
-        plt.close('all')
-        return
        
-
-class Smooth:
+class SmoothVariable:
     """
     DYNAMO prototype for an auxillary dependency with smoothing
+    if initialValue is not None, dependency is ignored; this is used to
+    break determination cycles
     """
-    def __init__(self, name, number, delay, units="unitless"):
-        self.Name = name
+    def __init__(self,
+                 number, name,
+                 delayfn=lambda: 1.0,
+                 units="unitless",
+                 dependencies=[],
+                 initialValue = None):
         self.Number = number
-        self.Type = "Aux"
+        self.Name = name
+        self.Type = "Smooth"
+        self.PolicyInput = "None"
         self.Units = units
-        self.Delay = delay
+        self.DelayFn = delayfn
+        self.InitialValue = initialValue
+        self.InitFn = dependencies[0]
         self.Dependencies = []
+        if initialValue is None:
+            self.Dependencies = dependencies
         self.Reset()
-        self.InitFn = None
-        self.InputClass = None
-        DYNAMO_Function_Dictionary[ number] = self
-        DYNAMO_Function_Name_Dictionary[ name] = self
-        DYNAMO_Aux_Dictionary[ number] = self
-        DYNAMO_Aux_Name_Dictionary[ name] = self
-        DYNAMO_Smooth_Dictionary[ number] = self
+        DYNAMO_Engine.Register(self)
         return
     def Init(self):
-        if self.InitFn is None: return
-        self.InputClass = DYNAMO_Function_Name_Dictionary[ self.InitFn]
-        if self.InputClass is None: return
-        self.J = self.InputClass.K
-        self.K = self.InputClass.K
+        InputClass = DYNAMO_Engine.byName( self.InitFn)
+        if InputClass is None:
+            print( "Smooth " + self.Name + " - input class not defined")
+        if self.InitialValue is not None:
+            self.J = self.InitialValue
+            self.K = self.InitialValue
+            return
+        self.J = InputClass.K
+        self.K = InputClass.K
+        if self.K is None:
+            print( "Smooth K Achtung! " + self.Name)
         return
     def Reset(self):
-        self.J = None
-        self.K = None
+        self.J = self.InitialValue
+        self.K = self.InitialValue
         self.isFirstCall = True;
         return
     def Warmup(self):
         self.Init()
         return
     def Update(self):
-        if self.InputClass is None: return
+        InputClass = DYNAMO_Engine.byName( self.InitFn)
+        if InputClass is None:
+            print( "Smooth " + self.Name + " - input class not defined")
         if self.isFirstCall:
-            self.J = self.InputClass.K
-            self.K = self.InputClass.K
+            self.J = InputClass.K
+            self.K = InputClass.K
             self.isFirstCall = False;
             return self.K;
-        self.K = self.J + DYNAMO_dt * (self.InputClass.J - self.J) / self.Delay;
+        self.K = self.J + DYNAMO_Engine.dt * (InputClass.J - self.J) / self.DelayFn();
         return self.K
-    def Tick(self):
+    def Lock(self):
         self.J = self.K
         return
+    def __str__(self):
+        s = "{{{:03d}}}\t{:s} {:s} J = ".format( self.Number, self.Type, self.Name)
+        if self.J is None: s += "<None>, K = "
+        else: s += "{:g}, K = ".format(self.J)
+        if self.K is None: s += "<None>"
+        else: s += "{:g}".format(self.K)
+        s += " [{:s}]".format(self.Units)
+        return s
 
 
-class Delay3:
+class DelayVariable:
     """
     DYNAMO prototype for third-order exponential delay Rate variables
     """
-    def __init__(self, name, number, delay, units="unitless"):
-        self.Name = name
+    def __init__(self,
+                 number, name,
+                 delayfn=lambda: 1.0,
+                 units="unitless",
+                 dependencies=[],
+                 initialValue = None):
         self.Number = number
-        self.Type = "Aux"
+        self.Name = name
+        self.Type = "Delay"
+        self.PolicyInput = "None"
         self.Units = units
-        self.Delay_3 = delay / 3
+        self.DelayFn = delayfn
+        self.InitialValue = initialValue
+        self.InitFn = dependencies[0]
         self.Dependencies = []
+        if initialValue is None:
+            self.Dependencies = dependencies
         self.Reset()
-        self.InitFn = None
-        self.InputClass = None
-        DYNAMO_Function_Dictionary[ number] = self
-        DYNAMO_Function_Name_Dictionary[ name] = self
-        DYNAMO_Aux_Dictionary[ number] = self
-        DYNAMO_Aux_Name_Dictionary[ name] = self
-        DYNAMO_Delay3_Dictionary[ number] = self
+        DYNAMO_Engine.Register(self)
         return
     def Init(self):
-        if self.InitFn is None: return
-        self.InputClass = DYNAMO_Function_Name_Dictionary[ self.InitFn]
-        if self.InputClass is None: return
-        self.J = self.InputClass.K
-        self.K = self.InputClass.K
-        self.alpha = (self.InputClass.J, self.InputClass.J)
-        self.beta  = (self.InputClass.J, self.InputClass.J)
-        self.gamma = (self.InputClass.J, self.InputClass.J)
+        InputClass = DYNAMO_Engine.byName( self.InitFn)
+        if InputClass is None:
+            print( "Delay " + self.Name + " - input class not defined")
+            return
+        if self.InitialValue is not None:
+            self.J = self.InitialValue
+            self.K = self.InitialValue
+        else:
+            self.J = InputClass.K
+            self.K = InputClass.K
+        if self.K is None:
+            print( "Delay K Achtung! " + self.Name)
+        self.alpha = (self.K, self.K)
+        self.beta  = (self.K, self.K)
+        self.gamma = (self.K, self.K)
         return
     def Reset(self):
-        self.J = None
-        self.K = None
+        self.J = self.InitialValue
+        self.K = self.InitialValue
         self.isFirstCall = True;
-        self.alpha = (None, None)
-        self.beta  = (None, None)
-        self.gamma = (None, None)
+        self.alpha = (self.InitialValue, self.InitialValue)
+        self.beta  = (self.InitialValue, self.InitialValue)
+        self.gamma = (self.InitialValue, self.InitialValue)
         return
     def Warmup(self):
         self.Init()
         return
     def Update(self):
-        if self.InputClass is None: return
+        InputClass = DYNAMO_Engine.byName( self.InitFn)
+        if InputClass is None:
+            print( "Delay " + self.Name + " - input class not defined")
         if self.isFirstCall:
-            self.J = self.InputClass.K
-            self.K = self.InputClass.K
-            self.alpha = (self.InputClass.K, self.InputClass.K)
-            self.beta  = (self.InputClass.K, self.InputClass.K)
-            self.gamma = (self.InputClass.K, self.InputClass.K)
+            self.J = InputClass.K
+            self.K = InputClass.K
+            self.alpha = (InputClass.K, InputClass.K)
+            self.beta  = (InputClass.K, InputClass.K)
+            self.gamma = (InputClass.K, InputClass.K)
             self.isFirstCall = False;
             return self.K;
-        alpha = self.alpha[0] + DYNAMO_dt * (self.InputClass.J - self.alpha[0]) / self.Delay_3;
-        beta  = self.beta[0]  + DYNAMO_dt * (self.alpha[0]     - self.beta[0])  / self.Delay_3;
-        gamma = self.gamma[0] + DYNAMO_dt * (self.beta[0]      - self.gamma[0]) / self.Delay_3;
+        Delay_3 = self.DelayFn() / 3
+        alpha = self.alpha[0] + DYNAMO_Engine.dt * (InputClass.J  - self.alpha[0]) / Delay_3;
+        beta  = self.beta[0]  + DYNAMO_Engine.dt * (self.alpha[0] - self.beta[0])  / Delay_3;
+        gamma = self.gamma[0] + DYNAMO_Engine.dt * (self.beta[0]  - self.gamma[0]) / Delay_3;
         self.alpha = (self.alpha[1], alpha)
         self.beta  = (self.beta[1], beta)
         self.gamma = (self.gamma[1], gamma)
         self.K = gamma
         return self.K
-    def Tick(self):
+    def Lock(self):
         self.J = self.K
         return
+    def __str__(self):
+        s = "{{{:03d}}}\t{:s} {:s} J = ".format( self.Number, self.Type, self.Name)
+        if self.J is None: s += "<None>, K = "
+        else: s += "{:g}, K = ".format(self.J)
+        if self.K is None: s += "<None>"
+        else: s += "{:g}".format(self.K)
+        s += " [{:s}]".format(self.Units)
+        return s
+
 
 class meaningOfLife:
+    """
+    Ultimate Question of Life, The Universe, and Everything 
+    """
     def __init__(self):
+        self.J = 42
         self.K = 42
+
+
+def PlotTable(
+    table,
+    plotMin=None, plotMax=None,
+    xLabel=None,
+    filename="./Graphs/DYNAMO_{:s}.png",
+    show=False):
+    """
+    Plots a table against a primary argument
+    """
+    print( "   Plotting test table {:s}".format( table.Name))
+    if plotMin is None: plotMin = table.Indices[0]  
+    if plotMax is None: plotMax = table.Indices[-1]  
+    xPlot = np.linspace( plotMin, plotMax, 101)
+    yPlot = np.zeros( 101)
+    for i, v in enumerate( xPlot): yPlot[i] = table.Lookup( v)       
+    norm = table.NormFn()
+    fig = plt.figure( figsize=(15,10))
+    fig.suptitle('DYNAMO Table Parametrization: {:s}'.format(table.Name), fontsize=25)
+    gs = plt.GridSpec(1, 1) 
+    ax1 = plt.subplot(gs[0])
+    ax1.plot( xPlot*norm, yPlot, "-", lw=3, color="k")
+    ax1.plot( table.Indices*norm, table.DataBefore, "o", lw=2, color="r", label="Before policy")
+    if table.DataAfter is not None:
+        ax1.plot( table.Indices*norm, table.DataAfter, "o", lw=2, color="b", label="After policy")
+        ax1.legend(loc=0)
+    if table.DataHistory is not None:
+        ax1.plot( table.Indices*norm, table.DataHistory, "o", lw=2, color="m", label="Prior to 1940")
+        ax1.legend(loc=0)
+    ax1.set_xlim( plotMin*norm, plotMax*norm)
+    ax1.grid(True)
+    if xLabel is not None:
+        ax1.set_xlabel(xLabel)
+    else:
+        first_dependency = DYNAMO_Engine.byName( table.Dependencies[0])
+        s = "{:s} [{:s}]".format(first_dependency.Name, first_dependency.Units)
+        if norm != 1.0: s += ", Norm = {:g}".format(norm)
+        ax1.set_xlabel(s)
+    ax1.set_ylabel("{:s} [{:s}]".format(table.Name, table.Units))
+    plt.savefig( filename.format(table.Name))
+    if show: plt.show()
+    else: plt.close('all')
+    return
+
+
+def PlotVariable(
+    variable,
+    ModelTime,
+    xLabel="Model time [years]",
+    filename="./Graphs/MODEL_{:s}.png",
+    show=False):
+    """
+    Plots a variable against model time
+    """
+    print( "    Plotting {:s} [{:s}] against {:s}".format( variable.Name, variable.Units, xLabel))
+    xPlot = []
+    yPlot = []
+    xNone = []
+    for i, t in enumerate( ModelTime):
+        if variable.Data[i] is None:
+            xNone += [t]
+            continue
+        xPlot += [t]
+        yPlot += [variable.Data[i]]
+    xPlot = np.array(xPlot)
+    yPlot = np.array(yPlot)
+    yPlotMin = min(yPlot)
+    yPlotMax = max(yPlot)
+    fig = plt.figure( figsize=(15,10))
+    fig.suptitle('DYNAMO Variable: {:s}'.format(variable.Name), fontsize=25)
+    gs = plt.GridSpec(1, 1) 
+    ax1 = plt.subplot(gs[0])
+    for x in xNone:
+        ax1.plot( [x,x], [yPlotMin, yPlotMax], "--", lw=3, alpha= 0.5, color="k")
+    ax1.plot( xPlot, yPlot, "o", lw=2, color="k")
+    ax1.plot( xPlot, yPlot, "-", lw=4, color="b", alpha=0.7)
+    ax1.set_xlim( ModelTime[0], ModelTime[-1])
+    ax1.grid(True)
+    ax1.set_xlabel(xLabel)
+    ax1.set_ylabel("{:s} [{:s}]".format(variable.Name, variable.Units))
+    plt.savefig( filename.format(variable.Name))
+    if show: plt.show()
+    else: plt.close('all')
+    return
 
 
 # Generic checks
 if __name__ == "__main__":
-    
+    print()
+    print("Check Parameter:")
+    subsistenceFoodPerCapita = Parameter(
+        151, "subsistenceFoodPerCapita", 230,
+        [20, 127], "kilograms / person / year")
+    subsistenceFoodPerCapita.Reset()
+    print("   Reset: ", subsistenceFoodPerCapita)
+    subsistenceFoodPerCapita.Warmup()
+    print("   Warmup: ", subsistenceFoodPerCapita)
+    subsistenceFoodPerCapita.Update()
+    print("   Update: ", subsistenceFoodPerCapita.Update(), subsistenceFoodPerCapita)
+    subsistenceFoodPerCapita.Lock()
+    print("   Lock: ", subsistenceFoodPerCapita.J, subsistenceFoodPerCapita.K, subsistenceFoodPerCapita)
+
+    print()
+    print("Check Policy Parametrization:")
+    lifeExpectancy = PolicyParametrization(
+        51, "lifeExpectancy", 42, 43, units="years")
+    lifeExpectancy.Reset()
+    print("   Reset: ", lifeExpectancy)
+    lifeExpectancy.Warmup()
+    print("   Warmup: ", lifeExpectancy)
+    lifeExpectancy.Update()
+    print("   Update: ", lifeExpectancy.Update(), lifeExpectancy)
+    lifeExpectancy.Lock()
+    print("   Lock: ", lifeExpectancy.J, lifeExpectancy.K, lifeExpectancy)
+
+    print()
+    print("Check Table Parametrization:")
     mortality0To14 = TableParametrization(
         4, "mortality0To14",
         [0.0567, 0.0366, 0.0243, 0.0155, 0.0082, 0.0023, 0.0010],
         20, 80, "deaths / person / year",
         dependencies = ["lifeExpectancy"])
-    mortality0To14.Plot( 0, 100, xLabel="Test lifeExpectancy [years]")
-    
-    if InteractiveModeOn: plt.show(True)
+    mortality0To14.Reset()
+    print("   Reset: ", mortality0To14)
+    mortality0To14.Warmup()
+    print("   Warmup: ", mortality0To14)
+    mortality0To14.Update()
+    print("   Update: ", mortality0To14.Update(), mortality0To14)
+    mortality0To14.Lock()
+    print("   Lock: ", mortality0To14.J, mortality0To14.K, mortality0To14)
+    PlotTable( mortality0To14, 0, 100, xLabel="(Test only) lifeExpectancy [years]", show=True)

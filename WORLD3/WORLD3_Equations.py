@@ -35,7 +35,7 @@ landFractionHarvested = Parameter(
     160, "landFractionHarvested", 0.7,
     [87])
 foodProcessingLoss = Parameter(
-    161, "foodProcessingLossK", 0.1,
+    161, "foodProcessingLoss", 0.1,
     [87])
 averageLifetimeOfAgriculturalInputs = Parameter(
     162, "averageLifetimeOfAgriculturalInputs", 2,
@@ -176,11 +176,11 @@ healthServicesAllocationsPerCapita = TableParametrization(
     "dollars / person / year",
     dependencies = ["serviceOutputPerCapita"])
 
-effectiveHealthServicesPerCapita = Smooth("effectiveHealthServicesPerCapita", 22,
-                                          effectiveHealthServicesPerCapitaImpactDelay.K,
-                                          "dollars / person / year")
-effectiveHealthServicesPerCapita.Dependencies = ["healthServicesAllocationsPerCapita"]
-effectiveHealthServicesPerCapita.InitFn = "healthServicesAllocationsPerCapita"
+effectiveHealthServicesPerCapita = SmoothVariable(
+    22, "effectiveHealthServicesPerCapita",
+    effectiveHealthServicesPerCapitaImpactDelay.K,
+    "dollars / person / year",
+    ["healthServicesAllocationsPerCapita"])
 
 lifetimeMultiplierFromHealthServices = TableParametrization(
     23, "lifetimeMultiplierFromHealthServices",
@@ -204,6 +204,7 @@ crowdingMultiplierFromIndustrialization = TableParametrization(
 
 lifetimeMultiplierFromCrowding = AuxVariable(
     28, "lifetimeMultiplierFromCrowding",
+    dependencies = ["crowdingMultiplierFromIndustrialization", "fractionOfPopulationUrban"], # added dependency   
     updatefn = lambda : \
     1 - crowdingMultiplierFromIndustrialization.K * fractionOfPopulationUrban.K) 
 
@@ -214,10 +215,9 @@ lifetimeMultiplierFromPollution = TableParametrization(
 
 birthsPerYear = RateVariable(
     30, "birthsPerYear", "persons / year",
-    lambda : totalFertility.K * population15To44.K * 0.5 / \
-        birthsPerYear.reproductiveLifetime,
+    lambda : totalFertility.K * population15To44.K * 0.5 / 30,
     lambda : deathsPerYear.K)
-birthsPerYear.reproductiveLifetime = 30 # years
+#birthsPerYear.reproductiveLifetime = 30 # years
 
 crudeBirthRate = AuxVariable(
     31, "crudeBirthRate", "births / 1000 persons / year",
@@ -254,10 +254,10 @@ compensatoryMultiplierFromPerceivedLifeExpectancy = TableParametrization(
     [3.0, 2.1, 1.6, 1.4, 1.3, 1.2, 1.1, 1.05, 1.0], 0, 80,
     dependencies = ["perceivedLifeExpectancy"])
 
-perceivedLifeExpectancy = Delay3("perceivedLifeExpectancy", 37,
-                                 lifetimePerceptionDelay.K, "years")
-perceivedLifeExpectancy.Dependencies = ["lifeExpectancy"]
-perceivedLifeExpectancy.InitFn = "lifeExpectancy"
+perceivedLifeExpectancy = DelayVariable(
+    37, "perceivedLifeExpectancy",
+    lifetimePerceptionDelay.K, "years",
+    ["lifeExpectancy"])
 
 desiredCompletedFamilySize = AuxVariable(
     38, "desiredCompletedFamilySize", "persons",
@@ -271,11 +271,11 @@ socialFamilySizeNorm = TableParametrization(
     [1.25, 1, 0.9, 0.8, 0.75], 0, 800,
     dependencies = ["delayedIndustrialOutputPerCapita"])
 
-delayedIndustrialOutputPerCapita = Delay3("delayedIndustrialOutputPerCapita", 40,
-                                          socialAdjustmentDelay.K,
-                                          "dollars / person / year")
-delayedIndustrialOutputPerCapita.Dependencies = ["industrialOutputPerCapita"]
-delayedIndustrialOutputPerCapita.InitFn = "industrialOutputPerCapita"
+delayedIndustrialOutputPerCapita = DelayVariable(
+    40, "delayedIndustrialOutputPerCapita",
+    socialAdjustmentDelay.K,
+    "dollars / person / year",
+    ["industrialOutputPerCapita"])
 
 familyResponseToSocialNorm = TableParametrization(
     41, "familyResponseToSocialNorm",
@@ -287,14 +287,13 @@ familyIncomeExpectation = AuxVariable(
     dependencies = ["industrialOutputPerCapita",
                     "averageIndustrialOutputPerCapita"],
     updatefn = lambda : \
-    (industrialOutputPerCapita.K - averageIndustrialOutputPerCapita.K) / \
-    averageIndustrialOutputPerCapita.K)
+    industrialOutputPerCapita.K / averageIndustrialOutputPerCapita.K - 1)
 
-averageIndustrialOutputPerCapita = Smooth("averageIndustrialOutputPerCapita", 43,
-                                          incomeExpectationAveragingTime.K,
-                                          "dollars / person / year")
-averageIndustrialOutputPerCapita.Dependencies = ["industrialOutputPerCapita"]
-averageIndustrialOutputPerCapita.InitFn = "industrialOutputPerCapita"
+averageIndustrialOutputPerCapita = SmoothVariable(
+    43, "averageIndustrialOutputPerCapita",
+    incomeExpectationAveragingTime.K,
+    "dollars / person / year",
+    ["industrialOutputPerCapita"])
 
 needForFertilityControl = AuxVariable(
     44, "needForFertilityControl",
@@ -306,11 +305,10 @@ fertilityControlEffectiveness = TableParametrization(
     [0.75, 0.85, 0.90, 0.95, 0.98, 0.99, 1.0], 0, 3,
     dependencies = ["fertilityControlFacilitiesPerCapita"])
 
-fertilityControlFacilitiesPerCapita = Delay3("fertilityControlFacilitiesPerCapita", 46,
-                                             healthServicesImpactDelay.K,
-                                             "dollars / person / year")
-fertilityControlFacilitiesPerCapita.Dependencies = ["fertilityControlAllocationPerCapita"]
-fertilityControlFacilitiesPerCapita.InitFn = "fertilityControlAllocationPerCapita"
+fertilityControlFacilitiesPerCapita = DelayVariable(
+    46, "fertilityControlFacilitiesPerCapita",
+    healthServicesImpactDelay.K, "dollars / person / year",
+    ["fertilityControlAllocationPerCapita"])
 
 fertilityControlAllocationPerCapita = AuxVariable(
     47, "fertilityControlAllocationPerCapita", "dollars / person / year",
@@ -330,7 +328,7 @@ fractionOfServicesAllocatedToFertilityControl = TableParametrization(
 industrialOutputPerCapita = AuxVariable(
     49, "industrialOutputPerCapita", "dollars / person / year",
     ["industrialOutput", "population"],
-    lambda : industrialOutput.K / population.K)
+    lambda : max( 0.01, industrialOutput.K / population.K))
 
 industrialOutput = AuxVariable(
     50, "industrialOutput", "dollars / year",
@@ -496,15 +494,17 @@ laborUtilizationFraction = AuxVariable(
     dependencies = ["jobs", "laborForce"],
     updatefn = lambda : jobs.K / laborForce.K)
 
-laborUtilizationFractionDelayed = Smooth("laborUtilizationFractionDelayed", 82, laborUtilizationFractionDelayTime.K)
-laborUtilizationFractionDelayed.Dependencies = ["laborUtilizationFraction"]
-laborUtilizationFractionDelayed.InitFn = "laborUtilizationFraction" 
+laborUtilizationFractionDelayed = SmoothVariable(
+    82, "laborUtilizationFractionDelayed",
+    laborUtilizationFractionDelayTime.K,
+    dependencies = ["laborUtilizationFraction"])
 
-# "laborUtilizationFractionDelayed" removed from dependencies to break the cycle
 capitalUtilizationFraction = TableParametrization(
     83, "capitalUtilizationFraction",
     [1.0, 0.9, 0.7, 0.3, 0.1, 0.1], 1, 11,
-    updatefn = lambda : GetDefault( laborUtilizationFractionDelayed.K, 1.0))
+    dependencies = ["laborUtilizationFractionDelayed"], # will be taken over by initialValue 
+    updatefn = lambda : laborUtilizationFractionDelayed.K,
+    initialValue = 1.0)
 
 #
 # AGRICULTURE SUBSYSTEM
@@ -529,7 +529,7 @@ food = AuxVariable(
     87, "food", "kilograms / year",
     ["landYield"],
     lambda : landYield.K * arableLand.K * \
-    landFractionHarvested.K * (1 - foodprocessingLoss.K))
+    landFractionHarvested.K * (1 - foodProcessingLoss.K))
 
 foodPerCapita = AuxVariable(
     88, "foodPerCapita", "kilograms / person / year",
@@ -586,11 +586,12 @@ currentAgriculturalInputs = AuxVariable(
     lambda : totalAgriculturalInvestment.K * \
     (1 - fractionOfInputsAllocatedToLandDevelopment.K))
 
-agriculturalInputs = Smooth("agriculturalInputs", 99, averageLifetimeOfAgriculturalInputs.K)
-agriculturalInputs.Units = "dollars / year"
-agriculturalInputs.Dependencies = []   # "currentAgriculturalInputs" removed to break cycle
-agriculturalInputs.InitFn = "currentAgriculturalInputs" 
-agriculturalInputs.initVal = 5.0e9
+agriculturalInputs = SmoothVariable(
+    99, "agriculturalInputs",
+    averageLifetimeOfAgriculturalInputs.K,
+    "dollars / year",
+    ["currentAgriculturalInputs"],   # this will be replaced by value below to break a definition cycle
+    initialValue = 5.0e9)
 
 #
 # output of this equation is unused (replaced with a constant 2)
@@ -746,11 +747,11 @@ foodRatio = AuxVariable(
     dependencies = ["foodPerCapita"],
     updatefn = lambda : foodPerCapita.K / subsistenceFoodPerCapita.K)
 
-perceivedFoodRatio = Smooth("perceivedFoodRatio", 128, foodShortagePerceptionDelay.K)
-perceivedFoodRatio.Units = "unitless"
-perceivedFoodRatio.Dependencies = []   # "foodRatio" removed to break cycle
-perceivedFoodRatio.InitFn = "foodRatio" 
-perceivedFoodRatio.initVal = 1.0
+perceivedFoodRatio = SmoothVariable(
+    128, "perceivedFoodRatio",
+    foodShortagePerceptionDelay.K,
+    dependencies = ["foodRatio"],   # this will be replaced by value below to break a definition cycle
+    initialValue = 1.0)
 
 #
 # NONRENEWABLE RESOURCE SECTOR (equations {129}-{134})
@@ -817,12 +818,12 @@ persistentPollutionGeneratedByAgriculturalOutput = AuxVariable(
     agriculturalInputsPerHectare.K * arableLand.K,
     norm = 1000) # 1000 = 1/0.001 unitless toxicity index
 
-persistenPollutionAppearanceRate = Delay3("persistenPollutionAppearanceRate", 141, persistentPollutionTransmissionDelay.K)
-persistenPollutionAppearanceRate.Units = "pollution units / year"
-persistenPollutionAppearanceRate.InitFn = "persistentPollutionGenerationRate" 
-persistenPollutionAppearanceRate.Type = "RateVariable"      # Type change to rate
-DYNAMO_Aux_Dictionary.pop( 141)
-DYNAMO_Rate_Dictionary[141] = persistenPollutionAppearanceRate 
+persistenPollutionAppearanceRate = DelayVariable(
+    141, "persistenPollutionAppearanceRate",
+    persistentPollutionTransmissionDelay.K,
+    "pollution units / year",
+    ["persistentPollutionGenerationRate"]) 
+persistenPollutionAppearanceRate.Type = "Rate"      # Type change to rate
 
 persistentPollution = LevelVariable(
     142, "persistentPollution", 2.5e7, "pollution units",
@@ -870,6 +871,7 @@ fractionOfOutputInServices = AuxVariable(
     dependencies = ["grossProduct"],
     updatefn = lambda : serviceOutput.K / grossProduct.K)
 
+DYNAMO_Engine.SortByType()
 
 # Generic checks
 if __name__ == "__main__":
@@ -877,98 +879,106 @@ if __name__ == "__main__":
     print()
     print( "Fixed Parameters:")
     count = 1
-    for i in DYNAMO_Parameter_Dictionary:
-        equation = DYNAMO_Parameter_Dictionary[i]
+    for i in DYNAMO_Engine.Parameters:
+        equation = DYNAMO_Engine.byNumber(i)
         print("   {:03d}\t".format( count), equation)
         count += 1
 
     print()
-    print( "Fixed Table Parametrizations:")
+    print( "Table Parametrizations:")
     count = 1
-    for i in DYNAMO_Table_Dictionary:
-        if i in DYNAMO_Policy_Dictionary: continue
-        equation = DYNAMO_Table_Dictionary[i]
+    for i in DYNAMO_Engine.Tables:
+        equation = DYNAMO_Engine.byNumber(i)
         print("   {:03d}\t".format( count), equation)
-        count += 1
-        #print("    {:s}.Plot({:g},{:g})".format( equation.Name, equation.Indices[0]*0.8, equation.Indices[-1]*1.2))
-
-    print()
-    print( "Policy Change Parametrizations:")
-    count = 1
-    for i in DYNAMO_Policy_Dictionary:
-        equation = DYNAMO_Policy_Dictionary[i]
-        print("   {:03d}\t".format( count), equation)
+        #print("    PlotTable({:s}, {:g}, {:g})".format( equation.Name, equation.Indices[0]*0.8, equation.Indices[-1]*1.2))
         count += 1
 
     print()
     print( "Level-like Variables:")
     count = 1
-    for i in DYNAMO_Level_Dictionary:
-        equation = DYNAMO_Level_Dictionary[i]
+    for i in DYNAMO_Engine.Levels:
+        equation = DYNAMO_Engine.byNumber(i)
         print("   {:03d}\t".format( count), equation)
         count += 1
 
     print()
     print( "Rate-like Variables:")
     count = 1
-    for i in DYNAMO_Rate_Dictionary:
-        equation = DYNAMO_Rate_Dictionary[i]
+    for i in DYNAMO_Engine.Rates:
+        equation = DYNAMO_Engine.byNumber(i)
         print("   {:03d}\t".format( count), equation)
         count += 1
 
     print()
-    print( "All Auxilliary Variables:")
+    print( "Smooth Variables:")
     count = 1
-    for i in DYNAMO_Aux_Dictionary:
-        #if i in DYNAMO_Table_Dictionary: continue
-        equation = DYNAMO_Aux_Dictionary[i]
+    for i in DYNAMO_Engine.Smooths:
+        equation = DYNAMO_Engine.byNumber(i)
+        print("   {:03d}\t".format( count), equation)
+        count += 1
+
+    print()
+    print( "Delay Variables:")
+    count = 1
+    for i in DYNAMO_Engine.Delays:
+        equation = DYNAMO_Engine.byNumber(i)
+        print("   {:03d}\t".format( count), equation)
+        count += 1
+
+    print()
+    print( "All Variables with Potential Dependency:")
+    count = 1
+    for i in DYNAMO_Engine.Dependents:
+        equation = DYNAMO_Engine.byNumber(i)
+        print("   {:03d}\t".format( count), equation)
+        count += 1
+
+    print()
+    print( "Policy Change Parametrizations:")
+    count = 1
+    for i in DYNAMO_Engine.ChangePolicies:
+        equation = DYNAMO_Engine.byNumber(i)
         print("   {:03d}\t".format( count), equation)
         count += 1
 
     if True:
         print("Now plotting all tables...")
-        mortality0To14.Plot(0, 100)
-        mortality15To44.Plot(0, 100)
-        mortality45To64.Plot(0, 100)
-        mortality65AndOver.Plot(0, 100)
-        lifetimeMultiplierFromFood.Plot(0,6)
-        healthServicesAllocationsPerCapita.Plot(0, 2400)
-        lifetimeMultiplierFromHealthServices.Plot(0, 120)
-        fractionOfPopulationUrban.Plot(0, 1.7e+10)
-        crowdingMultiplierFromIndustrialization.Plot(0, 1900)
-        lifetimeMultiplierFromPollution.Plot(0,120)
-        fecundityMultiplier.Plot(0, 100)
-        compensatoryMultiplierFromPerceivedLifeExpectancy.Plot(0, 100)
-        socialFamilySizeNorm.Plot(0, 1000)
-        familyResponseToSocialNorm.Plot(-0.25,0.25)
-        fertilityControlEffectiveness.Plot(0, 3.6)
-        fractionOfServicesAllocatedToFertilityControl.Plot(0, 12)
-        fractionOfIndustrialOutputAllocatedToConsumptionVariable.Plot(0, 2.4)
-        indicatedServiceOutputPerCapita.Plot(0, 1900)
-        fractionOfIndustrialOutputAllocatedToServices.Plot(0, 2.4)
-        jobsPerIndustrialCapitalUnit.Plot(0,1000)
-        jobsPerServiceCapitalUnit.Plot(0,1000)
-        jobsPerHectare.Plot(0,36)
-        capitalUtilizationFraction.Plot(0,13, "laborUtilizationFractionDelayed [unitless]")
-        indicatedFoodPerCapita.Plot(0, 1900)
-        fractionOfIndustrialOutputAllocatedToAgriculture.Plot(0,3)
-        developmentCostPerHectare.Plot(0, 1.2)
-        landYieldMultiplierFromCapital.Plot(0, 1200)
-        landYieldMultiplierFromAirPollution.Plot(0, 36)
-        fractionOfInputsAllocatedToLandDevelopment.Plot(0, 2.4)
-        marginalLandYieldMultiplierFromCapital.Plot(0, 700)
-        landLifeMultiplierFromYield.Plot(0, 11)
-        urbanIndustrialLandPerCapita.Plot(0, 1920)
-        landFertilityDegradationRate.Plot(0, 36)
-        landFertilityRegenerationTime.Plot(0, 0.2)
-        fractionOfInputsAllocatedToLandMaintenance.Plot(0, 5)
-        perCapitaResourceUsageMultiplier.Plot(0, 1900)
-        fractionOfCapitalAllocatedToObtainingResources.Plot(0, 1.2)
-        assimilationHalfLife.Plot(0,1200)
-    
-    #if InteractiveModeOn: plt.show(True)
+        PlotTable(mortality0To14, 0, 100)
+        PlotTable(mortality15To44, 0, 100)
+        PlotTable(mortality45To64, 0, 100)
+        PlotTable(mortality65AndOver, 0, 100)
+        PlotTable(lifetimeMultiplierFromFood, 0,6)
+        PlotTable(healthServicesAllocationsPerCapita, 0, 2400)
+        PlotTable(lifetimeMultiplierFromHealthServices, 0, 120)
+        PlotTable(fractionOfPopulationUrban, 0, 1.7e+10)
+        PlotTable(crowdingMultiplierFromIndustrialization, 0, 1900)
+        PlotTable(lifetimeMultiplierFromPollution, 0,120)
+        PlotTable(fecundityMultiplier, 0, 100)
+        PlotTable(compensatoryMultiplierFromPerceivedLifeExpectancy, 0, 100)
+        PlotTable(socialFamilySizeNorm, 0, 1000)
+        PlotTable(familyResponseToSocialNorm, -0.25,0.25)
+        PlotTable(fertilityControlEffectiveness, 0, 3.6)
+        PlotTable(fractionOfServicesAllocatedToFertilityControl, 0, 12)
+        PlotTable(fractionOfIndustrialOutputAllocatedToConsumptionVariable, 0, 2.4)
+        PlotTable(indicatedServiceOutputPerCapita, 0, 1900)
+        PlotTable(fractionOfIndustrialOutputAllocatedToServices, 0, 2.4)
+        PlotTable(jobsPerIndustrialCapitalUnit, 0,1000)
+        PlotTable(jobsPerServiceCapitalUnit, 0,1000)
+        PlotTable(jobsPerHectare, 0,36)
+        PlotTable(capitalUtilizationFraction, 0,13, "laborUtilizationFractionDelayed [unitless]")
+        PlotTable(indicatedFoodPerCapita, 0, 1900)
+        PlotTable(fractionOfIndustrialOutputAllocatedToAgriculture, 0,3)
+        PlotTable(developmentCostPerHectare, 0, 1.2)
+        PlotTable(landYieldMultiplierFromCapital, 0, 1200)
+        PlotTable(landYieldMultiplierFromAirPollution, 0, 36)
+        PlotTable(fractionOfInputsAllocatedToLandDevelopment, 0, 2.4)
+        PlotTable(marginalLandYieldMultiplierFromCapital, 0, 700)
+        PlotTable(landLifeMultiplierFromYield, 0, 11)
+        PlotTable(urbanIndustrialLandPerCapita, 0, 1920)
+        PlotTable(landFertilityDegradationRate, 0, 36)
+        PlotTable(landFertilityRegenerationTime, 0, 0.2)
+        PlotTable(fractionOfInputsAllocatedToLandMaintenance, 0, 5)
+        PlotTable(perCapitaResourceUsageMultiplier, 0, 1900)
+        PlotTable(fractionOfCapitalAllocatedToObtainingResources, 0, 1.2)
+        PlotTable(assimilationHalfLife, 0,1200)    
     print("Done...")
-
-    #for i in DYNAMO_Function_Dictionary:
-    #    equation = DYNAMO_Function_Dictionary[i]
-    #    print("{:03d}\t {:s} [{:s}]".format( i, equation.Name, equation.Units))
