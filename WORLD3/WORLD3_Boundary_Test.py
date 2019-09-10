@@ -10,14 +10,20 @@ from DYNAMO_Prototypes import *
 # POPULATION SUBSYSTEM (equations {1}-{23}, {26}-{48})
 #
 
-population = AuxVariable(
+f001 = AuxVariable(
     1, "population", "persons",
-    updatefn = lambda : population.Op( "population0To14").K)
+    updatefn = lambda : f001.p("population0To14").K + \
+    f001.p("population15To44").K + f001.p("population45To64").K + \
+    f001.p("population65AndOver").K)
 
-#population = AuxVariable(
-#    1, "population", "persons",
-#    updatefn = lambda : population0To14.K + population15To44.K + \
-#    population45To64.K + population65AndOver.K)
+class c1:
+    def __init__(self):
+        self.J = 10.0
+        self.K = 3.0
+        self.D = "Hello" \
+                 "World"
+
+a = c1()
 
 ##population0To14 = LevelVariable(
 ##    2, "population0To14", 6.5e8, "persons",
