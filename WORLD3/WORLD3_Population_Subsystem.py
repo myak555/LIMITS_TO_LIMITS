@@ -16,7 +16,7 @@ Population = AuxVariable(
     "+ _010_Population45To64.K + _014_Population65AndOver.K")
 
 Population0To14 = LevelVariable(
-    "_002_Population0To14", 6.5e8, "persons",
+    "_002_Population0To14", "6.5e8", "persons",
     fupdate = "_030_BirthsPerYear.J - _003_DeathsPerYear0To14.J"
     "- _005_MaturationsPerYear14to15.J")
 
@@ -35,7 +35,7 @@ MaturationsPerYear14to15 = RateVariable(
     fupdate = "_002_Population0To14.K * (1 - _004_Mortality0To14.K) / 15.0")
 
 Population15To44 = LevelVariable(
-    "_006_Population15To44", 7.0e8, "persons",
+    "_006_Population15To44", "7.0e8", "persons",
     fupdate = "_005_MaturationsPerYear14to15.J - _007_DeathsPerYear15To44.J"
     "- _009_MaturationsPerYear44to45.J")
 
@@ -54,7 +54,7 @@ MaturationsPerYear44to45 = RateVariable(
     fupdate = "_006_Population15To44.K * (1 - _008_Mortality15To44.K) / 30.0")
 
 Population45To64 = LevelVariable(
-    "_010_Population45To64", 1.9e8, "persons",
+    "_010_Population45To64", "1.9e8", "persons",
     fupdate = "_009_MaturationsPerYear44to45.J - _011_DeathsPerYear45To64.J"
     "- _013_MaturationsPerYear64to65.J")
 
@@ -73,7 +73,7 @@ MaturationsPerYear64to65 = RateVariable(
     fupdate = "_010_Population45To64.K * (1 - _012_Mortality45To64.K) / 20.0")
 
 Population65AndOver = LevelVariable(
-    "_014_Population65AndOver", 6.0e7, "persons",
+    "_014_Population65AndOver", "6.0e7", "persons",
     fupdate = "_013_MaturationsPerYear64to65.J - _015_DeathsPerYear65AndOver.J")
 
 DeathsPerYear65AndOver = RateVariable(
@@ -284,15 +284,15 @@ if __name__ == "__main__":
     #
     IndustrialOutputPerCapita = Parameter(
         "_049_IndustrialOutputPerCapita",
-        100, "dollars / person / year")
+        200, "dollars / person / year")
 
     ServiceOutputPerCapita = Parameter(
         "_071_ServiceOutputPerCapita",
-        100, "dollars")
+        50, "dollars")
 
     FoodPerCapita = PolicyParametrization(
         "_088_FoodPerCapita",
-        800, 400, "kg / person / year")
+        900, 900, "kg / person / year")
 
     IndexOfPersistentPollution = Parameter(
         "_143_IndexOfPersistentPollution", 1)
@@ -371,7 +371,7 @@ if __name__ == "__main__":
     ax1.plot( [2020, 2020], [0, 10], "--", lw=2, color="k", label="Global policy")
     ax1.plot( [2070, 2070], [0, 10], "-.", lw=2, color="k", label="Global stability")
     ax1.set_xlim( DYNAMO_Engine.Model_Time[0], DYNAMO_Engine.Model_Time[-1])
-    ax1.set_ylim( 0, 12)
+    ax1.set_ylim( 0, 16)
     ax1.grid(True)
     ax1.legend(loc=0)
     ax1.set_ylabel("billion")
@@ -385,7 +385,7 @@ if __name__ == "__main__":
     ax2.plot( [2020, 2020], [10, 50], "--", lw=2, color="k")
     ax2.plot( [2070, 2070], [10, 50], "-.", lw=2, color="k")
     ax2.set_xlim( DYNAMO_Engine.Model_Time[0], DYNAMO_Engine.Model_Time[-1])
-    ax2.set_ylim( 15, 45)
+    ax2.set_ylim( 15, 55)
     ax2.grid(True)
     ax2.legend(loc=0)
     ax2.set_xlabel("Year")

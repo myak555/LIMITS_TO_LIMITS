@@ -1,18 +1,24 @@
 from DYNAMO_Prototypes import *
 
 #
-# Checks DELAY3 implementation
+# Checks SMOOTH and DELAY3 implementation
 #
 
-Delay3Input = PolicyParametrization(
-    "_401_Delay_Input",
+Step_Function = PolicyParametrization(
+    "_401_Step_Function",
     100, 120, "units")
 
-Delay3Output = DelayVariable(
-    "_402_Delay_Output",
+SmoothOutput = SmoothVariable(
+    "_402_Smooth_Output",
     "10",
     "units",
-    "_401_Delay_Input.K")
+    "_401_Step_Function.K")
+
+Delay3Output = DelayVariable(
+    "_403_Delay_Output",
+    "10",
+    "units",
+    "_401_Step_Function.K")
 
 DYNAMO_Engine.SortByType()
 DYNAMO_Engine.ListEquations()
@@ -24,7 +30,10 @@ DYNAMO_Engine.Reset( dt=0.5,
                      global_policy_year = 1950)
 #DYNAMO_Engine.Warmup( )
 DYNAMO_Engine.Compute( )
-PlotVariable( Delay3Input, DYNAMO_Engine.Model_Time,
+PlotVariable( Step_Function, DYNAMO_Engine.Model_Time,
+    filename="./Test_Graphs/WORLD3_Subsystem_Test_{:s}.png",
+    show=True)
+PlotVariable( SmoothOutput, DYNAMO_Engine.Model_Time,
     filename="./Test_Graphs/WORLD3_Subsystem_Test_{:s}.png",
     show=True)
 PlotVariable( Delay3Output, DYNAMO_Engine.Model_Time,

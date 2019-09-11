@@ -223,6 +223,7 @@ class Engine:
         expression2 = self.SubstituteJK(expression)
         try:
             res = eval( expression2)
+            if res is None: return default_value
             return res
         except:
             print("Given      : " + expression)
@@ -565,7 +566,7 @@ class LevelVariable(DYNAMO_Base):
     """
     def __init__(self,
                  fname,
-                 initialValue,
+                 initialValueFunction,
                  funits="unitless",
                  fupdate=""):
         DYNAMO_Base.__init__(self,
@@ -575,11 +576,14 @@ class LevelVariable(DYNAMO_Base):
                              funits,
                              fupdate,
                              [],
-                             initialValue, initialValue)
-        self.InitialValue = initialValue
-        self.Reset()
+                             None, None)
+        self.InitialValueFunction = initialValueFunction
+        self.Data = []
         return
     def Reset(self):
+        #print( "Level" + self.Name + " value = "
+        #       + self.InitialValueFunction + " [" + self.Units +  "]")
+        self.InitialValue = DYNAMO_Engine.EvaluateJK( self.InitialValueFunction)
         self.J = self.InitialValue
         self.K = self.InitialValue
         self.Data = []
@@ -741,7 +745,7 @@ class SmoothVariable(DYNAMO_Base):
         return
     def Update(self):
         if self.isFirstCall:
-            self.J = DYNAMO_Engine.EvaluateJK( self.UpdateFn)
+            self.J = DYNAMO_Engine.EvaluateJK( self.UpdateFn, self.InitialValue)
             self.K = self.J
             self.isFirstCall = False
             self.Data += [self.K]
@@ -749,7 +753,7 @@ class SmoothVariable(DYNAMO_Base):
         v = DYNAMO_Engine.EvaluateJK( self.UpdateFn.replace(".K", ".J"))
         d1 = DYNAMO_Engine.dt / DYNAMO_Engine.EvaluateJK( self.DelayFn)
         d0 = (1-d1)
-        self.K = d1 * self.J + d0 * v
+        self.K = d0 * self.J + d1 * v
         self.Data += [self.K]
         return
 
@@ -879,22 +883,4 @@ if __name__ == "__main__":
     print("   Update: ", _004_mortality0To14)
     _004_mortality0To14.Lock()
     print("   Lock: ", _004_mortality0To14.J, _004_mortality0To14.K, _004_mortality0To14)
-    PlotTable( _004_mortality0To14, 0, 100, xLabel="(Test only) lifeExpectancy [years]", show=True)
-
-    print()
-    print("Check Level Variable:")
-    _002_population0To14 = LevelVariable(
-    "_002_population0To14",
-    6.5e8, "persons",
-    fupdate = "_030_birthsPerYear.J - "
-                " - deathsPerYear0To14.J"
-                " - maturationsPerYear14to15.J")
-    _002_population0To14.Reset()
-    print("   Reset: ", _002_population0To14)
-    _002_population0To14.Warmup()
-    print("   Warmup: ", _002_population0To14)
-    _002_population0To14.Update()
-    print("   Update: ", _004_mortality0To14)
-    _002_population0To14.Lock()
-    print("   Lock: ", _002_population0To14, _002_population0To14, _002_population0To14)
 

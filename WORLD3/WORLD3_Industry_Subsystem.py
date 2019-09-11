@@ -1,9 +1,11 @@
 from WORLD3_Population_Subsystem import *
 
 #
-# This run checks the population and industry subsystems
-# running together. The agriculture and services outputs per capita
-# are presumed constant (equations {63}-{143})
+# This run checks the population subsystem together with
+# industry, services and labor parts of the capital subsystem.
+# The agriculture outputs per capita
+# are presumed constant (equations {83}-{143});
+# Resources and polution are constant
 #
 
 #
@@ -42,11 +44,11 @@ IndustrialCapitalInvestmentRate = RateVariable(
     fupdate = "_050_IndustrialOutput.K"
     "* _056_FractionOfIndustrialOutputAllocatedToIndustry.K")
 
-fractionOfIndustrialOutputAllocatedToIndustry = AuxVariable(
+FractionOfIndustrialOutputAllocatedToIndustry = AuxVariable(
     "_056_FractionOfIndustrialOutputAllocatedToIndustry",
-    fupdate = "1 - _093_FractionOfIndustrialOutputAllocatedToAgriculture.K"
+    fupdate = "1 - _057_FractionOfIndustrialOutputAllocatedToConsumption.K"
     "- _063_FractionOfIndustrialOutputAllocatedToServices.K"
-    "- _057_FractionOfIndustrialOutputAllocatedToConsumption.K")
+    "- _093_FractionOfIndustrialOutputAllocatedToAgriculture.K")
 
 FractionOfIndustrialOutputAllocatedToConsumption = AuxVariable(
     "_057_FractionOfIndustrialOutputAllocatedToConsumption",
@@ -63,6 +65,63 @@ FractionOfIndustrialOutputAllocatedToConsumptionVariable = TableParametrization(
     "/ _157_IndicativeConsumptionValue.K")
 
 #
+# SERVICES SUBSYSTEM (equations {60}, {63}, {66}-{72})
+#
+IndicatedServiceOutputPerCapita = TableParametrization(
+    "_060_IndicatedServiceOutputPerCapita",
+    [40, 300, 640, 1000, 1220, 1450, 1650, 1800, 2000],
+    0, 1600, "dollars / person / year",
+    fpoints_after_policy = [40, 300, 640, 1000, 1220, 1450, 1650, 1800, 2000],
+    fupdate = "_049_IndustrialOutputPerCapita.K")
+
+#
+# svc_061, svc_062 - used to be policy tables, now in {060}
+#
+
+FractionOfIndustrialOutputAllocatedToServices = TableParametrization(
+    "_063_FractionOfIndustrialOutputAllocatedToServices",
+    [0.3, 0.2, 0.1, 0.05, 0], 0, 2,
+    fpoints_after_policy = [0.3, 0.2, 0.1, 0.05, 0],
+    fupdate = "_071_ServiceOutputPerCapita.K"
+    "/ _060_IndicatedServiceOutputPerCapita.K")
+
+#
+# svc064, svc065 - used to be policy tables, now in {063}
+#
+
+ServiceCapitalInvestmentRate = RateVariable(
+    "_066_ServiceCapitalInvestmentRate", "dollars / year",
+    fupdate = "_049_IndustrialOutputPerCapita.K"
+    "* _063_FractionOfIndustrialOutputAllocatedToServices.K")
+
+ServiceCapital = LevelVariable(
+    "_067_ServiceCapital", 1.44e11, "dollars",
+    fupdate = "_066_ServiceCapitalInvestmentRate.J"
+    "- _068_ServiceCapitalDepreciationRate.J")
+
+ServiceCapitalDepreciationRate = RateVariable(
+    "_068_ServiceCapitalDepreciationRate", "dollars / year",
+    fupdate = "_067_ServiceCapital.K"
+    "/ _069_AverageLifetimeOfServiceCapital.K")
+
+AverageLifetimeOfServiceCapital = PolicyParametrization(
+    "_069_AverageLifetimeOfServiceCapital", 20, 20, "years")
+
+ServiceOutput = AuxVariable(
+    "_070_ServiceOutput", "dollars / year",
+    fupdate = "_067_ServiceCapital.K"
+    "* _083_CapitalUtilizationFraction.K"
+    "/ _072_ServiceCapitalOutputRatio.K")
+
+ServiceOutputPerCapita = AuxVariable(
+    "_071_ServiceOutputPerCapita", "dollars / person / year",
+    fupdate = "_070_ServiceOutput.K / _001_Population.K")
+
+ServiceCapitalOutputRatio = PolicyParametrization(
+    "_072_ServiceCapitalOutputRatio", 1, 1, "years")
+
+
+#
 # PARAMETERS
 #
 IndicativeConsumptionValue = Parameter(
@@ -73,38 +132,34 @@ if __name__ == "__main__":
     #
     # FIXED PARAMETERS (this test only)
     #
-    FractionOfIndustrialOutputAllocatedToServices = PolicyParametrization(
-        "_063_FractionOfIndustrialOutputAllocatedToServices", 0.2, 0.2,
-        "unitless")
-
-    ServiceOutputPerCapita = Parameter(
-        "_071_ServiceOutputPerCapita",
-        100, "dollars")
-
     CapitalUtilizationFraction = PolicyParametrization(
-        "_083_CapitalUtilizationFraction", 0.7, 0.7,
+        "_083_CapitalUtilizationFraction", 0.9, 0.9,
         "unitless")
 
     FoodPerCapita = PolicyParametrization(
         "_088_FoodPerCapita",
-        800, 400, "kg / person / year")
+        800, 800, "kg / person / year")
 
     FractionOfIndustrialOutputAllocatedToAgriculture = PolicyParametrization(
-        "_093_FractionOfIndustrialOutputAllocatedToAgriculture", 0.2, 0.2,
+        "_093_FractionOfIndustrialOutputAllocatedToAgriculture", 0.10, 0.1,
         "unitless")
 
     FractionOfCapitalAllocatedToObtainingResources = PolicyParametrization(
-        "_134_FractionOfCapitalAllocatedToObtainingResources", 0.10, 0.10,
+        "_134_FractionOfCapitalAllocatedToObtainingResources", 0.03, 0.10,
         "unitless")
 
     IndexOfPersistentPollution = Parameter(
-        "_143_IndexOfPersistentPollution", 1)
+        "_143_IndexOfPersistentPollution", 0.1)
 
     #
     # Parametrization plots
     #
     PlotTable( DYNAMO_Engine,
            FractionOfIndustrialOutputAllocatedToConsumptionVariable,
+           0, 2.2, show=False)
+    PlotTable( DYNAMO_Engine, IndicatedServiceOutputPerCapita,
+           0, 1800, show=False)
+    PlotTable( DYNAMO_Engine, FractionOfIndustrialOutputAllocatedToServices,
            0, 2.2, show=False)
 
     #
@@ -116,15 +171,15 @@ if __name__ == "__main__":
     DYNAMO_Engine.Produce_Solution_Path( verbose = vrb)
     DYNAMO_Engine.ListSolutionPath()
     DYNAMO_Engine.Reset(
-        dt=5, global_policy_year=2020,
+        dt=0.5, global_policy_year=2020,
         global_stability_year=2070,
         verbose = vrb)
     DYNAMO_Engine.Warmup( verbose = vrb)
     DYNAMO_Engine.Compute( verbose = vrb)
-    #PlotVariable( FertilityControlAllocationPerCapita, DYNAMO_Engine.Model_Time,
-    #              filename="./Graphs/WORLD3_Subsystem_Test_{:s}.png", show=True)
-    #PlotVariable( FertilityControlFacilitiesPerCapita, DYNAMO_Engine.Model_Time,
-    #              filename="./Graphs/WORLD3_Subsystem_Test_{:s}.png", show=True)
+    PlotVariable( IndustrialCapital, DYNAMO_Engine.Model_Time,
+                  filename="./Graphs/WORLD3_Subsystem_Test_{:s}.png", show=True)
+    PlotVariable( FractionOfIndustrialOutputAllocatedToIndustry, DYNAMO_Engine.Model_Time,
+                  filename="./Graphs/WORLD3_Subsystem_Test_{:s}.png", show=True)
 
     Population.Data = np.array(Population.Data)
     Population0To14.Data = np.array(Population0To14.Data)
@@ -171,5 +226,5 @@ if __name__ == "__main__":
     ax2.set_xlabel("Year")
     ax2.set_ylabel("Units")
     
-    plt.savefig( "./Graphs/Test_002_Industry.png")
+    plt.savefig( "./Graphs/Test_002_Capital.png")
     plt.show()
