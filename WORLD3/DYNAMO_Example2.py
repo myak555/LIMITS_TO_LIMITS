@@ -6,7 +6,7 @@ from DYNAMO_Prototypes import *
 
 _002_Population = LevelVariable(
     "_002_Population",
-    1e8, "persons",
+    "1e8", "persons",
     fupdate = "_003_Growth_Rate.J"
     " * (1 - _002_Population.J / _004_Population_Optimum.J)"
     " * _002_Population.J")

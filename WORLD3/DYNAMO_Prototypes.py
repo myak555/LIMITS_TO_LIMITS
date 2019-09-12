@@ -508,7 +508,7 @@ class TableParametrization(DYNAMO_Base):
                  funits="unitless",
                  fpoints_1940 = None,
                  fpoints_after_policy = None,
-                 fupdate = "",
+                 fupdate = None,
                  fignore = [],
                  initialValue = None):
         DYNAMO_Base.__init__(self,
@@ -568,7 +568,7 @@ class LevelVariable(DYNAMO_Base):
                  fname,
                  initialValueFunction,
                  funits="unitless",
-                 fupdate=""):
+                 fupdate=None):
         DYNAMO_Base.__init__(self,
                              fname,
                              "Level",
@@ -578,6 +578,7 @@ class LevelVariable(DYNAMO_Base):
                              [],
                              None, None)
         self.InitialValueFunction = initialValueFunction
+        self.LowerLimit = 0.0
         self.Data = []
         return
     def Reset(self):
@@ -598,6 +599,7 @@ class LevelVariable(DYNAMO_Base):
             print("Achtung! Level " + self.Name + " unable to compute rate " + self.UpdateFn)
             rate = 0.0
         self.K = self.J + rate * DYNAMO_Engine.dt
+        if self.K < self.LowerLimit: self.K = self.LowerLimit
         self.Data += [self.K]
         return
 
@@ -609,7 +611,7 @@ class RateVariable(DYNAMO_Base):
     def __init__(self,
                  fname,
                  funits="unitless",
-                 fupdate="",
+                 fupdate=None,
                  fequilibrium=None):
         DYNAMO_Base.__init__(self,
                              fname,
@@ -667,7 +669,7 @@ class AuxVariable(DYNAMO_Base):
     def __init__(self,
                  fname,
                  funits="unitless",
-                 fupdate = "",
+                 fupdate = None,
                  fignore = [],
                  fequilibrium=None):
         DYNAMO_Base.__init__(self,
@@ -711,7 +713,7 @@ class SmoothVariable(DYNAMO_Base):
                  fname,
                  fdelay="1.0",
                  funits="unitless",
-                 fupdate="",
+                 fupdate=None,
                  initialValue = None):
         DYNAMO_Base.__init__(self,
                              fname,
@@ -766,7 +768,7 @@ class DelayVariable(DYNAMO_Base):
                  fname,
                  fdelay="1.0",
                  funits="unitless",
-                 fupdate="",
+                 fupdate=None,
                  initialValue = None):
         DYNAMO_Base.__init__(self,
                              fname,
