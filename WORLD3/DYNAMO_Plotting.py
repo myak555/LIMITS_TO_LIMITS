@@ -1,5 +1,6 @@
 from Utilities import *
 
+
 def PlotTable( engine,
     table,
     plotMin=None, plotMax=None,
@@ -84,4 +85,32 @@ def PlotVariable(
     plt.savefig( filename.format(variable.Name))
     if show: plt.show()
     else: plt.close('all')
+    return
+
+
+def OutputCSV(
+    variables,
+    ModelTime,
+    filename,
+    fmt="{:.3e}",
+    separator=","):
+    """
+    Makes a standard CSV file
+    """
+    f = open(filename, "wt")
+    f.write("#\n")
+    f.write("# DYNAMO Model\n")
+    f.write("#\n")
+    s = "Time"
+    for v in variables:
+        s += separator
+        s += v.Name
+    f.write( s + "\n")
+    for i, t in enumerate(ModelTime):
+        s = "{:.1f}".format(t)
+        for v in variables:
+            s += separator
+            s += fmt.format(v.Data[i])
+        f.write( s + "\n")
+    f.close()
     return

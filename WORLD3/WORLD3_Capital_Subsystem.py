@@ -8,181 +8,188 @@ from WORLD3_Population_Subsystem import *
 # Resources and polution are constant
 #
 
-###
-### INDUSTRY SUBSYSTEM (equations {49}-{59})
-###
-##IndustrialOutputPerCapita = AuxVariable(
-##    "_049_IndustrialOutputPerCapita",
-##    "dollars / person / year",
-##    fupdate = "_050_IndustrialOutput.K / _001_Population.K")
-##
-##IndustrialOutput = AuxVariable(
-##    "_050_IndustrialOutput", "dollars / year",
-##    fupdate = "_052_IndustrialCapital.K"
-##    "* (1 - _134_FractionOfCapitalAllocatedToObtainingResources.K)"
-##    "* _083_CapitalUtilizationFraction.K"
-##    "/ _051_IndustrialCapitalOutputRatio.K")
-##
-##IndustrialCapitalOutputRatio = PolicyParametrization(
-##    "_051_IndustrialCapitalOutputRatio", 3, 3, "years")
-##
-##IndustrialCapital = LevelVariable(
-##    "_052_IndustrialCapital", "2.1e11", "dollars",
-##    fupdate = "_055_IndustrialCapitalInvestmentRate.J"
-##    "- _053_IndustrialCapitalDepreciationRate.J")
-##
-##IndustrialCapitalDepreciationRate = RateVariable(
-##    "_053_IndustrialCapitalDepreciationRate", "dollars / year",
-##    fupdate = "_052_IndustrialCapital.K"
-##    "/ _054_AverageLifetimeOfIndustrialCapital.K")
-##
-##AverageLifetimeOfIndustrialCapital = PolicyParametrization(
-##    "_054_AverageLifetimeOfIndustrialCapital", 14, 14, "years")
-##
-##IndustrialCapitalInvestmentRate = RateVariable(
-##    "_055_IndustrialCapitalInvestmentRate", "dollars / year",
-##    fupdate = "_050_IndustrialOutput.K"
-##    "* _056_FractionOfIndustrialOutputAllocatedToIndustry.K")
-##
-##FractionOfIndustrialOutputAllocatedToIndustry = AuxVariable(
-##    "_056_FractionOfIndustrialOutputAllocatedToIndustry",
-##    fupdate = "1 - _057_FractionOfIndustrialOutputAllocatedToConsumption.K"
-##    "- _063_FractionOfIndustrialOutputAllocatedToServices.K"
-##    "- _093_FractionOfIndustrialOutputAllocatedToAgriculture.K")
-##
-##FractionOfIndustrialOutputAllocatedToConsumption = AuxVariable(
-##    "_057_FractionOfIndustrialOutputAllocatedToConsumption",
-##    fupdate = "_058_FractionOfIndustrialOutputAllocatedToConsumptionConstant.K",
-##    fequilibrium = "_059_FractionOfIndustrialOutputAllocatedToConsumptionVariable.K")
-##
-##FractionOfIndustrialOutputAllocatedToConsumptionConstant = PolicyParametrization(
-##    "_058_FractionOfIndustrialOutputAllocatedToConsumptionConstant", 0.43, 0.43)
-##
-##FractionOfIndustrialOutputAllocatedToConsumptionVariable = TableParametrization(
-##    "_059_FractionOfIndustrialOutputAllocatedToConsumptionVariable",
-##    [0.3, 0.32, 0.34, 0.36, 0.38, 0.43, 0.73, 0.77, 0.81, 0.82, 0.83], 0, 2,
-##    fupdate = "_049_IndustrialOutputPerCapita.K"
-##    "/ _157_IndicativeConsumptionValue.K")
-##
-###
-### SERVICES SUBSYSTEM (equations {60}, {63}, {66}-{72})
-###
-##IndicatedServiceOutputPerCapita = TableParametrization(
-##    "_060_IndicatedServiceOutputPerCapita",
-##    [40, 300, 640, 1000, 1220, 1450, 1650, 1800, 2000],
-##    0, 1600, "dollars / person / year",
-##    fpoints_after_policy = [40, 300, 640, 1000, 1220, 1450, 1650, 1800, 2000],
-##    fupdate = "_049_IndustrialOutputPerCapita.K")
-##
-###
-### svc_061, svc_062 - used to be policy tables, now in {060}
-###
-##
-##FractionOfIndustrialOutputAllocatedToServices = TableParametrization(
-##    "_063_FractionOfIndustrialOutputAllocatedToServices",
-##    [0.3, 0.2, 0.1, 0.05, 0], 0, 2,
-##    fpoints_after_policy = [0.3, 0.2, 0.1, 0.05, 0],
-##    fupdate = "_071_ServiceOutputPerCapita.K"
-##    "/ _060_IndicatedServiceOutputPerCapita.K")
-##
-###
-### svc064, svc065 - used to be policy tables, now in {063}
-###
-##
-##ServiceCapitalInvestmentRate = RateVariable(
-##    "_066_ServiceCapitalInvestmentRate", "dollars / year",
-##    fupdate = "_049_IndustrialOutputPerCapita.K"
-##    "* _063_FractionOfIndustrialOutputAllocatedToServices.K")
-##
-##ServiceCapital = LevelVariable(
-##    "_067_ServiceCapital", "1.44e11", "dollars",
-##    fupdate = "_066_ServiceCapitalInvestmentRate.J"
-##    "- _068_ServiceCapitalDepreciationRate.J")
-##
-##ServiceCapitalDepreciationRate = RateVariable(
-##    "_068_ServiceCapitalDepreciationRate", "dollars / year",
-##    fupdate = "_067_ServiceCapital.K"
-##    "/ _069_AverageLifetimeOfServiceCapital.K")
-##
-##AverageLifetimeOfServiceCapital = PolicyParametrization(
-##    "_069_AverageLifetimeOfServiceCapital", 20, 20, "years")
-##
-##ServiceOutput = AuxVariable(
-##    "_070_ServiceOutput", "dollars / year",
-##    fupdate = "_067_ServiceCapital.K"
-##    "* _083_CapitalUtilizationFraction.K"
-##    "/ _072_ServiceCapitalOutputRatio.K")
-##
-##ServiceOutputPerCapita = AuxVariable(
-##    "_071_ServiceOutputPerCapita", "dollars / person / year",
-##    fupdate = "_070_ServiceOutput.K / _001_Population.K")
-##
-##ServiceCapitalOutputRatio = PolicyParametrization(
-##    "_072_ServiceCapitalOutputRatio", 1, 1, "years")
-##
-##
-###
-### LABOR SUBSYSTEM (equations {73}-{83})
-###
-##Jobs = AuxVariable(
-##    "_073_Jobs", "persons",
-##    fupdate = "_074_PotentialJobsInIndustrialSector.K"
-##    "+ _076_PotentialJobsInServiceSector.K"
-##    "+ _078_PotentialJobsInAgriculturalSector.K")
-##
-##PotentialJobsInIndustrialSector = AuxVariable(
-##    "_074_PotentialJobsInIndustrialSector", "persons",
-##    fupdate = "_052_IndustrialCapital.K"
-##    "* _075_JobsPerIndustrialCapitalUnit.K")
-##
-##JobsPerIndustrialCapitalUnit = TableParametrization(
-##    "_075_JobsPerIndustrialCapitalUnit",
-##    [0.00037, 0.00018, 0.00012, 0.00009, 0.00007, 0.00006],
-##    50, 800, "persons / dollar",
-##    fupdate = "_049_IndustrialOutputPerCapita.K")
-##
-##PotentialJobsInServiceSector = AuxVariable(
-##    "_076_PotentialJobsInServiceSector", "persons",
-##    fupdate = "_067_ServiceCapital.K"
-##    "* _077_JobsPerServiceCapitalUnit.K")
-##
-##JobsPerServiceCapitalUnit = TableParametrization(
-##    "_077_JobsPerServiceCapitalUnit",
-##    [.0011, 0.0006, 0.00035, 0.0002, 0.00015, 0.00015],
-##    50, 800, "persons / dollar",
-##    fupdate = "_071_ServiceOutputPerCapita.K")
-##
-##PotentialJobsInAgriculturalSector = AuxVariable(
-##    "_078_PotentialJobsInAgriculturalSector", "persons",
-##    fupdate = "_085_ArableLand.K * _079_JobsPerHectare.K")
-##
-##JobsPerHectare = TableParametrization(
-##    "_079_JobsPerHectare",
-##    [2, 0.5, 0.4, 0.3, 0.27, 0.24, 0.2, 0.2],
-##    2, 30, "persons / hectare",
-##    fupdate = "_101_AgriculturalInputsPerHectare.K")
-##
-##LaborForce = AuxVariable(
-##    "_080_LaborForce", "persons",
-##    fupdate = "0.75 * (_006_Population15To44.K"
-##    "+ _010_Population45To64.K)")
-##    # 0.75 - participation fraction
-##
-##LaborUtilizationFraction = AuxVariable(
-##    "_081_LaborUtilizationFraction",
-##    fupdate = "_073_Jobs.K / _080_LaborForce.K")
-##
-##LaborUtilizationFractionDelayed = SmoothVariable(
-##    "_082_LaborUtilizationFractionDelayed",
-##    "_158_LaborUtilizationFractionDelayTime.K",
-##    fupdate = "_081_LaborUtilizationFraction.K")
-##
-##CapitalUtilizationFraction = TableParametrization(
-##    "_083_CapitalUtilizationFraction",
-##    [1.0, 0.9, 0.7, 0.3, 0.1, 0.1], 1, 11,
-##    fupdate = "_082_LaborUtilizationFractionDelayed.K",
-##    fignore = ["_082_LaborUtilizationFractionDelayed"], # to break a circular dependency
-##    initialValue = 1.0)
+#
+# INDUSTRY SUBSYSTEM (equations {49}-{59})
+#
+IndustrialOutputPerCapita = AuxVariable(
+    "_049_IndustrialOutputPerCapita",
+    "dollars / person / year",
+    fupdate = "_050_IndustrialOutput.K / _001_Population.K")
+
+IndustrialOutput = AuxVariable(
+    "_050_IndustrialOutput", "dollars / year",
+    fupdate = "_052_IndustrialCapital.K"
+    "* (1 - _134_FractionOfCapitalAllocatedToObtainingResources.K)"
+    "* _083_CapitalUtilizationFraction.K"
+    "/ _051_IndustrialCapitalOutputRatio.K")
+
+IndustrialCapitalOutputRatio = PolicyParametrization(
+    "_051_IndustrialCapitalOutputRatio", 3, 3, "years")
+
+IndustrialCapital = LevelVariable(
+    "_052_IndustrialCapital", "2.1e11", "dollars",
+    fupdate = "_055_IndustrialCapitalInvestmentRate.J"
+    "- _053_IndustrialCapitalDepreciationRate.J")
+
+IndustrialCapitalDepreciationRate = RateVariable(
+    "_053_IndustrialCapitalDepreciationRate", "dollars / year",
+    fupdate = "_052_IndustrialCapital.K"
+    "/ _054_AverageLifetimeOfIndustrialCapital.K")
+
+AverageLifetimeOfIndustrialCapital = PolicyParametrization(
+    "_054_AverageLifetimeOfIndustrialCapital", 14, 14, "years")
+
+IndustrialCapitalInvestmentRate = RateVariable(
+    "_055_IndustrialCapitalInvestmentRate", "dollars / year",
+    fupdate = "_050_IndustrialOutput.K"
+    "* _056_FractionOfIndustrialOutputAllocatedToIndustry.K")
+
+FractionOfIndustrialOutputAllocatedToIndustry = AuxVariable(
+    "_056_FractionOfIndustrialOutputAllocatedToIndustry",
+    fupdate = "1 - _057_FractionOfIndustrialOutputAllocatedToConsumption.K"
+    "- _063_FractionOfIndustrialOutputAllocatedToServices.K"
+    "- _093_FractionOfIndustrialOutputAllocatedToAgriculture.K")
+
+FractionOfIndustrialOutputAllocatedToConsumption = AuxVariable(
+    "_057_FractionOfIndustrialOutputAllocatedToConsumption",
+    fupdate = "_058_FractionOfIndustrialOutputAllocatedToConsumptionConstant.K",
+    fequilibrium = "_059_FractionOfIndustrialOutputAllocatedToConsumptionVariable.K")
+
+FractionOfIndustrialOutputAllocatedToConsumptionConstant = PolicyParametrization(
+    "_058_FractionOfIndustrialOutputAllocatedToConsumptionConstant", 0.43, 0.43)
+
+FractionOfIndustrialOutputAllocatedToConsumptionVariable = TableParametrization(
+    "_059_FractionOfIndustrialOutputAllocatedToConsumptionVariable",
+    [0.3, 0.32, 0.34, 0.36, 0.38, 0.43, 0.73, 0.77, 0.81, 0.82, 0.83], 0, 2,
+    fupdate = "_049_IndustrialOutputPerCapita.K"
+    "/ _157_IndicativeConsumptionValue.K")
+
+#
+# SERVICES SUBSYSTEM (equations {60}, {63}, {66}-{72})
+#
+IndicatedServiceOutputPerCapita = TableParametrization(
+    "_060_IndicatedServiceOutputPerCapita",
+    [40, 300, 640, 1000, 1220, 1450, 1650, 1800, 2000],
+    0, 1600, "dollars / person / year",
+    fpoints_after_policy = [40, 300, 640, 1000, 1220, 1450, 1650, 1800, 2000],
+    fupdate = "_049_IndustrialOutputPerCapita.K")
+
+#
+# svc_061, svc_062 - used to be policy tables, now in {060}
+#
+
+FractionOfIndustrialOutputAllocatedToServices = TableParametrization(
+    "_063_FractionOfIndustrialOutputAllocatedToServices",
+    [0.3, 0.2, 0.1, 0.05, 0], 0, 2,
+    fpoints_after_policy = [0.3, 0.2, 0.1, 0.05, 0],
+    fupdate = "_071_ServiceOutputPerCapita.K"
+    "/ _060_IndicatedServiceOutputPerCapita.K")
+
+#
+# svc064, svc065 - used to be policy tables, now in {063}
+#
+
+ServiceCapitalInvestmentRate = RateVariable(
+    "_066_ServiceCapitalInvestmentRate", "dollars / year",
+    fupdate = "_050_IndustrialOutput.K"
+    "* _063_FractionOfIndustrialOutputAllocatedToServices.K")
+
+ServiceCapital = LevelVariable(
+    "_067_ServiceCapital", "1.44e11", "dollars",
+    fupdate = "_066_ServiceCapitalInvestmentRate.J"
+    "- _068_ServiceCapitalDepreciationRate.J")
+
+ServiceCapitalDepreciationRate = RateVariable(
+    "_068_ServiceCapitalDepreciationRate", "dollars / year",
+    fupdate = "_067_ServiceCapital.K"
+    "/ _069_AverageLifetimeOfServiceCapital.K")
+
+AverageLifetimeOfServiceCapital = PolicyParametrization(
+    "_069_AverageLifetimeOfServiceCapital", 20, 20, "years")
+
+ServiceOutput = AuxVariable(
+    "_070_ServiceOutput", "dollars / year",
+    fupdate = "_067_ServiceCapital.K"
+    "* _083_CapitalUtilizationFraction.K"
+    "/ _072_ServiceCapitalOutputRatio.K")
+
+ServiceOutputPerCapita = AuxVariable(
+    "_071_ServiceOutputPerCapita", "dollars / person / year",
+    fupdate = "_070_ServiceOutput.K / _001_Population.K")
+
+ServiceCapitalOutputRatio = PolicyParametrization(
+    "_072_ServiceCapitalOutputRatio", 1, 1, "years")
+
+#
+# LABOR SUBSYSTEM (equations {73}-{83})
+#
+Jobs = AuxVariable(
+    "_073_Jobs", "persons",
+    fupdate = "_074_PotentialJobsInIndustrialSector.K"
+    "+ _076_PotentialJobsInServiceSector.K"
+    "+ _078_PotentialJobsInAgriculturalSector.K")
+
+PotentialJobsInIndustrialSector = AuxVariable(
+    "_074_PotentialJobsInIndustrialSector", "persons",
+    fupdate = "_052_IndustrialCapital.K"
+    "* _075_JobsPerIndustrialCapitalUnit.K")
+
+JobsPerIndustrialCapitalUnit = TableParametrization(
+    "_075_JobsPerIndustrialCapitalUnit",
+    [0.00037, 0.00018, 0.00012, 0.00009, 0.00007, 0.00006],
+    50, 800, "persons / dollar",
+    fupdate = "_049_IndustrialOutputPerCapita.K")
+
+PotentialJobsInServiceSector = AuxVariable(
+    "_076_PotentialJobsInServiceSector", "persons",
+    fupdate = "_067_ServiceCapital.K"
+    "* _077_JobsPerServiceCapitalUnit.K")
+
+JobsPerServiceCapitalUnit = TableParametrization(
+    "_077_JobsPerServiceCapitalUnit",
+    [.0011, 0.0006, 0.00035, 0.0002, 0.00015, 0.00015],
+    50, 800, "persons / dollar",
+    fupdate = "_071_ServiceOutputPerCapita.K")
+
+PotentialJobsInAgriculturalSector = AuxVariable(
+    "_078_PotentialJobsInAgriculturalSector", "persons",
+    fupdate = "_085_ArableLand.K * _079_JobsPerHectare.K")
+
+JobsPerHectare = TableParametrization(
+    "_079_JobsPerHectare",
+    [2, 0.5, 0.4, 0.3, 0.27, 0.24, 0.2, 0.2],
+    2, 30, "persons / hectare",
+    fupdate = "_101_AgriculturalInputsPerHectare.K")
+
+LaborForce = AuxVariable(
+    "_080_LaborForce", "persons",
+    fupdate = "0.75 * (_006_Population15To44.K"
+    "+ _010_Population45To64.K)")
+    # 0.75 - participation fraction
+
+LaborUtilizationFraction = AuxVariable(
+    "_081_LaborUtilizationFraction",
+    fupdate = "_073_Jobs.K / _080_LaborForce.K")
+
+LaborUtilizationFractionDelayed = SmoothVariable(
+    "_082_LaborUtilizationFractionDelayed",
+    "_158_LaborUtilizationFractionDelayTime.K",
+    fupdate = "_081_LaborUtilizationFraction.K")
+
+
+#CapitalUtilizationFraction = Parameter(
+#    "_083_CapitalUtilizationFraction", 0.8)
+
+# This is confirmed to be the source of model instability
+# for dt>1. The utilization jumps between 1 and 0.2.
+# LaborUtilizationFractionDelayTime is set to 2 years
+# This prevents it from smoothing if dt>=2 
+CapitalUtilizationFraction = TableParametrization(
+    "_083_CapitalUtilizationFraction",
+    [1.0, 0.9, 0.7, 0.3, 0.1, 0.1], 1, 11,
+    fupdate = "_082_LaborUtilizationFractionDelayed.K",
+    fignore = ["_082_LaborUtilizationFractionDelayed"], # to break a circular dependency
+    initialValue = 1.0)
 
 #
 # NONRENEWABLE RESOURCE SECTOR (equations {129}-{134})
@@ -251,8 +258,10 @@ if __name__ == "__main__":
     IndicativeConsumptionValue = Parameter(
         "_157_IndicativeConsumptionValue", 400, "dollars / person")
 
+    # This is confirmed to be the source of model instability
+    # for dt>1. The original has it at 2 years; better to put 5 
     LaborUtilizationFractionDelayTime = Parameter(
-        "_158_LaborUtilizationFractionDelayTime", 2, "years")
+        "_158_LaborUtilizationFractionDelayTime", 5, "years")
 
     NonrenewableResourcesInitial = Parameter(
         "_168_NonrenewableResourcesInitial", 1.0e12, "resource units")
@@ -261,22 +270,17 @@ if __name__ == "__main__":
     #
     # NUMERICAL CHECKS (this test only)
     #
-    #
-    # FIXED PARAMETERS (this test only)
-    #
 
-    IndustrialOutputPerCapita = AuxVariable(
-        "_049_IndustrialOutputPerCapita", "dollars / person / year",
-        fupdate = "_649_Goods_Digitized.K * 5")
-
+    #IndustrialOutputPerCapita = AuxVariable(
+    #    "_049_IndustrialOutputPerCapita", "dollars / person / year",
+    #    fupdate = "_649_Goods_Digitized.K * 5")
     #IndustrialOutputPerCapita = Parameter(
     #    "_049_IndustrialOutputPerCapita",
     #    200, "dollars / person / year")
 
-    ServiceOutputPerCapita = AuxVariable(
-        "_071_ServiceOutputPerCapita", "dollars / person / year",
-        fupdate = "_671_Services_Digitized.K * 1e11 / _001_Population.K")
-
+    #ServiceOutputPerCapita = AuxVariable(
+    #    "_071_ServiceOutputPerCapita", "dollars / person / year",
+    #    fupdate = "_671_Services_Digitized.K * 1e11 / _001_Population.K")
     #ServiceOutputPerCapita = Parameter(
     #    "_071_ServiceOutputPerCapita",
     #    50, "dollars")
@@ -314,6 +318,22 @@ if __name__ == "__main__":
     LifeExpectancy_Reference = AuxVariable(
         "_519_LifeExpectancy_Reference", "persons",
         fupdate = "_619_LifeExpectancy_Digitized.K * 0.8")
+
+    IndustrialOutputPerCapita_Reference = AuxVariable(
+        "_549_IndustrialOutputPerCapita_Reference", "dollars / person / year",
+        fupdate = "_649_Goods_Digitized.K * 5")
+
+    ServiceOutputPerCapita_Reference = AuxVariable(
+        "_571_ServiceOutputPerCapita", "dollars / person / year",
+        fupdate = "_671_Services_Digitized.K * 1e11 / _001_Population.K")
+
+    #IndustrialOutput_Reference = AuxVariable(
+    #    "_849_IndustrialOutput_Reference", "dollars / year",
+    #    fupdate = "_049_IndustrialOutputPerCapita.K * _001_Population.K")
+
+    #ServiceOutput_Reference = AuxVariable(
+    #    "_870_ServiceOutput_Reference", "dollars / year",
+    #    fupdate = "_671_Services_Digitized.K * 1e11")
 
     NonrenewableResources_Reference = AuxVariable(
         "_629_NonrenewableResources_Reference", "resource units",
@@ -414,23 +434,23 @@ if __name__ == "__main__":
     #
     # Parametrization plots
     #
-##    PlotTable( DYNAMO_Engine,
-##        FractionOfIndustrialOutputAllocatedToConsumptionVariable,
-##        0, 2.2, show=False)
-##    PlotTable( DYNAMO_Engine, IndicatedServiceOutputPerCapita,
-##        0, 1800, show=False)
-##    PlotTable( DYNAMO_Engine, FractionOfIndustrialOutputAllocatedToServices,
-##        0, 2.2, show=False)
-##    PlotTable( DYNAMO_Engine, JobsPerIndustrialCapitalUnit,
-##        0, 1000, show=False)
-##    PlotTable( DYNAMO_Engine, JobsPerServiceCapitalUnit,
-##        0, 1000, show=False)
-##    PlotTable( DYNAMO_Engine, JobsPerHectare,
-##        0, 40, show=False)
-##    PlotTable( DYNAMO_Engine, CapitalUtilizationFraction,               
-##        0, 12,
-##        "LaborUtilizationFractionDelayed [unitless]",
-##        show=False)
+    PlotTable( DYNAMO_Engine,
+        FractionOfIndustrialOutputAllocatedToConsumptionVariable,
+        0, 2.2, show=False)
+    PlotTable( DYNAMO_Engine, IndicatedServiceOutputPerCapita,
+        0, 1800, show=False)
+    PlotTable( DYNAMO_Engine, FractionOfIndustrialOutputAllocatedToServices,
+        0, 2.2, show=False)
+    PlotTable( DYNAMO_Engine, JobsPerIndustrialCapitalUnit,
+        0, 1000, show=False)
+    PlotTable( DYNAMO_Engine, JobsPerServiceCapitalUnit,
+        0, 1000, show=False)
+    PlotTable( DYNAMO_Engine, JobsPerHectare,
+        0, 40, show=False)
+    PlotTable( DYNAMO_Engine, CapitalUtilizationFraction,               
+        0, 12,
+        "LaborUtilizationFractionDelayed [unitless]",
+        show=False)
     PlotTable( DYNAMO_Engine, PerCapitaResourceUsageMultiplier,               
         0, 1700, show=False)
     PlotTable( DYNAMO_Engine, FractionOfCapitalAllocatedToObtainingResources,               
@@ -446,23 +466,15 @@ if __name__ == "__main__":
     DYNAMO_Engine.Produce_Solution_Path( verbose = vrb)
     DYNAMO_Engine.ListSolutionPath()
     DYNAMO_Engine.Reset(
-        dt=5, global_policy_year=2050,
+        dt=2, global_policy_year=2050,
         global_stability_year=4000,
         verbose = vrb)
     DYNAMO_Engine.Warmup( verbose = vrb)
     DYNAMO_Engine.Compute( verbose = vrb)
-    PlotVariable( FractionOfCapitalAllocatedToObtainingResources, DYNAMO_Engine.Model_Time,
+    PlotVariable( IndustrialCapital, DYNAMO_Engine.Model_Time,
                   filename="./Graphs/WORLD3_Subsystem_Test_{:s}.png", show=True)
-    #PlotVariable( FertilityControlFacilitiesPerCapita, DYNAMO_Engine.Model_Time,
-    #              filename="./Graphs/WORLD3_Subsystem_Test_{:s}.png", show=True)
-
-    Population.Data = np.array(Population.Data)
-    Population_Reference.Data = np.array(Population_Reference.Data)
-    FoodPerCapita.Data = np.array(FoodPerCapita.Data)
-    #Jobs.Data = np.array(Jobs.Data)
-    #LaborForce.Data = np.array(LaborForce.Data)
-    #IndustrialCapital.Data = np.array(IndustrialCapital.Data)
-    #ServiceCapital.Data = np.array(ServiceCapital.Data)
+    PlotVariable( CapitalUtilizationFraction, DYNAMO_Engine.Model_Time,
+                  filename="./Graphs/WORLD3_Subsystem_Test_{:s}.png", show=True)
 
     fig = plt.figure( figsize=(15,15))
     fig.suptitle('WORLD3 Test: Population and Capital', fontsize=25)
@@ -472,9 +484,13 @@ if __name__ == "__main__":
     ax3 = plt.subplot(gs[2])
 
     ax1.plot( DYNAMO_Engine.Model_Time,
-              Population.Data/1e9, "-", lw=6, alpha=0.5, color="b", label="Population total")
+              np.array(Population.Data)/1e9, "-", lw=6, alpha=0.5, color="b", label="Population total")
     ax1.plot( DYNAMO_Engine.Model_Time,
-              Population_Reference.Data/1e9, ".", lw=1, alpha=0.5, color="k", label="Population (check)")
+              np.array(Population_Reference.Data)/1e9, ".", lw=3, alpha=0.5, color="b", label="Population Check")
+    ax1.plot( DYNAMO_Engine.Model_Time,
+              np.array( LaborForce.Data)/1e9, "-", lw=3, alpha=0.5, color="g", label="Labor force")
+    ax1.plot( DYNAMO_Engine.Model_Time,
+              np.array( Jobs.Data)/1e9, "-", lw=3, alpha=0.5, color="r", label="Jobs")
     #ax1.plot( [2020, 2020], [0, 10], "--", lw=2, color="k", label="Global policy")
     #ax1.plot( [2070, 2070], [0, 10], "-.", lw=2, color="k", label="Global stability")
     ax1.set_xlim( DYNAMO_Engine.Model_Time[0], DYNAMO_Engine.Model_Time[-1])
@@ -484,9 +500,13 @@ if __name__ == "__main__":
     ax1.set_ylabel("billion")
 
     ax2.plot( DYNAMO_Engine.Model_Time, IndustrialOutputPerCapita.Data,
-              "-", lw=2, color="b", label="Goods per capita")
+              "-", lw=6, color="b", alpha=0.5, label="Goods per capita")
+    ax2.plot( DYNAMO_Engine.Model_Time, IndustrialOutputPerCapita_Reference.Data,
+              ".", lw=2, alpha=0.5, color="b")
     ax2.plot( DYNAMO_Engine.Model_Time, ServiceOutputPerCapita.Data,
-              "-", lw=2, color="r", label="Services per capita")
+              "-", lw=6, color="r", alpha=0.5, label="Services per capita")
+    ax2.plot( DYNAMO_Engine.Model_Time, ServiceOutputPerCapita_Reference.Data,
+              ".", lw=2, color="r", alpha=0.5,)
     ax2.plot( DYNAMO_Engine.Model_Time, FoodPerCapita.Data,
               "-", lw=2, color="g", label="Food per capita ($1/kg)")
     #ax2.plot( [2020, 2020], [10, 50], "--", lw=2, color="k")
@@ -512,3 +532,9 @@ if __name__ == "__main__":
     
     plt.savefig( "./Graphs/Test_002_Capital.png")
     plt.show()
+
+    #OutputCSV(
+    #[IndustrialOutput_Reference, ServiceOutput_Reference],
+    #DYNAMO_Engine.Model_Time,
+    #"./Data/Output_Checks.csv")
+
