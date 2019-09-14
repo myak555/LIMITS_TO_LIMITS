@@ -5,7 +5,7 @@ from WORLD3_Population_Subsystem import *
 # industry, services and labor parts of the capital subsystem.
 # The agriculture outputs per capita
 # are presumed constant (equations {83}-{143});
-# Resources and polution are constant
+# Resources and pollution are constant
 #
 
 #

@@ -411,6 +411,8 @@ if __name__ == "__main__":
     PlotTable( DYNAMO_Engine, Mortality65AndOver, 0, 100, "LifeExpectancy [years]", show=False)
     PlotTable( DYNAMO_Engine, HealthServicesAllocationsPerCapita, 0, 2200,
                "ServiceOutputPerCapita [dollars / person / year]", show=False)
+    PlotTable( DYNAMO_Engine, LifetimeMultiplierFromFood, 0, 6,
+               "FoodPerCapita [fraction of subsistence]", show=False)
     PlotTable( DYNAMO_Engine, LifetimeMultiplierFromHealthServices, 0, 120, show=False)
     PlotTable( DYNAMO_Engine, FractionOfPopulationUrban, 0, 18e9, show=False)
     PlotTable( DYNAMO_Engine, CrowdingMultiplierFromIndustrialization, 0, 1800,

@@ -250,6 +250,90 @@ PerceivedFoodRatio = SmoothVariable(
     fupdate = "_127_FoodRatio.K",   # this will be replaced by value below to break a definition cycle
     initialValue = 1.0)
 
+#
+# PERSISTENT POLLUTION SUBSYSTEM  (equations {137}-{146})
+#
+PersistentPollutionGenerationRate = RateVariable(
+    "_137_PersistentPollutionGenerationRate",
+    "pollution units / year",
+    fupdate = "(_139_PersistentPollutionGeneratedByIndustrialOutput.K"
+    "+ _140_PersistentPollutionGeneratedByAgriculturalOutput.K)"
+    "* _138_PersistentPollutionGenerationFactor.K")
+
+PersistentPollutionGenerationFactor = PolicyParametrization(
+    "_138_PersistentPollutionGenerationFactor", 1, 1)
+
+PersistentPollutionGeneratedByIndustrialOutput = AuxVariable(
+    "_139_PersistentPollutionGeneratedByIndustrialOutput",
+    "pollution units / year",
+    fupdate = "_132_PerCapitaResourceUsageMultiplier.K"
+    "* _001_Population.K"
+    "* _170_FractionOfResourcesAsPersistentMaterial.K"    
+    "* _171_IndustrialMaterialsEmissionFactor.K"
+    "* _172_IndustrialMaterialsToxicityIndex.K")
+
+PersistentPollutionGeneratedByAgriculturalOutput = AuxVariable(
+    "_140_PersistentPollutionGeneratedByAgriculturalOutput",
+    "pollution units / year",
+    fupdate =  "_101_AgriculturalInputsPerHectare.K"
+    "* _085_ArableLand.K"
+    "* _173_AgriculturalOutputAsPersistentMaterial.K"
+    "* _174_AgriculturalMaterialsToxicityIndex.K")
+
+PersistenPollutionAppearanceRate = DelayVariable(
+    "_141_PersistenPollutionAppearanceRate",
+    "_175_PersistentPollutionTransmissionDelay.K",
+    "pollution units / year",
+    fupdate = "_137_PersistentPollutionGenerationRate.K") 
+## persistenPollutionAppearanceRate.Type = "Rate"      # Type change to rate probably not needed
+
+PersistentPollution = LevelVariable(
+    "_142_PersistentPollution", "2.5e7", "pollution units",
+    fupdate = "_141_PersistenPollutionAppearanceRate.J"
+    "- _144_persistenPollutionAssimilationRate.J")
+
+IndexOfPersistentPollution = AuxVariable(
+    "_143_IndexOfPersistentPollution",
+    fupdate = "_142_PersistentPollution.K"
+    "/ _169_PollutionIn1970.K")
+
+PersistenPollutionAssimilationRate = RateVariable(
+    "_144_persistenPollutionAssimilationRate",
+    "pollution units / year",
+    fupdate = "_142_PersistentPollution.K / 1.4"
+    "/ _146_AssimilationHalfLife.K")
+
+AssimilationHalfLifeMultiplier = TableParametrization(
+    "_145_AssimilationHalfLifeMultiplier",
+    [1, 11, 21, 31, 41], 1, 1001,
+    fupdate = "_143_IndexOfPersistentPollution.K")
+
+AssimilationHalfLife = AuxVariable(
+    "_146_AssimilationHalfLife", "years",
+    fupdate =  "1.5 * _145_AssimilationHalfLifeMultiplier.K")
+    #AssimilationHalfLife.valueIn1970 = 1.5 # [years]
+    
+#
+# SUPPLEMENTARY EQUATIONS ({147}-{150})
+#
+GrossProduct = AuxVariable(
+    "_147_GrossProduct", "dollars",
+    fupdate = "0.22 * _087_Food.K"
+    "+ _070_ServiceOutput.K"
+    "+ _050_IndustrialOutput.K")
+
+FractionOfOutputInAgriculture = AuxVariable(
+    "_148_FractionOfOutputInAgriculture",
+    fupdate = "0.22 * _087_Food.K / _147_GrossProduct.K")
+
+FractionOfOutputInIndustry = AuxVariable(
+    "_149_FractionOfOutputInIndustry",
+    fupdate = "_050_IndustrialOutput.K / _147_GrossProduct.K")
+
+FractionOfOutputInServices = AuxVariable(
+    "_150_FractionOfOutputInServices",
+    fupdate = "_070_ServiceOutput.K / _147_GrossProduct.K")
+
 
 if __name__ == "__main__":
 
@@ -323,7 +407,30 @@ if __name__ == "__main__":
     NonrenewableResourcesInitial = Parameter(
         "_168_NonrenewableResourcesInitial", 1.0e12, "resource units")
 
+    PollutionIn1970 = Parameter(
+        "_169_PollutionIn1970", 1.36e8, "pollution units")
 
+    FractionOfResourcesAsPersistentMaterial = Parameter(
+        "_170_FractionOfResourcesAsPersistentMaterial", 0.02)
+    
+    IndustrialMaterialsEmissionFactor = Parameter(
+        "_171_IndustrialMaterialsEmissionFactor", 0.1)
+        
+    IndustrialMaterialsToxicityIndex = Parameter(
+        "_172_IndustrialMaterialsToxicityIndex", 10,
+        "pollution units / dollar")
+
+    AgriculturalOutputAsPersistentMaterial = Parameter(
+        "_173_AgriculturalOutputAsPersistentMaterial", 0.001)
+
+    AgriculturalMaterialsToxicityIndex = Parameter(
+        "_174_AgriculturalMaterialsToxicityIndex", 1,
+        "pollution units / dollar")
+    
+    PersistentPollutionTransmissionDelay = Parameter(
+        "_175_PersistentPollutionTransmissionDelay", 20,
+        "years")
+    
     #
     # NUMERICAL CHECKS (this test only)
     #
@@ -333,21 +440,11 @@ if __name__ == "__main__":
     #FoodPerCapita = PolicyParametrization(
     #    "_088_FoodPerCapita",
     #    900, 900, "kg / person / year")
-    #ArableLand = Parameter(
-    #    "_085_ArableLand", 0.9e9, "hectares")
-    #FractionOfIndustrialOutputAllocatedToAgriculture = PolicyParametrization(
-    #    "_093_FractionOfIndustrialOutputAllocatedToAgriculture", 0.05, 0.1,
-    #    "unitless")
-    #AgriculturalInputsPerHectare = PolicyParametrization(
-    #    "_101_AgriculturalInputsPerHectare", 200, 200, "dollars / hectare / year")
-
-    IndexOfPersistentPollution = AuxVariable(
-        "_143_IndexOfPersistentPollution", "unitless",
-        fupdate = "_743_PollutionIndex_Digitized.K * 0.32")
-
+    #IndexOfPersistentPollution = AuxVariable(
+    #    "_143_IndexOfPersistentPollution", "unitless",
+    #    fupdate = "_743_PollutionIndex_Digitized.K * 0.32")
     #IndexOfPersistentPollution = Parameter(
     #    "_143_IndexOfPersistentPollution", 1)
-
 
     Population_Reference = AuxVariable(
         "_501_Population_Reference", "persons",
@@ -480,7 +577,7 @@ if __name__ == "__main__":
         0, 1700, show=False)
     PlotTable( DYNAMO_Engine,
         FractionOfIndustrialOutputAllocatedToAgriculture,
-        0, 1700, show=False)
+        0, 4, show=False)
     PlotTable( DYNAMO_Engine,
         DevelopmentCostPerHectare,
         0, 1.1, show=False)
@@ -501,16 +598,19 @@ if __name__ == "__main__":
         0, 10, show=False)
     PlotTable( DYNAMO_Engine,
         UrbanIndustrialLandPerCapita,
-        0, 40, show=False)
+        0, 1700, show=False)
     PlotTable( DYNAMO_Engine,
         LandFertilityDegradationRate,
-        0, 1700, show=False)
+        0, 35, show=False)
     PlotTable( DYNAMO_Engine,
         LandFertilityRegenerationTime,
         0, 0.1, show=False)
     PlotTable( DYNAMO_Engine,
         FractionOfInputsAllocatedToLandMaintenance,
         0, 5, show=False)
+    PlotTable( DYNAMO_Engine,
+        AssimilationHalfLifeMultiplier,
+        0, 1100, show=False)
 
     #
     #Test_Run
@@ -518,7 +618,7 @@ if __name__ == "__main__":
     vrb = False
     DYNAMO_Engine.SortByType()
     DYNAMO_Engine.ListEquations()
-    DYNAMO_Engine.ListDictionary( "levels")
+    DYNAMO_Engine.ListDictionary( "tables")
     DYNAMO_Engine.Produce_Solution_Path( verbose = vrb)
     DYNAMO_Engine.ListSolutionPath()
     DYNAMO_Engine.Reset(
@@ -527,9 +627,9 @@ if __name__ == "__main__":
         verbose = vrb)
     DYNAMO_Engine.Warmup( verbose = vrb)
     DYNAMO_Engine.Compute( verbose = vrb)
-    PlotVariable( LandFertility, DYNAMO_Engine.Model_Time,
+    PlotVariable( PersistentPollution, DYNAMO_Engine.Model_Time,
                   filename="./Graphs/WORLD3_Subsystem_Test_{:s}.png", show=True)
-    PlotVariable( AverageLifeOfLand, DYNAMO_Engine.Model_Time,
+    PlotVariable( PersistenPollutionAppearanceRate, DYNAMO_Engine.Model_Time,
                   filename="./Graphs/WORLD3_Subsystem_Test_{:s}.png", show=True)
 
     fig = plt.figure( figsize=(15,15))
