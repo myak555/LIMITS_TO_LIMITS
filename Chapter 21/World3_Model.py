@@ -189,6 +189,7 @@ class W3_Population():
     year0 - starting model year, increment 1 year
     """
     def __init__( self, year0=1890, goodsPC=25.0, foodPC=270.0, servicesPC=100.0, biological_TFR=6.0, verbose=False):
+        self.Year = year0
         self.Demographics = W3_Demographics(year0)
         self.Goods = goodsPC * self.Demographics.Total / 1000
         self.Food = foodPC * self.Demographics.Total / 1000
@@ -250,6 +251,7 @@ class W3_Population():
         """
         Calculates next year in the model
         """
+        self.Year += 1
         if not goods is None: self.Goods = goods
         if not food is None: self.Food = food
         if not services is None: self.Services = services

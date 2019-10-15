@@ -555,6 +555,24 @@ class TableParametrization(DYNAMO_Base):
             return
         self.K = self.Lookup( v)
         return
+    def GetPoints(self, filename, x=[], form="{:.3f},{:.3f}", head="X,Y"):
+        if len(x) <= 0:
+            x = np.linspace(self.Indices[0], self.Indices[1], 101)
+        y = np.zeros( len(x))
+        for i, xi in enumerate(x):
+            y[i] = self.Lookup( xi)
+        f = open( filename, "w")
+        f.write("#\n")
+        f.write("# Parametrization table\n")
+        f.write("# {:s} [{:s}]\n".format(self.Name, self.Units))
+        f.write("# Horizontal conversion = 150,1080,{:g},{:g},fraction\n".format(x[0], x[-1]))
+        f.write("# Vertical conversion = 713,123,{:g},{:g},fraction\n".format(min(y), max(y)))
+        f.write("#\n")
+        f.write(head + "\n")
+        for i, xi in enumerate(x):                
+            f.write(form.format(xi, y[i])+"\n")
+        f.close()
+        return
 
 
 class LevelVariable(DYNAMO_Base):
