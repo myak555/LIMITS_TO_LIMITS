@@ -8,6 +8,7 @@ from DYNAMO_Prototypes import *
 #
 # POPULATION SUBSYSTEM (equations {1}-{23}, {26}-{48})
 #
+# Validated
 Population = AuxVariable(
     "_001_Population", "persons",
     fupdate = "_002_Population0To14.K + _006_Population15To44.K"
@@ -16,48 +17,56 @@ Population = AuxVariable(
 #
 # Population 0-14
 #
-
+# Validated
 Population0To14 = LevelVariable(
     "_002_Population0To14", "6.5e8", "persons",
     fupdate = "_030_BirthsPerYear.J - _003_DeathsPerYear0To14.J"
     "- _005_MaturationsPerYear14to15.J")
 
+# Validated
 DeathsPerYear0To14 = RateVariable(
     "_003_DeathsPerYear0To14", "persons / year",
     fupdate = "_002_Population0To14.K * _004_Mortality0To14.K")
 
+# Validated
 Mortality0To14 = TableParametrization(
     "_004_Mortality0To14",
     [0.0567, 0.0366, 0.0243, 0.0155, 0.0082, 0.0023, 0.0010],
     20, 80, "deaths / person / year",
     fupdate = "_019_LifeExpectancy.K")
 
+# Validated
 MaturationsPerYear14to15 = RateVariable(
     "_005_MaturationsPerYear14to15", "persons / year",
     fupdate = "_002_Population0To14.K * (1 - _004_Mortality0To14.K) / 15.0")
 
+
 #
 # Population 15-44
 #
-
+# Validated
 Population15To44 = LevelVariable(
     "_006_Population15To44", "7.0e8", "persons",
     fupdate = "_005_MaturationsPerYear14to15.J - _007_DeathsPerYear15To44.J"
     "- _009_MaturationsPerYear44to45.J")
 
+# Validated
 DeathsPerYear15To44 = RateVariable(
     "_007_DeathsPerYear15To44", "persons / year",
     fupdate = "_006_Population15To44.K * _008_Mortality15To44.K")
 
+# Validated
 Mortality15To44 = TableParametrization(
     "_008_Mortality15To44",
     [0.0266, 0.0171, 0.0110, 0.0065, 0.0040, 0.0016, 0.0008],
     20, 80, "deaths / person / year",
     fupdate = "_019_LifeExpectancy.K")
 
+# Validated
 MaturationsPerYear44to45 = RateVariable(
     "_009_MaturationsPerYear44to45", "persons / year",
     fupdate = "_006_Population15To44.K * (1 - _008_Mortality15To44.K) / 30.0")
+
 
 #
 # Population 45-64
@@ -697,6 +706,41 @@ PerceivedFoodRatio = SmoothVariable(
     fupdate = "_127_FoodRatio.K",   # this will be replaced by value below to break a definition cycle
     initialValue = 1.0)
 
+
+#
+# NONRENEWABLE RESOURCE SUBSYSTEM (equations {129}-{134})
+#
+NonrenewableResources = LevelVariable(
+    "_129_NonrenewableResources",
+    "_168_NonrenewableResourcesInitial.K", "resource units",
+    fupdate = "-_130_NonrenewableResourceUsageRate.J")
+
+NonrenewableResourceUsageRate = RateVariable(
+    "_130_NonrenewableResourceUsageRate", "resource units / year",
+    fupdate = "_001_Population.K"
+    "* _132_PerCapitaResourceUsageMultiplier.K"
+    "* _131_NonrenewableResourceUsageFactor.K")
+
+NonrenewableResourceUsageFactor = PolicyParametrization(
+    "_131_NonrenewableResourceUsageFactor", 1, 1)
+
+PerCapitaResourceUsageMultiplier = TableParametrization(
+    "_132_PerCapitaResourceUsageMultiplier",
+    [0, 0.85, 2.6, 4.4, 5.4, 6.2, 6.8, 7, 7],
+    0, 1600, "resource units / person / year",
+    fupdate = "_049_IndustrialOutputPerCapita.K")
+
+NonrenewableResourceFractionRemaining = AuxVariable(
+    "_133_NonrenewableResourceFractionRemaining",
+    fupdate = "_129_NonrenewableResources.K"
+    "/ _168_NonrenewableResourcesInitial.K")
+
+FractionOfCapitalAllocatedToObtainingResources = TableParametrization(
+    "_134_FractionOfCapitalAllocatedToObtainingResources",
+    [1, 0.9, 0.7, 0.5, 0.2, 0.1, 0.05, 0.05, 0.05, 0.05, 0.05], 0, 1,
+    fpoints_after_policy = [1, 0.9, 0.7, 0.5, 0.2, 0.1, 0.05, 0.05, 0.05, 0.05, 0.05],
+    fupdate = "_133_NonrenewableResourceFractionRemaining.K")
+
 #
 # PERSISTENT POLLUTION SUBSYSTEM  (equations {137}-{146})
 #
@@ -759,41 +803,8 @@ AssimilationHalfLife = AuxVariable(
     "_146_AssimilationHalfLife", "years",
     fupdate =  "1.5 * _145_AssimilationHalfLifeMultiplier.K")
     #AssimilationHalfLife.valueIn1970 = 1.5 # [years]
+
     
-#
-# NONRENEWABLE RESOURCE SECTOR (equations {129}-{134})
-#
-NonrenewableResources = LevelVariable(
-    "_129_NonrenewableResources",
-    "_168_NonrenewableResourcesInitial.K", "resource units",
-    fupdate = "-_130_NonrenewableResourceUsageRate.J")
-
-NonrenewableResourceUsageRate = RateVariable(
-    "_130_NonrenewableResourceUsageRate", "resource units / year",
-    fupdate = "_001_Population.K"
-    "* _132_PerCapitaResourceUsageMultiplier.K"
-    "* _131_NonrenewableResourceUsageFactor.K")
-
-NonrenewableResourceUsageFactor = PolicyParametrization(
-    "_131_NonrenewableResourceUsageFactor", 1, 1)
-
-PerCapitaResourceUsageMultiplier = TableParametrization(
-    "_132_PerCapitaResourceUsageMultiplier",
-    [0, 0.85, 2.6, 4.4, 5.4, 6.2, 6.8, 7, 7],
-    0, 1600, "resource units / person / year",
-    fupdate = "_049_IndustrialOutputPerCapita.K")
-
-NonrenewableResourceFractionRemaining = AuxVariable(
-    "_133_NonrenewableResourceFractionRemaining",
-    fupdate = "_129_NonrenewableResources.K"
-    "/ _168_NonrenewableResourcesInitial.K")
-
-FractionOfCapitalAllocatedToObtainingResources = TableParametrization(
-    "_134_FractionOfCapitalAllocatedToObtainingResources",
-    [1, 0.9, 0.7, 0.5, 0.2, 0.1, 0.05, 0.05, 0.05, 0.05, 0.05], 0, 1,
-    fpoints_after_policy = [1, 0.9, 0.7, 0.5, 0.2, 0.1, 0.05, 0.05, 0.05, 0.05, 0.05],
-    fupdate = "_133_NonrenewableResourceFractionRemaining.K")
-
 #
 # SUPPLEMENTARY EQUATIONS ({147}-{150})
 #

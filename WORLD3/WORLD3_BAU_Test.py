@@ -11,14 +11,14 @@ DYNAMO_Engine.ListDictionary( "levels")
 DYNAMO_Engine.Produce_Solution_Path( verbose = vrb)
 #DYNAMO_Engine.ListSolutionPath()
 DYNAMO_Engine.Reset(
-    dt=2, global_policy_year=2050,
+    dt=1, global_policy_year=2150,
     global_stability_year=4000,
     verbose = vrb)
 DYNAMO_Engine.Warmup( verbose = vrb)
 DYNAMO_Engine.Compute( verbose = vrb)
 
-PlotVariable( IndustrialOutputPerCapita, DYNAMO_Engine.Model_Time,
-              filename="./Graphs/WORLD3_Subsystem_Test_{:s}.png", show=True)
+##    PlotVariable( IndustrialOutputPerCapita, DYNAMO_Engine.Model_Time,
+##                  filename="./Graphs/WORLD3_Subsystem_Test_{:s}.png", show=True)
 ##    PlotVariable( FractionOfIndustrialOutputAllocatedToIndustry, DYNAMO_Engine.Model_Time,
 ##                  filename="./Graphs/WORLD3_Subsystem_Test_{:s}.png", show=True)
 ##    PlotVariable( FractionOfIndustrialOutputAllocatedToServices, DYNAMO_Engine.Model_Time,
@@ -92,7 +92,26 @@ plt.show()
 ##        "./Data/FractionOfIndustrialOutputAllocatedToServices.dgt.csv",
 ##        x=np.linspace(0, 2.2, 111))
 OutputCSV(
-[IndustrialCapital, ServiceCapital, IndustrialOutput, ServiceOutput, Food],
+[Population, Population0To14, Population15To44, Population45To64, Population65AndOver,
+LifeExpectancy, TotalFertility, CrudeDeathRate, CrudeBirthRate],
 DYNAMO_Engine.Model_Time,
-"./Data/Capital_Checks.csv")
+"./Data/Demographics_Checks.csv")
 
+#OutputCSV(
+#[Population, Population0To14,
+#LifeExpectancy, TotalFertility,
+#IndustrialOutputPerCapita, ServiceOutputPerCapita, FoodPerCapita],
+#DYNAMO_Engine.Model_Time,
+#"./Data/Life_Quality_Checks.csv")
+#OutputCSV(
+#[IndustrialOutputPerCapita, ServiceOutputPerCapita, FoodPerCapita],
+#DYNAMO_Engine.Model_Time,
+#"./Data/Per_Capita_Output_Checks.csv")
+OutputCSV(
+[PersistentPollution],
+DYNAMO_Engine.Model_Time,
+"./Data/Pollution_Checks.csv")
+#OutputCSV(
+#[IndustrialCapital, ServiceCapital, IndustrialOutput, ServiceOutput, Food],
+#DYNAMO_Engine.Model_Time,
+#"./Data/Capital_Checks.csv")

@@ -262,6 +262,110 @@ class W3_Population():
         plt.savefig( filename)
         return
 
+    def Plot_Comparison( self, filename = "./Graphs/figure_20_01a.png"):
+        cYear,cPopulation,cChildren,cLEB,cTFR,cIndustrialPC,cServicesPC,cFoodPC = Load_Calibration(
+            "./Data/Life_Quality_Checks.csv",
+            ['Time','_001_Population','_002_Population0To14','_019_LifeExpectancy','_032_TotalFertility',
+             '_049_IndustrialOutputPerCapita','_071_ServiceOutputPerCapita','_088_FoodPerCapita'])
+        tfr = Linear_Combo()
+        tfr.Wavelets += [Sigmoid( x0=1975.000, s0=0.07740, left=5.400, right=2.350)]
+        tfr.Wavelets += [Hubbert( x0=1967.000, s0=0.29510, s1=0.24133, peak=0.631)]
+        tfr.Wavelets += [Hubbert( x0=1987.000, s0=0.43047, s1=0.43047, peak=0.211)]
+        tfr.Wavelets += [Hubbert( x0=1998.000, s0=0.53144, s1=0.31381, peak=-0.074)]
+        tfr.Wavelets += [Hubbert( x0=1955.000, s0=1.00000, s1=1.00000, peak=-0.057)]
+        tfr.Wavelets += [Hubbert( x0=1962.000, s0=1.00000, s1=1.00000, peak=0.048)]
+        tfr.Wavelets += [Hubbert( x0=1978.000, s0=1.00000, s1=1.00000, peak=-0.030)]
+        tfr.Wavelets += [Hubbert( x0=2014.000, s0=0.59049, s1=0.59049, peak=0.017)]
+        tfr.Wavelets += [Hubbert( x0=1955, s0=0.2, s1=0.09, peak=0.5)]
+
+        tfr2 = Linear_Combo()
+        tfr2.Wavelets += [Sigmoid( x0=1970.000, s0=0.07740, left=5.400, right=3.00)]
+        tfr2.Wavelets += [Sigmoid( x0=2010.000, s0=0.3, left=0, right=-1.6)]
+        tfr2.Wavelets += [Sigmoid( x0=2060.000, s0=0.2, left=0, right=4.5)]
+
+        leb = Linear_Combo()
+        leb.Wavelets  = [Sigmoid( x0=1965.000, s0=0.03183, left=26.500, right=80.400)]
+        leb.Wavelets += [Hubbert( x0=1975.000, s0=0.18500, s1=0.13500, peak=1.632)]
+        leb.Wavelets += [Hubbert( x0=2000.000, s0=0.28000, s1=0.31000, peak=-1.000)]
+        leb.Wavelets += [Hubbert( x0=1961.000, s0=0.15009, s1=0.47500, peak=-1.700)]
+        leb.Wavelets += [Hubbert( x0=1948, s0=0.1, s1=1, peak=-7)]
+              
+        P0 = Population()
+        W3_mod = Interpolation_BAU_2002()
+        W3_mod.Solve( np.linspace(1890, 2100, 211))
+        P0.Solve(W3_mod.Time)
+
+        l = len(W3_mod.Time)
+        POP_Actual = np.zeros(l)
+        TFR_Actual = np.zeros(l)
+        LEB_Actual = np.zeros(l)
+        for i,y in enumerate(W3_mod.Time):
+            POP_Actual[i] = self.Demographics.Total
+            TFR_Actual[i] = self.TFR
+            LEB_Actual[i] = self.LEB
+            W3.Compute_Next_Year(goodsPC=W3_mod.GoodsPC[i], foodPC=W3_mod.FoodPC[i], servicesPC=W3_mod.ServicesPC[i])
+        LEB_Actual[0] = LEB_Actual[1]
+        TFR_Actual[0] = TFR_Actual[1]
+        LEB_Estimate = leb.GetVector( W3_mod.Time)
+        TFR_Estimate = tfr.GetVector( W3_mod.Time)
+        TFR_Model = tfr2.GetVector( W3_mod.Time)
+
+        limits = 1900, 2100
+
+        fig = plt.figure( figsize=(15,15))
+        fig.suptitle('Проверка модели "World3" 2003 г', fontsize=25)
+        gs = plt.GridSpec(3, 1) 
+        ax1 = plt.subplot(gs[0])
+        ax2 = plt.subplot(gs[1])
+        ax3 = plt.subplot(gs[2])
+
+        ax1.set_title("Потребление в модели World3 2003 года", fontsize=18)
+        ax1.plot( W3_mod.Time, W3_mod.GoodsPC, "-", lw=2, color="r", label="Промтовары [кг]")
+        ax1.plot( W3_mod.Time, W3_mod.ServicesPC, "-", lw=2, color="y", label="Услуги [усл. $]")
+        ax1.plot( W3_mod.Time, W3_mod.FoodPC, "-", lw=2, color="g", label="Продовольствие [кг]")
+        ax1.plot( cYear, cIndustrialPC, "o", lw=2, color="r", alpha=0.5, label="BAU World3")
+        ax1.plot( cYear, cServicesPC, "o", lw=2, color="y", alpha=0.5)
+        ax1.plot( cYear, cFoodPC, "o", lw=2, color="g", alpha=0.5)
+        ax1.set_xlim( limits)
+        ax1.set_ylim( 0, 700)
+        ax1.grid(True)
+        ax1.legend(loc=0)
+
+        ax2.plot( W3_mod.Time, LEB_Actual, "-", lw=2, color="b")
+        ax2.plot( cYear, cLEB, "o", lw=2, color="b", alpha=0.5)
+        #ax2.plot( W3_mod.Time, W3_mod.LEB, "--", lw=2, color="b")
+        #ax2.plot( W3_mod.Time, LEB_Estimate, ".", lw=2, color="b")
+        ax2.text( limits[0]+2, LEB_Estimate[0]+6, "LEB", color="b", fontsize=20)
+        ax2.plot( W3_mod.Time, TFR_Actual*10, "-", lw=2, color="g", label="наша модель")
+        ax2.plot( cYear, cTFR*10, "o", lw=2, color="g", alpha=0.5, label="BAU World3")
+        #ax2.plot( W3_mod.Time, TFR_Model*10, "--", lw=2, color="g", label="World3, 2003")
+        #ax2.plot( W3_mod.Time, TFR_Estimate*10, ".", lw=2, color="g", label="ООН, 2015")
+        ax2.text( limits[0]+2, TFR_Estimate[0]*10+6, "TFR x 10", color="g", fontsize=20)
+        ax2.set_xlim( limits)
+        ax2.set_ylim( 0, 85)
+        ax2.set_ylabel("Демография")
+        ax2.grid(True)
+        ax2.legend(loc=0)
+
+        ax3.plot( W3_mod.Time, POP_Actual/1000, "-", lw=2, color="b", label="наша модель")
+        #ax3.plot( W3_mod.Time, W3_mod.Population/1000, "--", lw=2, color="b", label="World3, 2003")
+        #ax3.plot( cYear, cPopulation/1.05e9, "o", lw=2, color="b", alpha=0.5, label="BAU World3")
+        ax3.plot( cYear, cPopulation/1.00e9, "o", lw=2, color="b", alpha=0.5, label="BAU World3")
+        ax3.plot( cYear, cChildren/1.00e9, "o", lw=2, color="g", alpha=0.5, label="Дети до 15 лет")
+        #ax3.plot( W3_mod.Time[110:], P0.Solution_UN_Medium[110:]/1000, ".", lw=2, color="b", label="Средняя оценка ООН, 2015")
+        ax3.errorbar(P0.Calibration_Year, P0.Calibration_Total/1000, yerr=P0.Calibration_Yerr/1000,
+                     fmt=".", color="k", label="Реальная")
+        ax3.set_xlim( limits)
+        ax3.set_ylim( 0, 12)
+        ax3.grid(True)
+        ax3.legend(loc=0)
+        ax3.set_xlabel("Год")
+        ax3.set_ylabel("популяция, млрд")
+        plt.savefig( filename)
+        return
+
+
 W3 = W3_Population()
-W3.Plot_Calibration()
+#W3.Plot_Calibration()
+W3.Plot_Comparison()
 if InteractiveModeOn: plt.show(True)

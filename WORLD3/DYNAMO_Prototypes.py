@@ -528,6 +528,7 @@ class TableParametrization(DYNAMO_Base):
         if fpoints_after_policy is not None:
             self.PointsAfter = np.array( fpoints_after_policy)
             self.PolicyInput = "Policy"
+        #print(imin, imax, fpoints)
         self.Indices = np.linspace( imin, imax, len(fpoints))
         self.Delta = self.Indices[1]-self.Indices[0]
         return
