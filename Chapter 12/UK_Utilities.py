@@ -52,7 +52,7 @@ class Coal_UK:
         for i in range( 1, len(self.Functions)):
             self.Total += self.Functions[i].GetVector( t)
         for i in range( 1, len(self.Time)):
-            if self.Time[i] < 2017: continue
+            if self.Time[i] < 2025: continue
             self.Total[i] = 0.0
         self.URR = np.sum( self.Total)
         return self.Total
@@ -121,7 +121,7 @@ class Coal_UK_Cons:
         for i in range( 1, len(self.Functions)):
             self.Total += self.Functions[i].GetVector( t)
         for i in range( 1, len(self.Time)):
-            if self.Time[i] < 2018: continue
+            if self.Time[i] < 2025: continue
             self.Total[i] = 0.0
         self.URR = np.sum( self.Total) 
         return self.Total
@@ -183,7 +183,8 @@ class Nuc_UK_Cons:
         self.Functions += [Hubbert( 2000, 1, 1, -4)]
         self.Functions += [Hubbert( 2008, 0.9, 2, -9)]
         self.Functions += [Hubbert( 2010, 1.5, 2, -5)]
-        self.Functions += [Hubbert( 2014, .7, .6, -8)]
+        #self.Functions += [Hubbert( 2014, .7, .6, -8)]
+        self.Functions += [Hubbert( 2014, .7, .1, -8)]
         return
     def Solve( self, t):
         self.Time = t

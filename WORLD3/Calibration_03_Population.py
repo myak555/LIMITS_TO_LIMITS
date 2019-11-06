@@ -8,9 +8,8 @@ GraphShow = False
 #
 
 #
-# POPULATION SUBSYSTEM (equations {1}-{23}, {26}-{31}, {80}, {142})
-# as function of modelled  {32}
-# as function of modelled {49}, {71}, {88}, {143}
+# POPULATION SUBSYSTEM (equations {1}-{48}, {80}, {142})
+# as a function of modelled {49}, {71}, {88}, {143}
 #
 # Validated
 Population = AuxVariable(
@@ -182,82 +181,6 @@ LifeExpectancy = SmoothVariable(
     "* _028_LifetimeMultiplierFromCrowding.K"
     "* _029_LifetimeMultiplierFromPollution.K")
 
-#
-# Numerical data from
-# https://ourworldindata.org/life-expectancy
-#
-LifeExpectancy_Tabular = TableParametrization(
-    "_219_LifeExpectancy_Tabular",
-    [29.7, # 1870 (estimates)
-     30.0, # 1875
-     30.3, # 1880
-     30.7, # 1885
-     31.1, # 1890
-     31.5, # 1895
-     32.0, # 1900
-     33.0, # 1905
-     34.1, # 1910
-     34.2, # 1915
-     34.4, # 1920
-     34.7, # 1925
-     35.0, # 1930
-     38.0, # 1935
-     41.0, # 1940
-     44.0, # 1945
-     45.7, # 1950 (relatively reliable data)
-     48.2, # 1955
-     50.2, # 1960
-     53.3, # 1965
-     56.8, # 1970
-     59.2, # 1975
-     61.2, # 1980
-     62.9, # 1985
-     64.2, # 1990
-     65.1, # 1995
-     66.3, # 2000
-     68.0, # 2005
-     69.9, # 2010
-     71.6, # 2015
-     72.5, # 2020 (prediction)
-     69.4, # 2025
-     62.8, # 2030
-     55.3, # 2035
-     48.5, # 2040
-     41.8, # 2045
-     36.1, # 2050
-     33.5, # 2055
-     33.2, # 2060
-     33.0, # 2065
-     30.8, # 2070
-     29.5, # 2075
-     28.6, # 2080
-     27.7, # 2085
-     27.1, # 2090
-     26.6, # 2095
-     26.6, # 2100
-     ],
-    1870, 2100, "years",
-    fupdate = "DYNAMO_Engine.time")
-
-# Corrections for actual known events
-LEBCorrection_WW2 = TableParametrization(
-    "_319_LEBCorrection_WW2",
-    [1.0,0.95,0.95,1.0],
-    1939, 1947,
-    fupdate = "DYNAMO_Engine.time")
-
-LEBCorrection_GreatLeapForward = TableParametrization(
-    "_419_LEBCorrection_GreatLeapForward",
-    [1.0,0.9,0.9,1.0],
-    1957.5, 1961.5,
-    fupdate = "DYNAMO_Engine.time")
-
-LifeExpectancy_Check = AuxVariable(
-    "_519_LifeExpectancy_Check", "years",
-    fupdate = "_219_LifeExpectancy_Tabular.K"
-    "* _319_LEBCorrection_WW2.K"
-    "* _419_LEBCorrection_GreatLeapForward.K")
-
 # Validated
 LifetimeMultiplierFromFood = TableParametrization(
     "_020_LifetimeMultiplierFromFood",
@@ -295,13 +218,9 @@ LifetimeMultiplierFromHealthServices = TableParametrization(
      2.22,2.26,2.28,2.30,2.31,
      2.32,2.33,2.34], 5, 90,
     fupdate = "_022_EffectiveHealthServicesPerCapita.K")
-PlotTable( DYNAMO_Engine, LifetimeMultiplierFromHealthServices, 0, 100,
-           "Effective Health Services Per Capita [$/person/year]", show=GraphShow)
+#PlotTable( DYNAMO_Engine, LifetimeMultiplierFromHealthServices, 0, 100,
+#           "Effective Health Services Per Capita [$/person/year]", show=GraphShow)
 
-##    [0.95,1.27,1.62,1.77,1.87,
-##     1.95,2.03,2.09,2.14,2.18,
-##     2.22,2.26,2.28,2.30,2.31,
-##     2.32,2.33,2.34], 5, 90,
 
 #
 # pop024, pop025 - used to be policy tables, now in {pop023}
@@ -322,7 +241,8 @@ FractionOfPopulationUrban = TableParametrization(
      0.734,0.746,0.757,0.767,0.776,
      0.784,0.792,0.800], 0, 16e9,
     fupdate = "_001_Population.K")
-#PlotTable( DYNAMO_Engine, FractionOfPopulationUrban, 0, 16e9, "Total Population [persons]", show=GraphShow)
+#PlotTable( DYNAMO_Engine, FractionOfPopulationUrban,
+#    0, 16e9, "Total Population [persons]", show=GraphShow)
 
 # Validated
 CrowdingMultiplierFromIndustrialization = TableParametrization(
@@ -346,12 +266,13 @@ LifetimeMultiplierFromPollution = TableParametrization(
 
 # Validated
 # Adjustment factor Females20to40Ratio accounts for male-female disbalance
-# Fertility period adjusted from 30.0 to 28.3 years to match the UN crude birth rate stats
+# Fertility period adjusted as a function of LEB to match the UN crude birth rate stats
 BirthsPerYear = RateVariable(
     "_030_BirthsPerYear", "persons / year",
-    fupdate = "_032_TotalFertility.K * _006_Population15To44.K"
-    "* _232_FertilityCorrection_WW2.K"
-    "* _230_Females20to40Ratio.K / _330_AverageFertilityPeriod.K",
+    fupdate = "_432_TotalFertility_Check.K"
+    "* _006_Population15To44.K"
+    "* _230_Females20to40Ratio.K"
+    "/ _330_AverageFertilityPeriod.K",
     fequilibrium = "_017_DeathsPerYear.K")
 
 #
@@ -363,7 +284,8 @@ Females20to40Ratio  = TableParametrization(
     [0.51,0.49],
     1950, 2020,
     fupdate = "DYNAMO_Engine.time")
-#PlotTable( DYNAMO_Engine, Females20to40Ratio, 1900, 2100, "Time [years]", show=GraphShow)
+#PlotTable( DYNAMO_Engine, Females20to40Ratio,
+#    1900, 2100, "Time [years]", show=GraphShow)
 
 #
 # Adjustment based on fertility period
@@ -374,31 +296,29 @@ AverageFertilityPeriod  = TableParametrization(
     "_330_AverageFertilityPeriod",
     [26.3,28.3],
     2.8, 5.0, "years",
-    fupdate = "_032_TotalFertility.K")
-#PlotTable( DYNAMO_Engine, AverageFertilityPeriod, 0, 6, "TFR [children per woman]", show=GraphShow)
+    fupdate = "_432_TotalFertility_Check.K")
+#PlotTable( DYNAMO_Engine, AverageFertilityPeriod,
+#    0, 6, "TFR [children per woman]", show=GraphShow)
 
 # Validated
 CrudeBirthRate = AuxVariable(
     "_031_CrudeBirthRate", "births / 1000 persons / year",
     fupdate = "1000 * _030_BirthsPerYear.J / _001_Population.K")
 
-### Digitized from http://bit-player.org/extras/limits/ltg.html
-##CrudeBirthRate_Check = TableParametrization(
-##    "_931_CrudeBirthRate_Check",
-##    [39.0,41.4,40.9,40.6,41.8,	
-##     40.0,38.4,36.5,34.5,32.4,
-##     29.5,27.0,23.7,19.0,17.9,
-##     19.5,22.2,25.0,28.1,30.3,32.4],
-##    1900, 2100,"births / 1000 persons / year",
-##    fupdate = "DYNAMO_Engine.time")
+# Validated
+TotalFertility = AuxVariable(
+    "_032_TotalFertility",
+    fupdate = "min( _033_MaxTotalFertility.K,"
+    "_033_MaxTotalFertility.K * (1 - _045_FertilityControlEffectiveness.K)"
+    "+ _035_DesiredTotalFertility.K * _045_FertilityControlEffectiveness.K)")
 
 # Model fit (assuming minor increase of TFR before 1950)
 # Note that the UN estimates assume the number of
 # *registered live births* per woman; some births in
 # the developing countries may be underreported or some
 # children (e.g. girls in China) may be unregistered
-TotalFertility = TableParametrization(
-    "_032_TotalFertility",
+TotalFertility_Tabular = TableParametrization(
+    "_232_TotalFertility_Tabular",
     [5.05, # 1900
      5.05, # 1905
      5.05, # 1910
@@ -445,32 +365,133 @@ TotalFertility = TableParametrization(
     fupdate = "DYNAMO_Engine.time")
 
 FertilityCorrection_WW2 = TableParametrization(
-    "_232_FertilityCorrection_WW2",
+    "_332_FertilityCorrection_WW2",
     [1.0,0.9,0.9,1.0],
     1939, 1947,
     fupdate = "DYNAMO_Engine.time")
 
-#
-# Numerical data (1950-2015) from
-# https://ourworldindata.org/fertility-rate
-#
-TotalFertility_OWID = TableParametrization(
-    "_932_TotalFertility_OWID",
-    [5.048,5.018,4.966,4.926,4.899,
-     4.884,4.882,4.890,4.909,4.934,
-     4.963,4.993,5.017,5.033,5.037,
-     5.025,4.996,4.951,4.891,4.818,
-     4.731,4.630,4.517,4.397,4.273,
-     4.151,4.036,3.931,3.839,3.762,
-     3.700,3.653,3.618,3.588,3.561,
-     3.532,3.494,3.446,3.387,3.318,
-     3.240,3.156,3.073,2.994,2.923,
-     2.861,2.810,2.766,2.729,2.698,
-     2.672,2.651,2.634,2.620,2.607,
-     2.595,2.583,2.572,2.562,2.551,
-     2.541,2.531,2.521,2.512,2.503,2.494],
-    1950, 2015,
-    fupdate = "DYNAMO_Engine.time")
+TotalFertility_Check = AuxVariable(
+    "_432_TotalFertility_Check",
+    fupdate = "_232_TotalFertility_Tabular.K"
+    "* _332_FertilityCorrection_WW2.K")
+
+# Validated
+# max number of births per woman changed (original value 12)
+MaxTotalFertility = AuxVariable(
+    "_033_MaxTotalFertility",
+    fupdate = "10 * _034_FecundityMultiplier.K")
+    # 12 - max number of births
+
+# Validated
+FecundityMultiplier = TableParametrization(
+    "_034_FecundityMultiplier",
+    [0.0, 0.2, 0.4, 0.6, 0.8, 0.9, 1.0, 1.05, 1.1], 0, 80,
+    fupdate = "_019_LifeExpectancy.K")
+
+# Validated
+DesiredTotalFertility = AuxVariable(
+    "_035_DesiredTotalFertility",
+    fupdate = "_036_CompensatoryMultiplierFromPerceivedLifeExpectancy.K"
+    "* _038_DesiredCompletedFamilySize.K")
+
+# Validated
+CompensatoryMultiplierFromPerceivedLifeExpectancy = TableParametrization(
+     "_036_CompensatoryMultiplierFromPerceivedLifeExpectancy",
+    [3.0, 2.1, 1.6, 1.4, 1.3, 1.2, 1.1, 1.05, 1.0], 0, 80,
+    fupdate = "_037_PerceivedLifeExpectancy.K")
+
+# Validated
+PerceivedLifeExpectancy = DelayVariable(
+    "_037_PerceivedLifeExpectancy",
+    "_153_LifetimePerceptionDelay.K", "years",
+    "_019_LifeExpectancy.K")
+
+# Validated
+# Original coefficient of 4.0 decreased to match the UN fertility data
+DesiredCompletedFamilySize = AuxVariable(
+    "_038_DesiredCompletedFamilySize", "persons",
+    fupdate = "3.33 * _039_SocialFamilySizeNorm.K",
+    fequilibrium = "2.0")
+
+#    "* _041_FamilyResponseToSocialNorm.K",
+
+# Validated
+SocialFamilySizeNorm = TableParametrization(
+    "_039_SocialFamilySizeNorm",
+    [1.05, # 0
+     1.03, # 25
+     1.00,# 50
+     0.98,# 75
+     0.95,# 100
+     0.93,# 125
+     0.66, # 150
+     0.66, # 175
+     0.66, # 200
+     0.7, # 225
+     0.7, # 250
+     0.7, # 275
+     0.7, # 300
+     ], 0, 300,
+    fupdate = "_040_DelayedIndustrialOutputPerCapita.K")
+
+# Validated
+# modify _154_SocialAdjustmentDelay = 20
+DelayedIndustrialOutputPerCapita = DelayVariable(
+    "_040_DelayedIndustrialOutputPerCapita",
+    "_154_SocialAdjustmentDelay.K",
+    "dollars / person / year",
+    "_049_IndustrialOutputPerCapita.K")
+
+# Validated
+FamilyResponseToSocialNorm = TableParametrization(
+    "_041_FamilyResponseToSocialNorm",
+    [0.5, 0.6, 0.7, 0.85, 1.0], -0.2, 0.2,
+    fupdate = "_042_FamilyIncomeExpectation.K")
+
+# Validated
+FamilyIncomeExpectation = AuxVariable(
+    "_042_FamilyIncomeExpectation",
+    fupdate = "_049_IndustrialOutputPerCapita.K"
+    "/ _043_AverageIndustrialOutputPerCapita.K - 1")
+
+# Validated
+AverageIndustrialOutputPerCapita = SmoothVariable(
+    "_043_AverageIndustrialOutputPerCapita",
+    "_155_IncomeExpectationAveragingTime.K",
+    "dollars / person / year",
+    "_049_IndustrialOutputPerCapita.K")
+
+# Validated
+NeedForFertilityControl = AuxVariable(
+    "_044_NeedForFertilityControl",
+    fupdate = "_033_MaxTotalFertility.K"
+    "/ _035_DesiredTotalFertility.K - 1")
+
+# Validated
+FertilityControlEffectiveness = TableParametrization(
+    "_045_FertilityControlEffectiveness",
+    [0.75, 0.85, 0.90, 0.95, 0.98, 0.99, 1.0], 0, 3,
+    fupdate = "_046_FertilityControlFacilitiesPerCapita.K")
+
+# Validated
+FertilityControlFacilitiesPerCapita = DelayVariable(
+    "_046_FertilityControlFacilitiesPerCapita",
+    "_156_HealthServicesImpactDelay.K",
+    "dollars / person / year",
+    "_047_FertilityControlAllocationPerCapita.K")
+
+# Validated
+FertilityControlAllocationPerCapita = AuxVariable(
+    "_047_FertilityControlAllocationPerCapita",
+    "dollars / person / year",
+    fupdate = "_048_FractionOfServicesAllocatedToFertilityControl.K"
+    "* _071_ServiceOutputPerCapita.K")
+
+# Validated
+FractionOfServicesAllocatedToFertilityControl = TableParametrization(
+    "_048_FractionOfServicesAllocatedToFertilityControl",
+    [0.0, 0.005, 0.015, 0.025, 0.030, 0.035], 0, 10,
+    fupdate = "_044_NeedForFertilityControl.K")
 
 # Check, based on numerical simulation
 IndustrialOutputPerCapita = TableParametrization(
@@ -551,19 +572,30 @@ EffectiveHealthServicesPerCapitaImpactDelay = Parameter(
     "_152_EffectiveHealthServicesPerCapitaImpactDelay",
     20, "years")
 
+# Validated
 LifetimePerceptionDelay = Parameter(
     "_153_LifetimePerceptionDelay",
     20, "years")
 
+# Validated
 SocialAdjustmentDelay = Parameter(
     "_154_SocialAdjustmentDelay",
+    20, "years")
+
+# Validated
+IncomeExpectationAveragingTime = Parameter(
+    "_155_IncomeExpectationAveragingTime",
+    3, "years")
+
+# Validated
+HealthServicesImpactDelay = Parameter(
+    "_156_HealthServicesImpactDelay",
     20, "years")
 
 
 # Validated
 PollutionIn1970 = Parameter(
     "_169_PollutionIn1970", 1.36e8, "pollution units")
-
 
 
 DYNAMO_Engine.SortByType()
@@ -593,28 +625,38 @@ ax1.plot( DYNAMO_Engine.Model_Time,
 ax1.plot( DYNAMO_Engine.Model_Time,
           np.array(LaborForce.Data)*1e-9, "-",
           lw=2, color="g", label="Labor Force")
+ax1.plot( DYNAMO_Engine.Model_Time,
+          np.array(FertilityControlEffectiveness.Data), "-",
+          lw=2, color="m", label="Fertility Control Effectiveness")
 ax1.errorbar( yUrban, pTotal*1.e-3, yerr=pTotal*5.e-5, fmt=".",
               color="k", alpha=0.5, label="(UN actual)")
 ax1.errorbar( yUrban, Urban*1.e-3, yerr=Urban*5.e-5, fmt=".",
               color="r", alpha=0.5)
 ax1.set_ylabel("billion")
 ax1.set_xlim( limits)
-ax1.set_ylim( 0, 10)
+ax1.set_ylim( 0, 1.5)
 ax1.grid(True)
 ax1.legend(loc=0)
 
 yLEB, LEB = clb("./Calibrations/Life_Expectancy_OWID.txt", ["Year", "LEB"], separator="\t")
 yTFR, TFR = clb("./Calibrations/Fertility_Rate_OWID.txt", ["Year", "TFR"], separator="\t")
-ax2.plot( DYNAMO_Engine.Model_Time, np.array(LifeExpectancy.Data), "-",
-          lw=2, color="m", label="LEB")
-ax2.plot( DYNAMO_Engine.Model_Time, np.array(LifeExpectancy_Check.Data), "--",
-          lw=2, color="m")
+#ax2.plot( DYNAMO_Engine.Model_Time, np.array(LifeExpectancy.Data), "-",
+#          lw=2, color="m", label="LEB")
+#ax2.plot( DYNAMO_Engine.Model_Time, np.array(PerceivedLifeExpectancy.Data), "--",
+#          lw=2, color="m", label="LEB Percieved")
+ax2.plot( DYNAMO_Engine.Model_Time, np.array(MaxTotalFertility.Data)*10, ".",
+          lw=1, color="g", label="TFR Max")
 ax2.plot( DYNAMO_Engine.Model_Time, np.array(TotalFertility.Data)*10, "-",
           lw=2, color="g", label="TFR")
-ax2.errorbar( yLEB, LEB, yerr=2.5, fmt=".", color="r", alpha=0.5, label="(OWID own estimates)")
+ax2.plot( DYNAMO_Engine.Model_Time, np.array(TotalFertility_Check.Data)*10, "-.",
+          lw=2, color="g", label="Check TFR")
+ax2.plot( DYNAMO_Engine.Model_Time, np.array(DesiredTotalFertility.Data)*10, "--",
+          lw=3, color="g", label="Desired TFR")
+
+#ax2.errorbar( yLEB, LEB, yerr=2.5, fmt=".", color="r", alpha=0.5, label="(OWID own estimates)")
 ax2.errorbar( yTFR, TFR*10, yerr=3, fmt=".", color="g", alpha=0.5)
 ax2.set_xlim( limits)
-ax2.set_ylim( 20, 80)
+ax2.set_ylim( 0, 80)
 ax2.set_ylabel("LEB[years], TFR[x10]")
 ax2.grid(True)
 ax2.legend(loc=0)
@@ -623,14 +665,20 @@ year_BH, gpc_BH, spc_BH, fpc_BH, pind_BH = clb("./Calibrations/BAU_Output_View_B
                 ["Year", "GoodsPC", "ServicesPC", "FoodPC", "PollutionIndex"], separator="\t")
 ax3.plot( DYNAMO_Engine.Model_Time, np.array(IndustrialOutputPerCapita.Data), "-",
           lw=2, color="r", label="Goods [kg/capita/year]")
-ax3.plot( DYNAMO_Engine.Model_Time, np.array(ServiceOutputPerCapita.Data), "-",
-          lw=2, color="y", label="Services [$/capita/year]")
-ax3.plot( DYNAMO_Engine.Model_Time, np.array(FoodPerCapita.Data), "-",
-          lw=2, color="g", label="Food [kg/capita/year]")
-ax3.plot( DYNAMO_Engine.Model_Time, np.array(IndexOfPersistentPollution.Data)*10, "-",
-          lw=2, color="m", label="Pollution index x 10 [relative to 1970]")
+ax3.plot( DYNAMO_Engine.Model_Time, np.array(DelayedIndustrialOutputPerCapita.Data), "-.",
+          lw=2, color="r", label="Goods delayed [kg/capita/year]")
+ax3.plot( DYNAMO_Engine.Model_Time, np.array(AverageIndustrialOutputPerCapita.Data), "--",
+          lw=2, color="r", label="Goods smooth [kg/capita/year]")
+#ax3.plot( DYNAMO_Engine.Model_Time, np.array(ServiceOutputPerCapita.Data), "-",
+#          lw=2, color="y", label="Services [$/capita/year]")
+#ax3.plot( DYNAMO_Engine.Model_Time, np.array(FertilityControlFacilitiesPerCapita.Data), "--",
+#          lw=2, color="y", label="Fertility Control Facilities [$/capita/year]")
+#ax3.plot( DYNAMO_Engine.Model_Time, np.array(FoodPerCapita.Data), "-",
+#          lw=2, color="g", label="Food [kg/capita/year]")
+#ax3.plot( DYNAMO_Engine.Model_Time, np.array(IndexOfPersistentPollution.Data)*10, "-",
+#          lw=2, color="m", label="Pollution index x 10 [relative to 1970]")
 ax3.plot( year_BH, gpc_BH, "--", lw=2, color="r", alpha=0.5)
-ax3.plot( year_BH, spc_BH, "--", lw=2, color="y", alpha=0.5)
+#ax3.plot( year_BH, spc_BH, "--", lw=2, color="y", alpha=0.5)
 ax3.plot( year_BH, fpc_BH, "--", lw=2, color="g", alpha=0.5)
 ax3.plot( year_BH, pind_BH*10, "--", lw=2, color="m", alpha=0.5)
 ax3.set_xlim( limits)

@@ -174,6 +174,7 @@ CrudeDeathRate_Check = TableParametrization(
     1900, 2100,"deaths / 1000 persons / year",
     fupdate = "DYNAMO_Engine.time")
 
+# Simulation (for this test only)
 LifeExpectancy = AuxVariable(
     "_019_LifeExpectancy", "years",
     fupdate = "_219_LifeExpectancy_Tabular.K"

@@ -1,287 +1,407 @@
 from DYNAMO_Prototypes import *
 
 #
-# This module contains all equations of World3 model
+# This module contains all equations of World3 model,
+# modified with parametrizations, based on the UN
+# statistics and other data
+# Changes from the original World-3 model are in comments
 #
+GraphShow = False
 
 
 #
 # POPULATION SUBSYSTEM (equations {1}-{23}, {26}-{48})
 #
 # Validated
+# Unchanged
 Population = AuxVariable(
     "_001_Population", "persons",
-    fupdate = "_002_Population0To14.K + _006_Population15To44.K"
-    "+ _010_Population45To64.K + _014_Population65AndOver.K")
+    fupdate = "_002_Population0To14.K"
+    "+ _006_Population15To44.K"
+    "+ _010_Population45To64.K"
+    "+ _014_Population65AndOver.K")
 
 #
 # Population 0-14
 #
 # Validated
+# Initial value changed from 0.65е9 to 0.67e9
 Population0To14 = LevelVariable(
-    "_002_Population0To14", "6.5e8", "persons",
-    fupdate = "_030_BirthsPerYear.J - _003_DeathsPerYear0To14.J"
+    "_002_Population0To14", "0.67e9", "persons",
+    fupdate = "_030_BirthsPerYear.J"
+    "- _003_DeathsPerYear0To14.J"
     "- _005_MaturationsPerYear14to15.J")
 
 # Validated
+# Unchanged
 DeathsPerYear0To14 = RateVariable(
     "_003_DeathsPerYear0To14", "persons / year",
-    fupdate = "_002_Population0To14.K * _004_Mortality0To14.K")
+    fupdate = "_002_Population0To14.K"
+    "* _004_Mortality0To14.K")
 
 # Validated
+# The original table from World-3 (1972-2013):
+# [0.0567, 0.0366, 0.0243, 0.0155, 0.0082, 0.0023, 0.0010]
+# These values have been adjusted to match the UN age distribution stats
 Mortality0To14 = TableParametrization(
     "_004_Mortality0To14",
-    [0.0567, 0.0366, 0.0243, 0.0155, 0.0082, 0.0023, 0.0010],
+    [0.0850, 0.0575, 0.0355, 0.0157, 0.0065, 0.0018, 0.0008],
     20, 80, "deaths / person / year",
     fupdate = "_019_LifeExpectancy.K")
+#PlotTable( DYNAMO_Engine, Mortality0To14,
+#    0, 100, "LifeExpectancy [years]", show=GraphShow)
 
 # Validated
+# Unchanged
 MaturationsPerYear14to15 = RateVariable(
     "_005_MaturationsPerYear14to15", "persons / year",
-    fupdate = "_002_Population0To14.K * (1 - _004_Mortality0To14.K) / 15.0")
+    fupdate = "_002_Population0To14.K"
+    "* (1 - _004_Mortality0To14.K) / 15.0")
 
 
 #
 # Population 15-44
 #
-# Validated
+# Initial value changed from 0.70е9 to 0.72e9
 Population15To44 = LevelVariable(
-    "_006_Population15To44", "7.0e8", "persons",
-    fupdate = "_005_MaturationsPerYear14to15.J - _007_DeathsPerYear15To44.J"
+    "_006_Population15To44", "0.72e9", "persons",
+    fupdate = "_005_MaturationsPerYear14to15.J"
+    "- _007_DeathsPerYear15To44.J"
     "- _009_MaturationsPerYear44to45.J")
 
 # Validated
+# Unchanged
 DeathsPerYear15To44 = RateVariable(
     "_007_DeathsPerYear15To44", "persons / year",
-    fupdate = "_006_Population15To44.K * _008_Mortality15To44.K")
+    fupdate = "_006_Population15To44.K"
+    "* _008_Mortality15To44.K")
 
 # Validated
+# The original table from World-3 (1972-2013):
+# [0.0266, 0.0171, 0.0110, 0.0065, 0.0040, 0.0016, 0.0008]
+# These values have been adjusted to match the UN age distribution stats
 Mortality15To44 = TableParametrization(
     "_008_Mortality15To44",
-    [0.0266, 0.0171, 0.0110, 0.0065, 0.0040, 0.0016, 0.0008],
+    [0.0213, 0.0137, 0.0088, 0.0046, 0.0010, 0.0001, 0.0001],
     20, 80, "deaths / person / year",
     fupdate = "_019_LifeExpectancy.K")
+#PlotTable( DYNAMO_Engine, Mortality15To44,
+#    0, 100, "LifeExpectancy [years]", show=GraphShow)
 
 # Validated
+# Unchanged
 MaturationsPerYear44to45 = RateVariable(
     "_009_MaturationsPerYear44to45", "persons / year",
-    fupdate = "_006_Population15To44.K * (1 - _008_Mortality15To44.K) / 30.0")
+    fupdate = "_006_Population15To44.K"
+    "* (1 - _008_Mortality15To44.K) / 30.0")
 
 
 #
 # Population 45-64
 #
 # Validated
+# Initial value changed from 0.19е9 to 0.195e9 (for 1.65e9 total population in 1900)
 Population45To64 = LevelVariable(
-    "_010_Population45To64", "1.9e8", "persons",
-    fupdate = "_009_MaturationsPerYear44to45.J - _011_DeathsPerYear45To64.J"
+    "_010_Population45To64", "0.195e9", "persons",
+    fupdate = "_009_MaturationsPerYear44to45.J"
+    "- _011_DeathsPerYear45To64.J"
     "- _013_MaturationsPerYear64to65.J")
 
 # Validated
+# Unchanged
 DeathsPerYear45To64 = RateVariable(
     "_011_DeathsPerYear45To64", "persons / year",
-    fupdate = "_010_Population45To64.K * _012_Mortality45To64.K")
+    fupdate = "_010_Population45To64.K"
+    "* _012_Mortality45To64.K")
 
 # Validated
+# The original table from World-3 (1972-2013):
+# [0.0562, 0.0373, 0.0252, 0.0171, 0.0118, 0.0083, 0.0060]
+# These values have been adjusted to match the UN age distribution stats
 Mortality45To64 = TableParametrization(
     "_012_Mortality45To64",
-    [0.0562, 0.0373, 0.0252, 0.0171, 0.0118, 0.0083, 0.0060],
+    [0.0450, 0.0298, 0.0195, 0.0115, 0.0034, 0.0002, 0.0001],
     20, 80, "deaths / person / year",
     fupdate = "_019_LifeExpectancy.K")
 
 # Validated
+# Unchanged
 MaturationsPerYear64to65 = RateVariable(
     "_013_MaturationsPerYear64to65", "persons / year",
-    fupdate = "_010_Population45To64.K * (1 - _012_Mortality45To64.K) / 20.0")
+    fupdate = "_010_Population45To64.K"
+    "* (1 - _012_Mortality45To64.K) / 20.0")
+#PlotTable( DYNAMO_Engine, Mortality45To64,
+#    0, 100, "LifeExpectancy [years]", show=GraphShow)
+
 
 #
 # Population over 65
 #
 # Validated
+# Unchanged
 Population65AndOver = LevelVariable(
     "_014_Population65AndOver", "6.0e7", "persons",
-    fupdate = "_013_MaturationsPerYear64to65.J - _015_DeathsPerYear65AndOver.J")
+    fupdate = "_013_MaturationsPerYear64to65.J"
+    "- _015_DeathsPerYear65AndOver.J")
 
 # Validated
+# Unchanged
 DeathsPerYear65AndOver = RateVariable(
     "_015_DeathsPerYear65AndOver", "persons / year",
-    fupdate = "_014_Population65AndOver.K * _016_Mortality65AndOver.K")
+    fupdate = "_014_Population65AndOver.K"
+    "* _016_Mortality65AndOver.K")
 
 # Validated
+# The original table from World-3 (1972-2013):
+# [0.13, 0.11, 0.09, 0.07, 0.06, 0.05, 0.04] for the range of [20, 80]
+# These values have been adjusted to match the UN age distribution stats
 Mortality65AndOver = TableParametrization(
     "_016_Mortality65AndOver",
-    [0.13, 0.11, 0.09, 0.07, 0.06, 0.05, 0.04],
-    20, 80, "deaths / person / year",
+    [0.129, 0.127, 0.124, 0.120, 0.115, 0.108, 0.098, 0.060, 0.010],
+    40, 80, "deaths / person / year",
     fupdate = "_019_LifeExpectancy.K")
+#PlotTable( DYNAMO_Engine, Mortality65AndOver,
+#    0, 100, "LifeExpectancy [years]", show=GraphShow)
+
 
 #
 # Death rate and life expectancy
 #
 # Validated
+# Unchanged
 DeathsPerYear = AuxVariable(
     "_017_DeathsPerYear", "persons / year",
-    fupdate = "_003_DeathsPerYear0To14.J  + _007_DeathsPerYear15To44.J"
-    "+ _011_DeathsPerYear45To64.J + _015_DeathsPerYear65AndOver.J")
+    fupdate = "_003_DeathsPerYear0To14.J"
+    "+ _007_DeathsPerYear15To44.J"
+    "+ _011_DeathsPerYear45To64.J"
+    "+ _015_DeathsPerYear65AndOver.J")
 
 # Validated
+# Unchanged
 CrudeDeathRate = AuxVariable(
     "_018_CrudeDeathRate", "deaths / 1000 persons / year",
-    fupdate = "1000 * _017_DeathsPerYear.K / _001_Population.K")
+    fupdate = "1000 * _017_DeathsPerYear.K"
+    "/ _001_Population.K")
 
 # Validated
-LifeExpectancy = AuxVariable(
-    "_019_LifeExpectancy", "years",
-    fupdate = "32 * _020_LifetimeMultiplierFromFood.K"
+# Base value changed from 32 to 32.6
+# Variable smoothed over 3-year period
+##    "_019_LifeExpectancy", "years",
+##    fupdate = "32 * _020_LifetimeMultiplierFromFood.K"
+##    "* _023_LifetimeMultiplierFromHealthServices.K"
+##    "* _028_LifetimeMultiplierFromCrowding.K"
+##    "* _029_LifetimeMultiplierFromPollution.K")
+LifeExpectancy = SmoothVariable(
+    "_019_LifeExpectancy",
+    "3.0", "years",
+    "32.6 * _020_LifetimeMultiplierFromFood.K"
     "* _023_LifetimeMultiplierFromHealthServices.K"
     "* _028_LifetimeMultiplierFromCrowding.K"
     "* _029_LifetimeMultiplierFromPollution.K")
 
 # Validated
+# Unchanged
 LifetimeMultiplierFromFood = TableParametrization(
     "_020_LifetimeMultiplierFromFood",
     [0, 1, 1.2, 1.3, 1.35, 1.4], 0, 5,
-    fupdate = "_088_FoodPerCapita.K / _151_SubsistenceFoodPerCapita.K")
+    fupdate = "_088_FoodPerCapita.K /"
+    "_151_SubsistenceFoodPerCapita.K")
+#PlotTable( DYNAMO_Engine, LifetimeMultiplierFromFood, 0, 10,
+#           "Subsistence levels [unitless]", show=GraphShow)
 
 # Validated
+# Unchanged
 HealthServicesAllocationsPerCapita = TableParametrization(
     "_021_HealthServicesAllocationsPerCapita",
     [0, 20, 50, 95, 140, 175, 200, 220, 230], 0, 2000,
     "dollars / person / year",
     fupdate = "_071_ServiceOutputPerCapita.K")
+#PlotTable( DYNAMO_Engine, HealthServicesAllocationsPerCapita, 0, 2000,
+#           "Service Output Per Capita [$/person/year]", show=GraphShow)
 
 # Validated
+# Unchanged
 EffectiveHealthServicesPerCapita = SmoothVariable(
     "_022_EffectiveHealthServicesPerCapita",
     "_152_EffectiveHealthServicesPerCapitaImpactDelay.K",
     "dollars / person / year",
     "_021_HealthServicesAllocationsPerCapita.K")
 
-# Validated
+#
+# Updated to match the UN LEB data
+# The original parametrization
+#    [1, 1.4, 1.6, 1.8, 1.95, 2.0], 0, 100,
+#    fpoints_1940 = [1, 1.1, 1.4, 1.6, 1.7, 1.8],
 LifetimeMultiplierFromHealthServices = TableParametrization(
     "_023_LifetimeMultiplierFromHealthServices",
-    [1, 1.4, 1.6, 1.8, 1.95, 2.0], 0, 100,
-    fpoints_1940 = [1, 1.1, 1.4, 1.6, 1.7, 1.8],
+    [0.95,1.26,1.66,1.81,1.90,
+     1.95,2.01,2.07,2.13,2.18,
+     2.22,2.26,2.28,2.30,2.31,
+     2.32,2.33,2.34], 5, 90,
     fupdate = "_022_EffectiveHealthServicesPerCapita.K")
+#PlotTable( DYNAMO_Engine, LifetimeMultiplierFromHealthServices, 0, 100,
+#           "Effective Health Services Per Capita [$/person/year]", show=GraphShow)
 
 #
-# pop024, pop025 - used to be policy tables, now in {pop023}
+# pop024, pop025 - used to be policy tables, depicting
+# lower LEB before 1940. With calibrations - no longer needed
 #
+# slots 24 and 25 are used for adjustments in female population
+#
+# Gender adjustment based on the UN distribution data
+# https://ourworldindata.org/gender-ratio
+#
+Females20to40Ratio  = TableParametrization(
+    "_024_Females20to40Ratio",
+    [0.51,0.49],
+    1950, 2020,
+    fupdate = "DYNAMO_Engine.time")
+#PlotTable( DYNAMO_Engine, Females20to40Ratio,
+#    1900, 2100, "Time [years]", show=GraphShow)
+
+#
+# Adjustment based on fertility period
+# Lower TFR usually means the first birth
+# later than 15 years of age.
+#
+AverageFertilityPeriod  = TableParametrization(
+    "_025_AverageFertilityPeriod",
+    [26.3,28.3],
+    2.8, 5.0, "years",
+    fupdate = "_032_TotalFertility.K")
+#PlotTable( DYNAMO_Engine, AverageFertilityPeriod,
+#    0, 6, "TFR [children per woman]", show=GraphShow)
+
+
 # Validated
+# The original parametrization
+# [0, 0.2, 0.4, 0.5, 0.58, 0.65, 0.72, 0.78, 0.80]
+# it replaced with the statistically computed
+# data from https://ourworldindata.org/urbanization
 FractionOfPopulationUrban = TableParametrization(
     "_026_FractionOfPopulationUrban",
-    [0, 0.2, 0.4, 0.5, 0.58, 0.65, 0.72, 0.78, 0.80], 0, 16e9,
+    [0.000,0.046,0.094,0.151,0.222,
+     0.296,0.339,0.363,0.380,0.397,
+     0.418,0.443,0.469,0.496,0.523,
+     0.549,0.573,0.597,0.618,0.639,
+     0.658,0.676,0.692,0.707,0.721,
+     0.734,0.746,0.757,0.767,0.776,
+     0.784,0.792,0.800], 0, 16e9,
     fupdate = "_001_Population.K")
+#PlotTable( DYNAMO_Engine, FractionOfPopulationUrban,
+#    0, 16e9, "Total Population [persons]", show=GraphShow)
 
 # Validated
+# Unchanged
 CrowdingMultiplierFromIndustrialization = TableParametrization(
     "_027_CrowdingMultiplierFromIndustrialization",
-    [0.5, 0.05, -0.1, -0.08, -0.02, 0.05, 0.1, 0.15, 0.2], 0, 1600,
+    [0.5, 0.05, -0.1, -0.08, -0.02, 0.05, 0.1, 0.15, 0.2],
+    0, 1600,
     fupdate = "_049_IndustrialOutputPerCapita.K")
+#PlotTable( DYNAMO_Engine, CrowdingMultiplierFromIndustrialization,
+#    0, 1700, "Industrial Output Per Capita [kg/person/year]", show=GraphShow)
 
 # Validated
+# Unchanged
 LifetimeMultiplierFromCrowding = AuxVariable(
     "_028_LifetimeMultiplierFromCrowding",
     fupdate = "1 - _027_CrowdingMultiplierFromIndustrialization.K"
     "* _026_FractionOfPopulationUrban.K") 
 
 # Validated
+# Unchanged
 LifetimeMultiplierFromPollution = TableParametrization(
     "_029_LifetimeMultiplierFromPollution",
     [1.0, 0.99, 0.97, 0.95, 0.90, 0.85, 0.75, 0.65, 0.55, 0.40, 0.20],
     0, 100,
     fupdate = "_143_IndexOfPersistentPollution.K")
+#PlotTable( DYNAMO_Engine, LifetimeMultiplierFromPollution,
+#    0, 110, "Index Of Persistent Pollution [levels of 1970]", show=GraphShow)
 
 #
 # Fertility and birth rate
 #
 # Validated
+# Adjustment factor Females20to40Ratio accounts for male-female disbalance
+# Fertility period is adjusted to match the UN crude birth rate stats
 BirthsPerYear = RateVariable(
     "_030_BirthsPerYear", "persons / year",
-    fupdate = "_032_TotalFertility.K * _006_Population15To44.K * 0.5 / 30.0",
+    fupdate = "_032_TotalFertility.K * _006_Population15To44.K"
+    "* _024_Females20to40Ratio.K"
+    "/ _025_AverageFertilityPeriod.K",
     fequilibrium = "_017_DeathsPerYear.K")
+#    "* _232_FertilityCorrection_WW2.K"
 
 # Validated
+# Unchanged
 CrudeBirthRate = AuxVariable(
     "_031_CrudeBirthRate", "births / 1000 persons / year",
     fupdate = "1000 * _030_BirthsPerYear.J / _001_Population.K")
 
-# Validated
 TotalFertility = AuxVariable(
     "_032_TotalFertility",
     fupdate = "min( _033_MaxTotalFertility.K,"
     "_033_MaxTotalFertility.K * (1 - _045_FertilityControlEffectiveness.K)"
     "+ _035_DesiredTotalFertility.K * _045_FertilityControlEffectiveness.K)")
 
-# Validated
 MaxTotalFertility = AuxVariable(
     "_033_MaxTotalFertility",
     fupdate = "12 * _034_FecundityMultiplier.K")
     # 12 - max number of births
 
-# Validated
 FecundityMultiplier = TableParametrization(
     "_034_FecundityMultiplier",
     [0.0, 0.2, 0.4, 0.6, 0.8, 0.9, 1.0, 1.05, 1.1], 0, 80,
     fupdate = "_019_LifeExpectancy.K")
 
-# Validated
 DesiredTotalFertility = AuxVariable(
     "_035_DesiredTotalFertility",
     fupdate = "_036_CompensatoryMultiplierFromPerceivedLifeExpectancy.K"
     "* _038_DesiredCompletedFamilySize.K")
 
-# Validated
 CompensatoryMultiplierFromPerceivedLifeExpectancy = TableParametrization(
      "_036_CompensatoryMultiplierFromPerceivedLifeExpectancy",
     [3.0, 2.1, 1.6, 1.4, 1.3, 1.2, 1.1, 1.05, 1.0], 0, 80,
     fupdate = "_037_PerceivedLifeExpectancy.K")
 
-# Validated
 PerceivedLifeExpectancy = DelayVariable(
     "_037_PerceivedLifeExpectancy",
     "_153_LifetimePerceptionDelay.K", "years",
     "_019_LifeExpectancy.K")
 
-# Validated
 DesiredCompletedFamilySize = AuxVariable(
     "_038_DesiredCompletedFamilySize", "persons",
     fupdate = "4.0 * _039_SocialFamilySizeNorm.K"
     "* _041_FamilyResponseToSocialNorm.K",
     fequilibrium = "2.0")
 
-# Validated
 SocialFamilySizeNorm = TableParametrization(
     "_039_SocialFamilySizeNorm",
     [1.25, 1, 0.9, 0.8, 0.75], 0, 800,
     fupdate = "_040_DelayedIndustrialOutputPerCapita.K")
 
-# Validated
 DelayedIndustrialOutputPerCapita = DelayVariable(
     "_040_DelayedIndustrialOutputPerCapita",
     "_154_SocialAdjustmentDelay.K",
     "dollars / person / year",
     "_049_IndustrialOutputPerCapita.K")
 
-# Validated
 FamilyResponseToSocialNorm = TableParametrization(
     "_041_FamilyResponseToSocialNorm",
     [0.5, 0.6, 0.7, 0.85, 1.0], -0.2, 0.2,
     fupdate = "_042_FamilyIncomeExpectation.K")
 
-# Validated
 FamilyIncomeExpectation = AuxVariable(
     "_042_FamilyIncomeExpectation",
     fupdate = "_049_IndustrialOutputPerCapita.K"
     "/ _043_AverageIndustrialOutputPerCapita.K - 1")
 
-# Validated
 AverageIndustrialOutputPerCapita = SmoothVariable(
     "_043_AverageIndustrialOutputPerCapita",
     "_155_IncomeExpectationAveragingTime.K",
     "dollars / person / year",
     "_049_IndustrialOutputPerCapita.K")
 
-# Validated
 NeedForFertilityControl = AuxVariable(
     "_044_NeedForFertilityControl",
     fupdate = "_033_MaxTotalFertility.K"
@@ -298,14 +418,12 @@ FertilityControlFacilitiesPerCapita = DelayVariable(
     "dollars / person / year",
     "_047_FertilityControlAllocationPerCapita.K")
 
-# Validated
 FertilityControlAllocationPerCapita = AuxVariable(
     "_047_FertilityControlAllocationPerCapita",
     "dollars / person / year",
     fupdate = "_048_FractionOfServicesAllocatedToFertilityControl.K"
     "* _071_ServiceOutputPerCapita.K")
 
-# Validated
 FractionOfServicesAllocatedToFertilityControl = TableParametrization(
     "_048_FractionOfServicesAllocatedToFertilityControl",
     [0.0, 0.005, 0.015, 0.025, 0.030, 0.035], 0, 10,
@@ -860,31 +978,29 @@ FractionOfOutputInServices = AuxVariable(
 # PARAMETERS
 #
 # Validated
+# Unchanged
 SubsistenceFoodPerCapita = Parameter(
     "_151_SubsistenceFoodPerCapita",
     230, "kilograms / person / year")
 
 # Validated
+# Unchanged
 EffectiveHealthServicesPerCapitaImpactDelay = Parameter(
     "_152_EffectiveHealthServicesPerCapitaImpactDelay",
     20, "years")
 
-# Validated
 LifetimePerceptionDelay = Parameter(
     "_153_LifetimePerceptionDelay",
     20, "years")
 
-# Validated
 SocialAdjustmentDelay = Parameter(
     "_154_SocialAdjustmentDelay",
     20, "years")
 
-# Validated
 IncomeExpectationAveragingTime = Parameter(
     "_155_IncomeExpectationAveragingTime",
     3, "years")
 
-# Validated
 HealthServicesImpactDelay = Parameter(
     "_156_HealthServicesImpactDelay",
     20, "years")
