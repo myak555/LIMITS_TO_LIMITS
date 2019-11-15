@@ -4,7 +4,7 @@ from Utilities import Load_Calibration as clb
 GraphShow = False
 
 #
-# Population a function of LEB and TFR calibration
+# Population as a function of LEB and TFR
 #
 
 #

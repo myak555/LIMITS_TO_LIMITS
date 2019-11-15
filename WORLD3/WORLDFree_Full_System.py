@@ -123,6 +123,8 @@ Mortality45To64 = TableParametrization(
     [0.0450, 0.0298, 0.0195, 0.0115, 0.0034, 0.0002, 0.0001],
     20, 80, "deaths / person / year",
     fupdate = "_019_LifeExpectancy.K")
+PlotTable( DYNAMO_Engine, Mortality45To64,
+    0, 100, "LifeExpectancy [years]", show=GraphShow)
 
 # Validated
 # Unchanged
@@ -130,8 +132,6 @@ MaturationsPerYear64to65 = RateVariable(
     "_013_MaturationsPerYear64to65", "persons / year",
     fupdate = "_010_Population45To64.K"
     "* (1 - _012_Mortality45To64.K) / 20.0")
-#PlotTable( DYNAMO_Engine, Mortality45To64,
-#    0, 100, "LifeExpectancy [years]", show=GraphShow)
 
 
 #
@@ -232,15 +232,31 @@ EffectiveHealthServicesPerCapita = SmoothVariable(
 # The original parametrization
 #    [1, 1.4, 1.6, 1.8, 1.95, 2.0], 0, 100,
 #    fpoints_1940 = [1, 1.1, 1.4, 1.6, 1.7, 1.8],
+#
 LifetimeMultiplierFromHealthServices = TableParametrization(
     "_023_LifetimeMultiplierFromHealthServices",
-    [0.95,1.26,1.66,1.81,1.90,
-     1.95,2.01,2.07,2.13,2.18,
-     2.22,2.26,2.28,2.30,2.31,
-     2.32,2.33,2.34], 5, 90,
+    [0.95, # 5
+     1.29, # 10
+     1.70, # 15
+     1.80, # 20
+     1.85, # 25
+     1.95, # 30
+     2.01, # 35
+     2.07, # 40
+     2.13, # 45
+     2.18, # 50
+     2.22, # 55
+     2.26, # 60
+     2.28, # 65
+     2.30, # 70
+     2.31, # 75
+     2.32, # 80
+     2.33, # 85
+     2.34], 5, 90,
     fupdate = "_022_EffectiveHealthServicesPerCapita.K")
 #PlotTable( DYNAMO_Engine, LifetimeMultiplierFromHealthServices, 0, 100,
 #           "Effective Health Services Per Capita [$/person/year]", show=GraphShow)
+
 
 #
 # pop024, pop025 - used to be policy tables, depicting
@@ -323,14 +339,14 @@ LifetimeMultiplierFromPollution = TableParametrization(
 #
 # Validated
 # Adjustment factor Females20to40Ratio accounts for male-female disbalance
-# Fertility period is adjusted to match the UN crude birth rate stats
+# Fertility period adjusted as a function of LEB to match the UN crude birth rate stats
 BirthsPerYear = RateVariable(
     "_030_BirthsPerYear", "persons / year",
-    fupdate = "_032_TotalFertility.K * _006_Population15To44.K"
+    fupdate = "_032_TotalFertility.K"
+    "* _006_Population15To44.K"
     "* _024_Females20to40Ratio.K"
     "/ _025_AverageFertilityPeriod.K",
     fequilibrium = "_017_DeathsPerYear.K")
-#    "* _232_FertilityCorrection_WW2.K"
 
 # Validated
 # Unchanged
@@ -338,105 +354,196 @@ CrudeBirthRate = AuxVariable(
     "_031_CrudeBirthRate", "births / 1000 persons / year",
     fupdate = "1000 * _030_BirthsPerYear.J / _001_Population.K")
 
+# Validated
 TotalFertility = AuxVariable(
     "_032_TotalFertility",
     fupdate = "min( _033_MaxTotalFertility.K,"
-    "_033_MaxTotalFertility.K * (1 - _045_FertilityControlEffectiveness.K)"
-    "+ _035_DesiredTotalFertility.K * _045_FertilityControlEffectiveness.K)")
+    "_033_MaxTotalFertility.K"
+    "* (1 - _045_FertilityControlEffectiveness.K)"
+    "+ _035_DesiredTotalFertility.K"
+    "* _045_FertilityControlEffectiveness.K)")
 
+# Validated
+# max number of births per woman changed (original value 12)
 MaxTotalFertility = AuxVariable(
     "_033_MaxTotalFertility",
-    fupdate = "12 * _034_FecundityMultiplier.K")
-    # 12 - max number of births
+    fupdate = "10 * _034_FecundityMultiplier.K")
+    # 10 - max number of births
 
+# Validated
+# Unchanged
 FecundityMultiplier = TableParametrization(
     "_034_FecundityMultiplier",
     [0.0, 0.2, 0.4, 0.6, 0.8, 0.9, 1.0, 1.05, 1.1], 0, 80,
     fupdate = "_019_LifeExpectancy.K")
+PlotTable( DYNAMO_Engine, FecundityMultiplier,
+    0, 100, "Life Expectancy [years]", show=GraphShow)
 
-DesiredTotalFertility = AuxVariable(
-    "_035_DesiredTotalFertility",
+# Validated
+# Changed to smooth variable
+DesiredTotalFertility = SmoothVariable(
+    "_035_DesiredTotalFertility", "2.0",
     fupdate = "_036_CompensatoryMultiplierFromPerceivedLifeExpectancy.K"
-    "* _038_DesiredCompletedFamilySize.K")
+    "* _038_DesiredCompletedFamilySize.K"
+    "* _235_FertilityCorrection_WW2.K")
 
+#
+# Added to match the UN fertility data
+#
+FertilityCorrection_WW2 = TableParametrization(
+    "_235_FertilityCorrection_WW2",
+    [1.0,0.9,0.9,1.0],
+    1939, 1945,
+    fupdate = "DYNAMO_Engine.time")
+PlotTable( DYNAMO_Engine, FertilityCorrection_WW2,
+    1925, 1975, "Year", show=GraphShow)
+
+# Validated
+# Updated based on the UN fertlity data
+# Original [3.0, 2.1, 1.6, 1.4, 1.3, 1.2, 1.1, 1.05, 1.0]
 CompensatoryMultiplierFromPerceivedLifeExpectancy = TableParametrization(
      "_036_CompensatoryMultiplierFromPerceivedLifeExpectancy",
-    [3.0, 2.1, 1.6, 1.4, 1.3, 1.2, 1.1, 1.05, 1.0], 0, 80,
+    [2.45, 1.95, 1.75, 1.45, 1.25, 1.15, 1.1, 1.05, 1], 0, 80,
     fupdate = "_037_PerceivedLifeExpectancy.K")
+PlotTable( DYNAMO_Engine, CompensatoryMultiplierFromPerceivedLifeExpectancy,
+    0, 100, "PerceivedLifeExpectancy [years]", show=GraphShow)
 
+# Validated
+# Unchanged
 PerceivedLifeExpectancy = DelayVariable(
     "_037_PerceivedLifeExpectancy",
     "_153_LifetimePerceptionDelay.K", "years",
     "_019_LifeExpectancy.K")
 
+# Validated
+# Original coefficient of 4.0 decreased to match the UN fertility data
 DesiredCompletedFamilySize = AuxVariable(
     "_038_DesiredCompletedFamilySize", "persons",
-    fupdate = "4.0 * _039_SocialFamilySizeNorm.K"
+    fupdate = "3.33 * _039_SocialFamilySizeNorm.K"
     "* _041_FamilyResponseToSocialNorm.K",
     fequilibrium = "2.0")
 
+# Validated
+# Modified from 1972 version: [1.25, 1, 0.9, 0.8, 0.75], 0, 800
 SocialFamilySizeNorm = TableParametrization(
     "_039_SocialFamilySizeNorm",
-    [1.25, 1, 0.9, 0.8, 0.75], 0, 800,
+    [1.000, #40, step 12.5
+     0.980, 
+     0.970, #65
+     0.960, 
+     0.950, #90
+     0.960, 
+     0.990, #115
+     0.820, 
+     0.720, #140
+     0.700, 
+     0.700, #165
+     0.700, 
+     0.700, #190
+     0.700, 
+     0.700, #215
+     0.700, 
+     0.700  #240
+     ], 40, 240,
     fupdate = "_040_DelayedIndustrialOutputPerCapita.K")
+PlotTable( DYNAMO_Engine, SocialFamilySizeNorm,
+    0, 300, "Delayed Industrial Output Per Capita [$/capita/year]",
+    show=GraphShow)
 
+# Validated
+# Unchanged
 DelayedIndustrialOutputPerCapita = DelayVariable(
     "_040_DelayedIndustrialOutputPerCapita",
     "_154_SocialAdjustmentDelay.K",
     "dollars / person / year",
     "_049_IndustrialOutputPerCapita.K")
 
+# Validated
+# Modified from values of 1972 model: [0.5, 0.6, 0.7, 0.85, 1.0]
 FamilyResponseToSocialNorm = TableParametrization(
     "_041_FamilyResponseToSocialNorm",
-    [0.5, 0.6, 0.7, 0.85, 1.0], -0.2, 0.2,
+    [1.3,
+     1.2, 
+     1.0,
+     1.0,
+     1.0],
+    -0.2, 0.2,
     fupdate = "_042_FamilyIncomeExpectation.K")
+PlotTable( DYNAMO_Engine, FamilyResponseToSocialNorm,
+    0, 300, "Family Income Expectation [unitless]",
+    show=GraphShow)
 
+# Validated
+# Unchanged
 FamilyIncomeExpectation = AuxVariable(
     "_042_FamilyIncomeExpectation",
     fupdate = "_049_IndustrialOutputPerCapita.K"
     "/ _043_AverageIndustrialOutputPerCapita.K - 1")
 
+# Validated
+# Unchanged
 AverageIndustrialOutputPerCapita = SmoothVariable(
     "_043_AverageIndustrialOutputPerCapita",
     "_155_IncomeExpectationAveragingTime.K",
     "dollars / person / year",
     "_049_IndustrialOutputPerCapita.K")
 
+# Validated
+# Unchanged
 NeedForFertilityControl = AuxVariable(
     "_044_NeedForFertilityControl",
     fupdate = "_033_MaxTotalFertility.K"
     "/ _035_DesiredTotalFertility.K - 1")
 
+# Validated
+# Unchanged
 FertilityControlEffectiveness = TableParametrization(
     "_045_FertilityControlEffectiveness",
     [0.75, 0.85, 0.90, 0.95, 0.98, 0.99, 1.0], 0, 3,
     fupdate = "_046_FertilityControlFacilitiesPerCapita.K")
+PlotTable( DYNAMO_Engine, FertilityControlEffectiveness,
+    0, 300, "Fertility Control Facilities Per Capita [$/capita/year]",
+    show=GraphShow)
 
+# Validated
+# Unchanged
 FertilityControlFacilitiesPerCapita = DelayVariable(
     "_046_FertilityControlFacilitiesPerCapita",
     "_156_HealthServicesImpactDelay.K",
     "dollars / person / year",
     "_047_FertilityControlAllocationPerCapita.K")
 
+# Validated
+# Unchanged
 FertilityControlAllocationPerCapita = AuxVariable(
     "_047_FertilityControlAllocationPerCapita",
     "dollars / person / year",
     fupdate = "_048_FractionOfServicesAllocatedToFertilityControl.K"
     "* _071_ServiceOutputPerCapita.K")
 
+# Validated
+# Unchanged
 FractionOfServicesAllocatedToFertilityControl = TableParametrization(
     "_048_FractionOfServicesAllocatedToFertilityControl",
     [0.0, 0.005, 0.015, 0.025, 0.030, 0.035], 0, 10,
     fupdate = "_044_NeedForFertilityControl.K")
+PlotTable( DYNAMO_Engine, FractionOfServicesAllocatedToFertilityControl,
+    0, 300, "Need For Fertility Control [unitless]",
+    show=GraphShow)
 
 #
 # INDUSTRY SUBSYSTEM (equations {49}-{59})
 #
+# Validated
+# Unchanged
 IndustrialOutputPerCapita = AuxVariable(
     "_049_IndustrialOutputPerCapita",
     "dollars / person / year",
-    fupdate = "_050_IndustrialOutput.K / _001_Population.K")
+    fupdate = "_050_IndustrialOutput.K"
+    "/ _001_Population.K")
 
+# Validated
+# Unchanged
 IndustrialOutput = AuxVariable(
     "_050_IndustrialOutput", "dollars / year",
     fupdate = "_052_IndustrialCapital.K"
@@ -444,41 +551,55 @@ IndustrialOutput = AuxVariable(
     "* _083_CapitalUtilizationFraction.K"
     "/ _051_IndustrialCapitalOutputRatio.K")
 
+# Validated
 IndustrialCapitalOutputRatio = PolicyParametrization(
     "_051_IndustrialCapitalOutputRatio", 3, 3, "years")
 
+# Validated
+# Unchanged
 IndustrialCapital = LevelVariable(
     "_052_IndustrialCapital", "2.1e11", "dollars",
     fupdate = "_055_IndustrialCapitalInvestmentRate.J"
     "- _053_IndustrialCapitalDepreciationRate.J")
 
+# Validated
+# Unchanged
 IndustrialCapitalDepreciationRate = RateVariable(
     "_053_IndustrialCapitalDepreciationRate", "dollars / year",
     fupdate = "_052_IndustrialCapital.K"
     "/ _054_AverageLifetimeOfIndustrialCapital.K")
 
+# Validated
 AverageLifetimeOfIndustrialCapital = PolicyParametrization(
     "_054_AverageLifetimeOfIndustrialCapital", 14, 14, "years")
 
+# Validated
+# Unchanged
 IndustrialCapitalInvestmentRate = RateVariable(
     "_055_IndustrialCapitalInvestmentRate", "dollars / year",
     fupdate = "_050_IndustrialOutput.K"
     "* _056_FractionOfIndustrialOutputAllocatedToIndustry.K")
 
+# Validated
+# Unchanged
 FractionOfIndustrialOutputAllocatedToIndustry = AuxVariable(
     "_056_FractionOfIndustrialOutputAllocatedToIndustry",
     fupdate = "1 - _057_FractionOfIndustrialOutputAllocatedToConsumption.K"
     "- _063_FractionOfIndustrialOutputAllocatedToServices.K"
     "- _093_FractionOfIndustrialOutputAllocatedToAgriculture.K")
 
+# Validated
+# Unchanged
 FractionOfIndustrialOutputAllocatedToConsumption = AuxVariable(
     "_057_FractionOfIndustrialOutputAllocatedToConsumption",
     fupdate = "_058_FractionOfIndustrialOutputAllocatedToConsumptionConstant.K",
     fequilibrium = "_059_FractionOfIndustrialOutputAllocatedToConsumptionVariable.K")
 
+# Validated
 FractionOfIndustrialOutputAllocatedToConsumptionConstant = PolicyParametrization(
     "_058_FractionOfIndustrialOutputAllocatedToConsumptionConstant", 0.43, 0.43)
 
+# Validated
 FractionOfIndustrialOutputAllocatedToConsumptionVariable = TableParametrization(
     "_059_FractionOfIndustrialOutputAllocatedToConsumptionVariable",
     [0.3, 0.32, 0.34, 0.36, 0.38, 0.43, 0.73, 0.77, 0.81, 0.82, 0.83], 0, 2,
@@ -488,6 +609,7 @@ FractionOfIndustrialOutputAllocatedToConsumptionVariable = TableParametrization(
 #
 # SERVICES SUBSYSTEM (equations {60}, {63}, {66}-{72})
 #
+# Validated
 IndicatedServiceOutputPerCapita = TableParametrization(
     "_060_IndicatedServiceOutputPerCapita",
     [40, 300, 640, 1000, 1220, 1450, 1650, 1800, 2000],
@@ -499,6 +621,7 @@ IndicatedServiceOutputPerCapita = TableParametrization(
 # svc_061, svc_062 - used to be policy tables, now in {060}
 #
 
+# Validated
 FractionOfIndustrialOutputAllocatedToServices = TableParametrization(
     "_063_FractionOfIndustrialOutputAllocatedToServices",
     [0.3, 0.2, 0.1, 0.05, 0], 0, 2,
@@ -510,34 +633,42 @@ FractionOfIndustrialOutputAllocatedToServices = TableParametrization(
 # svc064, svc065 - used to be policy tables, now in {063}
 #
 
+# Validated
 ServiceCapitalInvestmentRate = RateVariable(
     "_066_ServiceCapitalInvestmentRate", "dollars / year",
     fupdate = "_050_IndustrialOutput.K"
     "* _063_FractionOfIndustrialOutputAllocatedToServices.K")
 
+# Validated
 ServiceCapital = LevelVariable(
     "_067_ServiceCapital", "1.44e11", "dollars",
     fupdate = "_066_ServiceCapitalInvestmentRate.J"
     "- _068_ServiceCapitalDepreciationRate.J")
 
+# Validated
 ServiceCapitalDepreciationRate = RateVariable(
     "_068_ServiceCapitalDepreciationRate", "dollars / year",
     fupdate = "_067_ServiceCapital.K"
     "/ _069_AverageLifetimeOfServiceCapital.K")
 
+# Validated
 AverageLifetimeOfServiceCapital = PolicyParametrization(
     "_069_AverageLifetimeOfServiceCapital", 20, 20, "years")
 
+# Validated
 ServiceOutput = AuxVariable(
     "_070_ServiceOutput", "dollars / year",
     fupdate = "_067_ServiceCapital.K"
     "* _083_CapitalUtilizationFraction.K"
     "/ _072_ServiceCapitalOutputRatio.K")
 
+# Validated
+# Unchanged
 ServiceOutputPerCapita = AuxVariable(
     "_071_ServiceOutputPerCapita", "dollars / person / year",
     fupdate = "_070_ServiceOutput.K / _001_Population.K")
 
+# Validated
 ServiceCapitalOutputRatio = PolicyParametrization(
     "_072_ServiceCapitalOutputRatio", 1, 1, "years")
 
@@ -550,48 +681,58 @@ Jobs = AuxVariable(
     "+ _076_PotentialJobsInServiceSector.K"
     "+ _078_PotentialJobsInAgriculturalSector.K")
 
+# Validated
 PotentialJobsInIndustrialSector = AuxVariable(
     "_074_PotentialJobsInIndustrialSector", "persons",
     fupdate = "_052_IndustrialCapital.K"
     "* _075_JobsPerIndustrialCapitalUnit.K")
 
+# Validated
 JobsPerIndustrialCapitalUnit = TableParametrization(
     "_075_JobsPerIndustrialCapitalUnit",
     [0.00037, 0.00018, 0.00012, 0.00009, 0.00007, 0.00006],
     50, 800, "persons / dollar",
     fupdate = "_049_IndustrialOutputPerCapita.K")
 
+# Validated
 PotentialJobsInServiceSector = AuxVariable(
     "_076_PotentialJobsInServiceSector", "persons",
     fupdate = "_067_ServiceCapital.K"
     "* _077_JobsPerServiceCapitalUnit.K")
 
+# Validated
 JobsPerServiceCapitalUnit = TableParametrization(
     "_077_JobsPerServiceCapitalUnit",
     [.0011, 0.0006, 0.00035, 0.0002, 0.00015, 0.00015],
     50, 800, "persons / dollar",
     fupdate = "_071_ServiceOutputPerCapita.K")
 
+# Validated
 PotentialJobsInAgriculturalSector = AuxVariable(
     "_078_PotentialJobsInAgriculturalSector", "persons",
     fupdate = "_085_ArableLand.K * _079_JobsPerHectare.K")
 
+# Validated
 JobsPerHectare = TableParametrization(
     "_079_JobsPerHectare",
     [2, 0.5, 0.4, 0.3, 0.27, 0.24, 0.2, 0.2],
     2, 30, "persons / hectare",
     fupdate = "_101_AgriculturalInputsPerHectare.K")
 
+# Validated
+# Unchanged
 LaborForce = AuxVariable(
     "_080_LaborForce", "persons",
     fupdate = "0.75 * (_006_Population15To44.K"
     "+ _010_Population45To64.K)")
     # 0.75 - participation fraction
 
+# Validated
 LaborUtilizationFraction = AuxVariable(
     "_081_LaborUtilizationFraction",
     fupdate = "_073_Jobs.K / _080_LaborForce.K")
 
+# Validated
 LaborUtilizationFractionDelayed = SmoothVariable(
     "_082_LaborUtilizationFractionDelayed",
     "_158_LaborUtilizationFractionDelayTime.K",
@@ -629,16 +770,20 @@ PotentiallyArableLand = LevelVariable(
     "_086_PotentiallyArableLand", "2.3e9", "hectares",
     fupdate = "- _096_LandDevelopmentRate.J")
 
+# Validated
 Food = AuxVariable(
     "_087_Food", "kilograms / year",
     fupdate = "_103_LandYield.K * _085_ArableLand.K"
     "* _160_LandFractionHarvested.K"
     "* (1 - _161_FoodProcessingLoss.K)")
 
+# Validated
+# Unchanged
 FoodPerCapita = AuxVariable(
     "_088_FoodPerCapita", "kilograms / person / year",
     fupdate = "_087_Food.K / _001_Population.K")
 
+# Validated
 IndicatedFoodPerCapita = TableParametrization(
     "_089_IndicatedFoodPerCapita",
     [230, 480, 690, 850, 970, 1070, 1150, 1210, 1250],
@@ -650,11 +795,13 @@ IndicatedFoodPerCapita = TableParametrization(
 # agr_090, agr_091 - used to be policy tables, now in {089}
 #
 
+# Validated
 TotalAgriculturalInvestment = AuxVariable(
     "_092_TotalAgriculturalInvestment", "dollars / year",
     fupdate = "_050_IndustrialOutput.K"
     "* _093_FractionOfIndustrialOutputAllocatedToAgriculture.K")
 
+# Validated
 FractionOfIndustrialOutputAllocatedToAgriculture = TableParametrization(
     "_093_FractionOfIndustrialOutputAllocatedToAgriculture",
     [0.4, 0.2, 0.1, 0.025, 0, 0], 0, 2.5,
@@ -858,31 +1005,37 @@ PerceivedFoodRatio = SmoothVariable(
 #
 # NONRENEWABLE RESOURCE SUBSYSTEM (equations {129}-{134})
 #
+# Validated
 NonrenewableResources = LevelVariable(
     "_129_NonrenewableResources",
     "_168_NonrenewableResourcesInitial.K", "resource units",
     fupdate = "-_130_NonrenewableResourceUsageRate.J")
 
+# Validated
 NonrenewableResourceUsageRate = RateVariable(
     "_130_NonrenewableResourceUsageRate", "resource units / year",
     fupdate = "_001_Population.K"
     "* _132_PerCapitaResourceUsageMultiplier.K"
     "* _131_NonrenewableResourceUsageFactor.K")
 
+# Validated
 NonrenewableResourceUsageFactor = PolicyParametrization(
     "_131_NonrenewableResourceUsageFactor", 1, 1)
 
+# Validated
 PerCapitaResourceUsageMultiplier = TableParametrization(
     "_132_PerCapitaResourceUsageMultiplier",
     [0, 0.85, 2.6, 4.4, 5.4, 6.2, 6.8, 7, 7],
     0, 1600, "resource units / person / year",
     fupdate = "_049_IndustrialOutputPerCapita.K")
 
+# Validated
 NonrenewableResourceFractionRemaining = AuxVariable(
     "_133_NonrenewableResourceFractionRemaining",
     fupdate = "_129_NonrenewableResources.K"
     "/ _168_NonrenewableResourcesInitial.K")
 
+# Validated
 FractionOfCapitalAllocatedToObtainingResources = TableParametrization(
     "_134_FractionOfCapitalAllocatedToObtainingResources",
     [1, 0.9, 0.7, 0.5, 0.2, 0.1, 0.05, 0.05, 0.05, 0.05, 0.05], 0, 1,
@@ -956,20 +1109,28 @@ AssimilationHalfLife = AuxVariable(
 #
 # SUPPLEMENTARY EQUATIONS ({147}-{150})
 #
+# Validated
+# Unchanged
 GrossProduct = AuxVariable(
     "_147_GrossProduct", "dollars",
     fupdate = "0.22 * _087_Food.K"
     "+ _070_ServiceOutput.K"
     "+ _050_IndustrialOutput.K")
 
+# Validated
+# Unchanged
 FractionOfOutputInAgriculture = AuxVariable(
     "_148_FractionOfOutputInAgriculture",
     fupdate = "0.22 * _087_Food.K / _147_GrossProduct.K")
 
+# Validated
+# Unchanged
 FractionOfOutputInIndustry = AuxVariable(
     "_149_FractionOfOutputInIndustry",
     fupdate = "_050_IndustrialOutput.K / _147_GrossProduct.K")
 
+# Validated
+# Unchanged
 FractionOfOutputInServices = AuxVariable(
     "_150_FractionOfOutputInServices",
     fupdate = "_070_ServiceOutput.K / _147_GrossProduct.K")
@@ -989,22 +1150,31 @@ EffectiveHealthServicesPerCapitaImpactDelay = Parameter(
     "_152_EffectiveHealthServicesPerCapitaImpactDelay",
     20, "years")
 
+# Validated
+# Unchanged
 LifetimePerceptionDelay = Parameter(
     "_153_LifetimePerceptionDelay",
     20, "years")
 
+# Validated
+# Unchanged
 SocialAdjustmentDelay = Parameter(
     "_154_SocialAdjustmentDelay",
     20, "years")
 
+# Validated
+# Unchanged
 IncomeExpectationAveragingTime = Parameter(
     "_155_IncomeExpectationAveragingTime",
     3, "years")
 
+# Validated
+# Unchanged
 HealthServicesImpactDelay = Parameter(
     "_156_HealthServicesImpactDelay",
     20, "years")
 
+# Validated
 IndicativeConsumptionValue = Parameter(
     "_157_IndicativeConsumptionValue", 400, "dollars / person")
 
@@ -1048,6 +1218,8 @@ FoodShortagePerceptionDelay = Parameter(
 NonrenewableResourcesInitial = Parameter(
     "_168_NonrenewableResourcesInitial", 1.0e12, "resource units")
 
+# Validated
+# Unchanged
 PollutionIn1970 = Parameter(
     "_169_PollutionIn1970", 1.36e8, "pollution units")
 
