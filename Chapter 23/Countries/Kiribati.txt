@@ -1,0 +1,16 @@
+#
+# COVID-19 Country file (official WHO count)
+# Country = Kiribati
+# Latitude = 2.0
+# Population = 122.439
+# Territory = 811.0
+# LEB = 68.4
+# DPA = 1000
+# DPA65 = 310
+# GDP = 1631.0
+# GDP_PPP = 2129.0
+# COVID-19 Mortality = 0.0
+# Status as of 2020_08_16 = No cases
+#
+Date	Conf_Cases	Conf_Deaths
+2020_08_16	0	0
