@@ -1,0 +1,364 @@
+В Специальной Олимпиаде не участвуют:
+
+Страна                                  	Население (тыс)	Территория (км2)
+Dem. People's Republic of Korea         	      25840.863	        120540.0
+Kiribati                                	        122.439	           811.0
+Marshall Islands                        	         53.251	           181.4
+Micronesia (Fed. States of)             	        107.774	          2700.0
+Nauru                                   	         11.227	            21.0
+Palau                                   	         22.442	           459.0
+Saint Helena                            	          4.126	           308.0
+Samoa                                   	        200.117	          2842.0
+Solomon Islands                         	        647.297	         28896.0
+Tokelau                                 	          1.357	            10.0
+Tonga                                   	        104.494	           747.0
+Turkmenistan                            	       6031.195	        488100.0
+Tuvalu                                  	         11.499	            26.0
+Vanuatu                                 	        293.934	         12189.0
+Wallis and Futuna Islands               	         11.551	           142.4
+Western Sahara                          	        597.339	        266000.0
+Total:                                  	      34060.905	        923972.8
+
+Участники Специальной Олимпиады без смертей:
+
+Страна                                  	Население (тыс)	        Случаев	 Случаев на млн	Территория (км2)
+Anguilla                                	          15.28	              3	         196.30	            91.0
+Bhutan                                  	         835.25	            155	         185.57	         38394.0
+Bonaire, Sint Eustatius and Saba        	          26.21	             13	         495.96	           328.0
+Cambodia                                	       16715.51	            273	          16.33	        181035.0
+Dominica                                	          75.05	             19	         253.16	           751.0
+Eritrea                                 	        5432.22	            306	          56.33	        117600.0
+Falkland Islands (Malvinas)             	           2.92	             13	        4444.44	         12173.0
+Faroe Islands                           	          49.90	            384	        7696.01	          1393.0
+French Polynesia                        	         290.74	            298	        1024.96	          4167.0
+Gibraltar                               	          35.00	            229	        6542.86	             6.5
+Greenland                               	          56.77	             14	         246.60	       2166086.0
+Grenada                                 	         109.31	             24	         219.56	           344.0
+Holy See                                	           0.80	             12	       14981.27	             0.3
+Lao People's Democratic Republic        	        7164.82	             22	           3.07	        236800.0
+Mongolia                                	        3209.40	            298	          92.85	       1564110.0
+New Caledonia                           	         286.91	             23	          80.16	         18575.0
+Saint Barthelemy                        	           9.79	             16	        1633.82	            25.0
+Saint Kitts and Nevis                   	          56.81	             17	         299.23	           261.0
+Saint Lucia                             	         192.19	             26	         135.29	           616.0
+Saint Pierre and Miquelon               	           6.41	              5	         780.40	           242.0
+Saint Vincent and the Grenadines        	         110.76	             58	         523.67	           389.0
+Seychelles                              	          96.11	            127	        1321.38	           455.0
+Timor-Leste                             	        1381.40	             26	          18.82	         14874.0
+Total:                                  	       36159.57	           2361	          65.29	       4358715.8
+
+Малые страны:
+
+Страна                                  	Население (тыс)	        Смертей	 Смертей на млн	Территория (км2)
+Andorra                                 	          77.18	             53	         686.67	           467.6
+Anguilla                                	          15.28	              0	           0.00	            91.0
+Antigua and Barbuda                     	         105.11	              3	          28.54	           442.6
+Aruba                                   	         106.44	              6	          56.37	           180.0
+Bahamas                                 	         406.84	             27	          66.37	         13943.0
+Barbados                                	         287.57	              7	          24.34	           431.0
+Belize                                  	         398.01	              5	          12.56	         22966.0
+Bermuda                                 	          60.64	              9	         148.42	            54.0
+Bhutan                                  	         835.25	              0	           0.00	         38394.0
+Bonaire, Sint Eustatius and Saba        	          26.21	              0	           0.00	           328.0
+British Virgin Islands                  	          32.63	              1	          30.64	           151.0
+Brunei Darussalam                       	         444.52	              3	           6.75	          5765.0
+Cabo Verde                              	         567.35	             37	          65.22	          4033.0
+Cayman Islands                          	          63.89	              1	          15.65	           264.0
+Comoros                                 	         869.60	              7	           8.05	          1862.0
+Curacao                                 	         163.50	              1	           6.12	           444.0
+Diamond Princess                        	           3.75	             13	        3466.67	             0.0
+Djibouti                                	         999.90	             60	          60.01	         23200.0
+Dominica                                	          75.05	              0	           0.00	           751.0
+Falkland Islands (Malvinas)             	           2.92	              0	           0.00	         12173.0
+Faroe Islands                           	          49.90	              0	           0.00	          1393.0
+Fiji                                    	         924.91	              1	           1.08	         18274.0
+French Guiana                           	         303.98	             55	         180.93	         83534.0
+French Polynesia                        	         290.74	              0	           0.00	          4167.0
+Gibraltar                               	          35.00	              0	           0.00	             6.5
+Greenland                               	          56.77	              0	           0.00	       2166086.0
+Grenada                                 	         109.31	              0	           0.00	           344.0
+Guadeloupe                              	         448.43	             15	          33.45	          1628.0
+Guam                                    	         168.73	              7	          41.49	           549.0
+Guernsey                                	          62.79	             13	         207.03	            65.0
+Guyana                                  	         790.78	             30	          37.94	        214969.0
+Holy See                                	           0.80	              0	           0.00	             0.3
+Iceland                                 	         343.23	             10	          29.14	        103000.0
+Isle of Man                             	          85.89	             24	         279.41	           572.0
+Jersey                                  	         106.80	             32	         299.63	           118.2
+Kiribati                                	         122.44	              0	           0.00	           811.0
+Liechtenstein                           	          38.65	              1	          25.88	           160.0
+Luxembourg                              	         603.94	            124	         205.32	          2586.0
+Maldives                                	         458.91	             26	          56.66	           300.0
+Malta                                   	         434.36	             10	          23.02	           316.0
+Marshall Islands                        	          53.25	              0	           0.00	           181.4
+Martinique                              	         385.46	             16	          41.51	          1128.0
+Mayotte                                 	         273.11	             39	         142.80	           374.0
+Micronesia (Fed. States of)             	         107.77	              0	           0.00	          2700.0
+Monaco                                  	          38.30	              1	          26.11	             2.2
+Montenegro                              	         629.40	             84	         133.46	         13812.0
+Montserrat                              	           4.65	              1	         215.10	           102.0
+Nauru                                   	          11.23	              0	           0.00	            21.0
+New Caledonia                           	         286.91	              0	           0.00	         18575.0
+Northern Mariana Islands (Commonwealth o	          55.35	              2	          36.14	           464.0
+Palau                                   	          22.44	              0	           0.00	           459.0
+Reunion                                 	         896.54	              6	           6.69	          2511.0
+Saint Barthelemy                        	           9.79	              0	           0.00	            25.0
+Saint Helena                            	           4.13	              0	           0.00	           308.0
+Saint Kitts and Nevis                   	          56.81	              0	           0.00	           261.0
+Saint Lucia                             	         192.19	              0	           0.00	           616.0
+Saint Martin                            	          36.80	              5	         135.87	            87.0
+Saint Pierre and Miquelon               	           6.41	              0	           0.00	           242.0
+Saint Vincent and the Grenadines        	         110.76	              0	           0.00	           389.0
+Samoa                                   	         200.12	              0	           0.00	          2842.0
+San Marino                              	          33.81	             42	        1242.27	            61.2
+Sao Tome and Principe                   	         218.01	             15	          68.80	           964.0
+Seychelles                              	          96.11	              0	           0.00	           455.0
+Sint Maarten                            	          40.90	             17	         415.65	            34.0
+Solomon Islands                         	         647.30	              0	           0.00	         28896.0
+Suriname                                	         577.75	             56	          96.93	        163820.0
+Tokelau                                 	           1.36	              0	           0.00	            10.0
+Tonga                                   	         104.49	              0	           0.00	           747.0
+Turks and Caicos Islands                	          36.95	              2	          54.12	           948.0
+Tuvalu                                  	          11.50	              0	           0.00	            26.0
+United States Virgin Islands            	         104.86	             10	          95.37	           347.0
+Vanuatu                                 	         293.93	              0	           0.00	         12189.0
+Wallis and Futuna Islands               	          11.55	              0	           0.00	           142.4
+Western Sahara                          	         597.34	              0	           0.00	        266000.0
+Total:                                  	       17135.27	            877	          51.18	       3244558.4
+
+Смертей от COVID-19 на миллион населения
+
+Страна/территория                       	Население (тыс)	Подтв.случаев	Смертей	Смертей на млн
+Lebanon                                 	       6019.795	        12191	  24121	       4006.95
+Kuwait                                  	       4302.875	        79957	  15513	       3605.26
+Diamond Princess                        	          3.750	          741	     13	       3466.67
+San Marino                              	         33.809	          726	     42	       1242.27
+Belgium                                 	      11619.972	        81374	   9988	        859.55
+Peru                                    	      33312.178	       576067	  27245	        817.87
+Andorra                                 	         77.184	         1047	     53	        686.67
+Spain                                   	      46459.219	       386054	  28838	        620.72
+The United Kingdom                      	      67334.208	       324605	  41423	        615.19
+Italy                                   	      59132.073	       258136	  35430	        599.17
+Chile                                   	      18472.639	       395708	  10792	        584.22
+Sweden                                  	      10121.686	        86068	   5810	        574.02
+Brazil                                  	     213863.046	      3532330	 113358	        530.05
+United States of America                	     331431.534	      5567217	 174246	        525.74
+France                                  	      65721.165	       223419	  30376	        462.20
+Mexico                                  	     133870.027	       549734	  59610	        445.28
+Panama                                  	       4289.330	        84392	   1859	        433.40
+Sint Maarten                            	         40.900	          353	     17	        415.65
+Bolivia (Plurinational State of)        	      11543.982	       107435	   4366	        378.21
+Ireland                                 	       4887.992	        27908	   1777	        363.54
+Ecuador                                 	      17335.642	       107089	   6277	        362.09
+Netherlands                             	      17181.248	        66034	   6191	        360.33
+Colombia                                	      50220.412	       522138	  16568	        329.91
+Jersey                                  	        106.800	          363	     32	        299.63
+Armenia                                 	       2938.679	        42792	    852	        289.93
+Isle of Man                             	         85.895	          336	     24	        279.41
+North Macedonia                         	       2088.035	        13308	    557	        266.76
+Kosovo                                  	       1810.463	        12294	    447	        246.90
+Iran (Islamic Republic of)              	      83587.129	       356792	  20502	        245.28
+Canada                                  	      37603.205	       124372	   9064	        241.04
+Republic of Moldova                     	       4017.687	        33072	    935	        232.72
+South Africa                            	      58721.229	       607045	  12987	        221.16
+Montserrat                              	          4.649	           13	      1	        215.10
+Guernsey                                	         62.792	          252	     13	        207.03
+Luxembourg                              	        603.944	         7704	    124	        205.32
+Switzerland                             	       8670.535	        39526	   1719	        198.26
+French Guiana                           	        303.982	         8797	     55	        180.93
+Portugal                                	      10218.413	        55211	   1792	        175.37
+Honduras                                	       9719.265	        53381	   1632	        167.91
+Kyrgyzstan                              	       6301.718	        43023	   1056	        167.57
+Romania                                 	      19388.362	        77544	   3233	        166.75
+Iraq                                    	      41502.885	       201050	   6353	        153.07
+Bosnia and Herzegovina                  	       3498.210	        17712	    526	        150.36
+Argentina                               	      45510.399	       329043	   6795	        149.31
+Bermuda                                 	         60.639	          167	      9	        148.42
+Guatemala                               	      17910.812	        67856	   2580	        144.05
+Mayotte                                 	        273.110	         3237	     39	        142.80
+Dominican Republic                      	      11108.358	        90561	   1554	        139.89
+Saint Martin                            	         36.800	          176	      5	        135.87
+Montenegro                              	        629.397	         4315	     84	        133.46
+Oman                                    	       5149.700	        83769	    609	        118.26
+Russian Federation                      	     143786.842	       956749	  16383	        113.94
+Germany                                 	      82540.450	       232864	   9269	        112.30
+Bahrain                                 	       1697.765	        49038	    183	        107.79
+Denmark                                 	       5796.800	        16127	    621	        107.13
+Puerto Rico                             	       3650.608	        29577	    381	        104.37
+Saudi Arabia                            	      34709.640	       306370	   3619	        104.26
+El Salvador                             	       6479.066	        24420	    654	        100.94
+Suriname                                	        577.752	         3460	     56	         96.93
+United States Virgin Islands            	        104.858	          932	     10	         95.37
+Israel                                  	       8713.559	        99827	    798	         91.58
+Kazakhstan                              	      18777.139	       127203	   1633	         86.97
+Austria                                 	       8782.210	        25099	    732	         83.35
+Albania                                 	       2942.034	         8275	    245	         83.28
+Serbia                                  	       8703.942	        30548	    695	         79.85
+Bulgaria                                	       6940.527	        15131	    539	         77.66
+Turkey                                  	      83835.750	       257032	   6102	         72.79
+Qatar                                   	       2791.807	       116765	    193	         69.13
+Sao Tome and Principe                   	        218.011	          892	     15	         68.80
+Belarus                                 	       9415.431	        70285	    637	         67.65
+Costa Rica                              	       5044.179	        32134	    340	         67.40
+Bahamas                                 	        406.839	         1703	     27	         66.37
+Cabo Verde                              	        567.348	         3455	     37	         65.22
+Hungary                                 	       9621.254	         5133	    611	         63.51
+Slovenia                                	       2082.055	         2617	    127	         61.00
+Djibouti                                	        999.899	         5382	     60	         60.01
+Finland                                 	       5580.127	         7871	    334	         59.86
+Equatorial Guinea                       	       1406.280	         4926	     83	         59.02
+Eswatini                                	       1439.295	         4189	     83	         57.67
+Maldives                                	        458.909	         6660	     26	         56.66
+Aruba                                   	        106.438	         1387	      6	         56.37
+Turks and Caicos Islands                	         36.953	          347	      2	         54.12
+Ukraine                                 	      43579.234	       104958	   2271	         52.11
+Poland                                  	      37942.231	        61181	   1951	         51.42
+Azerbaijan                              	      10099.743	        35105	    515	         50.99
+Egypt                                   	     102941.484	        97237	   5243	         50.93
+Norway                                  	       5449.693	        10197	    264	         48.44
+Estonia                                 	       1300.559	         2265	     63	         48.44
+Martinique                              	        385.457	          464	     16	         41.51
+Guam                                    	        168.727	          812	      7	         41.49
+Croatia                                 	       4115.947	         7900	    170	         41.30
+India                                   	    1383197.753	      3044940	  56706	         41.00
+Afghanistan                             	      34135.635	        37999	   1387	         40.63
+Czechia                                 	      10633.424	        21790	    411	         38.65
+Guyana                                  	        790.782	          881	     30	         37.94
+United Arab Emirates                    	       9813.170	        66617	    372	         37.91
+Gambia                                  	       2293.493	         2437	     84	         36.63
+Northern Mariana Islands (Commonwealth o	         55.347	           54	      2	         36.14
+Guadeloupe                              	        448.427	          771	     15	         33.45
+Mauritania                              	       4783.767	         6894	    158	         33.03
+Algeria                                 	      43333.255	        41068	   1424	         32.86
+British Virgin Islands                  	         32.634	           21	      1	         30.64
+Pakistan                                	     208362.334	       292765	   6235	         29.92
+Lithuania                               	       2852.478	         2594	     84	         29.45
+Iceland                                 	        343.228	         2058	     10	         29.14
+Antigua and Barbuda                     	        105.110	           94	      3	         28.54
+Libya                                   	       6662.173	        10437	    188	         28.22
+Philippines                             	     109703.396	       187249	   2966	         27.04
+Monaco                                  	         38.300	          108	      1	         26.11
+occupied Palestinian territory          	       5322.629	        24707	    138	         25.93
+Liechtenstein                           	         38.645	          101	      1	         25.88
+Paraguay                                	       7066.330	        12536	    182	         25.76
+Gabon                                   	       2151.289	         8388	     53	         24.64
+Barbados                                	        287.568	          157	      7	         24.34
+Indonesia                               	     272222.987	       151498	   6594	         24.22
+Morocco                                 	      37070.718	        50812	    858	         23.14
+Malta                                   	        434.363	         1577	     10	         23.02
+Bangladesh                              	     169775.309	       292625	   3907	         23.01
+Greece                                  	      11102.572	         8381	    240	         21.62
+Nicaragua                               	       6416.568	         3540	    133	         20.73
+Australia                               	      25398.177	        24602	    485	         19.10
+Sudan                                   	      43541.203	        12682	    815	         18.72
+Yemen                                   	      30245.305	         1911	    547	         18.09
+Latvia                                  	       1892.993	         1333	     33	         17.43
+Cyprus                                  	       1207.343	         1417	     21	         17.39
+Haiti                                   	      11371.185	         8050	    196	         17.24
+Namibia                                 	       2696.537	         5538	     46	         17.06
+Guinea-Bissau                           	       2000.694	         2149	     33	         16.49
+Liberia                                 	       5103.853	         1285	     82	         16.07
+Cameroon                                	      25958.184	        18762	    408	         15.72
+Cayman Islands                          	         63.890	          205	      1	         15.65
+Senegal                                 	      17200.154	        12850	    266	         15.46
+Zambia                                  	      18679.273	        10627	    277	         14.83
+Congo                                   	       5686.917	         3850	     77	         13.54
+Lesotho                                 	       2322.217	         1015	     30	         12.92
+Belize                                  	        398.007	          648	      5	         12.56
+Central African Republic                	       4920.889	         4679	     61	         12.40
+Uruguay                                 	       3494.387	         1516	     42	         12.02
+Kenya                                   	      53491.697	        32118	    542	         10.13
+Venezuela (Bolivarian Republic of)      	      33172.392	        38188	    317	          9.56
+Trinidad and Tobago                     	       1377.729	          899	     13	          9.44
+Japan                                   	     126495.647	        61747	   1176	          9.30
+Zimbabwe                                	      17680.465	         5893	    153	          8.65
+Sierra Leone                            	       8046.931	         1980	     69	          8.57
+Ghana                                   	      30733.755	        43325	    261	          8.49
+Malawi                                  	      20283.691	         5382	    168	          8.28
+Uzbekistan                              	      33235.825	        38698	    269	          8.09
+Comoros                                 	        869.601	          417	      7	          8.05
+Mauritius                               	       1274.114	          346	     10	          7.85
+Cuba                                    	      11495.492	         3617	     89	          7.74
+Tajikistan                              	       9475.246	         8277	     66	          6.97
+Brunei Darussalam                       	        444.519	          143	      3	          6.75
+Reunion                                 	        896.536	         1117	      6	          6.69
+Madagascar                              	      27690.798	        14277	    178	          6.43
+Mali                                    	      20284.180	         2699	    125	          6.16
+Curacao                                 	        163.495	           37	      1	          6.12
+Slovakia                                	       5451.400	         3316	     33	          6.05
+Republic of Korea                       	      51506.975	        17399	    309	          6.00
+Ethiopia                                	     112759.070	        39033	    662	          5.87
+Somalia                                 	      16105.174	         3269	     93	          5.77
+Tunisia                                 	      11903.136	         2738	     68	          5.71
+Jamaica                                 	       2913.160	         1346	     16	          5.49
+Nigeria                                 	     206152.701	        51905	    997	          4.84
+Nepal                                   	      30260.244	        31117	    146	          4.82
+Singapore                               	       5638.700	        56266	     27	          4.79
+Chad                                    	      16285.093	          982	     76	          4.67
+New Zealand                             	       4834.420	         1324	     22	          4.55
+Syrian Arab Republic                    	      18924.442	         2143	     85	          4.49
+Georgia                                 	       3898.529	         1411	     17	          4.36
+Cote d’Ivoire                           	      26171.750	        17374	    113	          4.32
+Guinea                                  	      13750.826	         8967	     53	          3.85
+Malaysia                                	      32869.323	         9257	    125	          3.80
+South Sudan                             	      13610.007	         2499	     47	          3.45
+China                                   	    1456565.698	        90141	   4717	          3.24
+Togo                                    	       8384.291	         1212	     27	          3.22
+Benin                                   	      12122.985	         2115	     39	          3.22
+Niger                                   	      24074.693	         1172	     69	          2.87
+Angola                                  	      32827.401	         2134	     94	          2.86
+Democratic Republic of the Congo        	      89505.201	         9810	    251	          2.80
+Burkina Faso                            	      20903.345	         1297	     55	          2.63
+Botswana                                	       2415.766	         1308	      3	          1.24
+Fiji                                    	        924.915	           28	      1	          1.08
+Jordan                                  	      10208.662	         1576	     11	          1.08
+Rwanda                                  	      13087.173	         2889	     11	          0.84
+Thailand                                	      69410.868	         3395	     58	          0.84
+Mozambique                              	      32309.195	         3304	     20	          0.62
+Sri Lanka                               	      21084.042	         2947	     12	          0.57
+Papua New Guinea                        	       8755.675	          361	      4	          0.46
+Uganda                                  	      47187.703	         2166	     20	          0.42
+United Republic of Tanzania             	      62774.619	          509	     21	          0.33
+Viet Nam                                	      98360.145	         1014	     26	          0.26
+Myanmar                                 	      54808.276	          444	      6	          0.11
+Burundi                                 	      11939.227	          430	      1	          0.08
+Anguilla                                	         15.283	            3	      0	          0.00
+Bhutan                                  	        835.245	          155	      0	          0.00
+Bonaire, Sint Eustatius and Saba        	         26.212	           13	      0	          0.00
+Cambodia                                	      16715.508	          273	      0	          0.00
+Dem. People's Republic of Korea         	      25840.863	            0	      0	          0.00
+Dominica                                	         75.052	           19	      0	          0.00
+Eritrea                                 	       5432.216	          306	      0	          0.00
+Falkland Islands (Malvinas)             	          2.925	           13	      0	          0.00
+Faroe Islands                           	         49.896	          384	      0	          0.00
+French Polynesia                        	        290.744	          298	      0	          0.00
+Gibraltar                               	         35.000	          229	      0	          0.00
+Greenland                               	         56.772	           14	      0	          0.00
+Grenada                                 	        109.308	           24	      0	          0.00
+Holy See                                	          0.801	           12	      0	          0.00
+Kiribati                                	        122.439	            0	      0	          0.00
+Lao People's Democratic Republic        	       7164.822	           22	      0	          0.00
+Marshall Islands                        	         53.251	            0	      0	          0.00
+Micronesia (Fed. States of)             	        107.774	            0	      0	          0.00
+Mongolia                                	       3209.404	          298	      0	          0.00
+Nauru                                   	         11.227	            0	      0	          0.00
+New Caledonia                           	        286.913	           23	      0	          0.00
+Palau                                   	         22.442	            0	      0	          0.00
+Saint Barthelemy                        	          9.793	           16	      0	          0.00
+Saint Helena                            	          4.126	            0	      0	          0.00
+Saint Kitts and Nevis                   	         56.813	           17	      0	          0.00
+Saint Lucia                             	        192.185	           26	      0	          0.00
+Saint Pierre and Miquelon               	          6.407	            5	      0	          0.00
+Saint Vincent and the Grenadines        	        110.757	           58	      0	          0.00
+Samoa                                   	        200.117	            0	      0	          0.00
+Seychelles                              	         96.112	          127	      0	          0.00
+Solomon Islands                         	        647.297	            0	      0	          0.00
+Timor-Leste                             	       1381.400	           26	      0	          0.00
+Tokelau                                 	          1.357	            0	      0	          0.00
+Tonga                                   	        104.494	            0	      0	          0.00
+Turkmenistan                            	       6031.195	            0	      0	          0.00
+Tuvalu                                  	         11.499	            0	      0	          0.00
+Vanuatu                                 	        293.934	            0	      0	          0.00
+Wallis and Futuna Islands               	         11.551	            0	      0	          0.00
+Western Sahara                          	        597.339	            0	      0	          0.00
+Total:                                  	    7793056.908	     23057288	 839906	        107.78

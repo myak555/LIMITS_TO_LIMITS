@@ -1,0 +1,219 @@
+#
+# COVID-19 Country data (official WHO count)
+#
+Country	First_Case	Conf_Cases	Conf_Deaths	Status
+Afghanistan	2020_04_30	2469	72	Clusters of cases
+Albania	2020_04_30	789	31	Clusters of cases
+Algeria	2020_04_30	4154	453	Community transmission
+Andorra	2020_04_30	746	43	Community transmission
+Angola	2020_04_30	29	2	Sporadic cases
+Anguilla	2020_04_30	3	0	Sporadic cases
+Antigua and Barbuda	2020_04_30	24	3	Clusters of cases
+Argentina	2020_04_30	4476	220	Community transmission
+Armenia	2020_04_30	2273	33	Clusters of cases
+Aruba	2020_04_30	100	2	Clusters of cases
+Australia	2020_04_30	6767	93	Clusters of cases
+Austria	2020_04_30	15531	589	Community transmission
+Azerbaijan	2020_04_30	1854	25	Clusters of cases
+Bahamas	2020_04_30	81	11	Clusters of cases
+Bahrain	2020_04_30	3170	8	Clusters of cases
+Bangladesh	2020_04_30	8238	170	Pending
+Barbados	2020_04_30	81	7	Clusters of cases
+Belarus	2020_04_30	14917	93	Clusters of cases
+Belgium	2020_04_30	49032	7703	Community transmission
+Belize	2020_04_30	18	2	Sporadic cases
+Benin	2020_04_30	90	2	Sporadic cases
+Bermuda	2020_04_30	114	6	Clusters of cases
+Bhutan	2020_04_30	7	0	Sporadic cases
+Bolivia (Plurinational State of)	2020_04_30	1167	62	Clusters of cases
+Bonaire, Sint Eustatius and Saba	2020_04_30	6	0	Sporadic cases
+Bosnia and Herzegovina	2020_04_30	1757	68	Community transmission
+Botswana	2020_04_30	23	1	Sporadic cases
+Brazil	2020_04_30	85380	5901	Community transmission
+British Virgin Islands	2020_04_30	6	1	Sporadic cases
+Brunei Darussalam	2020_04_30	138	1	Sporadic cases
+Bulgaria	2020_04_30	1588	69	Clusters of cases
+Burkina Faso	2020_04_30	649	44	Community transmission
+Burundi	2020_04_30	15	1	Sporadic cases
+Cabo Verde	2020_04_30	121	1	Sporadic cases
+Cambodia	2020_04_30	122	0	Sporadic cases
+Cameroon	2020_04_30	2069	61	Clusters of cases
+Canada	2020_04_30	53657	3223	Community transmission
+Cayman Islands	2020_04_30	73	1	Clusters of cases
+Central African Republic	2020_04_30	64	0	Sporadic cases
+Chad	2020_04_30	73	5	Sporadic cases
+Chile	2020_04_30	17008	234	Community transmission
+China	2020_04_30	84388	4643	Clusters of cases
+Colombia	2020_04_30	6507	293	Community transmission
+Comoros	2020_05_01	1	0	Pending
+Congo	2020_04_30	229	10	Clusters of cases
+Costa Rica	2020_04_30	719	6	Clusters of cases
+Cote d’Ivoire	2020_04_30	1275	14	Clusters of cases
+Croatia	2020_04_30	2085	75	Community transmission
+Cuba	2020_04_30	1537	64	Clusters of cases
+Curacao	2020_04_30	16	1	Sporadic cases
+Cyprus	2020_04_30	857	20	Clusters of cases
+Czechia	2020_04_30	7737	240	Community transmission
+Democratic Republic of the Congo	2020_04_30	604	32	Clusters of cases
+Denmark	2020_04_30	9311	460	Pending
+Diamond Princess	2020_04_30	712	13	-
+Djibouti	2020_04_30	1097	2	Clusters of cases
+Dominica	2020_04_30	16	0	Clusters of cases
+Dominican Republic	2020_04_30	7288	313	Community transmission
+Ecuador	2020_04_30	26336	1063	Community transmission
+Egypt	2020_04_30	5895	406	Clusters of cases
+El Salvador	2020_04_30	424	10	Clusters of cases
+Equatorial Guinea	2020_04_30	315	2	Clusters of cases
+Eritrea	2020_04_30	39	0	Sporadic cases
+Estonia	2020_04_30	1694	52	Pending
+Eswatini	2020_04_30	106	1	Sporadic cases
+Ethiopia	2020_04_30	133	3	Clusters of cases
+Falkland Islands (Malvinas)	2020_04_30	13	0	Clusters of cases
+Faroe Islands	2020_04_30	187	0	Pending
+Fiji	2020_04_30	18	0	Sporadic cases
+Finland	2020_04_30	5051	218	Pending
+France	2020_04_30	128722	24560	Community transmission
+French Guiana	2020_04_30	128	1	Clusters of cases
+French Polynesia	2020_04_30	58	0	Sporadic cases
+Gabon	2020_04_30	308	4	Clusters of cases
+Gambia	2020_04_30	12	1	Sporadic cases
+Georgia	2020_04_30	582	8	Community transmission
+Germany	2020_04_30	161703	6575	Community transmission
+Ghana	2020_04_30	2074	17	Clusters of cases
+Gibraltar	2020_04_30	144	0	Clusters of cases
+Greece	2020_04_30	2591	140	Community transmission
+Greenland	2020_04_30	11	0	Pending
+Grenada	2020_04_30	20	0	Clusters of cases
+Guadeloupe	2020_04_30	152	12	Clusters of cases
+Guam	2020_04_30	142	5	Clusters of cases
+Guatemala	2020_04_30	599	16	Clusters of cases
+Guernsey	2020_04_30	251	13	Community transmission
+Guinea	2020_04_30	1537	7	Community transmission
+Guinea-Bissau	2020_04_30	257	1	Sporadic cases
+Guyana	2020_04_30	82	9	Clusters of cases
+Haiti	2020_04_30	81	8	Clusters of cases
+Holy See	2020_04_30	11	0	Sporadic cases
+Honduras	2020_04_30	804	75	Clusters of cases
+Hungary	2020_04_30	2942	335	Clusters of cases
+Iceland	2020_04_30	1798	10	Community transmission
+India	2020_04_30	37336	1218	Clusters of cases
+Indonesia	2020_04_30	10551	800	Community transmission
+Iran (Islamic Republic of)	2020_04_30	95646	6091	Community transmission
+Iraq	2020_04_30	2153	94	Clusters of cases
+Ireland	2020_04_30	20833	1265	Community transmission
+Isle of Man	2020_04_30	311	22	Pending
+Israel	2020_04_30	16152	227	Pending
+Italy	2020_04_30	207428	28236	Community transmission
+Jamaica	2020_04_30	422	8	Clusters of cases
+Japan	2020_04_30	14545	454	Clusters of cases
+Jersey	2020_04_30	290	22	Pending
+Jordan	2020_04_30	459	8	Clusters of cases
+Kazakhstan	2020_04_30	3785	25	Pending
+Kenya	2020_04_30	411	21	Clusters of cases
+Kosovo	2020_04_30	813	22	Community transmission
+Kuwait	2020_04_30	4377	30	Clusters of cases
+Kyrgyzstan	2020_04_30	769	8	Clusters of cases
+Lao People's Democratic Republic	2020_04_30	19	0	Sporadic cases
+Latvia	2020_04_30	870	16	Community transmission
+Lebanon	2020_04_30	729	24	Clusters of cases
+Liberia	2020_04_30	152	18	Clusters of cases
+Libya	2020_04_30	63	3	Clusters of cases
+Liechtenstein	2020_04_30	83	1	Pending
+Lithuania	2020_04_30	1399	45	Community transmission
+Luxembourg	2020_04_30	3802	92	Pending
+Madagascar	2020_04_30	135	0	Clusters of cases
+Malawi	2020_04_30	37	3	Sporadic cases
+Malaysia	2020_04_30	6071	103	Clusters of cases
+Maldives	2020_04_30	468	1	Clusters of cases
+Mali	2020_04_30	508	26	Clusters of cases
+Malta	2020_04_30	467	4	Pending
+Martinique	2020_04_30	179	14	Clusters of cases
+Mauritania	2020_04_30	8	1	Sporadic cases
+Mauritius	2020_04_30	332	10	Community transmission
+Mayotte	2020_04_30	539	4	Clusters of cases
+Mexico	2020_04_30	19224	1859	Community transmission
+Monaco	2020_04_30	68	1	Sporadic cases
+Mongolia	2020_04_30	38	0	Sporadic cases
+Montenegro	2020_04_30	322	7	Clusters of cases
+Montserrat	2020_04_30	11	1	Sporadic cases
+Morocco	2020_04_30	4569	171	Clusters of cases
+Mozambique	2020_04_30	79	0	Sporadic cases
+Myanmar	2020_04_30	151	6	Clusters of cases
+Namibia	2020_04_30	16	0	Sporadic cases
+Nepal	2020_04_30	59	0	Sporadic cases
+Netherlands	2020_04_30	39791	4893	Community transmission
+New Caledonia	2020_04_30	18	0	Sporadic cases
+New Zealand	2020_04_30	1134	20	Clusters of cases
+Nicaragua	2020_04_30	14	4	Pending
+Niger	2020_04_30	728	33	Clusters of cases
+Nigeria	2020_04_30	2170	68	Community transmission
+North Macedonia	2020_04_30	1494	81	Clusters of cases
+Northern Mariana Islands (Commonwealth of the)	2020_04_30	14	2	Pending
+Norway	2020_04_30	7759	204	Pending
+Oman	2020_04_30	2483	11	Clusters of cases
+Pakistan	2020_04_30	18114	417	Clusters of cases
+Panama	2020_04_30	6532	188	Community transmission
+Papua New Guinea	2020_04_30	8	0	Sporadic cases
+Paraguay	2020_04_30	266	10	Community transmission
+Peru	2020_04_30	36976	1051	Community transmission
+Philippines	2020_04_30	8772	579	Clusters of cases
+Poland	2020_04_30	13105	651	Community transmission
+Portugal	2020_04_30	25351	1007	Community transmission
+Puerto Rico	2020_04_30	1575	54	Clusters of cases
+Qatar	2020_04_30	14096	12	Pending
+Republic of Korea	2020_04_30	10780	250	Clusters of cases
+Republic of Moldova	2020_04_30	3980	122	Pending
+Reunion	2020_04_30	420	0	Clusters of cases
+Romania	2020_04_30	12567	744	Community transmission
+Russian Federation	2020_04_30	124054	1222	Clusters of cases
+Rwanda	2020_04_30	249	0	Clusters of cases
+Saint Barthelemy	2020_04_30	6	0	Sporadic cases
+Saint Kitts and Nevis	2020_04_30	15	0	Sporadic cases
+Saint Lucia	2020_04_30	17	0	Sporadic cases
+Saint Martin	2020_04_30	38	3	Sporadic cases
+Saint Pierre and Miquelon	2020_04_30	1	0	Sporadic cases
+Saint Vincent and the Grenadines	2020_04_30	16	0	Sporadic cases
+San Marino	2020_04_30	580	41	Community transmission
+Sao Tome and Principe	2020_04_30	16	1	Sporadic cases
+Saudi Arabia	2020_04_30	24097	169	Clusters of cases
+Senegal	2020_04_30	1024	9	Clusters of cases
+Serbia	2020_04_30	9205	185	Pending
+Seychelles	2020_04_30	11	0	Sporadic cases
+Sierra Leone	2020_04_30	136	8	Clusters of cases
+Singapore	2020_04_30	17101	16	Clusters of cases
+Sint Maarten	2020_04_30	76	13	Clusters of cases
+Slovakia	2020_04_30	1403	23	Clusters of cases
+Slovenia	2020_04_30	1434	93	Community transmission
+Somalia	2020_04_30	601	28	Sporadic cases
+South Africa	2020_04_30	5951	116	Community transmission
+South Sudan	2020_04_30	45	0	Sporadic cases
+Spain	2020_04_30	215216	24824	Community transmission
+Sri Lanka	2020_04_30	690	7	Clusters of cases
+Sudan	2020_04_30	533	36	Sporadic cases
+Suriname	2020_04_30	10	1	Sporadic cases
+Sweden	2020_04_30	21520	2653	Community transmission
+Switzerland	2020_04_30	29622	1434	Community transmission
+Syrian Arab Republic	2020_04_30	44	3	Community transmission
+Tajikistan	2020_05_01	32	0	Pending
+Thailand	2020_04_30	2966	54	Clusters of cases
+The United Kingdom	2020_04_30	177458	27510	Community transmission
+Timor-Leste	2020_04_30	24	0	Clusters of cases
+Togo	2020_04_30	123	9	Clusters of cases
+Trinidad and Tobago	2020_04_30	116	8	Sporadic cases
+Tunisia	2020_04_30	998	41	Community transmission
+Turkey	2020_04_30	122392	3258	Community transmission
+Turks and Caicos Islands	2020_04_30	12	1	Sporadic cases
+Uganda	2020_04_30	83	0	Sporadic cases
+Ukraine	2020_04_30	11411	279	Community transmission
+United Arab Emirates	2020_04_30	13038	111	Pending
+United Republic of Tanzania	2020_04_30	480	17	Clusters of cases
+United States Virgin Islands	2020_04_30	66	4	Clusters of cases
+United States of America	2020_04_30	1067127	57406	Community transmission
+Uruguay	2020_04_30	643	17	Clusters of cases
+Uzbekistan	2020_04_30	2094	9	Clusters of cases
+Venezuela (Bolivarian Republic of)	2020_04_30	333	10	Clusters of cases
+Viet Nam	2020_04_30	270	0	Clusters of cases
+Yemen	2020_04_30	7	2	Pending
+Zambia	2020_04_30	109	3	Sporadic cases
+Zimbabwe	2020_04_30	34	4	Sporadic cases
+occupied Palestinian territory	2020_04_30	353	2	Clusters of cases
