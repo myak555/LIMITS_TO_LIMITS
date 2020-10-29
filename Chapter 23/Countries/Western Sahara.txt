@@ -1,0 +1,16 @@
+#
+# COVID-19 Country file (official WHO count)
+# Country = Western Sahara
+# Latitude = 27.0
+# Population = 597.339
+# Territory = 266000.0
+# LEB = 70.3
+# DPA = 3000
+# DPA65 = 1050
+# GDP = 2500.0
+# GDP_PPP = 2500.0
+# COVID-19 Mortality = 0.0
+# Status as of 2020_08_16 = No cases
+#
+Date	Conf_Cases	Conf_Deaths
+2020_08_16	0	0

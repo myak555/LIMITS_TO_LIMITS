@@ -1,0 +1,16 @@
+#
+# COVID-19 Country file (official WHO count)
+# Country = Tonga
+# Latitude = -21.0
+# Population = 104.494
+# Territory = 747.0
+# LEB = 70.9
+# DPA = 1000
+# DPA65 = 610
+# GDP = 4392.0
+# GDP_PPP = 6296.0
+# COVID-19 Mortality = 0.0
+# Status as of 2020_08_16 = No cases
+#
+Date	Conf_Cases	Conf_Deaths
+2020_08_16	0	0

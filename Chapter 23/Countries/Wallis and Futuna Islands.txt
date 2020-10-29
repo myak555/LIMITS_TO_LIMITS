@@ -1,0 +1,16 @@
+#
+# COVID-19 Country file (official WHO count)
+# Country = Wallis and Futuna Islands
+# Latitude = -13.0
+# Population = 11.551
+# Territory = 142.4
+# LEB = -999.0
+# DPA = -999
+# DPA65 = -999
+# GDP = 3800.0
+# GDP_PPP = 3800.0
+# COVID-19 Mortality = 0.0
+# Status as of 2020_08_16 = No cases
+#
+Date	Conf_Cases	Conf_Deaths
+2020_08_16	0	0
