@@ -1,0 +1,16 @@
+#
+# COVID-19 Country file (official WHO count)
+# Country = Samoa
+# Latitude = -14.0
+# Population = 200.117
+# Territory = 2842.0
+# LEB = 73.3
+# DPA = 1000
+# DPA65 = 600
+# GDP = 4346.0
+# GDP_PPP = 6226.0
+# COVID-19 Mortality = 0.0
+# Status as of 2020_08_16 = No cases
+#
+Date	Conf_Cases	Conf_Deaths
+2020_08_16	0	0
