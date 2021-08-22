@@ -8,6 +8,8 @@
 # gas and coal production are converted to metric ton of oil equivalent (toe)
 # conversion factors as per BP World Energy Report
 # estimated accuracy, by the difference between 2015 and 2016 reports, is 3-5%
+# Canada bitumen production in 2020 is estimated at 165.1 mln tonn based on
+# monthly tar sand reports
 #
 Year,Coal,Bitumen,Oil,Condensate,NGPL,Gas,Total
 1830,30.0,0.0,0.0,0.0,0.0,0.0,30.0
@@ -199,3 +201,4 @@ Year,Coal,Bitumen,Oil,Condensate,NGPL,Gas,Total
 2016,3656.4,133.3,3145.9,699.6,396.1,3212.9,11244.2
 2017,3768.6,147.2,3098.3,727.0,409.8,3164.6,11315.5
 2018,3916.8,168.4,3071.8,798.1,436.0,3325.8,11716.9
+2019,3946.0,171.6,3052.2,823.2,437.5,3430.2,11860.7

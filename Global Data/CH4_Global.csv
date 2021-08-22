@@ -1,0 +1,104 @@
+# --------------------------------------------------------------------
+# USE OF NOAA GML DATA
+# 
+# These data are made freely available to the public and the
+# scientific community in the belief that their wide dissemination
+# will lead to greater understanding and new scientific insights.
+# The availability of these data does not constitute publication
+# of the data.  NOAA relies on the ethics and integrity of the user to
+# ensure that GML receives fair credit for their work.  If the data 
+# are obtained for potential use in a publication or presentation, 
+# GML should be informed at the outset of the nature of this work.  
+# If the GML data are essential to the work, or if an important 
+# result or conclusion depends on the GML data, co-authorship
+# may be appropriate.  This should be discussed at an early stage in
+# the work.  Manuscripts using the GML data should be sent to GML
+# for review before they are submitted for publication so we can
+# ensure that the quality and limitations of the data are accurately
+# represented.
+# 
+# Contact:  Ed Dlugokencky (303 497 6228; ed.dlugokencky@noaa.gov)
+# 
+# File Creation: Tue Apr  6 11:31:06 2021
+# 
+# RECIPROCITY
+# 
+# Use of these data implies an agreement to reciprocate.
+# Laboratories making similar measurements agree to make their
+# own data available to the general public and to the scientific
+# community in an equally complete and easily accessible form.
+# Modelers are encouraged to make available to the community,
+# upon request, their own tools used in the interpretation
+# of the GML data, namely well documented model code, transport
+# fields, and additional information necessary for other
+# scientists to repeat the work and to run modified versions.
+# Model availability includes collaborative support for new
+# users of the models.
+# --------------------------------------------------------------------
+# 
+# 
+# See www.esrl.noaa.gov/gmd/ccgg/trends_ch4/ for additional details.
+#
+# Uncertainties in the global annual means are estimated using two
+# terms: The first is a bootstrap (resampling) method that varies the
+# sites in our network. Each pseudo-network contains the same number of
+# sites as our actual NOAA ESRL cooperative global air sampling network,
+# but some are repeated and some are excluded. The second term is a
+# Monte Carlo method that randomly modifies the data to account for
+# measurement uncertainty. In both cases, 100 globally-averaged time
+# series are created. Standard deviations of the annual means are
+# calculated, and the two terms (network and analytical) are taken in
+# quadrature to give the  reported uncertainties. Please see Dlugokencky
+# et al., 1994, JGR, vol. 99, 17021-17043, for a complete discussion.
+# CH4 is reported in units of dry-air mole fraction, nanomol/mol,
+# abbreviated, ppb.
+#
+# CH4 expressed as a mole fraction in dry air, nanomol/mol, abbreviated as ppb
+#
+# NOTE: In general, the data presented for the last year are subject to change,
+# depending on recalibration of the reference gas mixtures used, and other quality
+# control procedures. Occasionally, earlier years may also change for the same
+# reasons.  Usually these changes are minor.
+# 
+# Based on the historical evidence of performance, the data is only trustworthy within +/-2 ppb or 0.1%.
+# For the numeric presentations, the absolute values should be rounded up to the nearest whole ppb,
+# E.g. if 1984 reads "1644.66", use "1645", if 1985 reads "1657.26", use "1657".
+#
+Year,Mean,Unc
+1984,1644.66,0.73
+1985,1657.26,0.64
+1986,1670.07,0.81
+1987,1682.72,0.57
+1988,1693.16,0.59
+1989,1704.53,0.52
+1990,1714.40,0.68
+1991,1724.89,0.69
+1992,1735.49,0.54
+1993,1736.48,0.41
+1994,1742.04,0.57
+1995,1748.80,0.54
+1996,1751.44,0.61
+1997,1754.53,0.38
+1998,1765.52,0.65
+1999,1772.41,0.58
+2000,1773.35,0.72
+2001,1771.23,0.59
+2002,1772.72,0.52
+2003,1777.37,0.55
+2004,1777.01,0.51
+2005,1774.13,0.65
+2006,1774.98,0.55
+2007,1781.44,0.61
+2008,1786.99,0.68
+2009,1793.52,0.64
+2010,1798.96,0.74
+2011,1803.10,0.66
+2012,1808.02,0.60
+2013,1813.38,0.72
+2014,1822.58,0.53
+2015,1834.23,0.46
+2016,1843.13,0.62
+2017,1849.65,0.63
+2018,1857.28,0.81
+2019,1866.55,0.60
+2020,1879.10,0.60
