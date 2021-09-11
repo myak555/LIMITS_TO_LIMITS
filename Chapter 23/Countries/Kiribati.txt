@@ -10,7 +10,11 @@
 # GDP = 1631.0
 # GDP_PPP = 2129.0
 # COVID-19 Mortality = 0.0
-# Status as of 2020_08_16 = No cases
+# No official cases as of2021_01_03
+# No official deaths as of 2021_01_03
+# Status as of 2021_01_03 = No cases
+# Vaccine type = Unknown
+# Vaccine start = NA
 #
-Date	Conf_Cases	Conf_Deaths
-2020_08_16	0	0
+Date	Conf_Cases	Conf_Deaths	Daily_Cases	Daily_Deaths
+2021_01_03	       0	       0	       0	       0
